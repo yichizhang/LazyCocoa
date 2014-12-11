@@ -1,7 +1,7 @@
 GenColor-Mac
 ============
 
-An app to generate UIColor/ NSColor class methods from your color settings text file.
+GenColor is a Mac app written in Swift to help you generate UIColor/ NSColor class methods from your color settings text file.
 
 ![Screenshot 1](https://raw.githubusercontent.com/yichizhang/GenColor-Mac/master/Screenshots/screen1.png)
 
@@ -18,7 +18,7 @@ myImageViewColor #00F
 myBlackColor backgroundColor 
 ```
 
-Then you press update button. It generates UIColor category files for you. The above settings file would give you UIColor class methods like:
+Then you press update button. It generates UIColor/ NSColor files for you. (NSColor is not supported yet) The above settings file would generate UIColor Objective-C class methods like:
 
 ```
 + (UIColor *)defaultColor {
