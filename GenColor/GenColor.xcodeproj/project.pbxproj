@@ -13,6 +13,7 @@
 		12753FBB1A39C50A003DA37F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12753FB91A39C50A003DA37F /* Main.storyboard */; };
 		12753FC71A39C50A003DA37F /* GenColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12753FC61A39C50A003DA37F /* GenColorTests.swift */; };
 		12753FD11A39CB3A003DA37F /* GenColorEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12753FD01A39CB3A003DA37F /* GenColorEngine.swift */; };
+		12753FD31A39E572003DA37F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12753FD21A39E572003DA37F /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +37,7 @@
 		12753FC51A39C50A003DA37F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		12753FC61A39C50A003DA37F /* GenColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenColorTests.swift; sourceTree = "<group>"; };
 		12753FD01A39CB3A003DA37F /* GenColorEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenColorEngine.swift; sourceTree = "<group>"; };
+		12753FD21A39E572003DA37F /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,10 +81,11 @@
 			children = (
 				12753FB31A39C50A003DA37F /* AppDelegate.swift */,
 				12753FB51A39C50A003DA37F /* ViewController.swift */,
+				12753FD01A39CB3A003DA37F /* GenColorEngine.swift */,
+				12753FD21A39E572003DA37F /* Color.swift */,
 				12753FB71A39C50A003DA37F /* Images.xcassets */,
 				12753FB91A39C50A003DA37F /* Main.storyboard */,
 				12753FB11A39C50A003DA37F /* Supporting Files */,
-				12753FD01A39CB3A003DA37F /* GenColorEngine.swift */,
 			);
 			path = GenColor;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				12753FB61A39C50A003DA37F /* ViewController.swift in Sources */,
+				12753FD31A39E572003DA37F /* Color.swift in Sources */,
 				12753FD11A39CB3A003DA37F /* GenColorEngine.swift in Sources */,
 				12753FB41A39C50A003DA37F /* AppDelegate.swift in Sources */,
 			);
@@ -401,6 +405,7 @@
 				12753FCC1A39C50A003DA37F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		12753FCD1A39C50A003DA37F /* Build configuration list for PBXNativeTarget "GenColorTests" */ = {
 			isa = XCConfigurationList;
@@ -409,6 +414,7 @@
 				12753FCF1A39C50A003DA37F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

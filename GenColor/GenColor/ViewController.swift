@@ -24,7 +24,20 @@ class ViewController: NSViewController {
 		super.viewDidLoad()
 
 		// Do any additional setup after loading the view.
+		self.objcHeaderFileResultTextView.continuousSpellCheckingEnabled = false;
+		self.objcImplementationFileResultTextView.continuousSpellCheckingEnabled = false;
+		self.swiftFileResultTextView.continuousSpellCheckingEnabled = false;
 		
+		self.objcHeaderFileResultTextView.editable = false;
+		self.objcImplementationFileResultTextView.editable = false;
+		self.swiftFileResultTextView.editable = false;
+		
+		let myFont:NSFont = NSFont(name: "Monaco", size: 12)!;
+		
+		self.sourceColorSettingsTextView.font = myFont;
+		self.objcHeaderFileResultTextView.font = myFont;
+		self.objcImplementationFileResultTextView.font = myFont;
+		self.swiftFileResultTextView.font = myFont;
 	}
 
 	override var representedObject: AnyObject? {
