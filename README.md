@@ -16,7 +16,7 @@ myImageViewColor #00F
 myBlackColor backgroundColor 
 ```
 
-Then you press update button. It generates UIColor category files for you:
+Then you press update button. It generates UIColor category files for you. The above settings file would give you UIColor class methods like:
 
 ```
 + (UIColor *)defaultColor {
@@ -32,7 +32,7 @@ Then you press update button. It generates UIColor category files for you:
 }
 
 + (UIColor *)myImageViewColor {
-  return [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1];
+  return [UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1];
 }
 
 + (UIColor *)myBlackColor {
