@@ -1,7 +1,7 @@
 GenColor-Mac
 ============
 
-GenColor is a Mac app written in Swift to help you generate UIColor/ NSColor class methods from your color settings text file.
+GenColor is a Mac app written in Swift to help you generate UIColor/ NSColor class methods from your color settings text file. For example, you write 'awesomeColor #FFF'. It generates +(UIColor*)awesomeColor{ return [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1]; } 
 
 ![Screenshot 1](https://raw.githubusercontent.com/yichizhang/GenColor-Mac/master/Screenshots/screen1.png)
 
