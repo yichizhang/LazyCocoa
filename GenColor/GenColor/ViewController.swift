@@ -18,10 +18,13 @@ class ViewController: NSViewController {
 	
 	@IBOutlet var swiftFileResultTextView: NSTextView!
 	
+	var genColorEngine: GenColorEngine = GenColorEngine()
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
 		// Do any additional setup after loading the view.
+		
 	}
 
 	override var representedObject: AnyObject? {
@@ -33,6 +36,14 @@ class ViewController: NSViewController {
 	@IBAction func updateButtonActionPerformed(sender: AnyObject) {
 		
 		println("Action")
+		
+		self.genColorEngine.inputString = self.sourceColorSettingsTextView.string;
+		
+		self.genColorEngine.process()
+		
+		self.objcHeaderFileResultTextView.string = self.genColorEngine.objcHeaderFileString;
+		self.objcImplementationFileResultTextView.string = self.genColorEngine.objcImplementationFileString;
+		self.swiftFileResultTextView.string = self.genColorEngine.swiftFileString;
 	}
 
 }

@@ -12,6 +12,7 @@
 		12753FB81A39C50A003DA37F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 12753FB71A39C50A003DA37F /* Images.xcassets */; };
 		12753FBB1A39C50A003DA37F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12753FB91A39C50A003DA37F /* Main.storyboard */; };
 		12753FC71A39C50A003DA37F /* GenColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12753FC61A39C50A003DA37F /* GenColorTests.swift */; };
+		12753FD11A39CB3A003DA37F /* GenColorEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12753FD01A39CB3A003DA37F /* GenColorEngine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +35,7 @@
 		12753FC01A39C50A003DA37F /* GenColorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GenColorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		12753FC51A39C50A003DA37F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		12753FC61A39C50A003DA37F /* GenColorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenColorTests.swift; sourceTree = "<group>"; };
+		12753FD01A39CB3A003DA37F /* GenColorEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenColorEngine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 				12753FB71A39C50A003DA37F /* Images.xcassets */,
 				12753FB91A39C50A003DA37F /* Main.storyboard */,
 				12753FB11A39C50A003DA37F /* Supporting Files */,
+				12753FD01A39CB3A003DA37F /* GenColorEngine.swift */,
 			);
 			path = GenColor;
 			sourceTree = "<group>";
@@ -209,6 +212,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				12753FB61A39C50A003DA37F /* ViewController.swift in Sources */,
+				12753FD11A39CB3A003DA37F /* GenColorEngine.swift in Sources */,
 				12753FB41A39C50A003DA37F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
