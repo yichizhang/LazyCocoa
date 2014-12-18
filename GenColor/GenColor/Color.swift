@@ -25,14 +25,26 @@ class Color: NSObject {
 	}
 	
 	func objcImplementationString() ->String {
-		return self.objcHeaderStringWithoutSemicolon() + " {\n" + "\treturn \(self.uicolorString(objcMode));" + "\n}"
+		
+		let formatString:NSString =
+		"%@() {\n" +
+			"\t" + "return %@;" +
+		"\n}"
+		
+		return NSString(format: formatString, self.objcHeaderStringWithoutSemicolon(), self.uicolorString(objcMode)) as String
 	}
 	
 	func swiftString() ->String {
-		return "class func \(self.name)() ->UIColor {\n" + "\treturn \(self.uicolorString(swiftMode));" + "\n}"
+		
+		let formatString:NSString =
+		"class func %@() -> UIColor {\n" +
+		"\t" + "return %@;" +
+		"\n}"
+		
+		return NSString(format: formatString, self.name, self.uicolorString(swiftMode)) as String
 	}
 	
-	func uicolorString(mode:Int) ->String {
+	func uicolorString(mode:Int) -> String {
 		
 		if (self.valueString.hasPrefix("#")){
 			
@@ -73,12 +85,16 @@ class Color: NSObject {
 				println("scan hex error")
 			}
 			
+			var formatString:NSString!
 			
+			// How to achieve something like 1.000 -> 1.0; 1.123456789 -> 1.123 ?
 			if (mode == objcMode) {
-				return "[UIColor colorWithRed:\(red) green:\(green) blue:\(blue) alpha:\(alpha)]";
+				formatString = "[UIColor colorWithRed:%.3f green:%.3f blue:%.3f alpha:%.3f]"
 			} else if (mode == swiftMode) {
-				return "UIColor(red:\(red), green:\(green), blue:\(blue), alpha:\(alpha))"
+				formatString = "UIColor(red:%.3f, green:%.3f, blue:%.3f, alpha:%.3f)"
 			}
+			
+			return NSString(format: formatString, Float(red), Float(green), Float(blue), Float(alpha)) as String
 			
 		}else {
 			if (mode == objcMode) {
