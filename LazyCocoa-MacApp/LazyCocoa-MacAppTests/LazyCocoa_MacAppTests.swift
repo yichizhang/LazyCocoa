@@ -1,6 +1,6 @@
 //
-//  LazyCocoaTests.swift
-//  LazyCocoaTests
+//  LazyCocoa_MacAppTests.swift
+//  LazyCocoa-MacAppTests
 //
 //  Created by Yichi on 25/12/2014.
 //  Copyright (c) 2014 Yichi Zhang. All rights reserved.
@@ -9,7 +9,7 @@
 import Cocoa
 import XCTest
 
-class LazyCocoaTests: XCTestCase {
+class LazyCocoa_MacAppTests: XCTestCase {
     
     override func setUp() {
         super.setUp()

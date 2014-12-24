@@ -1,6 +1,6 @@
 //
 //  Document.swift
-//  LazyCocoa
+//  LazyCocoa-MacApp
 //
 //  Created by Yichi on 25/12/2014.
 //  Copyright (c) 2014 Yichi Zhang. All rights reserved.
