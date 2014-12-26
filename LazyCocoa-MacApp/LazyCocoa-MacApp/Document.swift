@@ -10,6 +10,9 @@ import Cocoa
 
 class Document: NSDocument {
 
+	var fileContentString:String? = ""
+	var documentMainViewController:MainViewController?
+	
 	override init() {
 	    super.init()
 		// Add your subclass-specific initialization here.
@@ -18,6 +21,8 @@ class Document: NSDocument {
 	override func windowControllerDidLoadNib(aController: NSWindowController) {
 		super.windowControllerDidLoadNib(aController)
 		// Add any code here that needs to be executed once the windowController has loaded the document's window.
+		
+		
 	}
 
 	override class func autosavesInPlace() -> Bool {
@@ -26,24 +31,59 @@ class Document: NSDocument {
 
 	override func makeWindowControllers() {
 		// Returns the Storyboard that contains your Document window.
+
 		let storyboard = NSStoryboard(name: "Main", bundle: nil)!
 		let windowController = storyboard.instantiateControllerWithIdentifier("Document Window Controller") as NSWindowController
+		println(windowController.contentViewController?.self)
+		
+		//let mainViewController:MainViewController = windowController.contentViewController as MainViewController
+		//mainViewController.sourceFileTextView.string = self.fileContentString
+		
+		self.documentMainViewController = windowController.contentViewController as? MainViewController
+		self.documentMainViewController?.sourceFileTextView.string = self.fileContentString
+		
 		self.addWindowController(windowController)
+		
 	}
 
 	override func dataOfType(typeName: String, error outError: NSErrorPointer) -> NSData? {
 		// Insert code here to write your document to data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning nil.
 		// You can also choose to override fileWrapperOfType:error:, writeToURL:ofType:error:, or writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
-		outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
-		return nil
+		
+		self.fileContentString = self.documentMainViewController?.sourceFileTextView.string
+				
+		var tempData = self.fileContentString?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+		
+		if tempData != nil {
+			
+			return tempData
+		}else {
+			
+			outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+			return nil
+		}
+	
 	}
 
 	override func readFromData(data: NSData, ofType typeName: String, error outError: NSErrorPointer) -> Bool {
 		// Insert code here to read your document from the given data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning false.
 		// You can also choose to override readFromFileWrapper:ofType:error: or readFromURL:ofType:error: instead.
 		// If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
-		outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
-		return false
+		var readSuccess = false
+		
+		var tempString = NSString(data: data, encoding: NSUTF8StringEncoding)
+		
+		if tempString != nil {
+			
+			self.fileContentString = tempString!
+			readSuccess = true
+		}else {
+			
+			outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+		}
+		
+		return readSuccess
+	
 	}
 
 
