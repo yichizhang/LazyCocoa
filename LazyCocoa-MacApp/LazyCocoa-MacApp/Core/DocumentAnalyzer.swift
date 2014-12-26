@@ -14,53 +14,51 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Cocoa
 
-class DocumentAnalyzer {
+func isNonEmpty(item:String)->Bool {
+	return !isEmpty(item)
+}
+
+class DocumentAnalyzer : NSObject {
 	
 	var inputString: String!
 	var objcHeaderFileString: String!
 	var objcImplementationFileString: String!
 	var swiftFileString: String!
 	
-	var colorArray: Array<Color>!
-	
-	init (){
-		self.colorArray = Array()
-	}
+	var colorArray: Array<Color> = Array()
+	var statementsContainer: StatementsContainer = StatementsContainer()
 	
 	func process(){
-		
-		let allLines = self.inputString.componentsSeparatedByString("\n")
 
-		self.colorArray.removeAll(keepCapacity: true)
+		let linesSeparatedByNewLine = self.inputString.componentsSeparatedByString("\n").filter(isNonEmpty)
+
+		var statementStringArray:NSMutableArray = NSMutableArray(capacity: countElements(linesSeparatedByNewLine) * 2 )
 		
-		for string:String in allLines {
-			let items = string.componentsSeparatedByString(" ")
+		for string:String in linesSeparatedByNewLine {
 			
-			var color: Color = Color()
+			statementStringArray.addObjectsFromArray(
+				string.componentsSeparatedByString(";").filter(isNonEmpty)
+			)
+		}
+
+		self.statementsContainer.removeAllObjects()
+		
+		for object : AnyObject in statementStringArray {
 			
-			if (items.count > 0){
-				
-				color.name = items[0]
-				
-				if (items.count > 1){
-					
-					color.valueString = items[1]
-					self.colorArray.append(color);
-					
-				}
-			}
+			let currentStatement = StatementModel(string: object as String)
 			
+			self.statementsContainer.addObject(currentStatement)
 		}
 		
 		var objcHString = String();
 		var objcMString = String();
 		var swiftString = String();
 		
-		for color:Color in self.colorArray {
+		for statement : StatementModel in self.statementsContainer.modelArray {
 			
-			objcHString += color.objcHeaderString()
-			objcMString += color.objcImplementationString()
-			swiftString += color.swiftString()
+			objcHString += statement.color!.objcHeaderString()
+			objcMString += statement.color!.objcImplementationString()
+			swiftString += statement.color!.swiftString()
 			
 			objcHString += "\n\n"
 			objcMString += "\n\n"

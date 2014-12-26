@@ -14,12 +14,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Cocoa
 
-class ColorModel : NSObject {
+class ColorModel : NSObject, CanBeConvertedToObjC, CanBeConvertedToSwift {
 
 	var red:Float = 1.0
 	var green:Float = 1.0
 	var blue:Float = 1.0
 	var alpha:Float = 1.0
+	var colorMethodName = "Color"
+	var name = "Val"
 	
 	convenience init(colorHexString:String){
 		
@@ -67,6 +69,62 @@ class ColorModel : NSObject {
 			blue,
 			alpha
 			) as String
+	}
+	
+	func objcHeaderStringWithoutSemicolon() ->String {
+		return "+ (UIColor *)\(self.colorMethodName)"
+	}
+	
+	func objcHeaderString() ->String {
+		return self.objcHeaderStringWithoutSemicolon() + ";"
+	}
+	
+	func objcImplementationString() ->String {
+		
+		let formatString:NSString =
+		"%@() {\n" +
+			"\t" + "return %@;" +
+		"\n}"
+		
+		return NSString(format: formatString, self.objcHeaderStringWithoutSemicolon(), self.uicolorString(GenerationMode.ObjC)) as String
+	}
+	
+	func swiftString() ->String {
+		
+		let formatString:NSString =
+		"class func %@() -> UIColor {\n" +
+			"\t" + "return %@;" +
+		"\n}"
+		
+		return NSString(format: formatString, self.name, self.uicolorString(GenerationMode.Swift)) as String
+	}
+	
+	func uicolorString(mode:GenerationMode) -> String {
+		
+		//if (self.name.hasPrefix("")){
+			
+			var formatString:String!
+			
+			// How to achieve something like 1.000 -> 1.0; 1.123456789 -> 1.123 ?
+			if (mode == GenerationMode.ObjC) {
+				formatString = "[UIColor colorWithRed:%.3f green:%.3f blue:%.3f alpha:%.3f]"
+			} else if (mode == GenerationMode.Swift) {
+				formatString = "UIColor(red:%.3f, green:%.3f, blue:%.3f, alpha:%.3f)"
+			}
+			
+			return self.statementWithFormatString(formatString)
+
+		/*
+		}else {
+			
+			if (mode == GenerationMode.ObjC) {
+				return "[UIColor \(self.name)]"
+			} else if (mode == GenerationMode.Swift) {
+				return "UIColor.\(self.name)()"
+			}
+		}
+		return ""
+*/
 	}
 
 }
