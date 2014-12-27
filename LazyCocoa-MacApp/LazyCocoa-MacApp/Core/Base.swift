@@ -29,3 +29,7 @@ protocol CanBeConvertedToSwift {
 	func swiftString() ->String;
 }
 
+class BaseModel : NSObject {
+	
+}
+

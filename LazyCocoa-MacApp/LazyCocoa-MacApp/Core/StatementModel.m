@@ -15,27 +15,95 @@
 #import "StatementModel.h"
 #import "LazyCocoa_MacApp-Swift.h"
 
+#define HASH_STRING @"#"
+#define DOUBLE_QUOTE_CHAR '"'
+#define DOUBLE_QUOTE_STRING @"\""
+#define SPACE_STRING @" "
+
+/*
+@interface NSString (LazyCocoa)
+
+- (BOOL)isValidNumber;
+- (BOOL)isValidColorCode;
+
+@end
+*/
+
+@implementation NSString (LazyCocoa)
+
+- (BOOL)isValidNumber{
+	
+	NSMutableCharacterSet* set = [[[NSCharacterSet decimalDigitCharacterSet] invertedSet] mutableCopy];
+	[set removeCharactersInString:@"."];
+	NSRange range = [self rangeOfCharacterFromSet: set];
+	return range.location == NSNotFound;
+}
+- (BOOL)isValidColorCode{
+	
+	return [self hasPrefix:HASH_STRING];
+}
+
+@end
+
 @implementation StatementModel
 
 - (instancetype)initWithString:(NSString*)string
 {
 	self = [super init];
 	if (self) {
+		
 		self.statementString = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 		
-		NSArray *componentsSeparatedBySpace = [self.statementString componentsSeparatedByString:@" "];
+		NSString * firstNameString, * secondNameString, * colorCodeString, * fontNameString, * fontSizeString;
 		
-		_identifier = componentsSeparatedBySpace[0];
+		NSScanner *scanner = [NSScanner scannerWithString:self.statementString];
 		
-		NSString *name = componentsSeparatedBySpace[1];
+		NSString *resultString;
 		
-		if ( [name hasPrefix:@"#"] ) {
+		while (scanner.scanLocation < self.statementString.length) {
 			
-			self.color = [[DetailSpecifiedColorModel alloc] initWithMethodName:self.identifier colorHexString:name];
+			unichar character = [self.statementString characterAtIndex:scanner.scanLocation];
 			
-		}else {
+			if (character == DOUBLE_QUOTE_CHAR) {
+				
+				scanner.scanLocation ++;
+				[scanner scanUpToString:DOUBLE_QUOTE_STRING intoString:&resultString];
+				
+				fontNameString = resultString;
+			}else{
+				
+				[scanner scanUpToString:SPACE_STRING intoString:&resultString];
+				
+				if ([resultString isValidNumber]) {
+					fontSizeString = resultString;
+				}else if ([resultString isValidColorCode]) {
+					colorCodeString = resultString;
+				}else {
+					if (!firstNameString) {
+						firstNameString = resultString;
+					}else {
+						secondNameString = resultString;
+					}
+				}
+				
+			}
 			
-			self.color = [[ReferToOtherColorModel alloc] initWithMethodName:self.identifier methodNameToCall:name];
+			if (scanner.scanLocation < self.statementString.length) {
+				scanner.scanLocation ++;
+			}
+		}
+//
+//
+		
+		_identifier = firstNameString;
+		
+		if ( firstNameString && colorCodeString ) {
+			
+			self.color = [[DetailSpecifiedColorModel alloc] initWithMethodName:firstNameString colorHexString:colorCodeString];
+			
+		}else if ( firstNameString && secondNameString ) {
+			
+			self.color = [[ReferToOtherColorModel alloc] initWithMethodName:firstNameString methodNameToCall:secondNameString];
 			
 		}
 		

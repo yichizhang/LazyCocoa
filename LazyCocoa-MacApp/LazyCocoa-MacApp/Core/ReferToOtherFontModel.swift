@@ -14,49 +14,27 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Cocoa
 
-protocol ColorModelProtocol : CanBeConvertedToObjC, CanBeConvertedToSwift {
+class ReferToOtherFontModel: BaseFontModel {
 	
-	func uicolorString(mode:GenerationMode) -> String;
+	var otherMethodNameToCall:String?
 	
-}
+	convenience init(methodName:String, methodNameToCall:String){
+	
+		self.init()
+		
+		self.methodName = methodName
+		self.otherMethodNameToCall = methodNameToCall
+	}
+	
+	override func uifontString(mode:GenerationMode) -> String {
 
-class BaseColorModel : BaseModel, ColorModelProtocol {
+		if (mode == GenerationMode.ObjC) {
+			return "[UIFont \(self.otherMethodNameToCall!)]"
+		} else if (mode == GenerationMode.Swift) {
+			return "UIFont.\(self.otherMethodNameToCall!)()"
+		}
 	
-	var methodName = "someColor"
-	
-	func objcHeaderStringWithoutSemicolon() ->String {
-		return "+ (UIColor *)\(self.methodName)"
-	}
-	
-	func objcHeaderString() ->String {
-		return self.objcHeaderStringWithoutSemicolon() + ";"
-	}
-	
-	func objcImplementationString() ->String {
-		
-		let formatString:NSString =
-		"%@() {\n" +
-			"\t" + "return %@;" +
-		"\n}"
-		
-		return NSString(format: formatString, self.objcHeaderStringWithoutSemicolon(), self.uicolorString(GenerationMode.ObjC)) as String
-	}
-	
-	func swiftString() ->String {
-		
-		let formatString:NSString =
-		"class func %@() -> UIColor {\n" +
-			"\t" + "return %@;" +
-		"\n}"
-		
-		return NSString(format: formatString, self.methodName, self.uicolorString(GenerationMode.Swift)) as String
-	}
-	
-	func uicolorString(mode:GenerationMode) -> String {
-		
-		fatalError("You must override this method")
 		return "";
 		
 	}
-	
 }

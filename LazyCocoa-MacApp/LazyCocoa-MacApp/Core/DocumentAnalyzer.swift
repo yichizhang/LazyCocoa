@@ -53,15 +53,29 @@ class DocumentAnalyzer : NSObject {
 		var objcMString = String();
 		var swiftString = String();
 		
-		for statement : StatementModel in self.statementsContainer.modelArray {
+		for statementModel : StatementModel in self.statementsContainer.modelArray {
 			
-			objcHString += statement.color!.objcHeaderString()
-			objcMString += statement.color!.objcImplementationString()
-			swiftString += statement.color!.swiftString()
+			if ( statementModel.color != nil ){
+		
+				objcHString += statementModel.color!.objcHeaderString()
+				objcMString += statementModel.color!.objcImplementationString()
+				swiftString += statementModel.color!.swiftString()
+				
+				objcHString += "\n\n"
+				objcMString += "\n\n"
+				swiftString += "\n\n"
+			}
 			
-			objcHString += "\n\n"
-			objcMString += "\n\n"
-			swiftString += "\n\n"
+			if ( statementModel.font != nil ) {
+				
+				objcHString += statementModel.font!.objcHeaderString()
+				objcMString += statementModel.font!.objcImplementationString()
+				swiftString += statementModel.font!.swiftString()
+				
+				objcHString += "\n\n"
+				objcMString += "\n\n"
+				swiftString += "\n\n"
+			}
 			
 		}
 		

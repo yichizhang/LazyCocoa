@@ -13,9 +13,8 @@
  */
 
 #import <Foundation/Foundation.h>
+
 @class BaseColorModel;
-@class DetailSpecifiedColorModel;
-@class ReferToOtherColorModel;
 @class FontModel;
 
 @interface StatementModel : NSObject

@@ -14,7 +14,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Cocoa
 
-class FontModel : NSObject {
+class DetailSpecifiedFontModel : BaseFontModel {
 	
 	var typefaceName:String!
 	var fontSize:Float!
@@ -35,4 +35,18 @@ class FontModel : NSObject {
 			) as String
 	}
 	
+	override func uifontString(mode:GenerationMode) -> String {
+		
+		var formatString:String!
+		
+		if (mode == GenerationMode.ObjC) {
+			formatString = "[UIFont fontWithName:@\"%@\" size:%.2f]"
+		} else if (mode == GenerationMode.Swift) {
+			formatString = "UIFont(name:\"%s\", size:%.2f)"
+		}
+
+		return self.statementWithFormatString(formatString)
+		
+	}
+
 }

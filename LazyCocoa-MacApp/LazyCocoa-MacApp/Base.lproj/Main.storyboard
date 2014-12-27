@@ -704,16 +704,16 @@
                                 </scroller>
                             </scrollView>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4KP-h2-HxK">
-                                <rect key="frame" x="18" y="513" width="149" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Your Color Settings File" id="3j1-8q-gc6">
+                                <rect key="frame" x="18" y="513" width="81" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Settings File" id="3j1-8q-gc6">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Uf4-9y-GGq">
-                                <rect key="frame" x="18" y="333" width="436" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Generated Class Files (Objective-C h file; Objective-C m file; Swift file)" id="n71-Jp-3WI">
+                                <rect key="frame" x="18" y="333" width="277" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Class Files (Objective-C h &amp; m file; Swift file)" id="n71-Jp-3WI">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -813,8 +813,30 @@
                                     <action selector="updateButtonActionPerformed:" target="Zz3-hj-1pU" id="tGa-mf-dd8"/>
                                 </connections>
                             </button>
+                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rJ3-6e-7Mw">
+                                <rect key="frame" x="559" y="330" width="109" height="24"/>
+                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="exp-A7-29O">
+                                    <font key="font" metaFont="system"/>
+                                    <segments>
+                                        <segment label="Color" selected="YES"/>
+                                        <segment label="Font" tag="1"/>
+                                    </segments>
+                                </segmentedCell>
+                            </segmentedControl>
+                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cV9-9M-TO9">
+                                <rect key="frame" x="439" y="330" width="116" height="24"/>
+                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="LVX-96-C3K">
+                                    <font key="font" metaFont="system"/>
+                                    <segments>
+                                        <segment label="iOS" selected="YES"/>
+                                        <segment label="MacOS" tag="1"/>
+                                    </segments>
+                                </segmentedCell>
+                            </segmentedControl>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="6bH-dW-xtg" firstAttribute="leading" secondItem="rJ3-6e-7Mw" secondAttribute="trailing" constant="8" id="2iU-zf-Dzq"/>
+                            <constraint firstItem="6bH-dW-xtg" firstAttribute="centerY" secondItem="rJ3-6e-7Mw" secondAttribute="centerY" id="3Wl-Rn-h3g"/>
                             <constraint firstItem="x2f-ok-GNc" firstAttribute="width" secondItem="Hna-VZ-ou5" secondAttribute="width" id="EwS-TY-9ts"/>
                             <constraint firstItem="x2f-ok-GNc" firstAttribute="top" secondItem="So6-Si-bv3" secondAttribute="top" id="GXW-Oc-fPL"/>
                             <constraint firstItem="x2f-ok-GNc" firstAttribute="width" secondItem="So6-Si-bv3" secondAttribute="width" id="Hg8-NN-61o"/>
@@ -825,6 +847,7 @@
                             <constraint firstAttribute="bottom" secondItem="Hna-VZ-ou5" secondAttribute="bottom" constant="20" id="Nmo-nK-5Om"/>
                             <constraint firstAttribute="trailing" secondItem="x2f-ok-GNc" secondAttribute="trailing" constant="20" id="OP9-Dp-1NW"/>
                             <constraint firstItem="So6-Si-bv3" firstAttribute="leading" secondItem="Hna-VZ-ou5" secondAttribute="trailing" constant="20" id="PV5-oM-vWL"/>
+                            <constraint firstItem="cV9-9M-TO9" firstAttribute="centerY" secondItem="rJ3-6e-7Mw" secondAttribute="centerY" id="WVP-lz-pbd"/>
                             <constraint firstItem="OVm-c5-lgm" firstAttribute="leading" secondItem="2lX-8c-L5v" secondAttribute="leading" constant="20" id="XKk-pZ-MRD"/>
                             <constraint firstItem="x2f-ok-GNc" firstAttribute="height" secondItem="So6-Si-bv3" secondAttribute="height" id="ZuC-DE-WYi"/>
                             <constraint firstItem="Uf4-9y-GGq" firstAttribute="leading" secondItem="2lX-8c-L5v" secondAttribute="leading" constant="20" id="cYx-gE-Xmi"/>
@@ -834,6 +857,7 @@
                             <constraint firstItem="4KP-h2-HxK" firstAttribute="leading" secondItem="2lX-8c-L5v" secondAttribute="leading" constant="20" id="l2Y-az-TFT"/>
                             <constraint firstItem="Hna-VZ-ou5" firstAttribute="leading" secondItem="2lX-8c-L5v" secondAttribute="leading" constant="20" id="lWy-Xl-GMU"/>
                             <constraint firstAttribute="trailing" secondItem="6bH-dW-xtg" secondAttribute="trailing" constant="20" id="sgs-on-7DZ"/>
+                            <constraint firstItem="rJ3-6e-7Mw" firstAttribute="leading" secondItem="cV9-9M-TO9" secondAttribute="trailing" constant="8" id="xgn-8X-72v"/>
                             <constraint firstItem="4KP-h2-HxK" firstAttribute="top" secondItem="2lX-8c-L5v" secondAttribute="top" constant="20" id="yTl-rH-tVt"/>
                             <constraint firstAttribute="trailing" secondItem="OVm-c5-lgm" secondAttribute="trailing" constant="20" id="zMb-SA-9dd"/>
                         </constraints>
