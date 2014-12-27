@@ -21,7 +21,7 @@ class ColorModel : NSObject, CanBeConvertedToObjC, CanBeConvertedToSwift {
 	var blue:Float = 1.0
 	var alpha:Float = 1.0
 	var colorMethodName = "Color"
-	var name = "Val"
+	var otherColorMethodNameToCall:String?
 	
 	convenience init(colorHexString:String){
 		
@@ -96,16 +96,17 @@ class ColorModel : NSObject, CanBeConvertedToObjC, CanBeConvertedToSwift {
 			"\t" + "return %@;" +
 		"\n}"
 		
-		return NSString(format: formatString, self.name, self.uicolorString(GenerationMode.Swift)) as String
+		return NSString(format: formatString, self.colorMethodName, self.uicolorString(GenerationMode.Swift)) as String
 	}
 	
 	func uicolorString(mode:GenerationMode) -> String {
 		
-		//if (self.name.hasPrefix("")){
+		if (self.otherColorMethodNameToCall == nil){
 			
 			var formatString:String!
 			
 			// How to achieve something like 1.000 -> 1.0; 1.123456789 -> 1.123 ?
+			
 			if (mode == GenerationMode.ObjC) {
 				formatString = "[UIColor colorWithRed:%.3f green:%.3f blue:%.3f alpha:%.3f]"
 			} else if (mode == GenerationMode.Swift) {
@@ -114,17 +115,17 @@ class ColorModel : NSObject, CanBeConvertedToObjC, CanBeConvertedToSwift {
 			
 			return self.statementWithFormatString(formatString)
 
-		/*
 		}else {
 			
 			if (mode == GenerationMode.ObjC) {
-				return "[UIColor \(self.name)]"
+				return "[UIColor \(self.otherColorMethodNameToCall!)]"
 			} else if (mode == GenerationMode.Swift) {
-				return "UIColor.\(self.name)()"
+				return "UIColor.\(self.otherColorMethodNameToCall!)()"
 			}
 		}
-		return ""
-*/
+		
+		return "";
+		
 	}
 
 }

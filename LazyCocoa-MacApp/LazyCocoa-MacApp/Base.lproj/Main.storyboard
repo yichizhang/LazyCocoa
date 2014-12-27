@@ -667,7 +667,7 @@
         <!--Main View Controller-->
         <scene sceneID="ZmY-6k-Hu6">
             <objects>
-                <viewController storyboardIdentifier="MainViewController" id="Zz3-hj-1pU" customClass="MainViewController" customModule="LazyCocoa_MacApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainViewController" id="Zz3-hj-1pU" customClass="MainViewController" customModule="LazyCocoa_MacApp" sceneMemberID="viewController">
                     <view key="view" id="2lX-8c-L5v">
                         <rect key="frame" x="0.0" y="0.0" width="750" height="550"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -807,7 +807,7 @@
                                 <rect key="frame" x="674" y="332" width="56" height="19"/>
                                 <buttonCell key="cell" type="roundRect" title="Update" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="k9j-Fk-Pvt">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="titleBar" size="12"/>
+                                    <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="updateButtonActionPerformed:" target="Zz3-hj-1pU" id="tGa-mf-dd8"/>

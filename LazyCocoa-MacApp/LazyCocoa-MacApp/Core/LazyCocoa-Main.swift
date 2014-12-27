@@ -28,33 +28,3 @@ protocol CanBeConvertedToObjC {
 protocol CanBeConvertedToSwift {
 	func swiftString() ->String;
 }
-
-class StatementModel : NSObject {
-	
-	var statementString:String!
-	
-	private(set) var identifier:String?
-	var color:ColorModel?
-	var font:FontModel?
-	
-	convenience init(string:String){
-		
-		self.init()
-		
-		self.statementString = string.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-		
-		let componentsSeparatedBySpace = self.statementString.componentsSeparatedByString(" ")
-		
-		self.identifier = componentsSeparatedBySpace[0]
-		
-		let string = componentsSeparatedBySpace[1]
-		
-		if string.hasPrefix("#") {
-			self.color = ColorModel(colorHexString: string)
-		}else {
-			self.color = ColorModel()
-		}
-		
-	}
-}
-
