@@ -19,9 +19,10 @@ class DetailSpecifiedFontModel : BaseFontModel {
 	var typefaceName:String!
 	var fontSize:Float!
 	
-	convenience init(fontName:String, size:Float){
+	convenience init(methodName:String, fontName:String, size:Float){
 		
 		self.init()
+		self.methodName = methodName
 		self.typefaceName = fontName
 		self.fontSize = size
 	}
@@ -35,14 +36,14 @@ class DetailSpecifiedFontModel : BaseFontModel {
 			) as String
 	}
 	
-	override func uifontString(mode:GenerationMode) -> String {
+	override func uifontString(mode:Language) -> String {
 		
 		var formatString:String!
 		
-		if (mode == GenerationMode.ObjC) {
+		if (mode == Language.ObjC) {
 			formatString = "[UIFont fontWithName:@\"%@\" size:%.2f]"
-		} else if (mode == GenerationMode.Swift) {
-			formatString = "UIFont(name:\"%s\", size:%.2f)"
+		} else if (mode == Language.Swift) {
+			formatString = "UIFont(name:\"%@\", size:%.2f)"
 		}
 
 		return self.statementWithFormatString(formatString)

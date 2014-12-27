@@ -18,10 +18,11 @@ class MainViewController: NSViewController {
 	
 	@IBOutlet var sourceFileTextView: NSTextView!
 	
+	@IBOutlet weak var platformSegControl: NSSegmentedControl!
+	@IBOutlet weak var colorOrFontSegControl: NSSegmentedControl!
+	
 	@IBOutlet private var objcHeaderFileResultTextView: NSTextView!
-	
 	@IBOutlet private var objcImplementationFileResultTextView: NSTextView!
-	
 	@IBOutlet private var swiftFileResultTextView: NSTextView!
 	
 	var analyzer: DocumentAnalyzer = DocumentAnalyzer()
@@ -30,6 +31,7 @@ class MainViewController: NSViewController {
 		super.viewDidLoad()
 		
 		// Do any additional setup after loading the view.
+		
 		self.objcHeaderFileResultTextView.continuousSpellCheckingEnabled = false;
 		self.objcImplementationFileResultTextView.continuousSpellCheckingEnabled = false;
 		self.swiftFileResultTextView.continuousSpellCheckingEnabled = false;
@@ -58,9 +60,10 @@ class MainViewController: NSViewController {
 		}
 	}
 	
-	@IBAction func updateButtonActionPerformed(sender: AnyObject) {
+	func update() {
 		
-		println("Action")
+		self.analyzer.platform = Platform(rawValue: self.platformSegControl.selectedSegment);
+		self.analyzer.generationOption = GenerationOption(rawValue: self.colorOrFontSegControl.selectedSegment);
 		
 		self.analyzer.inputString = self.sourceFileTextView.string;
 		
@@ -69,7 +72,22 @@ class MainViewController: NSViewController {
 		self.objcHeaderFileResultTextView.string = self.analyzer.objcHeaderFileString;
 		self.objcImplementationFileResultTextView.string = self.analyzer.objcImplementationFileString;
 		self.swiftFileResultTextView.string = self.analyzer.swiftFileString;
+		
 	}
 	
+	@IBAction func updateButtonActionPerformed(sender: AnyObject) {
+		
+		self.update()
+	}
+	
+	@IBAction func platformSegControlUpdated(sender: AnyObject) {
+		
+		self.update()
+	}
+	
+	@IBAction func colorOrFontSegControlUpdated(sender: AnyObject) {
+		
+		self.update()
+	}
 }
 

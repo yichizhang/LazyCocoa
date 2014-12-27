@@ -14,9 +14,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Cocoa
 
-enum GenerationMode : String {
+enum Language : String {
 	case ObjC = "objc"
 	case Swift = "swift"
+}
+
+enum Platform : Int {
+	case iOS = 0
+	case MacOS
+}
+
+enum GenerationOption : Int {
+	case Color = 0
+	case Font
 }
 
 protocol CanBeConvertedToObjC {

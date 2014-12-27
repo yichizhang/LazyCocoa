@@ -15,14 +15,14 @@
 #import <Foundation/Foundation.h>
 
 @class BaseColorModel;
-@class FontModel;
+@class BaseFontModel;
 
 @interface StatementModel : NSObject
 
 @property (nonatomic, strong, readonly) NSString *identifier;
 @property (nonatomic, strong) NSString *statementString;
 @property (nonatomic, strong) BaseColorModel *color;
-@property (nonatomic, strong) FontModel *font;
+@property (nonatomic, strong) BaseFontModel *font;
 
 - (instancetype)initWithString:(NSString*)string;
 

@@ -16,7 +16,7 @@ import Cocoa
 
 protocol ColorModelProtocol : CanBeConvertedToObjC, CanBeConvertedToSwift {
 	
-	func uicolorString(mode:GenerationMode) -> String;
+	func uicolorString(mode:Language) -> String;
 	
 }
 
@@ -39,7 +39,7 @@ class BaseColorModel : BaseModel, ColorModelProtocol {
 			"\t" + "return %@;" +
 		"\n}"
 		
-		return NSString(format: formatString, self.objcHeaderStringWithoutSemicolon(), self.uicolorString(GenerationMode.ObjC)) as String
+		return NSString(format: formatString, self.objcHeaderStringWithoutSemicolon(), self.uicolorString(Language.ObjC)) as String
 	}
 	
 	func swiftString() ->String {
@@ -49,10 +49,10 @@ class BaseColorModel : BaseModel, ColorModelProtocol {
 			"\t" + "return %@;" +
 		"\n}"
 		
-		return NSString(format: formatString, self.methodName, self.uicolorString(GenerationMode.Swift)) as String
+		return NSString(format: formatString, self.methodName, self.uicolorString(Language.Swift)) as String
 	}
 	
-	func uicolorString(mode:GenerationMode) -> String {
+	func uicolorString(mode:Language) -> String {
 		
 		fatalError("You must override this method")
 		return "";

@@ -25,6 +25,9 @@ class DocumentAnalyzer : NSObject {
 	var objcImplementationFileString: String!
 	var swiftFileString: String!
 	
+	var platform:Platform!
+	var generationOption:GenerationOption!
+	
 	var statementsContainer: StatementsContainer = StatementsContainer()
 	
 	func process(){
@@ -55,7 +58,7 @@ class DocumentAnalyzer : NSObject {
 		
 		for statementModel : StatementModel in self.statementsContainer.modelArray {
 			
-			if ( statementModel.color != nil ){
+			if ( statementModel.color != nil && self.generationOption == GenerationOption.Color ){
 		
 				objcHString += statementModel.color!.objcHeaderString()
 				objcMString += statementModel.color!.objcImplementationString()
@@ -64,9 +67,8 @@ class DocumentAnalyzer : NSObject {
 				objcHString += "\n\n"
 				objcMString += "\n\n"
 				swiftString += "\n\n"
-			}
-			
-			if ( statementModel.font != nil ) {
+				
+			}else if ( statementModel.font != nil && self.generationOption == .Font ) {
 				
 				objcHString += statementModel.font!.objcHeaderString()
 				objcMString += statementModel.font!.objcImplementationString()

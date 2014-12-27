@@ -26,11 +26,11 @@ class ReferToOtherColorModel: BaseColorModel {
 		self.otherMethodNameToCall = methodNameToCall
 	}
 	
-	override func uicolorString(mode:GenerationMode) -> String {
+	override func uicolorString(mode:Language) -> String {
 
-		if (mode == GenerationMode.ObjC) {
+		if (mode == Language.ObjC) {
 			return "[UIColor \(self.otherMethodNameToCall!)]"
-		} else if (mode == GenerationMode.Swift) {
+		} else if (mode == Language.Swift) {
 			return "UIColor.\(self.otherMethodNameToCall!)()"
 		}
 	

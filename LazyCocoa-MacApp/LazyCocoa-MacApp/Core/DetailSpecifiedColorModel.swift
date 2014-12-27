@@ -71,15 +71,15 @@ class DetailSpecifiedColorModel : BaseColorModel {
 			) as String
 	}
 	
-	override func uicolorString(mode:GenerationMode) -> String {
+	override func uicolorString(mode:Language) -> String {
 		
 		var formatString:String!
 
 		// How to achieve something like 1.000 -> 1.0; 1.123456789 -> 1.123 ?
 
-		if (mode == GenerationMode.ObjC) {
+		if (mode == Language.ObjC) {
 			formatString = "[UIColor colorWithRed:%.3f green:%.3f blue:%.3f alpha:%.3f]"
-		} else if (mode == GenerationMode.Swift) {
+		} else if (mode == Language.Swift) {
 			formatString = "UIColor(red:%.3f, green:%.3f, blue:%.3f, alpha:%.3f)"
 		}
 

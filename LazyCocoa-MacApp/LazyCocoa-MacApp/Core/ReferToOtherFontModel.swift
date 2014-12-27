@@ -26,11 +26,11 @@ class ReferToOtherFontModel: BaseFontModel {
 		self.otherMethodNameToCall = methodNameToCall
 	}
 	
-	override func uifontString(mode:GenerationMode) -> String {
+	override func uifontString(mode:Language) -> String {
 
-		if (mode == GenerationMode.ObjC) {
+		if (mode == Language.ObjC) {
 			return "[UIFont \(self.otherMethodNameToCall!)]"
-		} else if (mode == GenerationMode.Swift) {
+		} else if (mode == Language.Swift) {
 			return "UIFont.\(self.otherMethodNameToCall!)()"
 		}
 	

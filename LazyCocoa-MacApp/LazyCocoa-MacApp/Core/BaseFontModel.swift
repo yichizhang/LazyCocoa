@@ -16,7 +16,7 @@ import Cocoa
 
 protocol FontModelProtocol : CanBeConvertedToObjC, CanBeConvertedToSwift {
 	
-	func uifontString(mode:GenerationMode) -> String;
+	func uifontString(mode:Language) -> String;
 	
 }
 
@@ -39,7 +39,7 @@ class BaseFontModel : BaseModel, FontModelProtocol {
 			"\t" + "return %@;" +
 		"\n}"
 		
-		return NSString(format: formatString, self.objcHeaderStringWithoutSemicolon(), self.uifontString(GenerationMode.ObjC)) as String
+		return NSString(format: formatString, self.objcHeaderStringWithoutSemicolon(), self.uifontString(Language.ObjC)) as String
 	}
 	
 	func swiftString() ->String {
@@ -49,10 +49,10 @@ class BaseFontModel : BaseModel, FontModelProtocol {
 			"\t" + "return %@;" +
 		"\n}"
 		
-		return NSString(format: formatString, self.methodName, self.uifontString(GenerationMode.Swift)) as String
+		return NSString(format: formatString, self.methodName, self.uifontString(Language.Swift)) as String
 	}
 	
-	func uifontString(mode:GenerationMode) -> String {
+	func uifontString(mode:Language) -> String {
 		
 		fatalError("You must override this method")
 		return "";

@@ -107,6 +107,15 @@
 			
 		}
 		
+		if ( firstNameString && fontNameString && fontSizeString ) {
+			
+			self.font = [[DetailSpecifiedFontModel alloc] initWithMethodName:firstNameString fontName:fontNameString size:[fontSizeString floatValue]];
+			
+		}else if ( firstNameString && secondNameString ) {
+			
+			self.font = [[ReferToOtherFontModel alloc] initWithMethodName:firstNameString methodNameToCall:secondNameString];
+			
+		}
 	}
 	return self;
 }

@@ -822,6 +822,9 @@
                                         <segment label="Font" tag="1"/>
                                     </segments>
                                 </segmentedCell>
+                                <connections>
+                                    <action selector="colorOrFontSegControlUpdated:" target="Zz3-hj-1pU" id="yXZ-ru-ArT"/>
+                                </connections>
                             </segmentedControl>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cV9-9M-TO9">
                                 <rect key="frame" x="439" y="330" width="116" height="24"/>
@@ -832,6 +835,9 @@
                                         <segment label="MacOS" tag="1"/>
                                     </segments>
                                 </segmentedCell>
+                                <connections>
+                                    <action selector="platformSegControlUpdated:" target="Zz3-hj-1pU" id="kjD-nU-Ruc"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <constraints>
@@ -863,8 +869,10 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="colorOrFontSegControl" destination="rJ3-6e-7Mw" id="iAX-HV-ZjG"/>
                         <outlet property="objcHeaderFileResultTextView" destination="nZL-Oh-FFm" id="WBH-Y5-mLl"/>
                         <outlet property="objcImplementationFileResultTextView" destination="Ll2-24-Of5" id="6lB-zg-U4u"/>
+                        <outlet property="platformSegControl" destination="cV9-9M-TO9" id="CHB-jp-aVw"/>
                         <outlet property="sourceFileTextView" destination="GKW-4K-gaj" id="hpm-re-VRL"/>
                         <outlet property="swiftFileResultTextView" destination="ggb-jh-mJ9" id="hUc-e9-dWO"/>
                     </connections>
