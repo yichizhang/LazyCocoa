@@ -13,13 +13,14 @@
 		1214AF611A4B346100F31ED8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1214AF601A4B346100F31ED8 /* Images.xcassets */; };
 		1214AF641A4B346100F31ED8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1214AF621A4B346100F31ED8 /* Main.storyboard */; };
 		1214AF701A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1214AF6F1A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift */; };
-		12F9837F1A4D8BC30041FE43 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9837D1A4D8BC30041FE43 /* Color.swift */; };
+		12F9837F1A4D8BC30041FE43 /* BaseColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9837D1A4D8BC30041FE43 /* BaseColorModel.swift */; };
 		12F983801A4D8BC30041FE43 /* DocumentAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9837E1A4D8BC30041FE43 /* DocumentAnalyzer.swift */; };
-		12F983821A4D8C900041FE43 /* ColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F983811A4D8C900041FE43 /* ColorModel.swift */; };
+		12F983821A4D8C900041FE43 /* DetailSpecifiedColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F983811A4D8C900041FE43 /* DetailSpecifiedColorModel.swift */; };
 		12F983841A4D92380041FE43 /* LazyCocoa-Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F983831A4D92380041FE43 /* LazyCocoa-Main.swift */; };
 		12F983861A4DC3E40041FE43 /* FontModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F983851A4DC3E40041FE43 /* FontModel.swift */; };
 		12F983881A4DECA30041FE43 /* StatementsContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F983871A4DECA30041FE43 /* StatementsContainer.swift */; };
 		12FAA5641A4EF04400C3312B /* StatementModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 12FAA5631A4EF04400C3312B /* StatementModel.m */; };
+		12FAA5661A4F13A700C3312B /* ReferToOtherColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FAA5651A4F13A700C3312B /* ReferToOtherColorModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,15 +44,16 @@
 		1214AF691A4B346100F31ED8 /* LazyCocoa-MacAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LazyCocoa-MacAppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1214AF6E1A4B346100F31ED8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1214AF6F1A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyCocoa_MacAppTests.swift; sourceTree = "<group>"; };
-		12F9837D1A4D8BC30041FE43 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		12F9837D1A4D8BC30041FE43 /* BaseColorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseColorModel.swift; sourceTree = "<group>"; };
 		12F9837E1A4D8BC30041FE43 /* DocumentAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentAnalyzer.swift; sourceTree = "<group>"; };
-		12F983811A4D8C900041FE43 /* ColorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorModel.swift; sourceTree = "<group>"; };
+		12F983811A4D8C900041FE43 /* DetailSpecifiedColorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailSpecifiedColorModel.swift; sourceTree = "<group>"; };
 		12F983831A4D92380041FE43 /* LazyCocoa-Main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LazyCocoa-Main.swift"; sourceTree = "<group>"; };
 		12F983851A4DC3E40041FE43 /* FontModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontModel.swift; sourceTree = "<group>"; };
 		12F983871A4DECA30041FE43 /* StatementsContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatementsContainer.swift; sourceTree = "<group>"; };
 		12FAA5611A4EF04400C3312B /* LazyCocoa-MacApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LazyCocoa-MacApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		12FAA5621A4EF04400C3312B /* StatementModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatementModel.h; sourceTree = "<group>"; };
 		12FAA5631A4EF04400C3312B /* StatementModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatementModel.m; sourceTree = "<group>"; };
+		12FAA5651A4F13A700C3312B /* ReferToOtherColorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferToOtherColorModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,11 +134,12 @@
 		12F9837C1A4D8BC30041FE43 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				12F9837D1A4D8BC30041FE43 /* Color.swift */,
-				12F983811A4D8C900041FE43 /* ColorModel.swift */,
+				12F983831A4D92380041FE43 /* LazyCocoa-Main.swift */,
+				12F9837D1A4D8BC30041FE43 /* BaseColorModel.swift */,
+				12F983811A4D8C900041FE43 /* DetailSpecifiedColorModel.swift */,
+				12FAA5651A4F13A700C3312B /* ReferToOtherColorModel.swift */,
 				12F983851A4DC3E40041FE43 /* FontModel.swift */,
 				12F9837E1A4D8BC30041FE43 /* DocumentAnalyzer.swift */,
-				12F983831A4D92380041FE43 /* LazyCocoa-Main.swift */,
 				12F983871A4DECA30041FE43 /* StatementsContainer.swift */,
 				12FAA5621A4EF04400C3312B /* StatementModel.h */,
 				12FAA5631A4EF04400C3312B /* StatementModel.m */,
@@ -245,15 +248,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				1214AF5D1A4B346100F31ED8 /* MainViewController.swift in Sources */,
+				12FAA5661A4F13A700C3312B /* ReferToOtherColorModel.swift in Sources */,
 				12F983881A4DECA30041FE43 /* StatementsContainer.swift in Sources */,
-				12F9837F1A4D8BC30041FE43 /* Color.swift in Sources */,
+				12F9837F1A4D8BC30041FE43 /* BaseColorModel.swift in Sources */,
 				12F983861A4DC3E40041FE43 /* FontModel.swift in Sources */,
 				12FAA5641A4EF04400C3312B /* StatementModel.m in Sources */,
 				1214AF5B1A4B346100F31ED8 /* AppDelegate.swift in Sources */,
 				12F983801A4D8BC30041FE43 /* DocumentAnalyzer.swift in Sources */,
 				1214AF5F1A4B346100F31ED8 /* Document.swift in Sources */,
 				12F983841A4D92380041FE43 /* LazyCocoa-Main.swift in Sources */,
-				12F983821A4D8C900041FE43 /* ColorModel.swift in Sources */,
+				12F983821A4D8C900041FE43 /* DetailSpecifiedColorModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

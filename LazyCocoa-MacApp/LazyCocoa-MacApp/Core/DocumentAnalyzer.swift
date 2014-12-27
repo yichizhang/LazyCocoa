@@ -25,7 +25,6 @@ class DocumentAnalyzer : NSObject {
 	var objcImplementationFileString: String!
 	var swiftFileString: String!
 	
-	var colorArray: Array<Color> = Array()
 	var statementsContainer: StatementsContainer = StatementsContainer()
 	
 	func process(){

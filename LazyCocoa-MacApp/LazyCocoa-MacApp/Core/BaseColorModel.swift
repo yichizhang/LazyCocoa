@@ -14,18 +14,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Cocoa
 
-class Color: NSObject {
+protocol ColorModelProtocol : CanBeConvertedToObjC, CanBeConvertedToSwift {
 	
-	var name: String!
-	var valueString: String!
+	func uicolorString(mode:GenerationMode) -> String;
 	
-	let objcMode = 0
-	let swiftMode = 1
+}
+
+class BaseColorModel : NSObject, ColorModelProtocol {
+	
+	var methodName = "someColor"
 	
 	func objcHeaderStringWithoutSemicolon() ->String {
-		return "+ (UIColor *)\(self.name)"
+		return "+ (UIColor *)\(self.methodName)"
 	}
-
+	
 	func objcHeaderString() ->String {
 		return self.objcHeaderStringWithoutSemicolon() + ";"
 	}
@@ -37,44 +39,23 @@ class Color: NSObject {
 			"\t" + "return %@;" +
 		"\n}"
 		
-		return NSString(format: formatString, self.objcHeaderStringWithoutSemicolon(), self.uicolorString(objcMode)) as String
+		return NSString(format: formatString, self.objcHeaderStringWithoutSemicolon(), self.uicolorString(GenerationMode.ObjC)) as String
 	}
 	
 	func swiftString() ->String {
 		
 		let formatString:NSString =
 		"class func %@() -> UIColor {\n" +
-		"\t" + "return %@;" +
+			"\t" + "return %@;" +
 		"\n}"
 		
-		return NSString(format: formatString, self.name, self.uicolorString(swiftMode)) as String
+		return NSString(format: formatString, self.methodName, self.uicolorString(GenerationMode.Swift)) as String
 	}
 	
-	func uicolorString(mode:Int) -> String {
+	func uicolorString(mode:GenerationMode) -> String {
 		
-		if (self.valueString.hasPrefix("#")){
-			
-			let colorModel = ColorModel(colorHexString: self.valueString)
-			
-			var formatString:NSString!
-			
-			// How to achieve something like 1.000 -> 1.0; 1.123456789 -> 1.123 ?
-			if (mode == objcMode) {
-				formatString = "[UIColor colorWithRed:%.3f green:%.3f blue:%.3f alpha:%.3f]"
-			} else if (mode == swiftMode) {
-				formatString = "UIColor(red:%.3f, green:%.3f, blue:%.3f, alpha:%.3f)"
-			}
-			
-			return colorModel.statementWithFormatString(formatString)
-			
-		}else {
-			if (mode == objcMode) {
-				return "[UIColor \(self.valueString)]"
-			} else if (mode == swiftMode) {
-				return "UIColor.\(self.valueString)()"
-			}
-		}
-		return ""
+		return "'Abstract class' do not implement";
+		
 	}
-
+	
 }

@@ -13,14 +13,16 @@
  */
 
 #import <Foundation/Foundation.h>
-@class ColorModel;
+@class BaseColorModel;
+@class DetailSpecifiedColorModel;
+@class ReferToOtherColorModel;
 @class FontModel;
 
 @interface StatementModel : NSObject
 
 @property (nonatomic, strong, readonly) NSString *identifier;
 @property (nonatomic, strong) NSString *statementString;
-@property (nonatomic, strong) ColorModel *color;
+@property (nonatomic, strong) BaseColorModel *color;
 @property (nonatomic, strong) FontModel *font;
 
 - (instancetype)initWithString:(NSString*)string;

@@ -30,14 +30,14 @@
 		NSString *name = componentsSeparatedBySpace[1];
 		
 		if ( [name hasPrefix:@"#"] ) {
-			self.color = [[ColorModel alloc] initWithColorHexString:name];
+			
+			self.color = [[DetailSpecifiedColorModel alloc] initWithMethodName:self.identifier colorHexString:name];
 			
 		}else {
-			self.color = [[ColorModel alloc] init];
-			self.color.otherColorMethodNameToCall = name;
+			
+			self.color = [[ReferToOtherColorModel alloc] initWithMethodName:self.identifier methodNameToCall:name];
+			
 		}
-		
-		self.color.colorMethodName = self.identifier;
 		
 	}
 	return self;

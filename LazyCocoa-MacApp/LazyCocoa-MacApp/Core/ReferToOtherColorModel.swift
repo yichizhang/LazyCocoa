@@ -14,18 +14,27 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Cocoa
 
-enum GenerationMode : String {
-	case ObjC = "objc"
-	case Swift = "swift"
-}
+class ReferToOtherColorModel: BaseColorModel {
+	
+	var otherMethodNameToCall:String?
+	
+	convenience init(methodName:String, methodNameToCall:String){
+	
+		self.init()
+		
+		self.methodName = methodName
+		self.otherMethodNameToCall = methodNameToCall
+	}
+	
+	override func uicolorString(mode:GenerationMode) -> String {
 
-protocol CanBeConvertedToObjC {
-	func objcHeaderStringWithoutSemicolon() ->String;
-	func objcHeaderString() ->String;
-	func objcImplementationString() ->String;
+		if (mode == GenerationMode.ObjC) {
+			return "[UIColor \(self.otherMethodNameToCall!)]"
+		} else if (mode == GenerationMode.Swift) {
+			return "UIColor.\(self.otherMethodNameToCall!)()"
+		}
+	
+		return "";
+		
+	}
 }
-
-protocol CanBeConvertedToSwift {
-	func swiftString() ->String;
-}
-
