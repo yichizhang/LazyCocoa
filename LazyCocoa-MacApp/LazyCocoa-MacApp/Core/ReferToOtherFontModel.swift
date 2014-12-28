@@ -14,24 +14,24 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Cocoa
 
-class ReferToOtherFontModel: BaseFontModel {
+class ReferToOtherFontModel: BaseFontModel, ReferToOtherProtocol {
 	
-	var otherMethodNameToCall:String?
+	var otherIdentifier:String!
 	
-	convenience init(methodName:String, methodNameToCall:String){
+	convenience init(identifier:String, otherIdentifier:String){
 	
 		self.init()
 		
-		self.methodName = methodName
-		self.otherMethodNameToCall = methodNameToCall
+		self.identifier = identifier
+		self.otherIdentifier = otherIdentifier
 	}
 	
-	override func uifontString(mode:Language) -> String {
+	override func classFactoryMethodString(mode:Language) -> String {
 
 		if (mode == Language.ObjC) {
-			return "[UIFont \(self.otherMethodNameToCall!)]"
+			return "[UIFont \( self.autoMethodNameForIdentifier(self.otherIdentifier) )]"
 		} else if (mode == Language.Swift) {
-			return "UIFont.\(self.otherMethodNameToCall!)()"
+			return "UIFont.\( self.autoMethodNameForIdentifier(self.otherIdentifier) )()"
 		}
 	
 		return "";

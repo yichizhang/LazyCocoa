@@ -14,18 +14,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Cocoa
 
-protocol ColorModelProtocol : CanBeConvertedToObjC, CanBeConvertedToSwift {
-	
-	func uicolorString(mode:Language) -> String;
-	
-}
-
-class BaseColorModel : BaseModel, ColorModelProtocol {
-	
-	var methodName = "someColor"
+class BaseColorModel : BaseModel, CanBeConvertedToObjC, CanBeConvertedToSwift, BaseModelProtocol {
 	
 	func objcHeaderStringWithoutSemicolon() ->String {
-		return "+ (UIColor *)\(self.methodName)"
+		return "+ (UIColor *)\(self.autoMethodName())"
 	}
 	
 	func objcHeaderString() ->String {
@@ -39,7 +31,7 @@ class BaseColorModel : BaseModel, ColorModelProtocol {
 			"\t" + "return %@;" +
 		"\n}"
 		
-		return NSString(format: formatString, self.objcHeaderStringWithoutSemicolon(), self.uicolorString(Language.ObjC)) as String
+		return NSString(format: formatString, self.objcHeaderStringWithoutSemicolon(), self.classFactoryMethodString(Language.ObjC)) as String
 	}
 	
 	func swiftString() ->String {
@@ -49,14 +41,19 @@ class BaseColorModel : BaseModel, ColorModelProtocol {
 			"\t" + "return %@;" +
 		"\n}"
 		
-		return NSString(format: formatString, self.methodName, self.uicolorString(Language.Swift)) as String
+		return NSString(format: formatString, self.autoMethodName(), self.classFactoryMethodString(Language.Swift)) as String
 	}
 	
-	func uicolorString(mode:Language) -> String {
+	func classFactoryMethodString(mode:Language) -> String {
 		
 		fatalError("You must override this method")
 		return "";
 		
+	}
+	
+	override class func methodSuffix() -> String {
+		
+		return "Color"
 	}
 	
 }

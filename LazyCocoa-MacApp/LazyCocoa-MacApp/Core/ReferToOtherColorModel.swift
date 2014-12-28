@@ -14,27 +14,28 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Cocoa
 
-class ReferToOtherColorModel: BaseColorModel {
+class ReferToOtherColorModel: BaseColorModel, ReferToOtherProtocol {
 	
-	var otherMethodNameToCall:String?
+	var otherIdentifier:String!
 	
-	convenience init(methodName:String, methodNameToCall:String){
+	convenience init(identifier:String, otherIdentifier:String){
 	
 		self.init()
 		
-		self.methodName = methodName
-		self.otherMethodNameToCall = methodNameToCall
+		self.identifier = identifier
+		self.otherIdentifier = otherIdentifier
 	}
 	
-	override func uicolorString(mode:Language) -> String {
+	override func classFactoryMethodString(mode:Language) -> String {
 
 		if (mode == Language.ObjC) {
-			return "[UIColor \(self.otherMethodNameToCall!)]"
+			return "[UIColor \( self.autoMethodNameForIdentifier(self.otherIdentifier) )]"
 		} else if (mode == Language.Swift) {
-			return "UIColor.\(self.otherMethodNameToCall!)()"
+			return "UIColor.\( self.autoMethodNameForIdentifier(self.otherIdentifier) )()"
 		}
 	
 		return "";
 		
 	}
+	
 }

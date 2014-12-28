@@ -827,12 +827,12 @@
                                 </connections>
                             </segmentedControl>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cV9-9M-TO9">
-                                <rect key="frame" x="439" y="330" width="116" height="24"/>
+                                <rect key="frame" x="468" y="330" width="87" height="24"/>
                                 <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="LVX-96-C3K">
                                     <font key="font" metaFont="system"/>
                                     <segments>
                                         <segment label="iOS" selected="YES"/>
-                                        <segment label="MacOS" tag="1"/>
+                                        <segment label="---" tag="1"/>
                                     </segments>
                                 </segmentedCell>
                                 <connections>

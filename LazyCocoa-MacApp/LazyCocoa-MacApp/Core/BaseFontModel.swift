@@ -14,18 +14,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Cocoa
 
-protocol FontModelProtocol : CanBeConvertedToObjC, CanBeConvertedToSwift {
-	
-	func uifontString(mode:Language) -> String;
-	
-}
-
-class BaseFontModel : BaseModel, FontModelProtocol {
-	
-	var methodName = "someFont"
+class BaseFontModel : BaseModel, CanBeConvertedToObjC, CanBeConvertedToSwift, BaseModelProtocol {
 	
 	func objcHeaderStringWithoutSemicolon() ->String {
-		return "+ (UIFont *)\(self.methodName)"
+		return "+ (UIFont *)\(self.autoMethodName())"
 	}
 	
 	func objcHeaderString() ->String {
@@ -39,7 +31,7 @@ class BaseFontModel : BaseModel, FontModelProtocol {
 			"\t" + "return %@;" +
 		"\n}"
 		
-		return NSString(format: formatString, self.objcHeaderStringWithoutSemicolon(), self.uifontString(Language.ObjC)) as String
+		return NSString(format: formatString, self.objcHeaderStringWithoutSemicolon(), self.classFactoryMethodString(Language.ObjC)) as String
 	}
 	
 	func swiftString() ->String {
@@ -49,14 +41,19 @@ class BaseFontModel : BaseModel, FontModelProtocol {
 			"\t" + "return %@;" +
 		"\n}"
 		
-		return NSString(format: formatString, self.methodName, self.uifontString(Language.Swift)) as String
+		return NSString(format: formatString, self.autoMethodName(), self.classFactoryMethodString(Language.Swift)) as String
 	}
 	
-	func uifontString(mode:Language) -> String {
+	func classFactoryMethodString(mode:Language) -> String {
 		
 		fatalError("You must override this method")
 		return "";
 		
+	}
+	
+	override class func methodSuffix() -> String {
+		
+		return "Font"
 	}
 	
 }

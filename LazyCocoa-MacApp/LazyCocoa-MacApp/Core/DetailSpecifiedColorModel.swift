@@ -21,11 +21,11 @@ class DetailSpecifiedColorModel : BaseColorModel {
 	var blue:Float = 1.0
 	var alpha:Float = 1.0
 	
-	convenience init(methodName:String, colorHexString:String){
+	convenience init(identifier:String, colorHexString:String){
 		
 		self.init()
 		
-		self.methodName = methodName
+		self.identifier = identifier
 		
 		let index   = advance(colorHexString.startIndex, 1)
 		let hex     = colorHexString.substringFromIndex(index)
@@ -71,7 +71,7 @@ class DetailSpecifiedColorModel : BaseColorModel {
 			) as String
 	}
 	
-	override func uicolorString(mode:Language) -> String {
+	override func classFactoryMethodString(mode:Language) -> String {
 		
 		var formatString:String!
 

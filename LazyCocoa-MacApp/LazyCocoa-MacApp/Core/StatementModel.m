@@ -13,37 +13,9 @@
  */
 
 #import "StatementModel.h"
+#import "Base.h"
+#import "NSString+LazyCocoa.h"
 #import "LazyCocoa_MacApp-Swift.h"
-
-#define HASH_STRING @"#"
-#define DOUBLE_QUOTE_CHAR '"'
-#define DOUBLE_QUOTE_STRING @"\""
-#define SPACE_STRING @" "
-
-/*
-@interface NSString (LazyCocoa)
-
-- (BOOL)isValidNumber;
-- (BOOL)isValidColorCode;
-
-@end
-*/
-
-@implementation NSString (LazyCocoa)
-
-- (BOOL)isValidNumber{
-	
-	NSMutableCharacterSet* set = [[[NSCharacterSet decimalDigitCharacterSet] invertedSet] mutableCopy];
-	[set removeCharactersInString:@"."];
-	NSRange range = [self rangeOfCharacterFromSet: set];
-	return range.location == NSNotFound;
-}
-- (BOOL)isValidColorCode{
-	
-	return [self hasPrefix:HASH_STRING];
-}
-
-@end
 
 @implementation StatementModel
 
@@ -99,21 +71,21 @@
 		
 		if ( firstNameString && colorCodeString ) {
 			
-			self.color = [[DetailSpecifiedColorModel alloc] initWithMethodName:firstNameString colorHexString:colorCodeString];
+			self.color = [[DetailSpecifiedColorModel alloc] initWithIdentifier:firstNameString colorHexString:colorCodeString];
 			
 		}else if ( firstNameString && secondNameString ) {
 			
-			self.color = [[ReferToOtherColorModel alloc] initWithMethodName:firstNameString methodNameToCall:secondNameString];
+			self.color = [[ReferToOtherColorModel alloc] initWithIdentifier:firstNameString otherIdentifier:secondNameString];
 			
 		}
 		
 		if ( firstNameString && fontNameString && fontSizeString ) {
 			
-			self.font = [[DetailSpecifiedFontModel alloc] initWithMethodName:firstNameString fontName:fontNameString size:[fontSizeString floatValue]];
+			self.font = [[DetailSpecifiedFontModel alloc] initWithIdentifier:firstNameString fontName:fontNameString size:[fontSizeString floatValue]];
 			
 		}else if ( firstNameString && secondNameString ) {
 			
-			self.font = [[ReferToOtherFontModel alloc] initWithMethodName:firstNameString methodNameToCall:secondNameString];
+			self.font = [[ReferToOtherFontModel alloc] initWithIdentifier:firstNameString otherIdentifier:secondNameString];
 			
 		}
 	}

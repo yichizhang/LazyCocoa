@@ -39,7 +39,30 @@ protocol CanBeConvertedToSwift {
 	func swiftString() ->String;
 }
 
+protocol BaseModelProtocol {
+	
+	func classFactoryMethodString(mode:Language) -> String;
+}
+
+protocol ReferToOtherProtocol {
+	
+	//var otherIdentifier:String { get }
+}
+
 class BaseModel : NSObject {
 	
+	var identifier = "someIdentifier"
+	func autoMethodName() -> String {
+		return self.autoMethodNameForIdentifier(self.identifier)
+	}
+	func autoMethodNameForIdentifier(id:String) -> String {
+		return id + self.dynamicType.methodSuffix()
+	}
+	class func methodSuffix() -> String {
+		
+		fatalError("You must override this method")
+		return "Suffix"
+	}
+
 }
 

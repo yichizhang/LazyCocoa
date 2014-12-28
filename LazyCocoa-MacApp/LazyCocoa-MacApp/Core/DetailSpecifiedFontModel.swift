@@ -19,10 +19,10 @@ class DetailSpecifiedFontModel : BaseFontModel {
 	var typefaceName:String!
 	var fontSize:Float!
 	
-	convenience init(methodName:String, fontName:String, size:Float){
+	convenience init(identifier:String, fontName:String, size:Float){
 		
 		self.init()
-		self.methodName = methodName
+		self.identifier = identifier
 		self.typefaceName = fontName
 		self.fontSize = size
 	}
@@ -36,7 +36,7 @@ class DetailSpecifiedFontModel : BaseFontModel {
 			) as String
 	}
 	
-	override func uifontString(mode:Language) -> String {
+	override func classFactoryMethodString(mode:Language) -> String {
 		
 		var formatString:String!
 		
