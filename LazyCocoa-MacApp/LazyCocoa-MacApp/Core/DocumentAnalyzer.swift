@@ -52,6 +52,39 @@ class DocumentAnalyzer : NSObject {
 			self.statementsContainer.addObject(currentStatement)
 		}
 		
+		for statementModel : StatementModel in self.statementsContainer.modelArray {
+		
+			if (statementModel.font != nil){
+				if (statementModel.font!.isKindOfClass(ReferToOtherFontModel.self) ){
+					
+					let font = statementModel.font! as ReferToOtherFontModel
+					let foundStatement = self.statementsContainer.objectForKey(font.otherIdentifier)
+					if ( foundStatement == nil ){
+						
+						statementModel.font = nil
+					}else if (foundStatement!.font == nil) {
+						
+						statementModel.font = nil
+					}
+				}
+			}
+			
+			if (statementModel.color != nil){
+				if (statementModel.color!.isKindOfClass(ReferToOtherColorModel.self) ){
+					
+					let color = statementModel.color! as ReferToOtherColorModel
+					let foundStatement = self.statementsContainer.objectForKey(color.otherIdentifier)
+					if ( foundStatement == nil ){
+						
+						statementModel.color = nil
+					}else if (foundStatement!.color == nil) {
+						
+						statementModel.color = nil
+					}
+				}
+			}
+		}
+		
 		var objcHString = String();
 		var objcMString = String();
 		var swiftString = String();

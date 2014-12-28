@@ -12,42 +12,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-import Cocoa
+import Foundation
 
-class DetailSpecifiedFontModel : BaseFontModel {
-	
-	var typefaceName:String!
-	var fontSize:Float!
-	
-	convenience init(identifier:String, fontName:String, size:Float){
-		
-		self.init()
-		self.identifier = identifier
-		self.typefaceName = fontName
-		self.fontSize = size
-	}
-	
-	func statementWithFormatString(formatString:String) -> String {
-		
-		return NSString(
-			format: formatString as NSString,
-			self.typefaceName,
-			self.fontSize
-			) as String
-	}
-	
-	override func classFactoryMethodString(mode:Language) -> String {
-		
-		var formatString:String!
-		
-		if (mode == Language.ObjC) {
-			formatString = "[UIFont fontWithName:@\"%@\" size:%.1ff]"
-		} else if (mode == Language.Swift) {
-			formatString = "UIFont(name:\"%@\", size:%.1f)"
-		}
-
-		return self.statementWithFormatString(formatString)
-		
-	}
-
+class LineModel: NSObject {
+	var firstNameString:String?
+	var secondNameString:String?
+	var colorCodeString:String?
+	var fontNameString:String?
+	var fontSizeString:String?
 }
