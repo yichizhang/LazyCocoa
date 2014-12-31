@@ -1,0 +1,22 @@
+
+```
+usage: bridgingheadergenerator.py [-h] [-d DIR] [-o OUTPUTPATH]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d DIR, --dir DIR     directory of header files to scan
+  -o OUTPUTPATH, --outputpath OUTPUTPATH
+                        path to write the generated bridging header file
+```
+
+FOR EXAMPLE:
+
+I have lots of .h files in /Repos/YZLibrary/YZLibraryDemo/YZLibraryDemo ; I would like to quickly generate a Bridging header for Swift. I would the bridging header to be placed at /Repos/YZLibrary/YZLibraryDemo/Bridging-Header.h
+
+I need to run this command:
+
+```
+ python bridgingheadergenerator.py -d /Repos/YZLibrary/YZLibraryDemo/YZLibraryDemo -o /Repos/YZLibrary/YZLibraryDemo/Bridging-Header.h
+```
+
+PLEASE NOTE: THE OUTPUT FILE WILL BE OVERWRITTEN

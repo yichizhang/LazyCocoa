@@ -1,7 +1,7 @@
 LazyCocoa (former GenColor)
 ===========================
 
-LazyCocoa (formerly known as GenColor) is a Mac application written in Swift to help you generate UIColor/ NSColor class methods from your color settings text file. For example, you write 'awesomeColor #FFF'. It generates:
+LazyCocoa is a repository made up of tools and scripts to help you code iOS/Mac applications. It has a Python script to generate a list of all the h files for your Swift Bridging header. Its GenColor component can generate UIColor/ UIFont class methods from a text file. For example, you write 'awesomeColor #FFF'. It generates:
 
 ```
 + (UIColor*)awesomeColor{ 
@@ -10,6 +10,34 @@ LazyCocoa (formerly known as GenColor) is a Mac application written in Swift to 
 
 }
 ``` 
+
+## Components
+
+### Swift Bridging Header Generator
+
+```
+usage: bridgingheadergenerator.py [-h] [-d DIR] [-o OUTPUTPATH]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -d DIR, --dir DIR     directory of header files to scan
+  -o OUTPUTPATH, --outputpath OUTPUTPATH
+                        path to write the generated bridging header file
+```
+
+FOR EXAMPLE:
+
+I have lots of .h files in /Repos/YZLibrary/YZLibraryDemo/YZLibraryDemo ; I would like to quickly generate a Bridging header for Swift. I would the bridging header to be placed at /Repos/YZLibrary/YZLibraryDemo/Bridging-Header.h
+
+I need to run this command:
+
+```
+ python bridgingheadergenerator.py -d /Repos/YZLibrary/YZLibraryDemo/YZLibraryDemo -o /Repos/YZLibrary/YZLibraryDemo/Bridging-Header.h
+```
+
+PLEASE NOTE: THE OUTPUT FILE WILL BE OVERWRITTEN
+
+### LazyCocoa-MacApp: GenColor/ GenFont
 
 ![Screenshot 1](https://raw.githubusercontent.com/yichizhang/GenColor-Mac/master/Screenshots/screen1.png)
 
