@@ -21,14 +21,12 @@ func isNonEmpty(item:String)->Bool {
 class DocumentAnalyzer : NSObject {
 	
 	var inputString: String!
-	var objcHeaderFileString: String!
-	var objcImplementationFileString: String!
-	var swiftFileString: String!
+	var fontFileString: String!
+	var colorFileString: String!
 	
 	var platform:Platform!
-	var generationOption:GenerationOption!
 	
-	var statementsContainer: StatementsContainer = StatementsContainer()
+	var lines: LineModelContainer = LineModelContainer()
 	
 	func process(){
 
@@ -43,83 +41,55 @@ class DocumentAnalyzer : NSObject {
 			)
 		}
 
-		self.statementsContainer.removeAllObjects()
+		self.lines.removeAllObjects()
 		
 		for object : AnyObject in statementStringArray {
 			
-			let currentStatement = StatementModel(string: object as String)
+			let currentStatement = LineModel(lineString: object as String)
 			
-			self.statementsContainer.addObject(currentStatement)
+			self.lines.addObject(currentStatement)
 		}
 		
-		for statementModel : StatementModel in self.statementsContainer.modelArray {
+		#if DEBUG
+		printAll()
+		#endif
 		
-			if (statementModel.font != nil){
-				if (statementModel.font!.isKindOfClass(ReferToOtherFontModel.self) ){
-					
-					let font = statementModel.font! as ReferToOtherFontModel
-					let foundStatement = self.statementsContainer.objectForKey(font.otherIdentifier)
-					if ( foundStatement == nil ){
-						
-						statementModel.font = nil
-					}else if (foundStatement!.font == nil) {
-						
-						statementModel.font = nil
-					}
+		for model : LineModel in self.lines.modelArray {
+			
+			for name in model.otherNames {
+				if let otherModel = self.lines.objectForKey(name){
+					model.populateWithOtherLineModel( otherModel )
 				}
 			}
 			
-			if (statementModel.color != nil){
-				if (statementModel.color!.isKindOfClass(ReferToOtherColorModel.self) ){
-					
-					let color = statementModel.color! as ReferToOtherColorModel
-					let foundStatement = self.statementsContainer.objectForKey(color.otherIdentifier)
-					if ( foundStatement == nil ){
-						
-						statementModel.color = nil
-					}else if (foundStatement!.color == nil) {
-						
-						statementModel.color = nil
-					}
-				}
-			}
 		}
 		
-		var objcHString = String();
-		var objcMString = String();
-		var swiftString = String();
+		#if DEBUG
+			printAll()
+		#endif
 		
-		for statementModel : StatementModel in self.statementsContainer.modelArray {
-			
-			if ( statementModel.color != nil && self.generationOption == GenerationOption.Color ){
+		self.fontFileString = ""
+		self.colorFileString = ""
 		
-				objcHString += statementModel.color!.objcHeaderString()
-				objcMString += statementModel.color!.objcImplementationString()
-				swiftString += statementModel.color!.swiftString()
+		for model : LineModel in self.lines.modelArray {
+			if (model.canProduceColorFuncString){
 				
-				objcHString += "\n\n"
-				objcMString += "\n\n"
-				swiftString += "\n\n"
-				
-			}else if ( statementModel.font != nil && self.generationOption == .Font ) {
-				
-				objcHString += statementModel.font!.objcHeaderString()
-				objcMString += statementModel.font!.objcImplementationString()
-				swiftString += statementModel.font!.swiftString()
-				
-				objcHString += "\n\n"
-				objcMString += "\n\n"
-				swiftString += "\n\n"
+				self.colorFileString = self.colorFileString + model.colorFuncString() + NEW_LINE_SRING + NEW_LINE_SRING
 			}
+			if (model.canProduceFontFuncString){
+				
+				self.fontFileString = self.fontFileString + model.fontFuncString() + NEW_LINE_SRING + NEW_LINE_SRING
+			}
+		}
+	}
+
+	func printAll() {
+		
+		for model : LineModel in self.lines.modelArray {
+			
+			println(model)
 			
 		}
-		
-		self.objcHeaderFileString = objcHString;
-		self.objcImplementationFileString = objcMString;
-		self.swiftFileString = swiftString
-		;
-		
 		
 	}
-	
 }

@@ -14,8 +14,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Cocoa
 
-class DetailSpecifiedColorModel : BaseColorModel {
-
+class ColorModel : BaseModel, BaseModelProtocol{
+	
 	var red:Float = 1.0
 	var green:Float = 1.0
 	var blue:Float = 1.0
@@ -60,10 +60,19 @@ class DetailSpecifiedColorModel : BaseColorModel {
 		
 	}
 	
-	func statementWithFormatString(formatString:String) -> String {
+	func autoMethodName() -> String {
+	
+		if (self.identifier as NSString).isMeantToBeColor {
+			return self.identifier
+		}else{
+			return self.identifier + COLOR_SUFFIX
+		}
+	}
+	
+	func statementString() -> String {
 		
 		return NSString(
-			format: formatString as NSString,
+			format: "UIColor(red:%.3f, green:%.3f, blue:%.3f, alpha:%.3f)",
 			red,
 			green,
 			blue,
@@ -71,20 +80,14 @@ class DetailSpecifiedColorModel : BaseColorModel {
 			) as String
 	}
 	
-	override func classFactoryMethodString(mode:Language) -> String {
+	func funcString() -> String {
 		
-		var formatString:String!
-
-		// How to achieve something like 1.000 -> 1.0; 1.123456789 -> 1.123 ?
-
-		if (mode == Language.ObjC) {
-			formatString = "[UIColor colorWithRed:%.3f green:%.3f blue:%.3f alpha:%.3f]"
-		} else if (mode == Language.Swift) {
-			formatString = "UIColor(red:%.3f, green:%.3f, blue:%.3f, alpha:%.3f)"
-		}
-
-		return self.statementWithFormatString(formatString)
+		let formatString:NSString =
+		"class func %@() -> UIColor {\n" +
+			"\t" + "return %@;" +
+		"\n}"
 		
+		return NSString(format: formatString, self.autoMethodName(), self.statementString() ) as String
 	}
-
+	
 }

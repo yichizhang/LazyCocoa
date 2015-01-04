@@ -19,11 +19,9 @@ class MainViewController: NSViewController {
 	@IBOutlet var sourceFileTextView: NSTextView!
 	
 	@IBOutlet weak var platformSegControl: NSSegmentedControl!
-	@IBOutlet weak var colorOrFontSegControl: NSSegmentedControl!
 	
-	@IBOutlet private var objcHeaderFileResultTextView: NSTextView!
-	@IBOutlet private var objcImplementationFileResultTextView: NSTextView!
-	@IBOutlet private var swiftFileResultTextView: NSTextView!
+	@IBOutlet private var fontResultTextView: NSTextView!
+	@IBOutlet private var colorResultTextView: NSTextView!
 	
 	var analyzer: DocumentAnalyzer = DocumentAnalyzer()
 	
@@ -32,20 +30,20 @@ class MainViewController: NSViewController {
 		
 		// Do any additional setup after loading the view.
 		
-		self.objcHeaderFileResultTextView.continuousSpellCheckingEnabled = false;
-		self.objcImplementationFileResultTextView.continuousSpellCheckingEnabled = false;
-		self.swiftFileResultTextView.continuousSpellCheckingEnabled = false;
+		self.fontResultTextView.continuousSpellCheckingEnabled = false;
+		self.colorResultTextView.continuousSpellCheckingEnabled = false;
 		
-		self.objcHeaderFileResultTextView.editable = false;
-		self.objcImplementationFileResultTextView.editable = false;
-		self.swiftFileResultTextView.editable = false;
+		
+		self.fontResultTextView.editable = false;
+		self.colorResultTextView.editable = false;
+		
 		
 		let myFont:NSFont = NSFont(name: "Monaco", size: 12)!;
 		
 		self.sourceFileTextView.font = myFont;
-		self.objcHeaderFileResultTextView.font = myFont;
-		self.objcImplementationFileResultTextView.font = myFont;
-		self.swiftFileResultTextView.font = myFont;
+		self.fontResultTextView.font = myFont;
+		self.colorResultTextView.font = myFont;
+		
 		
 		self.sourceFileTextView.automaticQuoteSubstitutionEnabled = false
 		self.sourceFileTextView.enabledTextCheckingTypes = 0
@@ -63,15 +61,13 @@ class MainViewController: NSViewController {
 	func update() {
 		
 		self.analyzer.platform = Platform(rawValue: self.platformSegControl.selectedSegment);
-		self.analyzer.generationOption = GenerationOption(rawValue: self.colorOrFontSegControl.selectedSegment);
 		
 		self.analyzer.inputString = self.sourceFileTextView.string;
 		
 		self.analyzer.process()
 		
-		self.objcHeaderFileResultTextView.string = self.analyzer.objcHeaderFileString;
-		self.objcImplementationFileResultTextView.string = self.analyzer.objcImplementationFileString;
-		self.swiftFileResultTextView.string = self.analyzer.swiftFileString;
+		self.fontResultTextView.string = self.analyzer.fontFileString
+		self.colorResultTextView.string = self.analyzer.colorFileString
 		
 	}
 	
@@ -81,11 +77,6 @@ class MainViewController: NSViewController {
 	}
 	
 	@IBAction func platformSegControlUpdated(sender: AnyObject) {
-		
-		self.update()
-	}
-	
-	@IBAction func colorOrFontSegControlUpdated(sender: AnyObject) {
 		
 		self.update()
 	}

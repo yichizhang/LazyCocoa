@@ -14,20 +14,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Cocoa
 
-class StatementsContainer : NSObject {
+class LineModelContainer : NSObject {
 	
-	var modelArray: Array<StatementModel> = Array()
-	var modelDictionary: Dictionary<String, StatementModel> = Dictionary()
+	var modelArray: Array<LineModel> = Array()
+	var modelDictionary: Dictionary<String, LineModel> = Dictionary()
 	
-	func addObject(model:StatementModel) {
+	func addObject(model:LineModel) {
 		
-		if (model.identifier != nil) {
+		if (model.identifier.isEmpty == false) {
 			modelArray.append(model)
-			modelDictionary[model.identifier!] = model
+			modelDictionary[model.identifier] = model
 		}
 	}
 	
-	func objectForKey(key:String) -> StatementModel? {
+	func objectForKey(key:String) -> LineModel? {
 		
 		return modelDictionary[key]
 	}

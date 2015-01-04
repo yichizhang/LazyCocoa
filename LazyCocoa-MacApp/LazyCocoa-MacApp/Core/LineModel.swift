@@ -14,10 +14,108 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Foundation
 
-class LineModel: NSObject {
-	var firstNameString:String?
-	var secondNameString:String?
-	var colorCodeString:String?
-	var fontNameString:String?
-	var fontSizeString:String?
+class LineModel: NSObject, Printable {
+	
+	var identifier:String = ""
+	var otherNames:Array<String> = []
+	var colorCodeString:String = ""
+	var fontNameString:String = ""
+	var fontSizeString:String = ""
+	
+	func description() -> String {
+		
+		let y = (self.otherNames as NSArray).componentsJoinedByString("; ")
+		
+		return NSString(format: "%@, {%@}, %@, %@, %@.", self.identifier, y, self.colorCodeString, self.fontNameString, self.fontSizeString)
+	}
+	
+	convenience init(lineString:String){
+		self.init()
+		
+		var processedString = lineString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+		
+		if let range = processedString.rangeOfString(COMMENT_PREFIX) {
+			processedString = processedString.substringToIndex(
+			 range.startIndex
+			)
+		}
+		
+		let scanner = NSScanner(string: processedString)
+		var resultString:NSString?
+		
+		while ( scanner.scanLocation < countElements(scanner.string) ) {
+		
+			let character = scanner.string.characterAtIndex(scanner.scanLocation)
+			
+			if (character == DOUBLE_QUOTE_CHAR) {
+				
+				scanner.scanLocation++
+				scanner.scanUpToString(DOUBLE_QUOTE_STRING, intoString: &resultString)
+				
+				fontNameString = resultString!
+				
+			}else {
+				
+				scanner.scanUpToString(SPACE_STRING, intoString: &resultString)
+				
+				if ( resultString!.isValidNumber ) {
+					fontSizeString = resultString!
+				}else if ( resultString!.isValidColorCode ) {
+					colorCodeString = resultString!
+				}else {
+					if ( identifier.isEmpty ) {
+						identifier = resultString!;
+					}else {
+						otherNames.append(resultString!);
+					}
+				}
+				
+			}
+			
+			if (scanner.scanLocation < countElements(scanner.string)) {
+				scanner.scanLocation++
+			}
+			
+		}
+		
+	}
+	
+	func populateWithOtherLineModel(model:LineModel) {
+		
+		if(self.colorCodeString.isEmpty){
+			self.colorCodeString = model.colorCodeString
+		}
+		if(self.fontNameString.isEmpty){
+			self.fontNameString = model.fontNameString
+		}
+		if(self.fontSizeString.isEmpty){
+			self.fontSizeString = model.fontSizeString
+		}
+	}
+	
+	var canProduceColorFuncString:Bool{
+		
+		return !self.colorCodeString.isEmpty
+	}
+	
+	var canProduceFontFuncString:Bool{
+		
+		return !self.fontSizeString.isEmpty && !self.fontNameString.isEmpty
+	}
+	
+	func fontFuncString() ->String {
+		if( !self.canProduceFontFuncString ){
+			return ""
+		}
+		let model = FontModel(identifier: self.identifier, fontName: self.fontNameString, sizeString: self.fontSizeString)
+		return model.funcString()
+	}
+	
+	func colorFuncString() ->String {
+		if( !self.canProduceColorFuncString ){
+			return ""
+		}
+		let model = ColorModel(identifier: self.identifier, colorHexString: self.colorCodeString);
+		return model.funcString()
+	}
 }

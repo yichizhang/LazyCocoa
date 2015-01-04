@@ -37,6 +37,7 @@ I need to run this command:
 
 PLEASE NOTE: THE OUTPUT FILE WILL BE OVERWRITTEN
 
+<<<<<<< HEAD
 Also, the mechanism of this script is still very naive. It walk through the directory, if a file does not start with '._', does not contain 'bridging-header' (case insensitive search) and end in '.h', that file will be imported in the output file. The problem with this is:
 
 1. The .h file might not be part of your project;
@@ -71,49 +72,83 @@ I found the best bay to work around this is to have 'two bridging headers'. For 
 ```
 
 ### LazyCocoa-MacApp: GenColor/ GenFont
+=======
+### Color / Font extension generation
+>>>>>>> development
 
 ![Screenshot 1](https://raw.githubusercontent.com/yichizhang/GenColor-Mac/master/Screenshots/screen1.png)
 
 The goal of this application is:
 
-You have your color (colour) settings file like this:
+You have your Color/ Font settings file like this:
 
 ```
-defaultColor #F00
-backgroundColor #000
+// Comments are supported
+light "MyFont-Light" // Comments are supported
+regular "MyFont-Regular"
+bold "MyFont-Bold"
 
-buttonColor defaultColor
-myImageViewColor #00F
-myBlackColor backgroundColor 
+small 14
+medium 16
+large 20
+extra-large 24
+
+red #000
+gray #555
+darkerGray #222
+white #FFF
+
+defaultBackground gray
+
+frontPageBackground defaultBackground
+frontPageText red regular small
+
+homePageBackground defaultBackground
+
+contactCellBackground white
+contactCellTitle darkerGray bold extra-large
+contactCellDescription gray regular small
 ```
 
 Then you press update button. It generates UIColor/ NSColor files for you. (NSColor is not supported yet) The above settings file would generate UIColor Objective-C class methods like:
 
 ```
-+ (UIColor *)defaultColor {
-  return [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1];
+class func defaultBackgroundColor() -> UIColor {
+  return UIColor(red:0.333, green:0.333, blue:0.333, alpha:1.000);
 }
 
-+ (UIColor *)backgroundColor {
-  return [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1];
+class func frontPageBackgroundColor() -> UIColor {
+  return UIColor(red:0.333, green:0.333, blue:0.333, alpha:1.000);
 }
 
-+ (UIColor *)buttonColor {
-  return [UIColor defaultColor];
+class func frontPageTextColor() -> UIColor {
+  return UIColor(red:0.000, green:0.000, blue:0.000, alpha:1.000);
 }
 
-+ (UIColor *)myImageViewColor {
-  return [UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1];
+class func homePageBackgroundColor() -> UIColor {
+  return UIColor(red:0.333, green:0.333, blue:0.333, alpha:1.000);
 }
 
-+ (UIColor *)myBlackColor {
-  return [UIColor backgroundColor];
+class func contactCellBackgroundColor() -> UIColor {
+  return UIColor(red:1.000, green:1.000, blue:1.000, alpha:1.000);
+}
+
+class func contactCellTitleColor() -> UIColor {
+  return UIColor(red:0.133, green:0.133, blue:0.133, alpha:1.000);
+}
+
+class func contactCellDescriptionColor() -> UIColor {
+  return UIColor(red:0.333, green:0.333, blue:0.333, alpha:1.000);
 }
 ```
 
 Updates
 =======
+### 4 January 2014
 
+Supports Swift only (You can mix Swift code with Objective-C code)
+Supports Font generation
+Updated syntax
 
 ### 26 December 2014
 

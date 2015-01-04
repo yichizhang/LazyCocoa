@@ -14,55 +14,74 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Cocoa
 
-enum Language : String {
-	case ObjC = "objc"
-	case Swift = "swift"
-}
+let HASH_STRING = "#"
+let DOUBLE_QUOTE_CHAR = Character("\"")
+let DOUBLE_QUOTE_STRING = "\""
+let SPACE_STRING = " "
+let NEW_LINE_SRING = "\n"
+let FONT_SUFFIX = "Font"
+let COLOR_SUFFIX = "Color"
+let COMMENT_PREFIX = "//"
 
 enum Platform : Int {
 	case iOS = 0
 	case MacOS
 }
 
-enum GenerationOption : Int {
-	case Color = 0
-	case Font
-}
-
-protocol CanBeConvertedToObjC {
-	func objcHeaderStringWithoutSemicolon() ->String;
-	func objcHeaderString() ->String;
-	func objcImplementationString() ->String;
-}
-
-protocol CanBeConvertedToSwift {
-	func swiftString() ->String;
-}
-
 protocol BaseModelProtocol {
 	
-	func classFactoryMethodString(mode:Language) -> String;
-}
-
-protocol ReferToOtherProtocol {
-	
-	//var otherIdentifier:String { get }
+	func autoMethodName() -> String;
+	func statementString() -> String;
+	func funcString() -> String;
 }
 
 class BaseModel : NSObject {
 	
 	var identifier = "someIdentifier"
-	func autoMethodName() -> String {
-		return self.autoMethodNameForIdentifier(self.identifier)
-	}
-	func autoMethodNameForIdentifier(id:String) -> String {
-		return id + self.dynamicType.methodSuffix()
-	}
-	class func methodSuffix() -> String {
-		
-		fatalError("You must override this method")
-		return "Suffix"
-	}
 
 }
 
+extension NSString {
+	
+	var isValidNumber:Bool {
+		var set: NSMutableCharacterSet = NSCharacterSet.decimalDigitCharacterSet().invertedSet.mutableCopy() as NSMutableCharacterSet
+		set.removeCharactersInString(".")
+		let range = (self as NSString).rangeOfCharacterFromSet(set)
+		if(range.location == NSNotFound){
+			return true
+		}
+		return false
+		
+	}
+	var isValidColorCode:Bool {
+		
+		return self.hasPrefix(HASH_STRING)
+	}
+	var isMeantToBeComment:Bool {
+		
+		return self.hasPrefix(COMMENT_PREFIX)
+	}
+	var isMeantToBeFont:Bool {
+		
+		return self.hasSuffix(FONT_SUFFIX)
+	}
+	var isMeantToBeColor:Bool {
+		
+		return self.hasSuffix(COLOR_SUFFIX)
+	}
+	var isMeantToBeNeitherFontOrColor:Bool {
+		
+		return !(self.isMeantToBeFont && self.isMeantToBeColor);
+	}
+}
+
+extension String {
+	func characterAtIndex(index:Int) -> Character{
+		
+		return Array(self)[index]
+	}
+	var length:Int{
+		
+		return countElements(self)
+	}
+}

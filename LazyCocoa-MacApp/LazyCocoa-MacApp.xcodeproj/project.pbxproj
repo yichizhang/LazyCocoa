@@ -13,19 +13,12 @@
 		1214AF611A4B346100F31ED8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1214AF601A4B346100F31ED8 /* Images.xcassets */; };
 		1214AF641A4B346100F31ED8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1214AF621A4B346100F31ED8 /* Main.storyboard */; };
 		1214AF701A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1214AF6F1A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift */; };
-		12767EE31A4F59BB00BCFED3 /* DetailSpecifiedFontModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12767EE11A4F59BB00BCFED3 /* DetailSpecifiedFontModel.swift */; };
-		12767EE41A4F59BB00BCFED3 /* ReferToOtherFontModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12767EE21A4F59BB00BCFED3 /* ReferToOtherFontModel.swift */; };
-		12767EE81A4F6AFA00BCFED3 /* NSString+LazyCocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 12767EE71A4F6AFA00BCFED3 /* NSString+LazyCocoa.m */; };
 		12767EEA1A503E0E00BCFED3 /* LineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12767EE91A503E0E00BCFED3 /* LineModel.swift */; };
-		12767EEC1A503EB400BCFED3 /* StatementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12767EEB1A503EB400BCFED3 /* StatementModel.swift */; };
-		12F9837F1A4D8BC30041FE43 /* BaseColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9837D1A4D8BC30041FE43 /* BaseColorModel.swift */; };
+		12F9837F1A4D8BC30041FE43 /* ColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9837D1A4D8BC30041FE43 /* ColorModel.swift */; };
 		12F983801A4D8BC30041FE43 /* DocumentAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9837E1A4D8BC30041FE43 /* DocumentAnalyzer.swift */; };
-		12F983821A4D8C900041FE43 /* DetailSpecifiedColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F983811A4D8C900041FE43 /* DetailSpecifiedColorModel.swift */; };
 		12F983841A4D92380041FE43 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F983831A4D92380041FE43 /* Base.swift */; };
-		12F983861A4DC3E40041FE43 /* BaseFontModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F983851A4DC3E40041FE43 /* BaseFontModel.swift */; };
+		12F983861A4DC3E40041FE43 /* FontModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F983851A4DC3E40041FE43 /* FontModel.swift */; };
 		12F983881A4DECA30041FE43 /* StatementsContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F983871A4DECA30041FE43 /* StatementsContainer.swift */; };
-		12FAA5641A4EF04400C3312B /* StatementParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 12FAA5631A4EF04400C3312B /* StatementParser.m */; };
-		12FAA5661A4F13A700C3312B /* ReferToOtherColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FAA5651A4F13A700C3312B /* ReferToOtherColorModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,23 +42,13 @@
 		1214AF691A4B346100F31ED8 /* LazyCocoa-MacAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LazyCocoa-MacAppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1214AF6E1A4B346100F31ED8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1214AF6F1A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyCocoa_MacAppTests.swift; sourceTree = "<group>"; };
-		12767EE11A4F59BB00BCFED3 /* DetailSpecifiedFontModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailSpecifiedFontModel.swift; sourceTree = "<group>"; };
-		12767EE21A4F59BB00BCFED3 /* ReferToOtherFontModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferToOtherFontModel.swift; sourceTree = "<group>"; };
-		12767EE51A4F6ABC00BCFED3 /* Base.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Base.h; sourceTree = "<group>"; };
-		12767EE61A4F6AFA00BCFED3 /* NSString+LazyCocoa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LazyCocoa.h"; sourceTree = "<group>"; };
-		12767EE71A4F6AFA00BCFED3 /* NSString+LazyCocoa.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LazyCocoa.m"; sourceTree = "<group>"; };
 		12767EE91A503E0E00BCFED3 /* LineModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineModel.swift; sourceTree = "<group>"; };
-		12767EEB1A503EB400BCFED3 /* StatementModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatementModel.swift; sourceTree = "<group>"; };
-		12F9837D1A4D8BC30041FE43 /* BaseColorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseColorModel.swift; sourceTree = "<group>"; };
+		12F9837D1A4D8BC30041FE43 /* ColorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorModel.swift; sourceTree = "<group>"; };
 		12F9837E1A4D8BC30041FE43 /* DocumentAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentAnalyzer.swift; sourceTree = "<group>"; };
-		12F983811A4D8C900041FE43 /* DetailSpecifiedColorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailSpecifiedColorModel.swift; sourceTree = "<group>"; };
 		12F983831A4D92380041FE43 /* Base.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
-		12F983851A4DC3E40041FE43 /* BaseFontModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseFontModel.swift; sourceTree = "<group>"; };
+		12F983851A4DC3E40041FE43 /* FontModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontModel.swift; sourceTree = "<group>"; };
 		12F983871A4DECA30041FE43 /* StatementsContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatementsContainer.swift; sourceTree = "<group>"; };
 		12FAA5611A4EF04400C3312B /* LazyCocoa-MacApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LazyCocoa-MacApp-Bridging-Header.h"; sourceTree = "<group>"; };
-		12FAA5621A4EF04400C3312B /* StatementParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatementParser.h; sourceTree = "<group>"; };
-		12FAA5631A4EF04400C3312B /* StatementParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatementParser.m; sourceTree = "<group>"; };
-		12FAA5651A4F13A700C3312B /* ReferToOtherColorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReferToOtherColorModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,22 +129,12 @@
 		12F9837C1A4D8BC30041FE43 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				12F9837D1A4D8BC30041FE43 /* ColorModel.swift */,
+				12F983851A4DC3E40041FE43 /* FontModel.swift */,
 				12F983831A4D92380041FE43 /* Base.swift */,
-				12F9837D1A4D8BC30041FE43 /* BaseColorModel.swift */,
-				12F983811A4D8C900041FE43 /* DetailSpecifiedColorModel.swift */,
-				12FAA5651A4F13A700C3312B /* ReferToOtherColorModel.swift */,
-				12F983851A4DC3E40041FE43 /* BaseFontModel.swift */,
-				12767EE11A4F59BB00BCFED3 /* DetailSpecifiedFontModel.swift */,
-				12767EE21A4F59BB00BCFED3 /* ReferToOtherFontModel.swift */,
 				12F9837E1A4D8BC30041FE43 /* DocumentAnalyzer.swift */,
 				12F983871A4DECA30041FE43 /* StatementsContainer.swift */,
-				12767EE51A4F6ABC00BCFED3 /* Base.h */,
-				12FAA5621A4EF04400C3312B /* StatementParser.h */,
-				12FAA5631A4EF04400C3312B /* StatementParser.m */,
 				12767EE91A503E0E00BCFED3 /* LineModel.swift */,
-				12767EEB1A503EB400BCFED3 /* StatementModel.swift */,
-				12767EE61A4F6AFA00BCFED3 /* NSString+LazyCocoa.h */,
-				12767EE71A4F6AFA00BCFED3 /* NSString+LazyCocoa.m */,
 				12FAA5611A4EF04400C3312B /* LazyCocoa-MacApp-Bridging-Header.h */,
 			);
 			path = Core;
@@ -267,20 +240,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				1214AF5D1A4B346100F31ED8 /* MainViewController.swift in Sources */,
-				12FAA5661A4F13A700C3312B /* ReferToOtherColorModel.swift in Sources */,
 				12F983881A4DECA30041FE43 /* StatementsContainer.swift in Sources */,
-				12F9837F1A4D8BC30041FE43 /* BaseColorModel.swift in Sources */,
-				12767EE31A4F59BB00BCFED3 /* DetailSpecifiedFontModel.swift in Sources */,
-				12767EEC1A503EB400BCFED3 /* StatementModel.swift in Sources */,
-				12F983861A4DC3E40041FE43 /* BaseFontModel.swift in Sources */,
-				12767EE41A4F59BB00BCFED3 /* ReferToOtherFontModel.swift in Sources */,
-				12FAA5641A4EF04400C3312B /* StatementParser.m in Sources */,
+				12F9837F1A4D8BC30041FE43 /* ColorModel.swift in Sources */,
+				12F983861A4DC3E40041FE43 /* FontModel.swift in Sources */,
 				1214AF5B1A4B346100F31ED8 /* AppDelegate.swift in Sources */,
 				12F983801A4D8BC30041FE43 /* DocumentAnalyzer.swift in Sources */,
 				1214AF5F1A4B346100F31ED8 /* Document.swift in Sources */,
-				12767EE81A4F6AFA00BCFED3 /* NSString+LazyCocoa.m in Sources */,
 				12F983841A4D92380041FE43 /* Base.swift in Sources */,
-				12F983821A4D8C900041FE43 /* DetailSpecifiedColorModel.swift in Sources */,
 				12767EEA1A503E0E00BCFED3 /* LineModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -400,6 +366,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "LazyCocoa-MacApp/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "LazyCocoa-MacApp/Core/LazyCocoa-MacApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -414,6 +381,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "LazyCocoa-MacApp/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				OTHER_SWIFT_FLAGS = "-D DEBUG";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "LazyCocoa-MacApp/Core/LazyCocoa-MacApp-Bridging-Header.h";
 			};

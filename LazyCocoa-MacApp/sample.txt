@@ -1,6 +1,5 @@
-//I hope this can be achieved!!
-
-light "MyFont-Light"
+// Comments are supported
+light "MyFont-Light" // Comments are supported
 regular "MyFont-Regular"
 bold "MyFont-Bold"
 

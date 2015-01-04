@@ -14,46 +14,52 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import Cocoa
 
-class BaseFontModel : BaseModel, CanBeConvertedToObjC, CanBeConvertedToSwift, BaseModelProtocol {
+class FontModel : BaseModel, BaseModelProtocol{
 	
-	func objcHeaderStringWithoutSemicolon() ->String {
-		return "+ (UIFont *)\(self.autoMethodName())"
+	var typefaceName:String!
+	var fontSize:Float!
+	
+	convenience init(identifier:String, fontName:String, sizeString:String){
+		self.init()
+		self.identifier = identifier
+		self.typefaceName = fontName
+		self.fontSize = (sizeString as NSString).floatValue
 	}
 	
-	func objcHeaderString() ->String {
-		return self.objcHeaderStringWithoutSemicolon() + ";"
+	convenience init(identifier:String, fontName:String, sizeFloat:Float){
+		self.init()
+		self.identifier = identifier
+		self.typefaceName = fontName
+		self.fontSize = sizeFloat
 	}
 	
-	func objcImplementationString() ->String {
+	func autoMethodName() -> String {
 		
-		let formatString:NSString =
-		"%@() {\n" +
-			"\t" + "return %@;" +
-		"\n}"
-		
-		return NSString(format: formatString, self.objcHeaderStringWithoutSemicolon(), self.classFactoryMethodString(Language.ObjC)) as String
+		if (self.identifier as NSString).isMeantToBeFont {
+			return self.identifier
+		}else{
+			return self.identifier + FONT_SUFFIX
+		}
 	}
 	
-	func swiftString() ->String {
+	func statementString() -> String {
+		
+		return NSString(
+			format: "UIFont(name:\"%@\", size:%.1f)",
+			self.typefaceName,
+			self.fontSize
+			) as String
+	}
+	
+	func funcString() -> String {
 		
 		let formatString:NSString =
 		"class func %@() -> UIFont {\n" +
 			"\t" + "return %@;" +
 		"\n}"
 		
-		return NSString(format: formatString, self.autoMethodName(), self.classFactoryMethodString(Language.Swift)) as String
+		return NSString(format: formatString, self.autoMethodName(), self.statementString()) as String
 	}
-	
-	func classFactoryMethodString(mode:Language) -> String {
-		
-		fatalError("You must override this method")
-		return "";
-		
-	}
-	
-	override class func methodSuffix() -> String {
-		
-		return "Font"
-	}
+
 	
 }
