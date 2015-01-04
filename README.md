@@ -37,7 +37,6 @@ I need to run this command:
 
 PLEASE NOTE: THE OUTPUT FILE WILL BE OVERWRITTEN
 
-<<<<<<< HEAD
 Also, the mechanism of this script is still very naive. It walk through the directory, if a file does not start with '._', does not contain 'bridging-header' (case insensitive search) and end in '.h', that file will be imported in the output file. The problem with this is:
 
 1. The .h file might not be part of your project;
@@ -71,10 +70,7 @@ I found the best bay to work around this is to have 'two bridging headers'. For 
 #import <YZLibrary/YZLibraryImportAll.h>
 ```
 
-### LazyCocoa-MacApp: GenColor/ GenFont
-=======
 ### Color / Font extension generation
->>>>>>> development
 
 ![Screenshot 1](https://raw.githubusercontent.com/yichizhang/GenColor-Mac/master/Screenshots/screen1.png)
 
@@ -110,7 +106,7 @@ contactCellTitle darkerGray bold extra-large
 contactCellDescription gray regular small
 ```
 
-Then you press update button. It generates UIColor/ NSColor files for you. (NSColor is not supported yet) The above settings file would generate UIColor Objective-C class methods like:
+Then you press update button. It generates UIColor/ NSColor files for you. (NSColor is not supported yet) The above settings file would generate UIColor extension methods like:
 
 ```
 class func defaultBackgroundColor() -> UIColor {
@@ -146,8 +142,10 @@ Updates
 =======
 ### 4 January 2014
 
-Supports Swift only (You can mix Swift code with Objective-C code)
+Supports Swift only
+
 Supports Font generation
+
 Updated syntax
 
 ### 26 December 2014
