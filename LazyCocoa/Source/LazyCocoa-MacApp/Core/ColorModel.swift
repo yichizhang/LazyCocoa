@@ -84,8 +84,8 @@ class ColorModel : BaseModel, BaseModelProtocol{
 		
 		let formatString:NSString =
 		"class func %@() -> UIColor {\n" +
-			"\t" + "return %@;" +
-		"\n}"
+			"\t" + "return %@\n" +
+		"}"
 		
 		return NSString(format: formatString, self.autoMethodName(), self.statementString() ) as String
 	}
