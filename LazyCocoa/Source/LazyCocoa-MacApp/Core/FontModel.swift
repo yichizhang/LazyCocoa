@@ -55,8 +55,8 @@ class FontModel : BaseModel, BaseModelProtocol{
 		
 		let formatString:NSString =
 		"class func %@() -> UIFont {\n" +
-			"\t" + "return %@;" +
-		"\n}"
+			"\t" + "return %@!\n" +
+		"}"
 		
 		return NSString(format: formatString, self.autoMethodName(), self.statementString()) as String
 	}
