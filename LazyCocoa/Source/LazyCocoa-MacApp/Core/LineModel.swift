@@ -100,14 +100,30 @@ class LineModel: NSObject, Printable {
 	
 	var canProduceFontFuncString:Bool{
 		
+		return canProduceFontOfSizeFuncString
+	}
+	
+	var canProduceFullFontFuncString:Bool{
+		
 		return !self.fontSizeString.isEmpty && !self.fontNameString.isEmpty
 	}
 	
+	var canProduceFontOfSizeFuncString:Bool{
+		
+		return !self.fontNameString.isEmpty
+	}
+	
 	func fontFuncString() ->String {
-		if( !self.canProduceFontFuncString ){
+		if !canProduceFontFuncString {
 			return ""
 		}
-		let model = FontModel(identifier: self.identifier, fontName: self.fontNameString, sizeString: self.fontSizeString)
+		var model:FontModel
+		
+		if canProduceFullFontFuncString {
+			model = FontModel(identifier: self.identifier, fontName: self.fontNameString, sizeString: self.fontSizeString)
+		} else {
+			model = FontModel(identifier: self.identifier, fontName: self.fontNameString)
+		}
 		return model.funcString()
 	}
 	

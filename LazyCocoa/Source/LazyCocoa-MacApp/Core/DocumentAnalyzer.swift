@@ -74,11 +74,11 @@ class DocumentAnalyzer : NSObject {
 		for model : LineModel in self.lines.modelArray {
 			if (model.canProduceColorFuncString){
 				
-				self.colorFileString = self.colorFileString + model.colorFuncString() + NEW_LINE_SRING + NEW_LINE_SRING
+				self.colorFileString = self.colorFileString + model.colorFuncString() + NEW_LINE_STRING + NEW_LINE_STRING
 			}
 			if (model.canProduceFontFuncString){
 				
-				self.fontFileString = self.fontFileString + model.fontFuncString() + NEW_LINE_SRING + NEW_LINE_SRING
+				self.fontFileString = self.fontFileString + model.fontFuncString() + NEW_LINE_STRING + NEW_LINE_STRING
 			}
 		}
 	}

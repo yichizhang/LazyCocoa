@@ -17,7 +17,13 @@ import Cocoa
 class FontModel : BaseModel, BaseModelProtocol{
 	
 	var typefaceName:String!
-	var fontSize:Float!
+	var fontSize:Float?
+	
+	convenience init(identifier:String, fontName:String){
+		self.init()
+		self.identifier = identifier
+		self.typefaceName = fontName
+	}
 	
 	convenience init(identifier:String, fontName:String, sizeString:String){
 		self.init()
@@ -44,19 +50,51 @@ class FontModel : BaseModel, BaseModelProtocol{
 	
 	func statementString() -> String {
 		
-		return NSString(
-			format: "UIFont(name:\"%@\", size:%.1f)",
-			self.typefaceName,
-			self.fontSize
-			) as String
+		var statementString:String;
+		
+		if let fontSize = fontSize {
+			
+			statementString =
+				NSString(
+					format: "UIFont(name:\"%@\", size:%.1f)",
+					typefaceName,
+					fontSize
+				) as String
+			
+		} else {
+			
+			// NO FONT SIZE PROVIDED
+			statementString =
+				NSString(
+					format: "UIFont(name:\"%@\", size:size)",
+					typefaceName
+				) as String
+			
+		}
+		
+		return statementString
 	}
 	
 	func funcString() -> String {
 		
-		let formatString:NSString =
-		"class func %@() -> UIFont {\n" +
-			"\t" + "return %@!\n" +
-		"}"
+		var formatString:NSString
+		
+		if let fontSize = fontSize {
+			
+			formatString =
+				"class func %@() -> UIFont {\n" +
+				"\t" + "return %@!\n" +
+			"}"
+			
+		} else {
+			
+			// NO FONT SIZE PROVIDED
+			formatString =
+				"class func %@OfSize(size:CGFloat) -> UIFont {\n" +
+				"\t" + "return %@!\n" +
+			"}"
+			
+		}
 		
 		return NSString(format: formatString, self.autoMethodName(), self.statementString()) as String
 	}
