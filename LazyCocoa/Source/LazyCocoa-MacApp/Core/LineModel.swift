@@ -69,9 +69,9 @@ class LineModel: NSObject, Printable {
 						colorCodeString = resultString
 					}else {
 						if ( identifier.isEmpty ) {
-							identifier = resultString;
+							identifier = resultString
 						}else {
-							otherNames.append(resultString);
+							otherNames.append(resultString)
 						}
 					}
 				}
@@ -136,7 +136,7 @@ class LineModel: NSObject, Printable {
 		if( !canProduceColorFuncString ){
 			return ""
 		}
-		let model = ColorModel(identifier: identifier, colorHexString: colorCodeString);
+		let model = ColorModel(identifier: identifier, colorHexString: colorCodeString)
 		return model.funcString()
 	}
 }

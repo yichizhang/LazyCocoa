@@ -34,9 +34,9 @@ enum Platform : Int {
 
 protocol BaseModelProtocol {
 	
-	func autoMethodName() -> String;
-	func statementString() -> String;
-	func funcString() -> String;
+	func autoMethodName() -> String
+	func statementString() -> String
+	func funcString() -> String
 }
 
 class BaseModel : NSObject {
@@ -140,7 +140,7 @@ extension NSString {
 	}
 	var isMeantToBeNeitherFontOrColor:Bool {
 		
-		return !(isMeantToBeFont && isMeantToBeColor);
+		return !(isMeantToBeFont && isMeantToBeColor)
 	}
 }
 

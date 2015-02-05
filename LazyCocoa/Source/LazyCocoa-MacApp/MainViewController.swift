@@ -31,19 +31,19 @@ class MainViewController: NSViewController {
 		
 		// Do any additional setup after loading the view.
 		
-		fontResultTextView.continuousSpellCheckingEnabled = false;
-		colorResultTextView.continuousSpellCheckingEnabled = false;
+		fontResultTextView.continuousSpellCheckingEnabled = false
+		colorResultTextView.continuousSpellCheckingEnabled = false
 		
 		
-		fontResultTextView.editable = false;
-		colorResultTextView.editable = false;
+		fontResultTextView.editable = false
+		colorResultTextView.editable = false
 		
 		
-		let myFont:NSFont = NSFont(name: "Monaco", size: 12)!;
+		let myFont:NSFont = NSFont(name: "Monaco", size: 12)!
 		
-		sourceFileTextView.font = myFont;
-		fontResultTextView.font = myFont;
-		colorResultTextView.font = myFont;
+		sourceFileTextView.font = myFont
+		fontResultTextView.font = myFont
+		colorResultTextView.font = myFont
 		
 		
 		sourceFileTextView.automaticQuoteSubstitutionEnabled = false
@@ -61,7 +61,7 @@ class MainViewController: NSViewController {
 	
 	func update() {
 		
-		analyzer.platform = Platform(rawValue: platformSegControl.selectedSegment);
+		analyzer.platform = Platform(rawValue: platformSegControl.selectedSegment)
 		
 		if let sourceString = sourceFileTextView.string {
 			analyzer.inputString = sourceString

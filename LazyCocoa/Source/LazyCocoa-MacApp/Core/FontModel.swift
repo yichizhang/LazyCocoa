@@ -50,7 +50,7 @@ class FontModel : BaseModel, BaseModelProtocol{
 	
 	func statementString() -> String {
 		
-		var statementString:String;
+		var statementString:String
 		
 		if let fontSize = fontSize {
 			
