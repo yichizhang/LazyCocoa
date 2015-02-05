@@ -23,6 +23,8 @@ let FONT_SUFFIX = "Font"
 let COLOR_SUFFIX = "Color"
 let COMMENT_PREFIX = "//"
 
+let Settings = SettingsManager.sharedInstance
+
 enum Platform : Int {
 	case iOS = 0
 	case MacOS
@@ -39,6 +41,56 @@ class BaseModel : NSObject {
 	
 	var identifier = "someIdentifier"
 
+}
+
+class SettingsManager : NSObject {
+	
+	var platform : Platform {
+		didSet {
+			updateStrings()
+		}
+	}
+	
+	var colorClassName:String!
+	var colorRGBAInitMethodFormatString:String!
+	
+	var fontClassName:String!
+	var fontNameAndSizeInitMethodFormatString:String!
+	var fontOfSizeInitMethodFormatString:String!
+	
+	class var sharedInstance : SettingsManager {
+		struct _SettingsStruct {
+			static let instance = SettingsManager()
+		}
+		return _SettingsStruct.instance
+	}
+	
+	func updateStrings() {
+
+		switch platform {
+		case .iOS:
+			fontClassName = "UIFont"
+			colorClassName = "UIColor"
+			
+			colorRGBAInitMethodFormatString = colorClassName + "(red:%.3f, green:%.3f, blue:%.3f, alpha:%.3f)"
+			
+		case .MacOS:
+			fontClassName = "NSFont"
+			colorClassName = "NSColor"
+			
+			colorRGBAInitMethodFormatString = colorClassName + "(calibratedRed:%.3f, green:%.3f, blue:%.3f, alpha:%.3f)"
+			
+		}
+		
+		fontOfSizeInitMethodFormatString = fontClassName + "(name:\"%@\", size:size)"
+		fontNameAndSizeInitMethodFormatString = fontClassName + "(name:\"%@\", size:%.1f)"
+	}
+	
+	override init() {
+		platform = .iOS
+		super.init()
+		updateStrings()
+	}
 }
 
 extension NSString {

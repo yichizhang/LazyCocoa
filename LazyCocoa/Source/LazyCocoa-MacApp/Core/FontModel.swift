@@ -56,7 +56,7 @@ class FontModel : BaseModel, BaseModelProtocol{
 			
 			statementString =
 				NSString(
-					format: "UIFont(name:\"%@\", size:%.1f)",
+					format: Settings.fontNameAndSizeInitMethodFormatString,
 					typefaceName,
 					fontSize
 				) as String
@@ -66,7 +66,7 @@ class FontModel : BaseModel, BaseModelProtocol{
 			// NO FONT SIZE PROVIDED
 			statementString =
 				NSString(
-					format: "UIFont(name:\"%@\", size:size)",
+					format: Settings.fontOfSizeInitMethodFormatString,
 					typefaceName
 				) as String
 			
@@ -82,7 +82,7 @@ class FontModel : BaseModel, BaseModelProtocol{
 		if let fontSize = fontSize {
 			
 			formatString =
-				"class func %@() -> UIFont {\n" +
+				"class func %@() -> %@ {\n" +
 				"\t" + "return %@!\n" +
 			"}"
 			
@@ -90,13 +90,13 @@ class FontModel : BaseModel, BaseModelProtocol{
 			
 			// NO FONT SIZE PROVIDED
 			formatString =
-				"class func %@OfSize(size:CGFloat) -> UIFont {\n" +
+				"class func %@OfSize(size:CGFloat) -> %@ {\n" +
 				"\t" + "return %@!\n" +
 			"}"
 			
 		}
 		
-		return NSString(format: formatString, self.autoMethodName(), self.statementString()) as String
+		return NSString(format: formatString, self.autoMethodName(), Settings.fontClassName, self.statementString()) as String
 	}
 
 	

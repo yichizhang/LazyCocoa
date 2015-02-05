@@ -77,7 +77,12 @@ class MainViewController: NSViewController {
 	}
 	
 	@IBAction func platformSegControlUpdated(sender: AnyObject) {
-		
+		switch platformSegControl.selectedSegment {
+		case 1:
+			Settings.platform = .MacOS
+		default:
+			Settings.platform = .iOS
+		}
 		self.update()
 	}
 }

@@ -72,7 +72,7 @@ class ColorModel : BaseModel, BaseModelProtocol{
 	func statementString() -> String {
 		
 		return NSString(
-			format: "UIColor(red:%.3f, green:%.3f, blue:%.3f, alpha:%.3f)",
+			format: Settings.colorRGBAInitMethodFormatString,
 			red,
 			green,
 			blue,
@@ -83,11 +83,11 @@ class ColorModel : BaseModel, BaseModelProtocol{
 	func funcString() -> String {
 		
 		let formatString:NSString =
-		"class func %@() -> UIColor {\n" +
+		"class func %@() -> %@ {\n" +
 			"\t" + "return %@\n" +
 		"}"
 		
-		return NSString(format: formatString, self.autoMethodName(), self.statementString() ) as String
+		return NSString(format: formatString, autoMethodName(), Settings.colorClassName, statementString() ) as String
 	}
 	
 }
