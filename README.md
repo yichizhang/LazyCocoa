@@ -1,13 +1,13 @@
-LazyCocoa (former GenColor)
-===========================
+The Lazy Cocoa Project
+======================
 
-LazyCocoa is a repository made up of tools and scripts to help you code iOS/Mac applications. It has a Python script to generate a list of all the h files for your Swift Bridging header. Its GenColor component can generate UIColor/ UIFont class methods from a text file. For example, you write 'awesomeColor #FFF'. It generates:
+The Lazy Cocoa Project is a repository made up of tools and scripts to help you code iOS/Mac applications. It has a Python script to generate a list of all the h files for your Swift Bridging header. Its GenColor/ GenFont component can generate UIColor/ UIFont class methods from a text file. For example, you write 'awesomeColor #FFF'. It generates:
 
 ```
-+ (UIColor*)awesomeColor{ 
-
-	return [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1];
-
+extension UIColor {
+	class func awesomeColor() -> UIColor {
+		return UIColor(red:1.000, green:1.000, blue:1.000, alpha:1.000)
+	}
 }
 ``` 
 
@@ -80,6 +80,8 @@ You have your Color/ Font settings file like this:
 
 ```
 // Comments are supported
+!exportPath ../Extensions/MyStyle.swift
+
 light "MyFont-Light" // Comments are supported
 regular "MyFont-Regular"
 bold "MyFont-Bold"
@@ -140,9 +142,15 @@ class func contactCellDescriptionColor() -> UIColor {
 
 Updates
 =======
+### 6 February 2014
+
+Supports exporting
+
+Supports Mac OS (NSFont/NSColor)
+
 ### 4 January 2014
 
-Supports Swift only
+Dropped Objective-C code generation; supports Swift only
 
 Supports Font generation
 
@@ -150,7 +158,7 @@ Updated syntax
 
 ### 26 December 2014
 
-Changed project name to 'LazyCocoa' as I realised I would need to not only generate UIColor/NSColor files but also UIFont/NSFont files and also perhaps other tasks
+Changed project name to 'Lazy Cocoa' as I realised I would need to not only generate UIColor/NSColor files but also UIFont/NSFont files and also perhaps other tasks
 
 ### 11 December 2014
 
