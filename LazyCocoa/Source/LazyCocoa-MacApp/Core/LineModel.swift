@@ -52,24 +52,29 @@ class LineModel: NSObject, Printable {
 				scanner.scanLocation++
 				scanner.scanUpToString(DOUBLE_QUOTE_STRING, intoString: &resultString)
 				
-				fontNameString = resultString!
+				if let resultString = resultString {
+					
+					fontNameString = resultString
+				}
 				
 			}else {
 				
 				scanner.scanUpToString(SPACE_STRING, intoString: &resultString)
 				
-				if ( resultString!.isValidNumber ) {
-					fontSizeString = resultString!
-				}else if ( resultString!.isValidColorCode ) {
-					colorCodeString = resultString!
-				}else {
-					if ( identifier.isEmpty ) {
-						identifier = resultString!;
+				if let resultString = resultString {
+					
+					if ( resultString.isValidNumber ) {
+						fontSizeString = resultString
+					}else if ( resultString.isValidColorCode ) {
+						colorCodeString = resultString
 					}else {
-						otherNames.append(resultString!);
+						if ( identifier.isEmpty ) {
+							identifier = resultString;
+						}else {
+							otherNames.append(resultString);
+						}
 					}
 				}
-				
 			}
 			
 			if (scanner.scanLocation < countElements(scanner.string)) {

@@ -45,8 +45,10 @@ class Document: NSDocument {
 		//let mainViewController:MainViewController = windowController.contentViewController as MainViewController
 		//mainViewController.sourceFileTextView.string = fileContentString
 		
-		documentMainViewController = windowController.contentViewController as? MainViewController
-		documentMainViewController?.sourceFileTextView.string = fileContentString
+		if let documentMainViewController = windowController.contentViewController as? MainViewController {
+			documentMainViewController.sourceFileTextView.string = fileContentString
+			documentMainViewController.update()
+		}
 		
 		addWindowController(windowController)
 		
@@ -92,6 +94,15 @@ class Document: NSDocument {
 	
 	}
 
-
+	override func writeSafelyToURL(url: NSURL, ofType typeName: String, forSaveOperation saveOperation: NSSaveOperationType, error outError: NSErrorPointer) -> Bool {
+		
+		// http://stackoverflow.com/questions/3950971/nsdocument-get-real-save-path
+		if let path = url.path {
+			
+			Settings.currentDocumentRealPath = path
+			println(path)
+		}
+		return super.writeSafelyToURL(url, ofType: typeName, forSaveOperation: saveOperation, error: outError)
+	}
 }
 

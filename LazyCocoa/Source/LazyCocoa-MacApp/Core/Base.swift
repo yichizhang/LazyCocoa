@@ -15,6 +15,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 import Cocoa
 
 let HASH_STRING = "#"
+let EXCLAMATION_MARK_CHAR = Character("!")
+let EXCLAMATION_MARK_STRING = "!"
 let DOUBLE_QUOTE_CHAR = Character("\"")
 let DOUBLE_QUOTE_STRING = "\""
 let SPACE_STRING = " "
@@ -58,6 +60,17 @@ class SettingsManager : NSObject {
 	var fontNameAndSizeInitMethodFormatString:String!
 	var fontOfSizeInitMethodFormatString:String!
 	
+	var exportPath : String? {
+		didSet{
+			
+		}
+	}
+	var currentDocumentRealPath : String? {
+		didSet{
+			
+		}
+	}
+	
 	class var sharedInstance : SettingsManager {
 		struct _SettingsStruct {
 			static let instance = SettingsManager()
@@ -84,6 +97,10 @@ class SettingsManager : NSObject {
 		
 		fontOfSizeInitMethodFormatString = fontClassName + "(name:\"%@\", size:size)"
 		fontNameAndSizeInitMethodFormatString = fontClassName + "(name:\"%@\", size:%.1f)"
+	}
+	
+	func settingsChanged() {
+		
 	}
 	
 	override init() {
@@ -135,5 +152,20 @@ extension String {
 	var length:Int{
 		
 		return countElements(self)
+	}
+	func stringByIndenting(#numberOfTabs:Int) -> String {
+		
+		let array = self.componentsSeparatedByString("\n")
+		let newArray = array.map({ (string) -> String in
+			var newString = ""
+			for _ in 0..<numberOfTabs {
+					newString += "\t"
+			}
+			newString += string
+			
+			return newString
+		})
+		
+		return (newArray as NSArray).componentsJoinedByString("\n")
 	}
 }

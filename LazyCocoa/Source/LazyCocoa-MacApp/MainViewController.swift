@@ -13,6 +13,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 import Cocoa
+import AppKit
 
 class MainViewController: NSViewController {
 	
@@ -62,13 +63,62 @@ class MainViewController: NSViewController {
 		
 		analyzer.platform = Platform(rawValue: platformSegControl.selectedSegment);
 		
-		analyzer.inputString = sourceFileTextView.string;
+		if let sourceString = sourceFileTextView.string {
+			analyzer.inputString = sourceString
+		}
 		
 		analyzer.process()
 		
 		fontResultTextView.string = analyzer.fontFileString
 		colorResultTextView.string = analyzer.colorFileString
 		
+	}
+	
+	@IBAction func exportButtonActionPerformed(sender: AnyObject) {
+		
+		update()
+		
+		let str = analyzer.fontFileString + analyzer.colorFileString
+		var alertTitle = ""
+		var alertMessage = ""
+		var error:NSError?
+		
+		if let exportPath = Settings.exportPath {
+			
+			if let currentDocumentRealPath = Settings.currentDocumentRealPath {
+			
+				let fullExportPath = currentDocumentRealPath.stringByDeletingLastPathComponent.stringByAppendingPathComponent(exportPath)
+				
+				println(fullExportPath)
+				
+				str.writeToFile(fullExportPath, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
+				
+			} else {
+				
+				alertMessage = alertMessage + "The path to current document is unknown. Press ⌘ + S to set it. "
+			}
+			
+		} else {
+			
+			alertMessage = alertMessage + "The export path is not set. Add '!exportTo path-to-file' to your document, then click update. "
+		}
+		
+		if let error = error {
+			alertMessage = alertMessage + error.localizedDescription
+		}
+		
+		if alertMessage.isEmpty {
+			alertTitle = "Success"
+			alertMessage = "The file has been exported successfully."
+
+		} else {
+			alertTitle = "Error"
+		}
+		
+		let alert = NSAlert()
+		alert.messageText = alertTitle
+		alert.informativeText = alertMessage
+		alert.runModal()
 	}
 	
 	@IBAction func updateButtonActionPerformed(sender: AnyObject) {

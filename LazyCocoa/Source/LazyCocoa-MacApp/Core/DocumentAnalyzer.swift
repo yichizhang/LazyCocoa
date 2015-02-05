@@ -20,9 +20,9 @@ func isNonEmpty(item:String)->Bool {
 
 class DocumentAnalyzer : NSObject {
 	
-	var inputString: String!
-	var fontFileString: String!
-	var colorFileString: String!
+	var inputString = ""
+	var fontFileString = ""
+	var colorFileString = ""
 	
 	var platform:Platform!
 	
@@ -34,11 +34,27 @@ class DocumentAnalyzer : NSObject {
 
 		var statementStringArray:NSMutableArray = NSMutableArray(capacity: countElements(linesSeparatedByNewLine) * 2 )
 		
+		let exportToPrefix = "!exportTo "
+		
+		Settings.exportPath = nil
+		
 		for string:String in linesSeparatedByNewLine {
 			
-			statementStringArray.addObjectsFromArray(
-				string.componentsSeparatedByString(";").filter(isNonEmpty)
-			)
+			if string.hasPrefix(exportToPrefix) {
+				
+				Settings.exportPath = (string as NSString).substringFromIndex( countElements(exportToPrefix) )
+				
+//				Settings.exportPath = string.substringFromIndex( countElements(exportToPrefix) )
+
+			} else if string.hasPrefix(DOUBLE_QUOTE_STRING) {
+				
+				
+				
+			} else {
+				statementStringArray.addObjectsFromArray(
+					string.componentsSeparatedByString(";").filter(isNonEmpty)
+				)
+			}
 		}
 
 		lines.removeAllObjects()
@@ -68,19 +84,23 @@ class DocumentAnalyzer : NSObject {
 			printAll()
 		#endif
 		
-		fontFileString = ""
-		colorFileString = ""
+		let baseFileFormatString = "extension %@ {\n\n%@}\n\n"
+		var fontString = ""
+		var colorString = ""
 		
 		for model : LineModel in lines.modelArray {
 			if (model.canProduceColorFuncString){
 				
-				colorFileString = colorFileString + model.colorFuncString() + NEW_LINE_STRING + NEW_LINE_STRING
+				colorString = colorString + model.colorFuncString().stringByIndenting(numberOfTabs: 1) + NEW_LINE_STRING + NEW_LINE_STRING
 			}
 			if (model.canProduceFontFuncString){
 				
-				fontFileString = fontFileString + model.fontFuncString() + NEW_LINE_STRING + NEW_LINE_STRING
+				fontString = fontString + model.fontFuncString().stringByIndenting(numberOfTabs: 1) + NEW_LINE_STRING + NEW_LINE_STRING
 			}
 		}
+		
+		fontFileString = NSString(format: baseFileFormatString, Settings.fontClassName, fontString) as String
+		colorFileString = NSString(format: baseFileFormatString, Settings.colorClassName, colorString) as String
 	}
 
 	func printAll() {
