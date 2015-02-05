@@ -62,10 +62,10 @@ class ColorModel : BaseModel, BaseModelProtocol{
 	
 	func autoMethodName() -> String {
 	
-		if (self.identifier as NSString).isMeantToBeColor {
-			return self.identifier
+		if (identifier as NSString).isMeantToBeColor {
+			return identifier
 		}else{
-			return self.identifier + COLOR_SUFFIX
+			return identifier + COLOR_SUFFIX
 		}
 	}
 	

@@ -43,12 +43,12 @@ class Document: NSDocument {
 		println(windowController.contentViewController?.self)
 		
 		//let mainViewController:MainViewController = windowController.contentViewController as MainViewController
-		//mainViewController.sourceFileTextView.string = self.fileContentString
+		//mainViewController.sourceFileTextView.string = fileContentString
 		
-		self.documentMainViewController = windowController.contentViewController as? MainViewController
-		self.documentMainViewController?.sourceFileTextView.string = self.fileContentString
+		documentMainViewController = windowController.contentViewController as? MainViewController
+		documentMainViewController?.sourceFileTextView.string = fileContentString
 		
-		self.addWindowController(windowController)
+		addWindowController(windowController)
 		
 	}
 
@@ -56,9 +56,9 @@ class Document: NSDocument {
 		// Insert code here to write your document to data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning nil.
 		// You can also choose to override fileWrapperOfType:error:, writeToURL:ofType:error:, or writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
 		
-		self.fileContentString = self.documentMainViewController?.sourceFileTextView.string
+		fileContentString = documentMainViewController?.sourceFileTextView.string
 				
-		var tempData = self.fileContentString?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+		var tempData = fileContentString?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
 		
 		if tempData != nil {
 			
@@ -81,7 +81,7 @@ class Document: NSDocument {
 		
 		if tempString != nil {
 			
-			self.fileContentString = tempString!
+			fileContentString = tempString!
 			readSuccess = true
 		}else {
 			

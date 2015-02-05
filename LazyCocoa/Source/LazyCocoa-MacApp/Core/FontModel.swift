@@ -41,10 +41,10 @@ class FontModel : BaseModel, BaseModelProtocol{
 	
 	func autoMethodName() -> String {
 		
-		if (self.identifier as NSString).isMeantToBeFont {
-			return self.identifier
+		if (identifier as NSString).isMeantToBeFont {
+			return identifier
 		}else{
-			return self.identifier + FONT_SUFFIX
+			return identifier + FONT_SUFFIX
 		}
 	}
 	
@@ -96,7 +96,7 @@ class FontModel : BaseModel, BaseModelProtocol{
 			
 		}
 		
-		return NSString(format: formatString, self.autoMethodName(), Settings.fontClassName, self.statementString()) as String
+		return NSString(format: formatString, autoMethodName(), Settings.fontClassName, statementString()) as String
 	}
 
 	

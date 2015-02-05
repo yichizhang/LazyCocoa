@@ -107,23 +107,23 @@ extension NSString {
 	}
 	var isValidColorCode:Bool {
 		
-		return self.hasPrefix(HASH_STRING)
+		return hasPrefix(HASH_STRING)
 	}
 	var isMeantToBeComment:Bool {
 		
-		return self.hasPrefix(COMMENT_PREFIX)
+		return hasPrefix(COMMENT_PREFIX)
 	}
 	var isMeantToBeFont:Bool {
 		
-		return self.hasSuffix(FONT_SUFFIX)
+		return hasSuffix(FONT_SUFFIX)
 	}
 	var isMeantToBeColor:Bool {
 		
-		return self.hasSuffix(COLOR_SUFFIX)
+		return hasSuffix(COLOR_SUFFIX)
 	}
 	var isMeantToBeNeitherFontOrColor:Bool {
 		
-		return !(self.isMeantToBeFont && self.isMeantToBeColor);
+		return !(isMeantToBeFont && isMeantToBeColor);
 	}
 }
 

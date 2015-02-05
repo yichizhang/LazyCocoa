@@ -26,7 +26,7 @@ class LineModel: NSObject, Printable {
 		
 		let y = (self.otherNames as NSArray).componentsJoinedByString("; ")
 		
-		return NSString(format: "%@, {%@}, %@, %@, %@.", self.identifier, y, self.colorCodeString, self.fontNameString, self.fontSizeString)
+		return NSString(format: "%@, {%@}, %@, %@, %@.", identifier, y, colorCodeString, fontNameString, fontSizeString)
 	}
 	
 	convenience init(lineString:String){
@@ -82,20 +82,20 @@ class LineModel: NSObject, Printable {
 	
 	func populateWithOtherLineModel(model:LineModel) {
 		
-		if(self.colorCodeString.isEmpty){
-			self.colorCodeString = model.colorCodeString
+		if(colorCodeString.isEmpty){
+			colorCodeString = model.colorCodeString
 		}
-		if(self.fontNameString.isEmpty){
-			self.fontNameString = model.fontNameString
+		if(fontNameString.isEmpty){
+			fontNameString = model.fontNameString
 		}
-		if(self.fontSizeString.isEmpty){
-			self.fontSizeString = model.fontSizeString
+		if(fontSizeString.isEmpty){
+			fontSizeString = model.fontSizeString
 		}
 	}
 	
 	var canProduceColorFuncString:Bool{
 		
-		return !self.colorCodeString.isEmpty
+		return !colorCodeString.isEmpty
 	}
 	
 	var canProduceFontFuncString:Bool{
@@ -105,12 +105,12 @@ class LineModel: NSObject, Printable {
 	
 	var canProduceFullFontFuncString:Bool{
 		
-		return !self.fontSizeString.isEmpty && !self.fontNameString.isEmpty
+		return !fontSizeString.isEmpty && !fontNameString.isEmpty
 	}
 	
 	var canProduceFontOfSizeFuncString:Bool{
 		
-		return !self.fontNameString.isEmpty
+		return !fontNameString.isEmpty
 	}
 	
 	func fontFuncString() ->String {
@@ -120,18 +120,18 @@ class LineModel: NSObject, Printable {
 		var model:FontModel
 		
 		if canProduceFullFontFuncString {
-			model = FontModel(identifier: self.identifier, fontName: self.fontNameString, sizeString: self.fontSizeString)
+			model = FontModel(identifier: identifier, fontName: fontNameString, sizeString: fontSizeString)
 		} else {
-			model = FontModel(identifier: self.identifier, fontName: self.fontNameString)
+			model = FontModel(identifier: identifier, fontName: fontNameString)
 		}
 		return model.funcString()
 	}
 	
 	func colorFuncString() ->String {
-		if( !self.canProduceColorFuncString ){
+		if( !canProduceColorFuncString ){
 			return ""
 		}
-		let model = ColorModel(identifier: self.identifier, colorHexString: self.colorCodeString);
+		let model = ColorModel(identifier: identifier, colorHexString: colorCodeString);
 		return model.funcString()
 	}
 }

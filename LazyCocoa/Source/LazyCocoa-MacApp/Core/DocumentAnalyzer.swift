@@ -30,7 +30,7 @@ class DocumentAnalyzer : NSObject {
 	
 	func process(){
 
-		let linesSeparatedByNewLine = self.inputString.componentsSeparatedByString("\n").filter(isNonEmpty)
+		let linesSeparatedByNewLine = inputString.componentsSeparatedByString("\n").filter(isNonEmpty)
 
 		var statementStringArray:NSMutableArray = NSMutableArray(capacity: countElements(linesSeparatedByNewLine) * 2 )
 		
@@ -41,23 +41,23 @@ class DocumentAnalyzer : NSObject {
 			)
 		}
 
-		self.lines.removeAllObjects()
+		lines.removeAllObjects()
 		
 		for object : AnyObject in statementStringArray {
 			
 			let currentStatement = LineModel(lineString: object as String)
 			
-			self.lines.addObject(currentStatement)
+			lines.addObject(currentStatement)
 		}
 		
 		#if DEBUG
 		printAll()
 		#endif
 		
-		for model : LineModel in self.lines.modelArray {
+		for model : LineModel in lines.modelArray {
 			
 			for name in model.otherNames {
-				if let otherModel = self.lines.objectForKey(name){
+				if let otherModel = lines.objectForKey(name){
 					model.populateWithOtherLineModel( otherModel )
 				}
 			}
@@ -68,24 +68,24 @@ class DocumentAnalyzer : NSObject {
 			printAll()
 		#endif
 		
-		self.fontFileString = ""
-		self.colorFileString = ""
+		fontFileString = ""
+		colorFileString = ""
 		
-		for model : LineModel in self.lines.modelArray {
+		for model : LineModel in lines.modelArray {
 			if (model.canProduceColorFuncString){
 				
-				self.colorFileString = self.colorFileString + model.colorFuncString() + NEW_LINE_STRING + NEW_LINE_STRING
+				colorFileString = colorFileString + model.colorFuncString() + NEW_LINE_STRING + NEW_LINE_STRING
 			}
 			if (model.canProduceFontFuncString){
 				
-				self.fontFileString = self.fontFileString + model.fontFuncString() + NEW_LINE_STRING + NEW_LINE_STRING
+				fontFileString = fontFileString + model.fontFuncString() + NEW_LINE_STRING + NEW_LINE_STRING
 			}
 		}
 	}
 
 	func printAll() {
 		
-		for model : LineModel in self.lines.modelArray {
+		for model : LineModel in lines.modelArray {
 			
 			println(model)
 			

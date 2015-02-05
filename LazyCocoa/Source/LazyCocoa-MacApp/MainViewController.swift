@@ -30,25 +30,25 @@ class MainViewController: NSViewController {
 		
 		// Do any additional setup after loading the view.
 		
-		self.fontResultTextView.continuousSpellCheckingEnabled = false;
-		self.colorResultTextView.continuousSpellCheckingEnabled = false;
+		fontResultTextView.continuousSpellCheckingEnabled = false;
+		colorResultTextView.continuousSpellCheckingEnabled = false;
 		
 		
-		self.fontResultTextView.editable = false;
-		self.colorResultTextView.editable = false;
+		fontResultTextView.editable = false;
+		colorResultTextView.editable = false;
 		
 		
 		let myFont:NSFont = NSFont(name: "Monaco", size: 12)!;
 		
-		self.sourceFileTextView.font = myFont;
-		self.fontResultTextView.font = myFont;
-		self.colorResultTextView.font = myFont;
+		sourceFileTextView.font = myFont;
+		fontResultTextView.font = myFont;
+		colorResultTextView.font = myFont;
 		
 		
-		self.sourceFileTextView.automaticQuoteSubstitutionEnabled = false
-		self.sourceFileTextView.enabledTextCheckingTypes = 0
+		sourceFileTextView.automaticQuoteSubstitutionEnabled = false
+		sourceFileTextView.enabledTextCheckingTypes = 0
 		
-		self.sourceFileTextView.richText = false
+		sourceFileTextView.richText = false
 		
 	}
 	
@@ -60,20 +60,20 @@ class MainViewController: NSViewController {
 	
 	func update() {
 		
-		self.analyzer.platform = Platform(rawValue: self.platformSegControl.selectedSegment);
+		analyzer.platform = Platform(rawValue: platformSegControl.selectedSegment);
 		
-		self.analyzer.inputString = self.sourceFileTextView.string;
+		analyzer.inputString = sourceFileTextView.string;
 		
-		self.analyzer.process()
+		analyzer.process()
 		
-		self.fontResultTextView.string = self.analyzer.fontFileString
-		self.colorResultTextView.string = self.analyzer.colorFileString
+		fontResultTextView.string = analyzer.fontFileString
+		colorResultTextView.string = analyzer.colorFileString
 		
 	}
 	
 	@IBAction func updateButtonActionPerformed(sender: AnyObject) {
 		
-		self.update()
+		update()
 	}
 	
 	@IBAction func platformSegControlUpdated(sender: AnyObject) {
@@ -83,7 +83,7 @@ class MainViewController: NSViewController {
 		default:
 			Settings.platform = .iOS
 		}
-		self.update()
+		update()
 	}
 }
 
