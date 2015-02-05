@@ -45,7 +45,9 @@ class Document: NSDocument {
 		//let mainViewController:MainViewController = windowController.contentViewController as MainViewController
 		//mainViewController.sourceFileTextView.string = fileContentString
 		
-		if let documentMainViewController = windowController.contentViewController as? MainViewController {
+		documentMainViewController = windowController.contentViewController as? MainViewController
+		
+		if let documentMainViewController = documentMainViewController {
 			documentMainViewController.sourceFileTextView.string = fileContentString
 			documentMainViewController.update()
 		}

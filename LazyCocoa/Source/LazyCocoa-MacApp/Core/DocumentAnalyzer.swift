@@ -31,6 +31,10 @@ class DocumentAnalyzer : NSObject {
 	func process(){
 
 		let linesSeparatedByNewLine = inputString.componentsSeparatedByString("\n").filter(isNonEmpty)
+		
+		if linesSeparatedByNewLine.count == 0 {
+			return
+		}
 
 		var statementStringArray:NSMutableArray = NSMutableArray(capacity: countElements(linesSeparatedByNewLine) * 2 )
 		
