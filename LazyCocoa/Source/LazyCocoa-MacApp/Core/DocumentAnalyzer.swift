@@ -38,18 +38,24 @@ class DocumentAnalyzer : NSObject {
 
 		var statementStringArray:NSMutableArray = NSMutableArray(capacity: countElements(linesSeparatedByNewLine) * 2 )
 		
-		let exportToPrefix = "!exportTo "
-		
-		Settings.exportPath = nil
+		// Reset all parameters
+		Settings.parameters = Dictionary()
 		
 		for string:String in linesSeparatedByNewLine {
 			
-			if string.hasPrefix(exportToPrefix) {
+			if string.hasPrefix(EXCLAMATION_MARK_STRING) {
 				
-				Settings.exportPath = (string as NSString).substringFromIndex( countElements(exportToPrefix) )
+				let tempString = (string as NSString).substringFromIndex(EXCLAMATION_MARK_STRING.length).stringByRemovingComments() as NSString
 				
-//				Settings.exportPath = string.substringFromIndex( countElements(exportToPrefix) )
-
+				let range = tempString.rangeOfCharacterFromSet( NSCharacterSet.whitespaceCharacterSet() )
+				
+				if range.location != NSNotFound {
+					let paramKey = tempString.substringToIndex(range.location)
+					let paramValue = tempString.substringFromIndex(range.location + range.length)
+					
+					Settings.setParameter(value: paramValue, forKey: paramKey)
+				}
+				
 			} else if string.hasPrefix(DOUBLE_QUOTE_STRING) {
 				
 				

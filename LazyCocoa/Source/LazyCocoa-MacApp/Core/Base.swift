@@ -25,6 +25,10 @@ let FONT_SUFFIX = "Font"
 let COLOR_SUFFIX = "Color"
 let COMMENT_PREFIX = "//"
 
+let paramKey_exportTo = "exportTo"
+let paramKey_classFuncPrefix = "classFuncPrefix"
+let paramKey_ = ""
+
 let Settings = SettingsManager.sharedInstance
 
 enum Platform : Int {
@@ -60,6 +64,8 @@ class SettingsManager : NSObject {
 	var fontNameAndSizeInitMethodFormatString:String!
 	var fontOfSizeInitMethodFormatString:String!
 	
+	var parameters:[String: String] = Dictionary()
+	
 	var userName:String {
 		return "User"
 	}
@@ -67,7 +73,7 @@ class SettingsManager : NSObject {
 		return "The Lazy Cocoa Project"
 	}
 	var fileName:String {
-		if let exportPath = exportPath {
+		if let exportPath = self.parameterForKey(paramKey_exportTo) {
 			return exportPath.lastPathComponent
 		} else {
 			return ""
@@ -87,12 +93,6 @@ class SettingsManager : NSObject {
 		)
 	}
 	
-	
-	var exportPath : String? {
-		didSet{
-			
-		}
-	}
 	var currentDocumentRealPath : String? {
 		didSet{
 			
@@ -104,6 +104,12 @@ class SettingsManager : NSObject {
 			static let instance = SettingsManager()
 		}
 		return _SettingsStruct.instance
+	}
+	
+	override init() {
+		platform = .iOS
+		super.init()
+		updateStrings()
 	}
 	
 	func updateStrings() {
@@ -131,11 +137,22 @@ class SettingsManager : NSObject {
 		
 	}
 	
-	override init() {
-		platform = .iOS
-		super.init()
-		updateStrings()
+	func setParameter(#value:String, forKey parameterKey:String) {
+		parameters[parameterKey] = value
 	}
+	
+	func parameterForKey(key:String) -> String? {
+		return parameters[key]
+	}
+	
+	func unwrappedParameterForKey(key:String) -> String {
+		if let val = parameterForKey(key) {
+			return val
+		} else {
+			return ""
+		}
+	}
+	
 }
 
 extension NSString {
@@ -170,6 +187,19 @@ extension NSString {
 		
 		return !(isMeantToBeFont && isMeantToBeColor)
 	}
+	func stringByRemovingComments() -> NSString {
+		let range = self.rangeOfString(COMMENT_PREFIX)
+		
+		if range.location != NSNotFound {
+			return self.substringToIndex(range.location)
+		}else {
+			return self
+		}
+	}
+	
+	func stringByTrimmingWhiteSpaceAndNewLineCharacters() -> NSString {
+		return self.stringByTrimmingCharactersInSet( NSCharacterSet.whitespaceAndNewlineCharacterSet() )
+	}
 }
 
 extension String {
@@ -202,5 +232,13 @@ extension String {
 		})
 		
 		return (newArray as NSArray).componentsJoinedByString("\n")
+	}
+	
+	func stringByRemovingComments() -> String {
+		return (self as NSString).stringByRemovingComments()
+	}
+	
+	func stringByTrimmingWhiteSpaceAndNewLineCharacters() -> String {
+		return (self as NSString).stringByTrimmingWhiteSpaceAndNewLineCharacters()
 	}
 }

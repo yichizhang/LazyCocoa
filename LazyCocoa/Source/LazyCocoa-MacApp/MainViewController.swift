@@ -86,7 +86,7 @@ class MainViewController: NSViewController {
 		str = str + analyzer.colorFileString
 		
 			
-		FileManager.write(string: str, currentDocumentRealPath: Settings.currentDocumentRealPath, exportPath: Settings.exportPath)
+		FileManager.write(string: str, currentDocumentRealPath: Settings.currentDocumentRealPath, exportPath: Settings.parameterForKey(paramKey_exportTo) )
 		
 	}
 	
