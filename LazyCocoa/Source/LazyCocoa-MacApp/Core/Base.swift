@@ -29,6 +29,9 @@ let paramKey_exportTo = "exportTo"
 let paramKey_classFuncPrefix = "classFuncPrefix"
 let paramKey_ = ""
 
+let fileKey_mainSource = "mainSource"
+let fileKey_ = ""
+
 let Settings = SettingsManager.sharedInstance
 
 enum Platform : Int {

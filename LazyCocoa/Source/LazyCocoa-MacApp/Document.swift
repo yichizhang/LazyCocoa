@@ -16,7 +16,8 @@ import Cocoa
 
 class Document: NSDocument {
 
-	var fileContentString:String? = ""
+	var fileContentString = ""
+	var alwaysSaveAsPlainText = true
 	var documentMainViewController:MainViewController?
 	
 	override init() {
@@ -61,13 +62,23 @@ class Document: NSDocument {
 		// Insert code here to write your document to data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning nil.
 		// You can also choose to override fileWrapperOfType:error:, writeToURL:ofType:error:, or writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
 		
-		fileContentString = documentMainViewController?.sourceFileTextView.string
-				
-		var tempData = fileContentString?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+		if let string = documentMainViewController?.sourceFileTextView.string{
+			fileContentString = string
+		}
 		
-		if tempData != nil {
-			
-			return tempData
+		var jsonError:NSError?
+		let container = [fileKey_mainSource: fileContentString]
+		
+		var data:NSData?
+		
+		if alwaysSaveAsPlainText {
+			data = fileContentString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
+		} else {
+			data = NSJSONSerialization.dataWithJSONObject(container, options: NSJSONWritingOptions.allZeros, error: &jsonError)
+		}
+		
+		if data != nil {
+			return data
 		}else {
 			
 			outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
@@ -81,16 +92,40 @@ class Document: NSDocument {
 		// You can also choose to override readFromFileWrapper:ofType:error: or readFromURL:ofType:error: instead.
 		// If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
 		var readSuccess = false
+		var jsonError:NSError?
 		
-		var tempString = NSString(data: data, encoding: NSUTF8StringEncoding)
+		var tempObject: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.allZeros, error: &jsonError)
 		
-		if tempString != nil {
+		if jsonError == nil {
 			
-			fileContentString = tempString!
-			readSuccess = true
-		}else {
+			if let dataObject = tempObject as? NSDictionary{
+				if let mainSource = dataObject[fileKey_mainSource] as? String {
+					
+					fileContentString = mainSource
+					readSuccess = true
+					
+				} else {
+					
+				}
+			} else {
+				
+			}
 			
-			outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+		}
+		
+		if !readSuccess {
+			
+			var tempString = NSString(data: data, encoding: NSUTF8StringEncoding)
+			
+			if tempString != nil {
+				
+				fileContentString = tempString!
+				readSuccess = true
+				
+			}else {
+				
+				outError.memory = NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+			}
 		}
 		
 		return readSuccess

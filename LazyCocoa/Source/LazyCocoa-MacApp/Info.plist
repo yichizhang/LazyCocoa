@@ -10,6 +10,7 @@
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>txt</string>
+				<string>lazycocoa</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string></string>
