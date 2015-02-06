@@ -13,6 +13,7 @@
 		1214AF611A4B346100F31ED8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1214AF601A4B346100F31ED8 /* Images.xcassets */; };
 		1214AF641A4B346100F31ED8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1214AF621A4B346100F31ED8 /* Main.storyboard */; };
 		1214AF701A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1214AF6F1A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift */; };
+		125DD5D21A84C09C00C90757 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125DD5D11A84C09C00C90757 /* FileManager.swift */; };
 		12767EEA1A503E0E00BCFED3 /* LineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12767EE91A503E0E00BCFED3 /* LineModel.swift */; };
 		12F9837F1A4D8BC30041FE43 /* ColorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9837D1A4D8BC30041FE43 /* ColorModel.swift */; };
 		12F983801A4D8BC30041FE43 /* DocumentAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9837E1A4D8BC30041FE43 /* DocumentAnalyzer.swift */; };
@@ -42,6 +43,7 @@
 		1214AF691A4B346100F31ED8 /* LazyCocoa-MacAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LazyCocoa-MacAppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1214AF6E1A4B346100F31ED8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1214AF6F1A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyCocoa_MacAppTests.swift; sourceTree = "<group>"; };
+		125DD5D11A84C09C00C90757 /* FileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		12767EE91A503E0E00BCFED3 /* LineModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineModel.swift; sourceTree = "<group>"; };
 		12F9837D1A4D8BC30041FE43 /* ColorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorModel.swift; sourceTree = "<group>"; };
 		12F9837E1A4D8BC30041FE43 /* DocumentAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentAnalyzer.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				12F9837D1A4D8BC30041FE43 /* ColorModel.swift */,
 				12F983851A4DC3E40041FE43 /* FontModel.swift */,
 				12F983831A4D92380041FE43 /* Base.swift */,
+				125DD5D11A84C09C00C90757 /* FileManager.swift */,
 				12F9837E1A4D8BC30041FE43 /* DocumentAnalyzer.swift */,
 				12F983871A4DECA30041FE43 /* StatementsContainer.swift */,
 				12767EE91A503E0E00BCFED3 /* LineModel.swift */,
@@ -244,6 +247,7 @@
 				12F9837F1A4D8BC30041FE43 /* ColorModel.swift in Sources */,
 				12F983861A4DC3E40041FE43 /* FontModel.swift in Sources */,
 				1214AF5B1A4B346100F31ED8 /* AppDelegate.swift in Sources */,
+				125DD5D21A84C09C00C90757 /* FileManager.swift in Sources */,
 				12F983801A4D8BC30041FE43 /* DocumentAnalyzer.swift in Sources */,
 				1214AF5F1A4B346100F31ED8 /* Document.swift in Sources */,
 				12F983841A4D92380041FE43 /* Base.swift in Sources */,

@@ -79,46 +79,9 @@ class MainViewController: NSViewController {
 		update()
 		
 		let str = analyzer.fontFileString + analyzer.colorFileString
-		var alertTitle = ""
-		var alertMessage = ""
-		var error:NSError?
 		
-		if let exportPath = Settings.exportPath {
-			
-			if let currentDocumentRealPath = Settings.currentDocumentRealPath {
-			
-				let fullExportPath = currentDocumentRealPath.stringByDeletingLastPathComponent.stringByAppendingPathComponent(exportPath)
-				
-				println(fullExportPath)
-				
-				str.writeToFile(fullExportPath, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
-				
-			} else {
-				
-				alertMessage = alertMessage + "The path to current document is unknown. Press ⌘ + S to set it. "
-			}
-			
-		} else {
-			
-			alertMessage = alertMessage + "The export path is not set. Add '!exportTo path-to-file' to your document, then click update. "
-		}
+		FileManager.write(string: str, currentDocumentRealPath: Settings.currentDocumentRealPath, exportPath: Settings.exportPath)
 		
-		if let error = error {
-			alertMessage = alertMessage + error.localizedDescription
-		}
-		
-		if alertMessage.isEmpty {
-			alertTitle = "Success"
-			alertMessage = "The file has been exported successfully."
-
-		} else {
-			alertTitle = "Error"
-		}
-		
-		let alert = NSAlert()
-		alert.messageText = alertTitle
-		alert.informativeText = alertMessage
-		alert.runModal()
 	}
 	
 	@IBAction func updateButtonActionPerformed(sender: AnyObject) {
