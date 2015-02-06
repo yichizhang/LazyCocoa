@@ -78,8 +78,14 @@ class MainViewController: NSViewController {
 		
 		update()
 		
-		let str = analyzer.fontFileString + analyzer.colorFileString
+		var str = Settings.headerComment
+		str = str + String.importStatementString("Foundation")
+		str = str + String.importStatementString("UIKit")
+		str = str + NEW_LINE_STRING + NEW_LINE_STRING
+		str = str + analyzer.fontFileString
+		str = str + analyzer.colorFileString
 		
+			
 		FileManager.write(string: str, currentDocumentRealPath: Settings.currentDocumentRealPath, exportPath: Settings.exportPath)
 		
 	}
