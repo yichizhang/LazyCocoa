@@ -51,27 +51,16 @@ class FontModel : BaseModel, BaseModelProtocol{
 	
 	func statementString() -> String {
 		
-		var statementString:String
+		let firstParameter:Argument = Argument(object: typefaceName, formattingStrategy: .StringLiteral )
+		var secondParameter:Any?
 		
 		if let fontSize = fontSize {
-			
-			statementString =
-				NSString(
-					format: Settings.fontNameAndSizeInitMethodFormatString,
-					typefaceName,
-					fontSize
-				) as String
-			
+			secondParameter = fontSize
 		} else {
-			
-			// NO FONT SIZE PROVIDED
-			statementString =
-				NSString(
-					format: Settings.fontOfSizeInitMethodFormatString,
-					typefaceName
-				) as String
-			
+			secondParameter = "size"
 		}
+		
+		let statementString = String.initString(className:Settings.fontClassName, initMethodSignature: Settings.fontNameAndSizeInitSignatureString, arguments: [firstParameter, secondParameter])
 		
 		return statementString
 	}

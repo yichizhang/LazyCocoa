@@ -52,6 +52,38 @@ class BaseModel : NSObject {
 
 }
 
+enum ArgumentFormattingStrategy : Int {
+	case CGFloatNumber = 0
+	case StringLiteral
+	case Name
+}
+
+class Argument : NSObject {
+	var object:AnyObject!
+	var formattingStrategy:ArgumentFormattingStrategy!
+	
+	init(object:AnyObject, formattingStrategy:ArgumentFormattingStrategy) {
+		self.object = object
+		self.formattingStrategy = formattingStrategy
+		super.init()
+	}
+	
+	var formattedString:String {
+		switch formattingStrategy.rawValue {
+		case ArgumentFormattingStrategy.CGFloatNumber.rawValue:
+			return NSString(format: "%.3f", object.floatValue) as String
+		case ArgumentFormattingStrategy.StringLiteral.rawValue:
+			let str = object as String
+			return "\"" + str + "\""
+		case ArgumentFormattingStrategy.Name.rawValue:
+			return "\(object)"
+//			return object as String
+		default:
+			return "__ERROR__"
+		}
+	}
+}
+
 class SettingsManager : NSObject {
 	
 	var platform : Platform {
@@ -61,11 +93,13 @@ class SettingsManager : NSObject {
 	}
 	
 	var colorClassName:String!
-	var colorRGBAInitMethodFormatString:String!
+//	var colorRGBAInitMethodFormatString:String!
+	var colorRGBAInitSignatureString:String!
 	
 	var fontClassName:String!
-	var fontNameAndSizeInitMethodFormatString:String!
-	var fontOfSizeInitMethodFormatString:String!
+//	var fontNameAndSizeInitMethodFormatString:String!
+//	var fontOfSizeInitMethodFormatString:String!
+	var fontNameAndSizeInitSignatureString:String!
 	
 	var parameters:[String: String] = Dictionary()
 	
@@ -122,18 +156,22 @@ class SettingsManager : NSObject {
 			fontClassName = "UIFont"
 			colorClassName = "UIColor"
 			
-			colorRGBAInitMethodFormatString = colorClassName + "(red:%.3f, green:%.3f, blue:%.3f, alpha:%.3f)"
+//			colorRGBAInitMethodFormatString = colorClassName + "(red:%.3f, green:%.3f, blue:%.3f, alpha:%.3f)"
+			colorRGBAInitSignatureString = "red:green:blue:alpha:"
 			
 		case .MacOS:
 			fontClassName = "NSFont"
 			colorClassName = "NSColor"
 			
-			colorRGBAInitMethodFormatString = colorClassName + "(calibratedRed:%.3f, green:%.3f, blue:%.3f, alpha:%.3f)"
+//			colorRGBAInitMethodFormatString = colorClassName + "(calibratedRed:%.3f, green:%.3f, blue:%.3f, alpha:%.3f)"
+			colorRGBAInitSignatureString = "calibratedRed:green:blue:alpha:"
 			
 		}
 		
-		fontOfSizeInitMethodFormatString = fontClassName + "(name:\"%@\", size:size)"
-		fontNameAndSizeInitMethodFormatString = fontClassName + "(name:\"%@\", size:%.1f)"
+//		fontOfSizeInitMethodFormatString = fontClassName + "(name:\"%@\", size:size)"
+//		fontNameAndSizeInitMethodFormatString = fontClassName + "(name:\"%@\", size:%.1f)"
+		
+		fontNameAndSizeInitSignatureString = "name:size:"
 	}
 	
 	func settingsChanged() {
@@ -209,6 +247,47 @@ extension String {
 	
 	static func importStatementString(string:String) -> String {
 		return "import " + string + "\n"
+	}
+	
+	static func initString(#className:String, initMethodSignature:String, arguments:[Any?] ) -> String {
+		// FIXME: ---
+		var args:[Argument] = Array()
+		
+		for (i, n) in enumerate(arguments) {
+			if let float = n as? Float {
+				args.append( Argument(object: CGFloat(float), formattingStrategy: .CGFloatNumber) )
+			} else if let float = n as? CGFloat {
+				args.append( Argument(object: CGFloat(float), formattingStrategy: .CGFloatNumber) )
+			} else if let str = n as? String {
+				args.append( Argument(object: str, formattingStrategy: .Name) )
+			} else if let a = n as? Argument {
+				args.append( a )
+			} else {
+				args.append( Argument(object: "__ERROR__", formattingStrategy: .Name) )
+			}
+		}
+		
+		var string = "("
+		
+		let m = initMethodSignature.componentsSeparatedByString(":")
+	
+		for (i, n) in enumerate(m) {
+			if i < args.count {
+				string = string + n + ":" + args[i].formattedString
+			}
+			if i < args.count - 1 {
+				string = string + ", "
+			}
+		}
+		
+		string = string + ")"
+		
+		return string
+	}
+	
+	static func methodString(methodString:String, parameters:[AnyObject] ) -> String {
+		var string = ""
+		return string
 	}
 	
 	func characterAtIndex(index:Int) -> Character{

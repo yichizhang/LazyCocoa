@@ -72,13 +72,7 @@ class ColorModel : BaseModel, BaseModelProtocol{
 	
 	func statementString() -> String {
 		
-		return NSString(
-			format: Settings.colorRGBAInitMethodFormatString,
-			red,
-			green,
-			blue,
-			alpha
-			) as String
+		return String.initString(className: Settings.colorClassName, initMethodSignature: Settings.colorRGBAInitSignatureString, arguments: [red, green, blue, alpha])
 	}
 	
 	func funcString() -> String {
