@@ -682,10 +682,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="223" height="218"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <size key="minSize" width="693" height="218"/>
+                                            <size key="minSize" width="708" height="218"/>
                                             <size key="maxSize" width="879" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="693" height="218"/>
+                                            <size key="minSize" width="708" height="218"/>
                                             <size key="maxSize" width="879" height="10000000"/>
                                         </textView>
                                     </subviews>
@@ -726,10 +726,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="230" height="303"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <size key="minSize" width="328" height="218"/>
+                                            <size key="minSize" width="343" height="218"/>
                                             <size key="maxSize" width="463" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="328" height="218"/>
+                                            <size key="minSize" width="343" height="218"/>
                                             <size key="maxSize" width="463" height="10000000"/>
                                         </textView>
                                     </subviews>
@@ -754,10 +754,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="230" height="303"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <size key="minSize" width="328" height="218"/>
+                                            <size key="minSize" width="343" height="218"/>
                                             <size key="maxSize" width="616" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="328" height="218"/>
+                                            <size key="minSize" width="343" height="218"/>
                                             <size key="maxSize" width="616" height="10000000"/>
                                         </textView>
                                     </subviews>
@@ -848,8 +848,8 @@
                 <tabViewController selectedTabViewItemIndex="0" id="GeN-F7-6Gx" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem id="0Ve-xZ-Fv1"/>
-                        <tabViewItem identifier="" id="Gkd-ne-fPw"/>
                         <tabViewItem identifier="" id="477-rP-s0T"/>
+                        <tabViewItem identifier="" id="Gkd-ne-fPw"/>
                     </tabViewItems>
                     <tabView key="tabView" type="noTabsNoBorder" id="p6v-pa-SIx">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
@@ -859,8 +859,8 @@
                     </tabView>
                     <connections>
                         <segue destination="Zz3-hj-1pU" kind="relationship" relationship="tabItems" id="MG1-FG-022"/>
-                        <segue destination="Gg5-hg-08V" kind="relationship" relationship="tabItems" id="ggT-i1-thw"/>
                         <segue destination="PQr-FE-CCF" kind="relationship" relationship="tabItems" id="K2L-cM-bs0"/>
+                        <segue destination="Gg5-hg-08V" kind="relationship" relationship="tabItems" id="ggT-i1-thw"/>
                     </connections>
                 </tabViewController>
                 <customObject id="CnR-ca-Zvd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -870,28 +870,112 @@
         <!--View Controller-->
         <scene sceneID="DRn-0E-dSj">
             <objects>
-                <viewController id="Gg5-hg-08V" sceneMemberID="viewController">
+                <viewController title="View Controller" id="Gg5-hg-08V" sceneMemberID="viewController">
                     <view key="view" id="IOP-0n-fBg">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="696" height="511"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </view>
                 </viewController>
                 <customObject id="ePR-2f-TNr" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1356" y="144"/>
+            <point key="canvasLocation" x="1427" y="69.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Conversion-->
         <scene sceneID="Sl7-g6-Bof">
             <objects>
-                <viewController id="PQr-FE-CCF" sceneMemberID="viewController">
+                <viewController title="Conversion" storyboardIdentifier="ConversionViewController" id="PQr-FE-CCF" customClass="ConversionViewController" customModule="LazyCocoa_MacApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="tS0-yd-y7V">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="767" height="550"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sqd-Wk-6Qo">
+                                <rect key="frame" x="20" y="295" width="727" height="235"/>
+                                <clipView key="contentView" id="Pdj-rX-Y00">
+                                    <rect key="frame" x="1" y="1" width="223" height="133"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="zwN-sE-GuN">
+                                            <rect key="frame" x="0.0" y="0.0" width="223" height="133"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="minSize" width="725" height="233"/>
+                                            <size key="maxSize" width="735" height="10000000"/>
+                                            <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="725" height="233"/>
+                                            <size key="maxSize" width="735" height="10000000"/>
+                                        </textView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="Xh8-2l-c7K">
+                                    <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="AdF-bH-Nmd">
+                                    <rect key="frame" x="224" y="1" width="15" height="133"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FA5-Lb-8Vb">
+                                <rect key="frame" x="20" y="20" width="727" height="235"/>
+                                <clipView key="contentView" id="osn-Sa-MVE">
+                                    <rect key="frame" x="1" y="1" width="238" height="133"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="Wwk-0x-jGa">
+                                            <rect key="frame" x="0.0" y="0.0" width="243" height="133"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <size key="minSize" width="725" height="233"/>
+                                            <size key="maxSize" width="730" height="10000000"/>
+                                            <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <size key="minSize" width="725" height="233"/>
+                                            <size key="maxSize" width="730" height="10000000"/>
+                                        </textView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="P1l-vL-b8G">
+                                    <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="16q-4Y-76H">
+                                    <rect key="frame" x="223" y="1" width="16" height="133"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                            <button verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8id-nH-c80">
+                                <rect key="frame" x="625" y="265" width="122" height="19"/>
+                                <buttonCell key="cell" type="roundRect" title="Convert" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BCL-gA-Iax">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="controlContent"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="convertButtonTapped:" target="PQr-FE-CCF" id="Rey-s5-iOC"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="FA5-Lb-8Vb" firstAttribute="leading" secondItem="tS0-yd-y7V" secondAttribute="leading" constant="20" id="D8Y-zY-F8i"/>
+                            <constraint firstItem="8id-nH-c80" firstAttribute="top" secondItem="Sqd-Wk-6Qo" secondAttribute="bottom" constant="11" id="HnC-hY-nNx"/>
+                            <constraint firstAttribute="trailing" secondItem="Sqd-Wk-6Qo" secondAttribute="trailing" constant="20" id="JHK-wu-gmO"/>
+                            <constraint firstItem="Sqd-Wk-6Qo" firstAttribute="leading" secondItem="tS0-yd-y7V" secondAttribute="leading" constant="20" id="PJu-Jc-01N"/>
+                            <constraint firstAttribute="trailing" secondItem="FA5-Lb-8Vb" secondAttribute="trailing" constant="20" id="QCC-oa-ReC"/>
+                            <constraint firstItem="FA5-Lb-8Vb" firstAttribute="top" secondItem="Sqd-Wk-6Qo" secondAttribute="bottom" constant="40" id="cs6-2K-nW7"/>
+                            <constraint firstItem="FA5-Lb-8Vb" firstAttribute="height" secondItem="Sqd-Wk-6Qo" secondAttribute="height" id="ocn-HG-zkS"/>
+                            <constraint firstItem="Sqd-Wk-6Qo" firstAttribute="top" secondItem="tS0-yd-y7V" secondAttribute="top" constant="20" id="rxu-F9-ejG"/>
+                            <constraint firstAttribute="bottom" secondItem="FA5-Lb-8Vb" secondAttribute="bottom" constant="20" id="seK-n2-vz8"/>
+                            <constraint firstAttribute="trailing" secondItem="8id-nH-c80" secondAttribute="trailing" constant="20" id="xGv-eg-pJZ"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="resultTextView" destination="Wwk-0x-jGa" id="c7g-Au-oyD"/>
+                        <outlet property="sourceTextView" destination="zwN-sE-GuN" id="lf1-VM-24z"/>
+                    </connections>
                 </viewController>
                 <customObject id="zNM-WP-nQ3" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1023" y="640"/>
+            <point key="canvasLocation" x="1179.5" y="765"/>
         </scene>
     </scenes>
 </document>

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		120927E21A87E37F0023D05B /* ConversionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120927E11A87E37F0023D05B /* ConversionViewController.swift */; };
+		120927E41A87E92C0023D05B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120927E31A87E92C0023D05B /* Extensions.swift */; };
 		1214AF5B1A4B346100F31ED8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1214AF5A1A4B346100F31ED8 /* AppDelegate.swift */; };
 		1214AF5D1A4B346100F31ED8 /* SourceEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1214AF5C1A4B346100F31ED8 /* SourceEditViewController.swift */; };
 		1214AF5F1A4B346100F31ED8 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1214AF5E1A4B346100F31ED8 /* Document.swift */; };
@@ -33,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		120927E11A87E37F0023D05B /* ConversionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversionViewController.swift; sourceTree = "<group>"; };
+		120927E31A87E92C0023D05B /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1214AF551A4B346100F31ED8 /* LazyCocoa-MacApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LazyCocoa-MacApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1214AF591A4B346100F31ED8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1214AF5A1A4B346100F31ED8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +99,8 @@
 				12F9837C1A4D8BC30041FE43 /* Core */,
 				1214AF5A1A4B346100F31ED8 /* AppDelegate.swift */,
 				1214AF5C1A4B346100F31ED8 /* SourceEditViewController.swift */,
+				120927E11A87E37F0023D05B /* ConversionViewController.swift */,
+				120927E31A87E92C0023D05B /* Extensions.swift */,
 				1214AF5E1A4B346100F31ED8 /* Document.swift */,
 				1214AF601A4B346100F31ED8 /* Images.xcassets */,
 				1214AF621A4B346100F31ED8 /* Main.storyboard */,
@@ -248,10 +254,12 @@
 				12F983861A4DC3E40041FE43 /* FontModel.swift in Sources */,
 				1214AF5B1A4B346100F31ED8 /* AppDelegate.swift in Sources */,
 				125DD5D21A84C09C00C90757 /* FileManager.swift in Sources */,
+				120927E21A87E37F0023D05B /* ConversionViewController.swift in Sources */,
 				12F983801A4D8BC30041FE43 /* DocumentAnalyzer.swift in Sources */,
 				1214AF5F1A4B346100F31ED8 /* Document.swift in Sources */,
 				12F983841A4D92380041FE43 /* Base.swift in Sources */,
 				12767EEA1A503E0E00BCFED3 /* LineModel.swift in Sources */,
+				120927E41A87E92C0023D05B /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

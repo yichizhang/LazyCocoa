@@ -32,26 +32,13 @@ class SourceEditViewController: NSViewController {
 		// Do any additional setup after loading the view.
 		title = "Source Editor"
         
-		fontResultTextView.continuousSpellCheckingEnabled = false
-		colorResultTextView.continuousSpellCheckingEnabled = false
-		
-		
-		fontResultTextView.editable = false
-		colorResultTextView.editable = false
-		
-		
-		let myFont:NSFont = NSFont(name: "Monaco", size: 12)!
-		
-		sourceFileTextView.font = myFont
-		fontResultTextView.font = myFont
-		colorResultTextView.font = myFont
-		
-		
-		sourceFileTextView.automaticQuoteSubstitutionEnabled = false
-		sourceFileTextView.enabledTextCheckingTypes = 0
-		
-		sourceFileTextView.richText = false
-		
+        sourceFileTextView.setUpForDisplayingSourceCode()
+        fontResultTextView.setUpForDisplayingSourceCode()
+        colorResultTextView.setUpForDisplayingSourceCode()
+        
+        fontResultTextView.editable = false
+        colorResultTextView.editable = false
+        
 	}
 	
 	override var representedObject: AnyObject? {
