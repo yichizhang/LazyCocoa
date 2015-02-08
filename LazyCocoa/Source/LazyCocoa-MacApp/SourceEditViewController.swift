@@ -15,7 +15,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 import Cocoa
 import AppKit
 
-class MainViewController: NSViewController {
+class SourceEditViewController: NSViewController {
 	
 	@IBOutlet var sourceFileTextView: NSTextView!
 	
@@ -30,7 +30,8 @@ class MainViewController: NSViewController {
 		super.viewDidLoad()
 		
 		// Do any additional setup after loading the view.
-		
+		title = "Source Editor"
+        
 		fontResultTextView.continuousSpellCheckingEnabled = false
 		colorResultTextView.continuousSpellCheckingEnabled = false
 		

@@ -18,7 +18,7 @@ class Document: NSDocument {
 
 	var fileContentString = ""
 	var alwaysSaveAsPlainText = true
-	var documentMainViewController:MainViewController?
+	var documentMainViewController:SourceEditViewController?
 	
 	override init() {
 	    super.init()
@@ -44,11 +44,14 @@ class Document: NSDocument {
 		let windowController = storyboard.instantiateControllerWithIdentifier("Document Window Controller") as NSWindowController
 		println(windowController.contentViewController?.self)
 		
-		//let mainViewController:MainViewController = windowController.contentViewController as MainViewController
+		//let mainViewController:SourceEditViewController = windowController.contentViewController as SourceEditViewController
 		//mainViewController.sourceFileTextView.string = fileContentString
 		
-		documentMainViewController = windowController.contentViewController as? MainViewController
-		
+		//documentMainViewController = windowController.contentViewController as? SourceEditViewController
+        if let tabVC = windowController.contentViewController as? NSTabViewController {
+            documentMainViewController = (tabVC.childViewControllers as [NSViewController])[0] as? SourceEditViewController
+        }
+        
 		if let documentMainViewController = documentMainViewController {
 			documentMainViewController.sourceFileTextView.string = fileContentString
 			documentMainViewController.update()

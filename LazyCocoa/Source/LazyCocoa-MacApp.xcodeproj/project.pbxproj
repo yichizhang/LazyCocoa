@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1214AF5B1A4B346100F31ED8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1214AF5A1A4B346100F31ED8 /* AppDelegate.swift */; };
-		1214AF5D1A4B346100F31ED8 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1214AF5C1A4B346100F31ED8 /* MainViewController.swift */; };
+		1214AF5D1A4B346100F31ED8 /* SourceEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1214AF5C1A4B346100F31ED8 /* SourceEditViewController.swift */; };
 		1214AF5F1A4B346100F31ED8 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1214AF5E1A4B346100F31ED8 /* Document.swift */; };
 		1214AF611A4B346100F31ED8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1214AF601A4B346100F31ED8 /* Images.xcassets */; };
 		1214AF641A4B346100F31ED8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1214AF621A4B346100F31ED8 /* Main.storyboard */; };
@@ -36,7 +36,7 @@
 		1214AF551A4B346100F31ED8 /* LazyCocoa-MacApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LazyCocoa-MacApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1214AF591A4B346100F31ED8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1214AF5A1A4B346100F31ED8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1214AF5C1A4B346100F31ED8 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		1214AF5C1A4B346100F31ED8 /* SourceEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceEditViewController.swift; sourceTree = "<group>"; };
 		1214AF5E1A4B346100F31ED8 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		1214AF601A4B346100F31ED8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1214AF631A4B346100F31ED8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -94,7 +94,7 @@
 			children = (
 				12F9837C1A4D8BC30041FE43 /* Core */,
 				1214AF5A1A4B346100F31ED8 /* AppDelegate.swift */,
-				1214AF5C1A4B346100F31ED8 /* MainViewController.swift */,
+				1214AF5C1A4B346100F31ED8 /* SourceEditViewController.swift */,
 				1214AF5E1A4B346100F31ED8 /* Document.swift */,
 				1214AF601A4B346100F31ED8 /* Images.xcassets */,
 				1214AF621A4B346100F31ED8 /* Main.storyboard */,
@@ -242,7 +242,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1214AF5D1A4B346100F31ED8 /* MainViewController.swift in Sources */,
+				1214AF5D1A4B346100F31ED8 /* SourceEditViewController.swift in Sources */,
 				12F983881A4DECA30041FE43 /* StatementsContainer.swift in Sources */,
 				12F9837F1A4D8BC30041FE43 /* ColorModel.swift in Sources */,
 				12F983861A4DC3E40041FE43 /* FontModel.swift in Sources */,
