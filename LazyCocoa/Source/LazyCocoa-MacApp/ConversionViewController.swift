@@ -36,6 +36,21 @@ class ConversionViewController: NSViewController {
     
     @IBAction func parseColorButtonTapped(sender: AnyObject) {
         
+        if let source = sourceTextView.string {
+            var array = source.componentsSeparatedByString("\n")
+            
+            var xa:[String] = Array()
+            
+            for s in array {
+                
+                let ss = s as NSString
+                if ((s as String).isEmpty == false) {
+                    xa.append(ColorScanner.scanText(ss))
+                }
+            }
+            
+            resultTextView.string = (xa as NSArray).componentsJoinedByString("\n")
+        }
     }
     
     @IBAction func generateConstantsButtonTapped(sender: AnyObject) {

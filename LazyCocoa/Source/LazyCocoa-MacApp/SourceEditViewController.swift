@@ -65,14 +65,23 @@ class SourceEditViewController: NSViewController {
 	@IBAction func exportButtonActionPerformed(sender: AnyObject) {
 		
 		update()
-		
+        
+		/*
 		var str = Settings.headerComment
 		str = str + String.importStatementString("Foundation")
 		str = str + String.importStatementString("UIKit")
 		str = str + NEW_LINE_STRING + NEW_LINE_STRING
 		str = str + analyzer.fontFileString
 		str = str + analyzer.colorFileString
-		
+        */
+        
+        var str = Settings.headerComment
+            + String.importStatementString("Foundation")
+            + String.importStatementString("UIKit")
+            + NEW_LINE_STRING + NEW_LINE_STRING
+            + analyzer.fontFileString
+            + analyzer.colorFileString
+        
 			
 		FileManager.write(string: str, currentDocumentRealPath: Settings.currentDocumentRealPath, exportPath: Settings.parameterForKey(paramKey_exportTo) )
 		
