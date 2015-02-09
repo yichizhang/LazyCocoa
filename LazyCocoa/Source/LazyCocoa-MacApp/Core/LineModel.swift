@@ -129,7 +129,7 @@ class LineModel: NSObject, Printable {
 		} else {
 			model = FontModel(identifier: identifier, fontName: fontNameString)
 		}
-		return model.funcString()
+		return model.documentationString().stringInSwiftDocumentationStyle() + model.funcString()
 	}
 	
 	func colorFuncString() ->String {
@@ -137,6 +137,6 @@ class LineModel: NSObject, Printable {
 			return ""
 		}
 		let model = ColorModel(identifier: identifier, colorHexString: colorCodeString)
-		return model.funcString()
+		return model.documentationString().stringInSwiftDocumentationStyle() + model.funcString()
 	}
 }

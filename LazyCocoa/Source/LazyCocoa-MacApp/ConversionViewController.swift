@@ -34,4 +34,12 @@ class ConversionViewController: NSViewController {
         
     }
     
+    @IBAction func parseColorButtonTapped(sender: AnyObject) {
+        
+    }
+    
+    @IBAction func generateConstantsButtonTapped(sender: AnyObject) {
+        
+    }
+    
 }

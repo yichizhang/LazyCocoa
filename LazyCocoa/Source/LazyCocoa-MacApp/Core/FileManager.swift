@@ -16,7 +16,7 @@ class FileManager {
 		var alertTitle = ""
 		var error:NSError?
 		
-		if let exportPath = exportPath {
+		if let exportPath = exportPath?.stringByTrimmingWhiteSpaceAndNewLineCharacters() {
 			
 			if let currentDocumentRealPath = currentDocumentRealPath {
 				

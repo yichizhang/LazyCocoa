@@ -16,6 +16,7 @@ import Cocoa
 
 class ColorModel : BaseModel, BaseModelProtocol{
 	
+    var colorHexString:String!
 	var red:Float = 1.0
 	var green:Float = 1.0
 	var blue:Float = 1.0
@@ -26,6 +27,7 @@ class ColorModel : BaseModel, BaseModelProtocol{
 		self.init()
 		
 		self.identifier = identifier
+        self.colorHexString = colorHexString
 		
 		let index   = advance(colorHexString.startIndex, 1)
 		let hex     = colorHexString.substringFromIndex(index)
@@ -74,6 +76,10 @@ class ColorModel : BaseModel, BaseModelProtocol{
 		
 		return String.initString(className: Settings.colorClassName, initMethodSignature: Settings.colorRGBAInitSignatureString, arguments: [red, green, blue, alpha])
 	}
+    
+    func documentationString() -> String {
+        return "Color code: \(colorHexString)"
+    }
 	
 	func funcString() -> String {
 		

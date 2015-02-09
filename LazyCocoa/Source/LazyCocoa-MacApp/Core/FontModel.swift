@@ -65,6 +65,16 @@ class FontModel : BaseModel, BaseModelProtocol{
 		return statementString
 	}
 	
+    func documentationString() -> String {
+        var string:String!
+        if let fontSize = fontSize {
+            string = "Font name: \(typefaceName), font size: \(fontSize)"
+        } else {
+            string = "Font name: \(typefaceName)"
+        }
+        return string
+    }
+    
 	func funcString() -> String {
 		
 		var formatString:NSString

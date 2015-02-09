@@ -43,6 +43,7 @@ protocol BaseModelProtocol {
 	
 	func autoMethodName() -> String
 	func statementString() -> String
+    func documentationString() -> String
 	func funcString() -> String
 }
 
@@ -267,7 +268,7 @@ extension String {
 			}
 		}
 		
-		var string = "("
+		var string = "\(className)("
 		
 		let m = initMethodSignature.componentsSeparatedByString(":")
 	
@@ -285,7 +286,7 @@ extension String {
 		return string
 	}
 	
-	static func methodString(methodString:String, parameters:[AnyObject] ) -> String {
+    static func methodString(#methodSignature:String, parameters:[AnyObject], returnType:String, statements:String ) -> String {
 		var string = ""
 		return string
 	}
@@ -316,6 +317,10 @@ extension String {
 		return (newArray as NSArray).componentsJoinedByString("\n")
 	}
 	
+    func stringInSwiftDocumentationStyle() -> String {
+        return "/** \n" + self.stringByIndenting(numberOfTabs:1) + "\n*/\n"
+    }
+    
 	func stringByRemovingComments() -> String {
 		return (self as NSString).stringByRemovingComments()
 	}
