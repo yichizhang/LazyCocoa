@@ -55,6 +55,20 @@ class ConversionViewController: NSViewController {
     
     @IBAction func generateConstantsButtonTapped(sender: AnyObject) {
         
+        if let source = sourceTextView.string {
+            
+            let arr = source.componentsSeparatedByCharactersInSet( NSCharacterSet(charactersInString: ",\n") )
+            //let arr = source.componentsSeparatedByString(",")
+            var result = ""
+            
+            for (i, s) in enumerate(arr) {
+                let str = s.stringByTrimmingWhiteSpaceAndNewLineCharacters()
+                let arg = Argument(object: str, formattingStrategy: ArgumentFormattingStrategy.StringLiteral)
+                result = result + "let k\(str.capitalizedString) = \(arg.formattedString)\n"
+            }
+            
+            resultTextView.string = result
+        }
     }
     
 }
