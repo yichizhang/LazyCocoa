@@ -36,7 +36,7 @@ class DocumentAnalyzer : NSObject {
 			return
 		}
 
-		var statementStringArray:NSMutableArray = NSMutableArray(capacity: countElements(linesSeparatedByNewLine) * 2 )
+		var statementStringArray:NSMutableArray = NSMutableArray(capacity: count(linesSeparatedByNewLine) * 2 )
 		
 		// Reset all parameters
 		Settings.parameters = Dictionary()
@@ -71,7 +71,7 @@ class DocumentAnalyzer : NSObject {
 		
 		for object : AnyObject in statementStringArray {
 			
-			let currentStatement = LineModel(lineString: object as String)
+			let currentStatement = LineModel(lineString: object as! String)
 			
 			lines.addObject(currentStatement)
 		}
@@ -109,8 +109,8 @@ class DocumentAnalyzer : NSObject {
 			}
 		}
 		
-		fontFileString = NSString(format: baseFileFormatString, Settings.fontClassName, fontString) as String
-		colorFileString = NSString(format: baseFileFormatString, Settings.colorClassName, colorString) as String
+		fontFileString = NSString(format: baseFileFormatString, Settings.fontClassName, fontString) as! String
+		colorFileString = NSString(format: baseFileFormatString, Settings.colorClassName, colorString) as! String
 	}
 
 	func printAll() {

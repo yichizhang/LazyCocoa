@@ -74,7 +74,7 @@ class Argument : NSObject {
 		case ArgumentFormattingStrategy.CGFloatNumber.rawValue:
 			return NSString(format: "%.3f", object.floatValue) as String
 		case ArgumentFormattingStrategy.StringLiteral.rawValue:
-			let str = object as String
+			let str = object as! String
 			return "\"" + str + "\""
 		case ArgumentFormattingStrategy.Name.rawValue:
 			return "\(object)"
@@ -128,7 +128,7 @@ class SettingsManager : NSObject {
 			messageString,
 			userName,
 			companyName
-		)
+		) as! String
 	}
 	
 	var currentDocumentRealPath : String? {
@@ -200,7 +200,7 @@ class SettingsManager : NSObject {
 extension NSString {
 	
 	var isValidNumber:Bool {
-		var set: NSMutableCharacterSet = NSCharacterSet.decimalDigitCharacterSet().invertedSet.mutableCopy() as NSMutableCharacterSet
+		var set: NSMutableCharacterSet = NSCharacterSet.decimalDigitCharacterSet().invertedSet.mutableCopy() as! NSMutableCharacterSet
 		set.removeCharactersInString(".")
 		let range = (self as NSString).rangeOfCharacterFromSet(set)
 		if(range.location == NSNotFound){
@@ -298,7 +298,7 @@ extension String {
 	
 	var length:Int{
 		
-		return countElements(self)
+		return count(self)
 	}
 	
 	func stringByIndenting(#numberOfTabs:Int) -> String {
@@ -322,10 +322,10 @@ extension String {
     }
     
 	func stringByRemovingComments() -> String {
-		return (self as NSString).stringByRemovingComments()
+		return (self as NSString).stringByRemovingComments() as! String
 	}
 	
 	func stringByTrimmingWhiteSpaceAndNewLineCharacters() -> String {
-		return (self as NSString).stringByTrimmingWhiteSpaceAndNewLineCharacters()
+		return (self as NSString).stringByTrimmingWhiteSpaceAndNewLineCharacters() as! String
 	}
 }

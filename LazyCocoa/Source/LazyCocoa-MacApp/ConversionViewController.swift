@@ -27,7 +27,7 @@ class ConversionViewController: NSViewController {
         if let source = sourceTextView.string {
             var error:NSError?
             let regex = NSRegularExpression(pattern: "@property \\((.*)\\) (.*) \\*?(.*);", options: NSRegularExpressionOptions.CaseInsensitive, error: &error)
-            let modifiedString = regex?.stringByReplacingMatchesInString(source, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, countElements(source)), withTemplate: "var $3:$2?")
+            let modifiedString = regex?.stringByReplacingMatchesInString(source, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, count(source)), withTemplate: "var $3:$2?")
             
             resultTextView.string = modifiedString
         }
@@ -45,7 +45,7 @@ class ConversionViewController: NSViewController {
                 
                 let ss = s as NSString
                 if ((s as String).isEmpty == false) {
-                    xa.append(ColorScanner.scanText(ss))
+                    xa.append(ColorScanner.scanText(ss as! String))
                 }
             }
             
@@ -58,6 +58,7 @@ class ConversionViewController: NSViewController {
         if let source = sourceTextView.string {
             
             let arr = source.componentsSeparatedByCharactersInSet( NSCharacterSet(charactersInString: ",\n") )
+			
             //let arr = source.componentsSeparatedByString(",")
             var result = ""
             

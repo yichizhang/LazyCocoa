@@ -41,15 +41,15 @@ class Document: NSDocument {
 		
 
 		let storyboard = NSStoryboard(name: "Main", bundle: nil)!
-		let windowController = storyboard.instantiateControllerWithIdentifier("Document Window Controller") as NSWindowController
-		println(windowController.contentViewController?.self)
+		let windowController = storyboard.instantiateControllerWithIdentifier("Document Window Controller") as! NSWindowController
+		println(windowController.contentViewController.self)
 		
 		//let mainViewController:SourceEditViewController = windowController.contentViewController as SourceEditViewController
 		//mainViewController.sourceFileTextView.string = fileContentString
 		
 		//documentMainViewController = windowController.contentViewController as? SourceEditViewController
         if let tabVC = windowController.contentViewController as? NSTabViewController {
-            documentMainViewController = (tabVC.childViewControllers as [NSViewController])[0] as? SourceEditViewController
+            documentMainViewController = (tabVC.childViewControllers as! [NSViewController])[0] as? SourceEditViewController
         }
         
 		if let documentMainViewController = documentMainViewController {
@@ -122,7 +122,7 @@ class Document: NSDocument {
 			
 			if tempString != nil {
 				
-				fileContentString = tempString!
+				fileContentString = tempString! as! String
 				readSuccess = true
 				
 			}else {

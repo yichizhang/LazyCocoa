@@ -15,18 +15,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 import Foundation
 
 class LineModel: NSObject, Printable {
-	
+
 	var identifier:String = ""
-	var otherNames:Array<String> = []
+	var otherNames:[String] = []
 	var colorCodeString:String = ""
 	var fontNameString:String = ""
 	var fontSizeString:String = ""
 	
-	func description() -> String {
+	override var description:String {
+		let y = join(", ", self.otherNames)
 		
-		let y = (self.otherNames as NSArray).componentsJoinedByString("; ")
-		
-		return NSString(format: "%@, {%@}, %@, %@, %@.", identifier, y, colorCodeString, fontNameString, fontSizeString)
+		return "\(identifier), {\(y)}, \(colorCodeString), \(fontNameString), \(fontSizeString)"
 	}
 	
 	convenience init(lineString:String){
@@ -43,7 +42,7 @@ class LineModel: NSObject, Printable {
 		let scanner = NSScanner(string: processedString)
 		var resultString:NSString?
 		
-		while ( scanner.scanLocation < countElements(scanner.string) ) {
+		while ( scanner.scanLocation < count(scanner.string) ) {
 		
 			let character = scanner.string.characterAtIndex(scanner.scanLocation)
 			
@@ -54,7 +53,7 @@ class LineModel: NSObject, Printable {
 				
 				if let resultString = resultString {
 					
-					fontNameString = resultString
+					fontNameString = resultString as! String
 				}
 				
 			}else {
@@ -64,20 +63,20 @@ class LineModel: NSObject, Printable {
 				if let resultString = resultString {
 					
 					if ( resultString.isValidNumber ) {
-						fontSizeString = resultString
+						fontSizeString = resultString as! String
 					}else if ( resultString.isValidColorCode ) {
-						colorCodeString = resultString
+						colorCodeString = resultString as! String
 					}else {
 						if ( identifier.isEmpty ) {
-							identifier = resultString
+							identifier = resultString as! String
 						}else {
-							otherNames.append(resultString)
+							otherNames.append(resultString as! String)
 						}
 					}
 				}
 			}
 			
-			if (scanner.scanLocation < countElements(scanner.string)) {
+			if (scanner.scanLocation < count(scanner.string)) {
 				scanner.scanLocation++
 			}
 			
