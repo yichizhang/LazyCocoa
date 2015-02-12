@@ -42,6 +42,8 @@ class DocumentAnalyzer : NSObject {
 				Settings.parameters = parameters
 			}
 			
+			println(Settings.parameters)
+			
 			if processMode == processMode_colorAndFont {
 				
 				if let statementModelArray = sourceScanner.statementDict[processMode] {

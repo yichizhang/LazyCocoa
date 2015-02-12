@@ -42,7 +42,7 @@ class FontModel : BaseModel, BaseModelProtocol{
 	func autoMethodName() -> String {
 		
 		let base = Settings.unwrappedParameterForKey(paramKey_classFuncPrefix)
-		if (identifier as NSString).isMeantToBeFont {
+		if identifier.isMeantToBeFont {
 			return base + identifier
 		}else{
 			return base + identifier + FONT_SUFFIX

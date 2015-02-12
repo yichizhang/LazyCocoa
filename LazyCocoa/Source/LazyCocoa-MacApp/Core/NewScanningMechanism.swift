@@ -109,6 +109,9 @@ class SourceCodeScanner {
 	
 	func processSourceString(string:String) {
 		
+		parameterDict.removeAll(keepCapacity: true)
+		statementDict.removeAll(keepCapacity: true)
+		
 		let scanner = NSScanner(string: string)
 		
 		

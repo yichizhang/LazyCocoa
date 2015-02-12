@@ -202,53 +202,6 @@ class SettingsManager : NSObject {
 	
 }
 
-extension NSString {
-	
-	var isValidNumber:Bool {
-		var set: NSMutableCharacterSet = NSCharacterSet.decimalDigitCharacterSet().invertedSet.mutableCopy() as! NSMutableCharacterSet
-		set.removeCharactersInString(".")
-		let range = (self as NSString).rangeOfCharacterFromSet(set)
-		if(range.location == NSNotFound){
-			return true
-		}
-		return false
-		
-	}
-	var isValidColorCode:Bool {
-		
-		return hasPrefix(HASH_STRING)
-	}
-	var isMeantToBeComment:Bool {
-		
-		return hasPrefix(COMMENT_PREFIX)
-	}
-	var isMeantToBeFont:Bool {
-		
-		return hasSuffix(FONT_SUFFIX)
-	}
-	var isMeantToBeColor:Bool {
-		
-		return hasSuffix(COLOR_SUFFIX)
-	}
-	var isMeantToBeNeitherFontOrColor:Bool {
-		
-		return !(isMeantToBeFont && isMeantToBeColor)
-	}
-	func stringByRemovingComments() -> NSString {
-		let range = self.rangeOfString(COMMENT_PREFIX)
-		
-		if range.location != NSNotFound {
-			return self.substringToIndex(range.location)
-		}else {
-			return self
-		}
-	}
-	
-	func stringByTrimmingWhiteSpaceAndNewLineCharacters() -> NSString {
-		return self.stringByTrimmingCharactersInSet( NSCharacterSet.whitespaceAndNewlineCharacterSet() )
-	}
-}
-
 extension String {
 	var isValidNumber:Bool {
 		var setOfNonNumberCharacters = NSCharacterSet.decimalDigitCharacterSet().invertedSet.mutableCopy() as! NSMutableCharacterSet
@@ -376,18 +329,14 @@ extension String {
 			return newString
 		})
 		
-		return (newArray as NSArray).componentsJoinedByString("\n")
+		return "\n".join(newArray)
 	}
 	
     func stringInSwiftDocumentationStyle() -> String {
         return "/** \n" + self.stringByIndenting(numberOfTabs:1) + "\n*/\n"
     }
-    
-	func stringByRemovingComments() -> String {
-		return (self as NSString).stringByRemovingComments() as! String
-	}
 	
 	func stringByTrimmingWhiteSpaceAndNewLineCharacters() -> String {
-		return (self as NSString).stringByTrimmingWhiteSpaceAndNewLineCharacters() as! String
+		return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
 	}
 }

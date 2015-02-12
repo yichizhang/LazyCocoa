@@ -65,7 +65,7 @@ class ColorModel : BaseModel, BaseModelProtocol{
 	func autoMethodName() -> String {
 	
 		let base = Settings.unwrappedParameterForKey(paramKey_classFuncPrefix)
-		if (identifier as NSString).isMeantToBeColor {
+		if identifier.isMeantToBeColor {
 			return base + identifier
 		}else{
 			return base + identifier + COLOR_SUFFIX
