@@ -11,6 +11,10 @@ extension UIColor {
 }
 ``` 
 
+This project is named after Cocoa, she's a very lazy cat:
+
+![Cocoa - a very lazy cat](https://raw.githubusercontent.com/yichizhang/GenColor-Mac/master/Screenshots/cocoa.jpg)
+
 ## Components
 
 ### Swift Bridging Header Generator
@@ -80,7 +84,10 @@ You have your Color/ Font settings file like this:
 
 ```
 // Comments are supported
-!exportPath ../Extensions/MyStyle.swift
+
+!!!colorAndFont
+
+!!exportTo ../Extensions/MyStyle.swift
 
 light "MyFont-Light" // Comments are supported
 regular "MyFont-Regular"
@@ -106,6 +113,12 @@ homePageBackground defaultBackground
 contactCellBackground white
 contactCellTitle darkerGray bold extra-large
 contactCellDescription gray regular small
+
+// Can also generate constants
+!!!stringConst
+
+!!prefix k_
+email; username; password;
 ```
 
 Then you press update button. It generates UIColor/ NSColor files for you. (NSColor is not supported yet) The above settings file would generate UIColor extension methods like:
