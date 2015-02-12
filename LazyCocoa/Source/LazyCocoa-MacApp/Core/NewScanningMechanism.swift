@@ -8,6 +8,11 @@
 
 import Foundation
 
+let processMode_colorAndFont = "colorAndFont"
+let processMode_stringConst = "stringConst"
+
+let acceptedProcessModes = [processMode_colorAndFont, processMode_stringConst]
+
 class StatementModel: NSObject, Printable {
 	
 	var identifiers:[String] = [] //
@@ -138,12 +143,12 @@ class SourceCodeScanner {
 				
 				scanner.scanLocation += twoCharString.length
 				scanner.scanUpToCharactersFromSet(newline, intoString: &resultString)
-//				scanner.scanLocation++
 				
 			} else if twoCharString == MULTI_LINE_COMMENT_START {
 				
 				scanner.scanLocation += twoCharString.length
 				scanner.scanUpToString(MULTI_LINE_COMMENT_END, intoString: &resultString)
+				scanner.scanLocation += MULTI_LINE_COMMENT_END.length
 				
 			} else {
 				
@@ -183,13 +188,11 @@ class SourceCodeScanner {
 				
 			}
 			
-			let lastOneCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 1)
+			var oneCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 1)
 			
-			if lastOneCharString.containsCharactersInSet(newlineAndSemicolon) {
+			if oneCharString.containsCharactersInSet(newlineAndSemicolon) {
 				makeNewStatementModelForProcessMode(currentProcessModeString)
 			}
-			
-			var oneCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 1)
 			
 			while scanner.scanLocation < count(scanner.string)
 			&& oneCharString.containsCharactersInSet(whitespaceNewlineAndSemicolon)
