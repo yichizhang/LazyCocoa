@@ -36,6 +36,9 @@ class DocumentAnalyzer : NSObject {
 		
 		var fontFileString = ""
 		var colorFileString = ""
+		var constantsSwiftString = ""
+		var constantsObjcHeaderString = ""
+		var constantsObjcImplementationString = ""
 		
 		// Reset all parameters
 		Settings.parameters = Dictionary()
@@ -70,17 +73,27 @@ class DocumentAnalyzer : NSObject {
 				
 			} else if processMode == processMode_stringConst {
 				
+				if let statementModelArray = sourceScanner.statementDict[processMode] {
+					for statementModel in statementModelArray {
+						if let identifier = statementModel.identifiers.first {
+							
+							let name = Settings.unwrappedParameterForKey(paramKey_prefix) + identifier
+							let arg = Argument(object: identifier, formattingStrategy: ArgumentFormattingStrategy.StringLiteral)
+							constantsSwiftString = constantsSwiftString + "let \( name ) = \(arg.formattedString)\n"
+							
+							constantsObjcHeaderString = constantsObjcHeaderString + "FOUNDATION_EXPORT NSString *const \( name );\n"
+							
+							constantsObjcImplementationString = constantsObjcImplementationString + "NSString *const \( name ) = @\(arg.formattedString);\n"
+						}
+					}
+				}
 			}
 			
 		}
 		
-		mainResultString = Settings.headerComment
-			+ String.importStatementString("Foundation")
-			+ String.importStatementString("UIKit")
-			+ NEW_LINE_STRING + NEW_LINE_STRING
-			+ fontFileString
-			+ colorFileString
-	
-		otherResultString = "HAHA"
+		let importStatements = String.importStatementString("Foundation") + ( String.importStatementString("UIKit") )
+		mainResultString = "\(Settings.headerComment)\( importStatements )\n\(constantsSwiftString)\n\(fontFileString)\(colorFileString)"
+
+		otherResultString = "\(constantsObjcHeaderString)\n\n\(constantsObjcImplementationString)"
 	}
 }

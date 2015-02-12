@@ -66,17 +66,17 @@ class SourceEditViewController: NSViewController {
 		updateUserInterfaceSettings()
 	}
 	
+	@IBAction func updateButtonActionPerformed(sender: AnyObject) {
+		
+		update()
+	}
+	
 	@IBAction func exportButtonActionPerformed(sender: AnyObject) {
 		
 		update()
 			
 		FileManager.write(string: analyzer.mainResultString, currentDocumentRealPath: Settings.currentDocumentRealPath, exportPath: Settings.parameterForKey(paramKey_exportTo) )
 		
-	}
-	
-	@IBAction func updateButtonActionPerformed(sender: AnyObject) {
-		
-		update()
 	}
 	
 	@IBAction func platformSegControlUpdated(sender: AnyObject) {

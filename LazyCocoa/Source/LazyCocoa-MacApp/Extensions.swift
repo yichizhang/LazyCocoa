@@ -23,6 +23,8 @@ extension NSTextView {
         enabledTextCheckingTypes = 0
         richText = false
         font = myFont
+		
+		textStorage?.font = myFont
     }
 }
 
