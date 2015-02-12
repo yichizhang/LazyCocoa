@@ -67,7 +67,7 @@ class DocumentAnalyzer : NSObject {
 					lineContainer.prepareLineModels()
 					
 					fontFileString = String.extensionString(className: Settings.fontClassName, content: lineContainer.fontMethodsString)
-					colorFileString = String.extensionString(className: Settings.colorClassName, content: lineContainer.fontMethodsString)
+					colorFileString = String.extensionString(className: Settings.colorClassName, content: lineContainer.colorMethodsString)
 					
 				}
 				
