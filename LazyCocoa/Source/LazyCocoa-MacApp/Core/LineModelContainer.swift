@@ -19,6 +19,32 @@ class LineModelContainer : NSObject {
 	var modelArray: Array<LineModel> = Array()
 	var modelDictionary: Dictionary<String, LineModel> = Dictionary()
 	
+	var fontMethodsString:String {
+		var fontString = ""
+		
+		for model in modelArray {
+			if (model.canProduceFontFuncString){
+				
+				fontString = fontString + model.fontFuncString().stringByIndenting(numberOfTabs: 1) + NEW_LINE_STRING + NEW_LINE_STRING
+			}
+		}
+		
+		return fontString
+	}
+	
+	var colorMethodsString:String {
+		var colorString = ""
+		
+		for model in modelArray {
+			if (model.canProduceColorFuncString){
+				
+				colorString = colorString + model.colorFuncString().stringByIndenting(numberOfTabs: 1) + NEW_LINE_STRING + NEW_LINE_STRING
+			}
+		}
+		
+		return colorString
+	}
+	
 	func addObject(model:LineModel) {
 		
 		if (model.identifier.isEmpty == false) {
@@ -36,6 +62,18 @@ class LineModelContainer : NSObject {
 		
 		modelArray.removeAll(keepCapacity: true)
 		modelDictionary.removeAll(keepCapacity: true)
+	}
+	
+	func prepareLineModels() {
+		
+		for model in modelArray {
+			for name in model.otherNames {
+				if let otherModel = objectForKey(name){
+					model.populateWithOtherLineModel( otherModel )
+				}
+			}
+		}
+		
 	}
 	
 }

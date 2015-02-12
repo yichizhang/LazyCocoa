@@ -23,7 +23,7 @@
 		12F983801A4D8BC30041FE43 /* DocumentAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9837E1A4D8BC30041FE43 /* DocumentAnalyzer.swift */; };
 		12F983841A4D92380041FE43 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F983831A4D92380041FE43 /* Base.swift */; };
 		12F983861A4DC3E40041FE43 /* FontModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F983851A4DC3E40041FE43 /* FontModel.swift */; };
-		12F983881A4DECA30041FE43 /* StatementsContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F983871A4DECA30041FE43 /* StatementsContainer.swift */; };
+		12F983881A4DECA30041FE43 /* LineModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F983871A4DECA30041FE43 /* LineModelContainer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,7 +57,7 @@
 		12F9837E1A4D8BC30041FE43 /* DocumentAnalyzer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentAnalyzer.swift; sourceTree = "<group>"; };
 		12F983831A4D92380041FE43 /* Base.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; };
 		12F983851A4DC3E40041FE43 /* FontModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontModel.swift; sourceTree = "<group>"; };
-		12F983871A4DECA30041FE43 /* StatementsContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatementsContainer.swift; sourceTree = "<group>"; };
+		12F983871A4DECA30041FE43 /* LineModelContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineModelContainer.swift; sourceTree = "<group>"; };
 		12FAA5611A4EF04400C3312B /* LazyCocoa-MacApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LazyCocoa-MacApp-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -147,7 +147,7 @@
 				12F983831A4D92380041FE43 /* Base.swift */,
 				125DD5D11A84C09C00C90757 /* FileManager.swift */,
 				12F9837E1A4D8BC30041FE43 /* DocumentAnalyzer.swift */,
-				12F983871A4DECA30041FE43 /* StatementsContainer.swift */,
+				12F983871A4DECA30041FE43 /* LineModelContainer.swift */,
 				12767EE91A503E0E00BCFED3 /* LineModel.swift */,
 				12C5359C1A8C216900B1B287 /* NewScanningMechanism.swift */,
 				12FAA5611A4EF04400C3312B /* LazyCocoa-MacApp-Bridging-Header.h */,
@@ -255,7 +255,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1214AF5D1A4B346100F31ED8 /* SourceEditViewController.swift in Sources */,
-				12F983881A4DECA30041FE43 /* StatementsContainer.swift in Sources */,
+				12F983881A4DECA30041FE43 /* LineModelContainer.swift in Sources */,
 				12F9837F1A4D8BC30041FE43 /* ColorModel.swift in Sources */,
 				12E12DD11A89181D001E96E0 /* ColorScanner.swift in Sources */,
 				12F983861A4DC3E40041FE43 /* FontModel.swift in Sources */,

@@ -28,60 +28,28 @@ class LineModel: NSObject, Printable {
 		return "\(identifier), {\(y)}, \(colorCodeString), \(fontNameString), \(fontSizeString)"
 	}
 	
-	convenience init(lineString:String){
+	convenience init(newStatementModel:StatementModel){
 		self.init()
 		
-		var processedString = lineString.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+		if let first = newStatementModel.identifiers.first {
+			identifier = first
+			
+			otherNames = newStatementModel.identifiers
+			otherNames.removeAtIndex(0)
 		
-		if let range = processedString.rangeOfString(COMMENT_PREFIX) {
-			processedString = processedString.substringToIndex(
-			 range.startIndex
-			)
 		}
 		
-		let scanner = NSScanner(string: processedString)
-		var resultString:NSString?
-		
-		while ( scanner.scanLocation < count(scanner.string) ) {
-		
-			let character = scanner.string.characterAtIndex(scanner.scanLocation)
-			
-			if (character == DOUBLE_QUOTE_CHAR) {
-				
-				scanner.scanLocation++
-				scanner.scanUpToString(DOUBLE_QUOTE_STRING, intoString: &resultString)
-				
-				if let resultString = resultString {
-					
-					fontNameString = resultString as! String
-				}
-				
-			}else {
-				
-				scanner.scanUpToString(SPACE_STRING, intoString: &resultString)
-				
-				if let resultString = resultString {
-					
-					if ( resultString.isValidNumber ) {
-						fontSizeString = resultString as! String
-					}else if ( resultString.isValidColorCode ) {
-						colorCodeString = resultString as! String
-					}else {
-						if ( identifier.isEmpty ) {
-							identifier = resultString as! String
-						}else {
-							otherNames.append(resultString as! String)
-						}
-					}
-				}
-			}
-			
-			if (scanner.scanLocation < count(scanner.string)) {
-				scanner.scanLocation++
-			}
-			
+		if let first = newStatementModel.colorCodes.first {
+			colorCodeString = first
 		}
 		
+		if let first = newStatementModel.numbers.first {
+			fontSizeString = first
+		}
+		
+		if let first = newStatementModel.names.first {
+			fontNameString = first
+		}
 	}
 	
 	func populateWithOtherLineModel(model:LineModel) {

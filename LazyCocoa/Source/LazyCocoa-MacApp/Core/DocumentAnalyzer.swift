@@ -26,98 +26,44 @@ class DocumentAnalyzer : NSObject {
 	
 	var platform:Platform!
 	
-	var lines: LineModelContainer = LineModelContainer()
+	var lineContainer: LineModelContainer = LineModelContainer()
+	
+	let sourceScanner = SourceCodeScanner()
 	
 	func process(){
 
-		let linesSeparatedByNewLine = inputString.componentsSeparatedByString("\n").filter(isNonEmpty)
+		sourceScanner.processSourceString(inputString)
 		
-		if linesSeparatedByNewLine.count == 0 {
-			return
-		}
-
-		var statementStringArray:NSMutableArray = NSMutableArray(capacity: count(linesSeparatedByNewLine) * 2 )
-		
-		// Reset all parameters
-		Settings.parameters = Dictionary()
-		
-		for string:String in linesSeparatedByNewLine {
+		for processMode in acceptedProcessModes {
 			
-			if string.hasPrefix(EXCLAMATION_MARK_STRING) {
+			// Reset all parameters
+			Settings.parameters = Dictionary()
+			if let parameters = sourceScanner.parameterDict[processMode] {
+				Settings.parameters = parameters
+			}
+			
+			if processMode == processMode_colorAndFont {
 				
-				let tempString = (string as NSString).substringFromIndex(EXCLAMATION_MARK_STRING.length).stringByRemovingComments() as NSString
-				
-				let range = tempString.rangeOfCharacterFromSet( NSCharacterSet.whitespaceCharacterSet() )
-				
-				if range.location != NSNotFound {
-					let paramKey = tempString.substringToIndex(range.location)
-					let paramValue = tempString.substringFromIndex(range.location + range.length)
+				if let statementModelArray = sourceScanner.statementDict[processMode] {
 					
-					Settings.setParameter(value: paramValue, forKey: paramKey)
+					lineContainer.removeAllObjects()
+					for statementModel in statementModelArray {
+						
+						let currentStatement = LineModel(newStatementModel: statementModel)
+						lineContainer.addObject(currentStatement)
+					}
+					lineContainer.prepareLineModels()
+					
+					let baseFileFormatString = "extension %@ {\n\n%@}\n\n"
+					
+					fontFileString = NSString(format: baseFileFormatString, Settings.fontClassName, lineContainer.fontMethodsString) as! String
+					colorFileString = NSString(format: baseFileFormatString, Settings.colorClassName, lineContainer.colorMethodsString) as! String
+					
 				}
 				
-			} else if string.hasPrefix(DOUBLE_QUOTE_STRING) {
+			} else if processMode == processMode_stringConst {
 				
-				
-				
-			} else {
-				statementStringArray.addObjectsFromArray(
-					string.componentsSeparatedByString(";").filter(isNonEmpty)
-				)
 			}
-		}
-
-		lines.removeAllObjects()
-		
-		for object : AnyObject in statementStringArray {
-			
-			let currentStatement = LineModel(lineString: object as! String)
-			
-			lines.addObject(currentStatement)
-		}
-		
-		#if DEBUG
-		printAll()
-		#endif
-		
-		for model : LineModel in lines.modelArray {
-			
-			for name in model.otherNames {
-				if let otherModel = lines.objectForKey(name){
-					model.populateWithOtherLineModel( otherModel )
-				}
-			}
-			
-		}
-		
-		#if DEBUG
-			printAll()
-		#endif
-		
-		let baseFileFormatString = "extension %@ {\n\n%@}\n\n"
-		var fontString = ""
-		var colorString = ""
-		
-		for model : LineModel in lines.modelArray {
-			if (model.canProduceColorFuncString){
-				
-				colorString = colorString + model.colorFuncString().stringByIndenting(numberOfTabs: 1) + NEW_LINE_STRING + NEW_LINE_STRING
-			}
-			if (model.canProduceFontFuncString){
-				
-				fontString = fontString + model.fontFuncString().stringByIndenting(numberOfTabs: 1) + NEW_LINE_STRING + NEW_LINE_STRING
-			}
-		}
-		
-		fontFileString = NSString(format: baseFileFormatString, Settings.fontClassName, fontString) as! String
-		colorFileString = NSString(format: baseFileFormatString, Settings.colorClassName, colorString) as! String
-	}
-
-	func printAll() {
-		
-		for model : LineModel in lines.modelArray {
-			
-			println(model)
 			
 		}
 		
