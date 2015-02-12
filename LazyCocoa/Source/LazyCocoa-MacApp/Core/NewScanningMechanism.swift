@@ -106,24 +106,25 @@ class SourceCodeScanner {
 		
 		let scanner = NSScanner(string: string)
 		
+		
+		let whitespaceAndNewline = NSCharacterSet.whitespaceAndNewlineCharacterSet()
+		let whitespace = NSCharacterSet.whitespaceCharacterSet()
+		let newline = NSCharacterSet.newlineCharacterSet()
+		
+		let whitespaceNewlineAndSemicolon = whitespaceAndNewline.mutableCopy() as! NSMutableCharacterSet
+		whitespaceNewlineAndSemicolon.addCharactersInString(";")
+		
+		let newlineAndSemicolon = newline.mutableCopy() as! NSMutableCharacterSet
+		newlineAndSemicolon.addCharactersInString(";")
+		
 		var currentProcessModeString:String!
+		var resultString:NSString?
+		
 		while scanner.scanLocation < count(scanner.string) {
 			
 			let currentChar = scanner.string.characterAtIndex(scanner.scanLocation)
 			let threeCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 3)
 			let twoCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 2)
-			
-			let whitespaceAndNewline = NSCharacterSet.whitespaceAndNewlineCharacterSet()
-			let whitespace = NSCharacterSet.whitespaceCharacterSet()
-			let newline = NSCharacterSet.newlineCharacterSet()
-			
-			let whitespaceNewlineAndSemicolon = whitespaceAndNewline.mutableCopy() as! NSMutableCharacterSet
-			whitespaceNewlineAndSemicolon.addCharactersInString(";")
-			
-			let newlineAndSemicolon = newline.mutableCopy() as! NSMutableCharacterSet
-			newlineAndSemicolon.addCharactersInString(";")
-			
-			var resultString:NSString?
 			
 			if threeCharString == "!!!" {
 				//This is the string after !!!, before any white space or new line characters.
@@ -182,22 +183,20 @@ class SourceCodeScanner {
 				
 			}
 			
-			let oneCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 1)
+			let lastOneCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 1)
 			
-			if oneCharString.containsCharactersInSet(newlineAndSemicolon) {
-				
-				SourceCodeScanner.pln("oneCharString.containsCharactersInSet(newlineAndSemicolon)")
+			if lastOneCharString.containsCharactersInSet(newlineAndSemicolon) {
 				makeNewStatementModelForProcessMode(currentProcessModeString)
-				
-			} else if oneCharString.containsCharactersInSet(whitespace) {
-				
-				SourceCodeScanner.pln("oneCharString.containsCharactersInSet(whitespace)")
-			}
-
-			if scanner.scanLocation < count(scanner.string) {
-				scanner.scanLocation++
 			}
 			
+			var oneCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 1)
+			
+			while scanner.scanLocation < count(scanner.string)
+			&& oneCharString.containsCharactersInSet(whitespaceNewlineAndSemicolon)
+			{
+				scanner.scanLocation++
+				oneCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 1)
+			}
 		}
 		
 		
