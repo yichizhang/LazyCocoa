@@ -15,15 +15,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 import Cocoa
 
 let HASH_STRING = "#"
-let EXCLAMATION_MARK_CHAR = Character("!")
 let EXCLAMATION_MARK_STRING = "!"
-let DOUBLE_QUOTE_CHAR = Character("\"")
+let EXCLAMATION_MARK_CHAR = Character(EXCLAMATION_MARK_STRING)
 let DOUBLE_QUOTE_STRING = "\""
+let DOUBLE_QUOTE_CHAR = Character(DOUBLE_QUOTE_STRING)
 let SPACE_STRING = " "
 let NEW_LINE_STRING = "\n"
+let NEW_LINE_CHAR = Character(NEW_LINE_STRING)
 let FONT_SUFFIX = "Font"
 let COLOR_SUFFIX = "Color"
 let COMMENT_PREFIX = "//"
+
+let SINGLE_LINE_COMMENT = "//"
+let MULTI_LINE_COMMENT_START = "/*"
+let MULTI_LINE_COMMENT_END = "*/"
 
 let paramKey_exportTo = "exportTo"
 let paramKey_classFuncPrefix = "classFuncPrefix"
@@ -299,6 +304,22 @@ extension String {
 	var length:Int{
 		
 		return count(self)
+	}
+	
+	func safeSubstring(#start:Int, length len:Int) -> String {
+		//WORKS
+		let nsstring = self as NSString
+		let maxLength = min( len, nsstring.length - start )
+		return (nsstring.substringWithRange(NSMakeRange(start, maxLength) ) as String)
+		
+		//DOES NOT WORK
+//		let range = Range(start: advance(self.startIndex, start),
+//			end: advance(self.startIndex, start + min(length, count(self) - start) )
+//			)
+//		return self.substringWithRange(range)
+
+//		
+//		return self.substringWithRange(Range<String.Index>(start: advance(self.startIndex, startIndex), end: advance(self.startIndex, startIndex + min(length, count(self) - startIndex ) ) ) )
 	}
 	
 	func stringByIndenting(#numberOfTabs:Int) -> String {

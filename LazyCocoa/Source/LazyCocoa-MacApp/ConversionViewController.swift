@@ -54,9 +54,14 @@ class ConversionViewController: NSViewController {
     }
     
     @IBAction func generateConstantsButtonTapped(sender: AnyObject) {
-        
+		
+		let sourceScanner = SourceCodeScanner()
+		
         if let source = sourceTextView.string {
-            
+            sourceScanner.processSourceString(source)
+			
+			return
+			
             let arr = source.componentsSeparatedByCharactersInSet( NSCharacterSet(charactersInString: ",\n") )
 			
             //let arr = source.componentsSeparatedByString(",")
