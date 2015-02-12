@@ -56,10 +56,8 @@ class DocumentAnalyzer : NSObject {
 					}
 					lineContainer.prepareLineModels()
 					
-					let baseFileFormatString = "extension %@ {\n\n%@}\n\n"
-					
-					fontFileString = NSString(format: baseFileFormatString, Settings.fontClassName, lineContainer.fontMethodsString) as! String
-					colorFileString = NSString(format: baseFileFormatString, Settings.colorClassName, lineContainer.colorMethodsString) as! String
+					fontFileString = String.extensionString(className: Settings.fontClassName, content: lineContainer.fontMethodsString)
+					colorFileString = String.extensionString(className: Settings.colorClassName, content: lineContainer.fontMethodsString)
 					
 				}
 				

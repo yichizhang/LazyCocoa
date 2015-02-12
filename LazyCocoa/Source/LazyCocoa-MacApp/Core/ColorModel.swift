@@ -64,7 +64,7 @@ class ColorModel : BaseModel, BaseModelProtocol{
 	
 	func autoMethodName() -> String {
 	
-		let base = Settings.unwrappedParameterForKey(paramKey_classFuncPrefix)
+		let base = Settings.unwrappedParameterForKey(paramKey_prefix)
 		if identifier.isMeantToBeColor {
 			return base + identifier
 		}else{

@@ -31,7 +31,7 @@ let MULTI_LINE_COMMENT_START = "/*"
 let MULTI_LINE_COMMENT_END = "*/"
 
 let paramKey_exportTo = "exportTo"
-let paramKey_classFuncPrefix = "classFuncPrefix"
+let paramKey_prefix = "prefix"
 let paramKey_ = ""
 
 let fileKey_mainSource = "mainSource"
@@ -213,17 +213,6 @@ extension String {
 		return true
 		
 	}
-	func containsCharactersInSet(set:NSCharacterSet) -> Bool {
-		
-		// FIXME: Use Swift native String
-		let range = (self as NSString).rangeOfCharacterFromSet(set)
-		if(range.location == NSNotFound){
-			// Does not contain characters in set
-			return false
-		}
-		return true
-		
-	}
 	var isValidColorCode:Bool {
 		
 		return hasPrefix(HASH_STRING)
@@ -245,8 +234,34 @@ extension String {
 		return !(isMeantToBeFont && isMeantToBeColor)
 	}
 	
+	
+	var length:Int{
+		
+		return count(self)
+	}
+	
+	func containsCharactersInSet(set:NSCharacterSet) -> Bool {
+		
+		// FIXME: Use Swift native String
+		let range = (self as NSString).rangeOfCharacterFromSet(set)
+		if(range.location == NSNotFound){
+			// Does not contain characters in set
+			return false
+		}
+		return true
+		
+	}
+	
+	static func extensionString(#className:String, content:String) -> String {
+		
+		return "extension \(className) { \n\n\(content.stringByIndenting(numberOfTabs: 1))} \n\n"
+		
+		//		return "extension \(className) { " + NEW_LINE_STRING + NEW_LINE_STRING +
+		//		content + "} " + NEW_LINE_STRING + NEW_LINE_STRING
+	}
+	
 	static func importStatementString(string:String) -> String {
-		return "import " + string + "\n"
+		return "import \(string)\n"
 	}
 	
 	static func initString(#className:String, initMethodSignature:String, arguments:[Any?] ) -> String {
@@ -293,11 +308,6 @@ extension String {
 	func characterAtIndex(index:Int) -> Character{
 		
 		return Array(self)[index]
-	}
-	
-	var length:Int{
-		
-		return count(self)
 	}
 	
 	func safeSubstring(#start:Int, length len:Int) -> String {

@@ -153,22 +153,22 @@ class SourceCodeScanner {
 				scanner.scanUpToString(MULTI_LINE_COMMENT_END, intoString: &resultString)
 				scanner.scanLocation += MULTI_LINE_COMMENT_END.length
 				
+			} else if twoCharString == "!!" {
+				
+				//This is a parameter
+				scanner.scanLocation += twoCharString.length
+				scanner.scanUpToCharactersFromSet(whitespace, intoString: &resultString)
+				let parameterKey = resultString
+				scanner.scanUpToCharactersFromSet(whitespaceAndNewline, intoString: &resultString)
+				let parameterValue = resultString
+				
+				if parameterKey != nil && parameterValue != nil {
+					self.addParameter(parameterKey: parameterKey as! String, parameterValue: parameterValue as! String, forProcessMode: currentProcessModeString)
+				}
+				
 			} else {
 				
-				if currentChar == EXCLAMATION_MARK_CHAR {
-					
-					//This is a parameter
-					scanner.scanLocation++
-					scanner.scanUpToCharactersFromSet(whitespace, intoString: &resultString)
-					let parameterKey = resultString
-					scanner.scanUpToCharactersFromSet(whitespaceAndNewline, intoString: &resultString)
-					let parameterValue = resultString
-					
-					if parameterKey != nil && parameterValue != nil {
-						self.addParameter(parameterKey: parameterKey as! String, parameterValue: parameterValue as! String, forProcessMode: currentProcessModeString)
-					}
-					
-				} else if currentChar == DOUBLE_QUOTE_CHAR {
+				if currentChar == DOUBLE_QUOTE_CHAR {
 					
 					scanner.scanLocation++
 					scanner.scanUpToString(DOUBLE_QUOTE_STRING, intoString: &resultString)

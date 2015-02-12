@@ -41,7 +41,7 @@ class FontModel : BaseModel, BaseModelProtocol{
 	
 	func autoMethodName() -> String {
 		
-		let base = Settings.unwrappedParameterForKey(paramKey_classFuncPrefix)
+		let base = Settings.unwrappedParameterForKey(paramKey_prefix)
 		if identifier.isMeantToBeFont {
 			return base + identifier
 		}else{
