@@ -11,32 +11,66 @@ import Foundation
 class StatementModel: NSObject, Printable {
 	
 	var identifiers:[String] = [] //
-	var names:[String] = [] // Strings within double quotation marks
+	var names:[String] = [] // Strings within double quotation marks; "strings that contains white spaces"
 	var colorCodes:[String] = []
 	var numbers:[String] = []
 	
+	var isEmpty:Bool {
+		if identifiers.count + names.count + colorCodes.count + numbers.count > 0 {
+			return false
+		} else {
+			return true
+		}
+	}
+	
 	override var description:String {
-		let a = join(", ", self.identifiers)
-		let b = join(", ", self.names)
-		let c = join(", ", self.colorCodes)
-		let d = join(", ", self.numbers)
+		var desc = "\n"
+		if !identifiers.isEmpty {
+			desc = desc + "IDS: " + join(", ", identifiers) + "; "
+		}
+		if !names.isEmpty {
+			desc = desc + "names: " + join(", ", names) + "; "
+		}
+		if !colorCodes.isEmpty {
+			desc = desc + "colorCodes: " + join(", ", colorCodes) + "; "
+		}
+		if !numbers.isEmpty {
+			desc = desc + "numbers: " + join(", ", numbers) + "; "
+		}
 		
-		return "{\(a)}, {\(b)}, {\(c)}, {\(d)}."
+		return desc
 	}
 
 	func add(#statementItem:String) {
 		
+		if statementItem.isValidNumber {
+			numbers.append(statementItem)
+		} else if statementItem.isValidColorCode {
+			colorCodes.append(statementItem)
+		} else {
+			identifiers.append(statementItem)
+		}
+	}
+	
+	func addAsName(#statementItem:String) {
+		names.append(statementItem)
 	}
 }
 
 class SourceCodeScanner {
 	
 	var statementDict:[String:[StatementModel]] = Dictionary()
-	var parameterDict:[String:[String]] = Dictionary()
+	var parameterDict:[String:[String:String]] = Dictionary()
 	
 	private func makeNewStatementModelForProcessMode(key:String) {
 		if statementDict[key] == nil {
 			statementDict[key] = []
+		}
+		
+		if let last = statementDict[key]!.last {
+			if last.isEmpty == true {
+				return
+			}
 		}
 		statementDict[key]!.append( StatementModel() )
 	}
@@ -51,11 +85,21 @@ class SourceCodeScanner {
 		statementDict[key]!.last!.add(statementItem: statementItem)
 	}
 	
-	private func add(#parameter:String, forProcessMode key:String) {
-		if parameterDict[key] == nil {
-			parameterDict[key] = []
+	private func addAsName(#statementItem:String, forProcessMode key:String) {
+		if statementDict[key] == nil {
+			makeNewStatementModelForProcessMode(key)
+		} else if statementDict[key]!.isEmpty{
+			makeNewStatementModelForProcessMode(key)
 		}
-		parameterDict[key]!.append(parameter)
+		
+		statementDict[key]!.last!.addAsName(statementItem: statementItem)
+	}
+	
+	private func addParameter(#parameterKey:String, parameterValue:String, forProcessMode key:String) {
+		if parameterDict[key] == nil {
+			parameterDict[key] = Dictionary()
+		}
+		parameterDict[key]![parameterKey] = parameterValue
 	}
 	
 	func processSourceString(string:String) {
@@ -72,7 +116,12 @@ class SourceCodeScanner {
 			let whitespaceAndNewline = NSCharacterSet.whitespaceAndNewlineCharacterSet()
 			let whitespace = NSCharacterSet.whitespaceCharacterSet()
 			let newline = NSCharacterSet.newlineCharacterSet()
-			let newlineAndSemicolon = newline.mutableCopy().addCharactersInString(";")
+			
+			let whitespaceNewlineAndSemicolon = whitespaceAndNewline.mutableCopy() as! NSMutableCharacterSet
+			whitespaceNewlineAndSemicolon.addCharactersInString(";")
+			
+			let newlineAndSemicolon = newline.mutableCopy() as! NSMutableCharacterSet
+			newlineAndSemicolon.addCharactersInString(";")
 			
 			var resultString:NSString?
 			
@@ -88,6 +137,7 @@ class SourceCodeScanner {
 				
 				scanner.scanLocation += twoCharString.length
 				scanner.scanUpToCharactersFromSet(newline, intoString: &resultString)
+//				scanner.scanLocation++
 				
 			} else if twoCharString == MULTI_LINE_COMMENT_START {
 				
@@ -97,24 +147,65 @@ class SourceCodeScanner {
 			} else {
 				
 				if currentChar == EXCLAMATION_MARK_CHAR {
+					
 					//This is a parameter
-					SourceCodeScanner.pln("parameter")
 					scanner.scanLocation++
 					scanner.scanUpToCharactersFromSet(whitespace, intoString: &resultString)
-					SourceCodeScanner.NSPln(resultString)
+					let parameterKey = resultString
 					scanner.scanUpToCharactersFromSet(whitespaceAndNewline, intoString: &resultString)
-					SourceCodeScanner.NSPln(resultString)
+					let parameterValue = resultString
+					
+					if parameterKey != nil && parameterValue != nil {
+						self.addParameter(parameterKey: parameterKey as! String, parameterValue: parameterValue as! String, forProcessMode: currentProcessModeString)
+					}
+					
+				} else if currentChar == DOUBLE_QUOTE_CHAR {
+					
+					scanner.scanLocation++
+					scanner.scanUpToString(DOUBLE_QUOTE_STRING, intoString: &resultString)
+					scanner.scanLocation += DOUBLE_QUOTE_STRING.length
+					
+//					SourceCodeScanner.pln("!!!")
+//					SourceCodeScanner.NSPln(resultString)
+					
+					addAsName(statementItem: resultString as! String, forProcessMode: currentProcessModeString)
+					
+				} else {
+					scanner.scanUpToCharactersFromSet(whitespaceNewlineAndSemicolon, intoString: &resultString)
+					
+//					SourceCodeScanner.pln("XXX")
+//					SourceCodeScanner.NSPln(resultString)
+					
+					
+					add(statementItem: resultString as! String, forProcessMode: currentProcessModeString)
 				}
 				
 			}
 			
+			let oneCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 1)
 			
-			if (scanner.scanLocation < count(scanner.string)) {
+			if oneCharString.containsCharactersInSet(newlineAndSemicolon) {
+				
+				SourceCodeScanner.pln("oneCharString.containsCharactersInSet(newlineAndSemicolon)")
+				makeNewStatementModelForProcessMode(currentProcessModeString)
+				
+			} else if oneCharString.containsCharactersInSet(whitespace) {
+				
+				SourceCodeScanner.pln("oneCharString.containsCharactersInSet(whitespace)")
+			}
+
+			if scanner.scanLocation < count(scanner.string) {
 				scanner.scanLocation++
 			}
 			
 		}
 		
+		
+		println("--\n\n\n--")
+		println(self.parameterDict)
+		
+		println("--\n\n\n--")
+		println(self.statementDict)
 	}
 	
 	class func pln(string:String) {
@@ -122,7 +213,11 @@ class SourceCodeScanner {
 		println("---\(string)---")
 	}
 	class func NSPln(string:NSString?) {
-		
-		println("---\(string)---")
+		if let string = string {
+			
+			println("---\(string)---")
+		} else {
+			println("!!!nil!!!")
+		}
 	}
 }

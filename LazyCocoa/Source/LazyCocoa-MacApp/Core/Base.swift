@@ -250,6 +250,47 @@ extension NSString {
 }
 
 extension String {
+	var isValidNumber:Bool {
+		var setOfNonNumberCharacters = NSCharacterSet.decimalDigitCharacterSet().invertedSet.mutableCopy() as! NSMutableCharacterSet
+		setOfNonNumberCharacters.removeCharactersInString(".")
+		
+		if( self.containsCharactersInSet(setOfNonNumberCharacters) ){
+			return false
+		}
+		return true
+		
+	}
+	func containsCharactersInSet(set:NSCharacterSet) -> Bool {
+		
+		// FIXME: Use Swift native String
+		let range = (self as NSString).rangeOfCharacterFromSet(set)
+		if(range.location == NSNotFound){
+			// Does not contain characters in set
+			return false
+		}
+		return true
+		
+	}
+	var isValidColorCode:Bool {
+		
+		return hasPrefix(HASH_STRING)
+	}
+	var isMeantToBeComment:Bool {
+		
+		return hasPrefix(COMMENT_PREFIX)
+	}
+	var isMeantToBeFont:Bool {
+		
+		return hasSuffix(FONT_SUFFIX)
+	}
+	var isMeantToBeColor:Bool {
+		
+		return hasSuffix(COLOR_SUFFIX)
+	}
+	var isMeantToBeNeitherFontOrColor:Bool {
+		
+		return !(isMeantToBeFont && isMeantToBeColor)
+	}
 	
 	static func importStatementString(string:String) -> String {
 		return "import " + string + "\n"
