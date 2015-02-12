@@ -34,12 +34,16 @@ class DocumentAnalyzer : NSObject {
 
 		sourceScanner.processSourceString(inputString)
 		
+		// Reset all parameters
+		Settings.parameters = Dictionary()
+		
 		for processMode in acceptedProcessModes {
 			
-			// Reset all parameters
-			Settings.parameters = Dictionary()
+			// Set parameters
 			if let parameters = sourceScanner.parameterDict[processMode] {
-				Settings.parameters = parameters
+				for (k, v) in parameters {
+					Settings.parameters[k] = v
+				}
 			}
 			
 			println(Settings.parameters)

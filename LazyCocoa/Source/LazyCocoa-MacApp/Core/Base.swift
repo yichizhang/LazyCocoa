@@ -254,7 +254,7 @@ extension String {
 	
 	static func extensionString(#className:String, content:String) -> String {
 		
-		return "extension \(className) { \n\n\(content.stringByIndenting(numberOfTabs: 1))} \n\n"
+		return "extension \(className) { \n\n\(content.stringByIndenting(numberOfTabs: 1))\n\n} \n\n"
 		
 		//		return "extension \(className) { " + NEW_LINE_STRING + NEW_LINE_STRING +
 		//		content + "} " + NEW_LINE_STRING + NEW_LINE_STRING

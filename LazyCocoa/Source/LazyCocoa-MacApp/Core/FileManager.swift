@@ -16,7 +16,9 @@ class FileManager {
 		var alertTitle = ""
 		var error:NSError?
 		
-		if let exportPath = exportPath?.stringByTrimmingWhiteSpaceAndNewLineCharacters() {
+		if let _exportPath = exportPath {
+			
+			let exportPath = _exportPath.stringByTrimmingWhiteSpaceAndNewLineCharacters()
 			
 			if let currentDocumentRealPath = currentDocumentRealPath {
 				
@@ -33,7 +35,7 @@ class FileManager {
 			
 		} else {
 			
-			alertTitle = "The export path is not set. Add '!exportTo path-to-file' to your document, then click update. "
+			alertTitle = "The export path is not set. Add '!!exportTo path-to-file' to your document, then click update. "
 		}
 		
 		if let error = error {

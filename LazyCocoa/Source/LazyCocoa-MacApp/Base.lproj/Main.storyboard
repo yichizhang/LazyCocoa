@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14A389" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jGA-0Y-lOj">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="7515.2" systemVersion="14C109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jGA-0Y-lOj">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6254"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7515.2"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -849,7 +849,6 @@
                     <tabViewItems>
                         <tabViewItem id="0Ve-xZ-Fv1"/>
                         <tabViewItem identifier="" id="477-rP-s0T"/>
-                        <tabViewItem identifier="" id="Gkd-ne-fPw"/>
                     </tabViewItems>
                     <tabView key="tabView" type="noTabsNoBorder" id="p6v-pa-SIx">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
@@ -860,25 +859,11 @@
                     <connections>
                         <segue destination="Zz3-hj-1pU" kind="relationship" relationship="tabItems" id="MG1-FG-022"/>
                         <segue destination="PQr-FE-CCF" kind="relationship" relationship="tabItems" id="K2L-cM-bs0"/>
-                        <segue destination="Gg5-hg-08V" kind="relationship" relationship="tabItems" id="ggT-i1-thw"/>
                     </connections>
                 </tabViewController>
                 <customObject id="CnR-ca-Zvd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="776" y="191"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="DRn-0E-dSj">
-            <objects>
-                <viewController title="View Controller" id="Gg5-hg-08V" sceneMemberID="viewController">
-                    <view key="view" id="IOP-0n-fBg">
-                        <rect key="frame" x="0.0" y="0.0" width="696" height="511"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </view>
-                </viewController>
-                <customObject id="ePR-2f-TNr" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1427" y="69.5"/>
         </scene>
         <!--Conversion-->
         <scene sceneID="Sl7-g6-Bof">
@@ -958,7 +943,7 @@
                                 <rect key="frame" x="516" y="265" width="163" height="19"/>
                                 <buttonCell key="cell" type="roundRect" title="Generate string constants" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EUv-Jh-DEb">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="controlContent"/>
+                                    <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="generateConstantsButtonTapped:" target="PQr-FE-CCF" id="RGX-48-d3B"/>
@@ -968,7 +953,7 @@
                                 <rect key="frame" x="352" y="265" width="156" height="19"/>
                                 <buttonCell key="cell" type="roundRect" title="Parse Color source code" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aYC-dz-zfx">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="controlContent"/>
+                                    <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="parseColorButtonTapped:" target="PQr-FE-CCF" id="Y9B-Kb-6bl"/>
