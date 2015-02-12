@@ -122,7 +122,15 @@ class Document: NSDocument {
 			
 			if tempString != nil {
 				
-				fileContentString = tempString! as! String
+				// Otherwise would crash when opening new files
+				var str = tempString as! String
+				let colorAndFontProcessingMode = "!!!colorAndFont"
+				if str.rangeOfString(colorAndFontProcessingMode) == nil{
+					
+					str = colorAndFontProcessingMode + "\n\n" + str
+				}
+				
+				fileContentString = str
 				readSuccess = true
 				
 			}else {

@@ -64,13 +64,8 @@ class ColorScanner: NSObject {
 			array.append(s.uppercaseString)
 		}
 		
-		let xxx =
-		NSString(format: "%@ #%@",
-			k,
-		(array as! NSArray).componentsJoinedByString("")
-		)
-		
-		return xxx as! String
+		let joined = "".join(array)
+		return "\(k) #\(joined)"
 		
 	}
 }
