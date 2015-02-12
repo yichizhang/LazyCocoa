@@ -15,13 +15,23 @@ class ConversionViewController: NSViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        sourceTextView.setUpForDisplayingSourceCode()
-        resultTextView.setUpForDisplayingSourceCode()
-        
-        resultTextView.editable = false
+		
     }
-    
+	
+	override func viewWillAppear() {
+		super.viewWillAppear()
+		
+		updateUserInterfaceSettings()
+	}
+	
+	func updateUserInterfaceSettings() {
+		
+		sourceTextView.setUpForDisplayingSourceCode()
+		resultTextView.setUpForDisplayingSourceCode()
+		
+		resultTextView.editable = false
+	}
+	
     @IBAction func convertButtonTapped(sender: AnyObject) {
         
         if let source = sourceTextView.string {

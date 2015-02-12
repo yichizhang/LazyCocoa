@@ -21,8 +21,8 @@ class SourceEditViewController: NSViewController {
 	
 	@IBOutlet weak var platformSegControl: NSSegmentedControl!
 	
-	@IBOutlet private var fontResultTextView: NSTextView!
-	@IBOutlet private var colorResultTextView: NSTextView!
+	@IBOutlet private var otherGeneratedCodeTextView: NSTextView!
+	@IBOutlet private var mainGeneratedCodeTextView: NSTextView!
 	
 	var analyzer: DocumentAnalyzer = DocumentAnalyzer()
 	
@@ -32,13 +32,16 @@ class SourceEditViewController: NSViewController {
 		// Do any additional setup after loading the view.
 		title = "Source Editor"
         
-        sourceFileTextView.setUpForDisplayingSourceCode()
-        fontResultTextView.setUpForDisplayingSourceCode()
-        colorResultTextView.setUpForDisplayingSourceCode()
-        
-        fontResultTextView.editable = false
-        colorResultTextView.editable = false
-        
+	}
+	
+	func updateUserInterfaceSettings() {
+		
+		sourceFileTextView.setUpForDisplayingSourceCode()
+		otherGeneratedCodeTextView.setUpForDisplayingSourceCode()
+		mainGeneratedCodeTextView.setUpForDisplayingSourceCode()
+		
+		otherGeneratedCodeTextView.editable = false
+		mainGeneratedCodeTextView.editable = false
 	}
 	
 	override var representedObject: AnyObject? {
@@ -57,33 +60,17 @@ class SourceEditViewController: NSViewController {
 		
 		analyzer.process()
 		
-		fontResultTextView.string = analyzer.fontFileString
-		colorResultTextView.string = analyzer.colorFileString
+		otherGeneratedCodeTextView.string = analyzer.otherResultString
+		mainGeneratedCodeTextView.string = analyzer.mainResultString
 		
+		updateUserInterfaceSettings()
 	}
 	
 	@IBAction func exportButtonActionPerformed(sender: AnyObject) {
 		
 		update()
-        
-		/*
-		var str = Settings.headerComment
-		str = str + String.importStatementString("Foundation")
-		str = str + String.importStatementString("UIKit")
-		str = str + NEW_LINE_STRING + NEW_LINE_STRING
-		str = str + analyzer.fontFileString
-		str = str + analyzer.colorFileString
-        */
-        
-        var str = Settings.headerComment
-            + String.importStatementString("Foundation")
-            + String.importStatementString("UIKit")
-            + NEW_LINE_STRING + NEW_LINE_STRING
-            + analyzer.fontFileString
-            + analyzer.colorFileString
-        
 			
-		FileManager.write(string: str, currentDocumentRealPath: Settings.currentDocumentRealPath, exportPath: Settings.parameterForKey(paramKey_exportTo) )
+		FileManager.write(string: analyzer.mainResultString, currentDocumentRealPath: Settings.currentDocumentRealPath, exportPath: Settings.parameterForKey(paramKey_exportTo) )
 		
 	}
 	

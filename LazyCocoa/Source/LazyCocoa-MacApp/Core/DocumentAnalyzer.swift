@@ -21,8 +21,8 @@ func isNonEmpty(item:String)->Bool {
 class DocumentAnalyzer : NSObject {
 	
 	var inputString = ""
-	var fontFileString = ""
-	var colorFileString = ""
+	var mainResultString = ""
+	var otherResultString = ""
 	
 	var platform:Platform!
 	
@@ -33,6 +33,9 @@ class DocumentAnalyzer : NSObject {
 	func process(){
 
 		sourceScanner.processSourceString(inputString)
+		
+		var fontFileString = ""
+		var colorFileString = ""
 		
 		// Reset all parameters
 		Settings.parameters = Dictionary()
@@ -71,5 +74,13 @@ class DocumentAnalyzer : NSObject {
 			
 		}
 		
+		mainResultString = Settings.headerComment
+			+ String.importStatementString("Foundation")
+			+ String.importStatementString("UIKit")
+			+ NEW_LINE_STRING + NEW_LINE_STRING
+			+ fontFileString
+			+ colorFileString
+	
+		otherResultString = "HAHA"
 	}
 }

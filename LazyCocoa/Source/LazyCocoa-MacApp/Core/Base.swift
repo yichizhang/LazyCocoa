@@ -32,6 +32,9 @@ let MULTI_LINE_COMMENT_END = "*/"
 
 let paramKey_exportTo = "exportTo"
 let paramKey_prefix = "prefix"
+let paramKey_windowFontSize = "windowFontSize"
+let paramKey_userName = "userName"
+let paramKey_organizationName = "organizationName"
 let paramKey_ = ""
 
 let fileKey_mainSource = "mainSource"
@@ -110,10 +113,18 @@ class SettingsManager : NSObject {
 	var parameters:[String: String] = Dictionary()
 	
 	var userName:String {
-		return "User"
+		if let value = Settings.parameterForKey(paramKey_userName){
+			return value
+		} else {
+			return "User"
+		}
 	}
 	var companyName:String {
-		return "The Lazy Cocoa Project"
+		if let value = Settings.parameterForKey(paramKey_organizationName){
+			return value
+		} else {
+			return "The Lazy Cocoa Project"
+		}
 	}
 	var fileName:String {
 		if let exportPath = self.parameterForKey(paramKey_exportTo) {
@@ -127,13 +138,19 @@ class SettingsManager : NSObject {
 	}
 	
 	var headerComment:String {
-		return NSString(format:
-			"//  \n//  %@ \n//  %@ \n// \n//  Created by %@ on 6/02/2015. \n//  Copyright (c) 2015 %@. All rights reserved. \n// \n\n\n",
-			fileName,
-			messageString,
-			userName,
-			companyName
-		) as! String
+		let dateFormatter = NSDateFormatter()
+		let date = NSDate()
+		dateFormatter.dateFormat = "yyyy-MM-dd"
+		let dateString = dateFormatter.stringFromDate(date)
+		dateFormatter.dateFormat = "yyyy"
+		let yearString = dateFormatter.stringFromDate(date)
+		
+		return "//  \n" +
+		"//  \(fileName) \n" +
+		"//  \(messageString) \n" +
+		"// \n//  Created by \(userName) on \(dateString). \n" +
+		"//  Copyright (c) \(yearString) \(companyName). All rights reserved. \n" +
+		"// \n\n\n"
 	}
 	
 	var currentDocumentRealPath : String? {
@@ -200,153 +217,4 @@ class SettingsManager : NSObject {
 		}
 	}
 	
-}
-
-extension String {
-	var isValidNumber:Bool {
-		var setOfNonNumberCharacters = NSCharacterSet.decimalDigitCharacterSet().invertedSet.mutableCopy() as! NSMutableCharacterSet
-		setOfNonNumberCharacters.removeCharactersInString(".")
-		
-		if( self.containsCharactersInSet(setOfNonNumberCharacters) ){
-			return false
-		}
-		return true
-		
-	}
-	var isValidColorCode:Bool {
-		
-		return hasPrefix(HASH_STRING)
-	}
-	var isMeantToBeComment:Bool {
-		
-		return hasPrefix(COMMENT_PREFIX)
-	}
-	var isMeantToBeFont:Bool {
-		
-		return hasSuffix(FONT_SUFFIX)
-	}
-	var isMeantToBeColor:Bool {
-		
-		return hasSuffix(COLOR_SUFFIX)
-	}
-	var isMeantToBeNeitherFontOrColor:Bool {
-		
-		return !(isMeantToBeFont && isMeantToBeColor)
-	}
-	
-	
-	var length:Int{
-		
-		return count(self)
-	}
-	
-	func containsCharactersInSet(set:NSCharacterSet) -> Bool {
-		
-		// FIXME: Use Swift native String
-		let range = (self as NSString).rangeOfCharacterFromSet(set)
-		if(range.location == NSNotFound){
-			// Does not contain characters in set
-			return false
-		}
-		return true
-		
-	}
-	
-	static func extensionString(#className:String, content:String) -> String {
-		
-		return "extension \(className) { \n\n\(content.stringByIndenting(numberOfTabs: 1))\n\n} \n\n"
-		
-		//		return "extension \(className) { " + NEW_LINE_STRING + NEW_LINE_STRING +
-		//		content + "} " + NEW_LINE_STRING + NEW_LINE_STRING
-	}
-	
-	static func importStatementString(string:String) -> String {
-		return "import \(string)\n"
-	}
-	
-	static func initString(#className:String, initMethodSignature:String, arguments:[Any?] ) -> String {
-		// FIXME: ---
-		var args:[Argument] = Array()
-		
-		for (i, n) in enumerate(arguments) {
-			if let float = n as? Float {
-				args.append( Argument(object: CGFloat(float), formattingStrategy: .CGFloatNumber) )
-			} else if let float = n as? CGFloat {
-				args.append( Argument(object: CGFloat(float), formattingStrategy: .CGFloatNumber) )
-			} else if let str = n as? String {
-				args.append( Argument(object: str, formattingStrategy: .Name) )
-			} else if let a = n as? Argument {
-				args.append( a )
-			} else {
-				args.append( Argument(object: "__ERROR__", formattingStrategy: .Name) )
-			}
-		}
-		
-		var string = "\(className)("
-		
-		let m = initMethodSignature.componentsSeparatedByString(":")
-	
-		for (i, n) in enumerate(m) {
-			if i < args.count {
-				string = string + n + ":" + args[i].formattedString
-			}
-			if i < args.count - 1 {
-				string = string + ", "
-			}
-		}
-		
-		string = string + ")"
-		
-		return string
-	}
-	
-    static func methodString(#methodSignature:String, parameters:[AnyObject], returnType:String, statements:String ) -> String {
-		var string = ""
-		return string
-	}
-	
-	func characterAtIndex(index:Int) -> Character{
-		
-		return Array(self)[index]
-	}
-	
-	func safeSubstring(#start:Int, length len:Int) -> String {
-		//WORKS
-		let nsstring = self as NSString
-		let maxLength = min( len, nsstring.length - start )
-		return (nsstring.substringWithRange(NSMakeRange(start, maxLength) ) as String)
-		
-		//DOES NOT WORK
-//		let range = Range(start: advance(self.startIndex, start),
-//			end: advance(self.startIndex, start + min(length, count(self) - start) )
-//			)
-//		return self.substringWithRange(range)
-
-//		
-//		return self.substringWithRange(Range<String.Index>(start: advance(self.startIndex, startIndex), end: advance(self.startIndex, startIndex + min(length, count(self) - startIndex ) ) ) )
-	}
-	
-	func stringByIndenting(#numberOfTabs:Int) -> String {
-		
-		let array = self.componentsSeparatedByString("\n")
-		let newArray = array.map({ (string) -> String in
-			var newString = ""
-			for _ in 0..<numberOfTabs {
-					newString += "\t"
-			}
-			newString += string
-			
-			return newString
-		})
-		
-		return "\n".join(newArray)
-	}
-	
-    func stringInSwiftDocumentationStyle() -> String {
-        return "/** \n" + self.stringByIndenting(numberOfTabs:1) + "\n*/\n"
-    }
-	
-	func stringByTrimmingWhiteSpaceAndNewLineCharacters() -> String {
-		return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-	}
 }

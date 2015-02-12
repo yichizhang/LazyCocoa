@@ -159,11 +159,12 @@ class SourceCodeScanner {
 				scanner.scanLocation += twoCharString.length
 				scanner.scanUpToCharactersFromSet(whitespace, intoString: &resultString)
 				let parameterKey = resultString
-				scanner.scanUpToCharactersFromSet(whitespaceAndNewline, intoString: &resultString)
+				scanner.scanUpToCharactersFromSet(newline, intoString: &resultString)
 				let parameterValue = resultString
 				
 				if parameterKey != nil && parameterValue != nil {
-					self.addParameter(parameterKey: parameterKey as! String, parameterValue: parameterValue as! String, forProcessMode: currentProcessModeString)
+					let processedParameterValue = (parameterValue as! String).stringByRemovingSingleLineComment()
+					self.addParameter(parameterKey: parameterKey as! String, parameterValue: processedParameterValue, forProcessMode: currentProcessModeString)
 				}
 				
 			} else {
