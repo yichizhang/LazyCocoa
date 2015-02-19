@@ -41,18 +41,16 @@ class DocumentAnalyzer : NSObject {
 		var constantsObjcImplementationString = ""
 		
 		// Reset all parameters
-		Settings.parameters = Dictionary()
+		Settings.resetParameters()
 		
 		for processMode in acceptedProcessModes {
 			
 			// Set parameters
 			if let parameters = sourceScanner.parameterDict[processMode] {
 				for (k, v) in parameters {
-					Settings.parameters[k] = v
+					Settings.setParameter(value: v, forKey: k)
 				}
 			}
-			
-			println(Settings.parameters)
 			
 			if processMode == processMode_colorAndFont {
 				

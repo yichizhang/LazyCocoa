@@ -30,15 +30,19 @@ let SINGLE_LINE_COMMENT = "//"
 let MULTI_LINE_COMMENT_START = "/*"
 let MULTI_LINE_COMMENT_END = "*/"
 
+/*
+
+!!prefix paramKey_
+exportTo; prefix; windowFontSize; userName; organizationName
+
+*/
 let paramKey_exportTo = "exportTo"
 let paramKey_prefix = "prefix"
 let paramKey_windowFontSize = "windowFontSize"
 let paramKey_userName = "userName"
 let paramKey_organizationName = "organizationName"
-let paramKey_ = ""
 
-let fileKey_mainSource = "mainSource"
-let fileKey_ = ""
+let fileKey_mainSource = "mainSource"	
 
 let Settings = SettingsManager.sharedInstance
 
@@ -110,7 +114,7 @@ class SettingsManager : NSObject {
 //	var fontOfSizeInitMethodFormatString:String!
 	var fontNameAndSizeInitSignatureString:String!
 	
-	var parameters:[String: String] = Dictionary()
+	private var parameters:[String: String] = Dictionary()
 	
 	var userName:String {
 		if let value = Settings.parameterForKey(paramKey_userName){
@@ -217,4 +221,7 @@ class SettingsManager : NSObject {
 		}
 	}
 	
+	func resetParameters() {
+		parameters = Dictionary()
+	}
 }
