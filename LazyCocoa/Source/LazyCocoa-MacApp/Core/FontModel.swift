@@ -96,7 +96,7 @@ class FontModel : BaseModel, BaseModelProtocol{
 			
 		}
 		
-		return NSString(format: formatString, autoMethodName(), Settings.fontClassName, statementString()) as! String
+		return NSString(format: formatString, autoMethodName(), Settings.fontClassName, statementString()) as String
 	}
 
 	

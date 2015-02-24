@@ -86,7 +86,7 @@ class Argument : NSObject {
 		case ArgumentFormattingStrategy.CGFloatNumber.rawValue:
 			return NSString(format: "%.3f", object.floatValue) as String
 		case ArgumentFormattingStrategy.StringLiteral.rawValue:
-			let str = object as! String
+			let str = object as String
 			return "\"" + str + "\""
 		case ArgumentFormattingStrategy.Name.rawValue:
 			return "\(object)"

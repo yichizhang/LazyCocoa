@@ -15,7 +15,7 @@ class ColorScanner: NSObject {
 		var array:Array<String> = Array()
 		let aa:NSArray = (text as NSString).componentsSeparatedByString(" ")
 		
-		let k:NSString = ((aa.count > 1) ? (aa[1] as! NSString) : (""))
+		let k:NSString = ((aa.count > 1) ? (aa[1] as NSString) : (""))
 		
 		let scanner = NSScanner(string: text)
 		var resultString:NSString?
@@ -23,17 +23,17 @@ class ColorScanner: NSObject {
 		var a: [Float] = [1.0, 1.0, 1.0, 1.0]
 		var i = 0
 		
-		let numberAndDot = NSCharacterSet.decimalDigitCharacterSet().mutableCopy() as! NSMutableCharacterSet
+		let numberAndDot = NSCharacterSet.decimalDigitCharacterSet().mutableCopy() as NSMutableCharacterSet
 		numberAndDot.addCharactersInString(".")
 		
-		let fuckYouSet = NSCharacterSet(charactersInString: text).mutableCopy() as! NSMutableCharacterSet
+		let fuckYouSet = NSCharacterSet(charactersInString: text).mutableCopy() as NSMutableCharacterSet
 		fuckYouSet.removeCharactersInString("1234567890.")
 		//scanner.charactersToBeSkipped = fuckYouSet
 		//scanner.charactersToBeSkipped = numberAndDot
 		
 		println(text)
 		
-		while ( scanner.scanLocation < count(scanner.string) ) {
+		while ( scanner.scanLocation < countElements(scanner.string) ) {
 			
 			let character = (scanner.string as NSString).characterAtIndex(scanner.scanLocation)
 			
@@ -45,7 +45,7 @@ class ColorScanner: NSObject {
 
 //			println(resultString)
 			
-			if (scanner.scanLocation < count(scanner.string)) {
+			if (scanner.scanLocation < countElements(scanner.string)) {
 				scanner.scanLocation++
 				
 				
