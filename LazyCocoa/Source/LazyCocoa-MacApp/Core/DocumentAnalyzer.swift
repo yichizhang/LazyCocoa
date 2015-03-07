@@ -40,6 +40,8 @@ class DocumentAnalyzer : NSObject {
 		var constantsObjcHeaderString = ""
 		var constantsObjcImplementationString = ""
 		
+		var userDefaultsString = ""
+		
 		// Reset all parameters
 		Settings.resetParameters()
 		
@@ -85,12 +87,45 @@ class DocumentAnalyzer : NSObject {
 						}
 					}
 				}
+			} else if processMode == processMode_userDefaults {
+				
+				userDefaultsString = "struct UserDefaults { \n"
+				if let statementModelArray = sourceScanner.statementDict[processMode] {
+					for statementModel in statementModelArray {
+						
+						if let identifier = statementModel.identifiers.first {
+							
+							let name = Settings.unwrappedParameterForKey(paramKey_prefix) + identifier
+							var returnType = "AnyObject"
+							if statementModel.identifiers.count > 1 {
+								returnType = statementModel.identifiers[1]
+							}
+							
+							let keyArg = Argument(object: name, formattingStrategy: ArgumentFormattingStrategy.StringLiteral)
+							
+							var setterString = "set { \n" +
+								"NSUserDefaults.standardUserDefaults().\( UserDefaultsGenerationManager.setMethodNameFor(type: returnType) )(newValue, forKey: \(keyArg.formattedString))".stringByIndenting(numberOfTabs: 1) +
+							"\n} "
+							
+							var getterString = "get { \n" +
+								"return NSUserDefaults.standardUserDefaults().\( UserDefaultsGenerationManager.getMethodNameFor(type: returnType) )(\(keyArg.formattedString))".stringByIndenting(numberOfTabs: 1) +
+							"\n} "
+							
+							var funcString = "static var \(name):\(returnType) { \n" +
+								(setterString + "\n" + getterString).stringByIndenting(numberOfTabs: 1) +
+							"\n} "
+							
+							userDefaultsString = userDefaultsString + funcString.stringByIndenting(numberOfTabs: 1)
+						}
+					}
+				}
+				userDefaultsString = userDefaultsString + "\n} \n"
 			}
 			
 		}
 		
 		let importStatements = String.importStatementString("Foundation") + ( String.importStatementString("UIKit") )
-		mainResultString = "\(Settings.headerComment)\( importStatements )\n\(constantsSwiftString)\n\(fontFileString)\(colorFileString)"
+		mainResultString = "\(Settings.headerComment)\( importStatements )\n\(constantsSwiftString)\n\(userDefaultsString)\n\(fontFileString)\(colorFileString)"
 
 		otherResultString = "\(constantsObjcHeaderString)\n\n\(constantsObjcImplementationString)"
 	}

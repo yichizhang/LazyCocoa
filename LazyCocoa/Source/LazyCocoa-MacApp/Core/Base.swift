@@ -55,7 +55,7 @@ protocol BaseModelProtocol {
 	
 	func autoMethodName() -> String
 	func statementString() -> String
-    func documentationString() -> String
+	func documentationString() -> String
 	func funcString() -> String
 }
 
