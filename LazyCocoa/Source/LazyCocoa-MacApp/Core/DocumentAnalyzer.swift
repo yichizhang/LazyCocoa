@@ -115,7 +115,7 @@ class DocumentAnalyzer : NSObject {
 								(setterString + "\n" + getterString).stringByIndenting(numberOfTabs: 1) +
 							"\n} "
 							
-							userDefaultsString = userDefaultsString + funcString.stringByIndenting(numberOfTabs: 1)
+							userDefaultsString = userDefaultsString + funcString.stringByIndenting(numberOfTabs: 1) + "\n\n"
 						}
 					}
 				}

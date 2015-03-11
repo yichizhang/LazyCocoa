@@ -25,7 +25,7 @@ class LineModelContainer : NSObject {
 		for model in modelArray {
 			if (model.canProduceFontFuncString){
 				
-				fontString = fontString + model.fontFuncString().stringByIndenting(numberOfTabs: 1) + NEW_LINE_STRING + NEW_LINE_STRING
+				fontString = fontString + model.fontFuncString() + NEW_LINE_STRING + NEW_LINE_STRING
 			}
 		}
 		
@@ -38,7 +38,7 @@ class LineModelContainer : NSObject {
 		for model in modelArray {
 			if (model.canProduceColorFuncString){
 				
-				colorString = colorString + model.colorFuncString().stringByIndenting(numberOfTabs: 1) + NEW_LINE_STRING + NEW_LINE_STRING
+				colorString = colorString + model.colorFuncString() + NEW_LINE_STRING + NEW_LINE_STRING
 			}
 		}
 		
