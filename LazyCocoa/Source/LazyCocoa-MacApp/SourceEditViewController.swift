@@ -24,6 +24,8 @@ class SourceEditViewController: NSViewController {
 	@IBOutlet private var otherGeneratedCodeTextView: NSTextView!
 	@IBOutlet private var mainGeneratedCodeTextView: NSTextView!
 	
+	@IBOutlet weak var filePopUpButton: NSPopUpButtonCell!
+	
 	var analyzer: DocumentAnalyzer = DocumentAnalyzer()
 	
 	override func viewDidLoad() {
@@ -31,7 +33,10 @@ class SourceEditViewController: NSViewController {
 		
 		// Do any additional setup after loading the view.
 		title = "Source Editor"
-        
+		
+		filePopUpButton.removeAllItems()
+		
+		filePopUpButton.addItemsWithTitles(["Test Title 1", "Test Title 2"])
 	}
 	
 	func updateUserInterfaceSettings() {
