@@ -918,7 +918,7 @@
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
                                                                         <textField identifier="Cell" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="jSQ-Ol-MCP">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="400" height="17"/>
+                                                                            <rect key="frame" x="1" y="0.0" width="398" height="17"/>
                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="egS-FM-bRa">
                                                                                 <font key="font" metaFont="system"/>
                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -927,10 +927,9 @@
                                                                         </textField>
                                                                     </subviews>
                                                                     <constraints>
-                                                                        <constraint firstItem="jSQ-Ol-MCP" firstAttribute="leading" secondItem="5jO-ae-HY4" secondAttribute="leading" constant="2" id="6O0-QU-PHt"/>
-                                                                        <constraint firstItem="jSQ-Ol-MCP" firstAttribute="top" secondItem="5jO-ae-HY4" secondAttribute="top" id="7bk-Z7-las"/>
-                                                                        <constraint firstAttribute="bottom" secondItem="jSQ-Ol-MCP" secondAttribute="bottom" id="gwb-7j-MRa"/>
-                                                                        <constraint firstAttribute="trailing" secondItem="jSQ-Ol-MCP" secondAttribute="trailing" constant="2" id="rZv-sj-IOY"/>
+                                                                        <constraint firstItem="jSQ-Ol-MCP" firstAttribute="leading" secondItem="5jO-ae-HY4" secondAttribute="leading" constant="3" id="Z0j-S3-7bU"/>
+                                                                        <constraint firstAttribute="centerX" secondItem="jSQ-Ol-MCP" secondAttribute="centerX" id="vOB-pR-7Xb"/>
+                                                                        <constraint firstAttribute="centerY" secondItem="jSQ-Ol-MCP" secondAttribute="centerY" id="xgz-XT-N3c"/>
                                                                     </constraints>
                                                                     <connections>
                                                                         <outlet property="textField" destination="jSQ-Ol-MCP" id="bbG-KI-aRh"/>
@@ -955,8 +954,8 @@
                                                                     <rect key="frame" x="120" y="1" width="507" height="17"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <subviews>
-                                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9BE-Hs-Gp5">
-                                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="17"/>
+                                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="9BE-Hs-Gp5">
+                                                                            <rect key="frame" x="1" y="0.0" width="505" height="17"/>
                                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Uun-7w-d0a">
                                                                                 <font key="font" metaFont="system"/>
                                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -964,6 +963,12 @@
                                                                             </textFieldCell>
                                                                         </textField>
                                                                     </subviews>
+                                                                    <constraints>
+                                                                        <constraint firstItem="9BE-Hs-Gp5" firstAttribute="leading" secondItem="o5X-K5-ZDq" secondAttribute="leading" constant="3" id="RdA-sT-82A"/>
+                                                                        <constraint firstAttribute="centerY" secondItem="9BE-Hs-Gp5" secondAttribute="centerY" id="Xii-zG-Bk1"/>
+                                                                        <constraint firstAttribute="trailing" secondItem="9BE-Hs-Gp5" secondAttribute="trailing" constant="3" id="ehT-TW-EXl"/>
+                                                                        <constraint firstAttribute="centerX" secondItem="9BE-Hs-Gp5" secondAttribute="centerX" id="mvM-dH-F2Z"/>
+                                                                    </constraints>
                                                                     <connections>
                                                                         <outlet property="textField" destination="9BE-Hs-Gp5" id="5cX-Vu-TI2"/>
                                                                     </connections>
@@ -979,7 +984,7 @@
                                             <rect key="frame" x="1" y="117.99995851516724" width="238" height="16"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
-                                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Xmm-Bt-Egd">
+                                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="Xmm-Bt-Egd">
                                             <rect key="frame" x="224" y="17" width="15" height="102"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </scroller>
@@ -1117,10 +1122,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="240" height="133"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <size key="minSize" width="360" height="124"/>
+                                            <size key="minSize" width="334" height="124"/>
                                             <size key="maxSize" width="463" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="360" height="124"/>
+                                            <size key="minSize" width="334" height="124"/>
                                             <size key="maxSize" width="463" height="10000000"/>
                                         </textView>
                                     </subviews>

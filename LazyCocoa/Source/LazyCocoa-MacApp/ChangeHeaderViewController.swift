@@ -15,6 +15,11 @@ class ChangeHeaderViewController : NSViewController {
 	@IBOutlet weak var fileTableView: NSTableView!
 	var dataArray = [String]()
 	
+	func updateFileTableView() {
+		dataArray = ChangeHeader.allFiles(baseDirectory: basePathTextField.stringValue)
+		fileTableView.reloadData()
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -39,6 +44,8 @@ class ChangeHeaderViewController : NSViewController {
 				basePathTextField.stringValue = url.absoluteString!
 			}
 		}
+		
+		updateFileTableView()
 	}
 }
 
@@ -48,8 +55,7 @@ extension ChangeHeaderViewController : NSTextFieldDelegate {
 		if let textField = obj.object as? NSTextField {
 			switch textField {
 			case basePathTextField:
-				dataArray = ChangeHeader.allFiles(baseDirectory: textField.stringValue)
-				fileTableView.reloadData()
+				updateFileTableView()
 				break
 			default:
 				
@@ -78,6 +84,7 @@ extension ChangeHeaderViewController : NSTableViewDelegate, NSTableViewDataSourc
 					if let range = currentFilePath.rangeOfString(basePath) {
 						currentFilePath = currentFilePath.substringFromIndex(range.endIndex)
 					}
+					println(currentFilePath)
 					
 					cellView.textField?.stringValue = currentFilePath
 				default:
