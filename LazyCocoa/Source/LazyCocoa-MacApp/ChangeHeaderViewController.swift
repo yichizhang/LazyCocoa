@@ -9,9 +9,11 @@
 import Foundation
 import AppKit
 
-class ChangeHeaderViewController : NSViewController, NSTableViewDelegate, NSTableViewDataSource {
+class ChangeHeaderViewController : NSViewController {
 	
+	@IBOutlet weak var basePathTextField: NSTextField!
 	@IBOutlet weak var fileTableView: NSTableView!
+	var dataArray = [String]()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -20,17 +22,68 @@ class ChangeHeaderViewController : NSViewController, NSTableViewDelegate, NSTabl
 		fileTableView.setDelegate(self)
 		
 		fileTableView.reloadData()
+	
+		basePathTextField.delegate = self
 	}
 	
+	@IBAction func chooseBasePathButtonTapped(sender: AnyObject) {
+		let openDialog = NSOpenPanel()
+		
+		openDialog.canChooseFiles = false
+		openDialog.canChooseDirectories = true
+		openDialog.canCreateDirectories = true
+		openDialog.allowsMultipleSelection = false
+		
+		if openDialog.runModal() == NSOKButton {
+			if let url = openDialog.URLs.first as? NSURL {
+				basePathTextField.stringValue = url.absoluteString!
+			}
+		}
+	}
+}
+
+extension ChangeHeaderViewController : NSTextFieldDelegate {
+	
+	override func controlTextDidChange(obj: NSNotification) {
+		if let textField = obj.object as? NSTextField {
+			switch textField {
+			case basePathTextField:
+				dataArray = ChangeHeader.allFiles(baseDirectory: textField.stringValue)
+				fileTableView.reloadData()
+				break
+			default:
+				
+				break
+			}
+		}
+	}
+}
+
+extension ChangeHeaderViewController : NSTableViewDelegate, NSTableViewDataSource {
+	
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-		return 10
+		return dataArray.count
 	}
 	
 	func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		
 		if let tableColumn = tableColumn {
 			if let cellView = tableView.makeViewWithIdentifier("Cell", owner: self) as? NSTableCellView {
-				cellView.textField?.stringValue = "\(row)\(tableColumn.title)"
+				
+				switch tableColumn.title {
+				case "File":
+					let basePath = basePathTextField.stringValue
+					var currentFilePath = dataArray[row]
+					
+					if let range = currentFilePath.rangeOfString(basePath) {
+						currentFilePath = currentFilePath.substringFromIndex(range.endIndex)
+					}
+					
+					cellView.textField?.stringValue = currentFilePath
+				default:
+					cellView.textField?.stringValue = "?"
+				}
+				
 				
 				return cellView
 			}
@@ -38,4 +91,3 @@ class ChangeHeaderViewController : NSViewController, NSTableViewDelegate, NSTabl
 		return nil
 	}
 }
-

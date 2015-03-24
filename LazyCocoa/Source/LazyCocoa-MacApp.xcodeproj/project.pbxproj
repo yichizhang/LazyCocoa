@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1202B2501AC0DD5B00A7B5F3 /* ChangeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1202B24F1AC0DD5B00A7B5F3 /* ChangeHeader.swift */; };
 		120927E21A87E37F0023D05B /* ConversionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120927E11A87E37F0023D05B /* ConversionViewController.swift */; };
 		120927E41A87E92C0023D05B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 120927E31A87E92C0023D05B /* Extensions.swift */; };
 		1214AF5B1A4B346100F31ED8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1214AF5A1A4B346100F31ED8 /* AppDelegate.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1202B24F1AC0DD5B00A7B5F3 /* ChangeHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeHeader.swift; sourceTree = "<group>"; };
 		120927E11A87E37F0023D05B /* ConversionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversionViewController.swift; sourceTree = "<group>"; };
 		120927E31A87E92C0023D05B /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1214AF551A4B346100F31ED8 /* LazyCocoa-MacApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LazyCocoa-MacApp.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +111,7 @@
 				1214AF5C1A4B346100F31ED8 /* SourceEditViewController.swift */,
 				120927E11A87E37F0023D05B /* ConversionViewController.swift */,
 				12F20B1B1ABED56700B5611A /* ChangeHeaderViewController.swift */,
+				1202B24F1AC0DD5B00A7B5F3 /* ChangeHeader.swift */,
 				120927E31A87E92C0023D05B /* Extensions.swift */,
 				1214AF5E1A4B346100F31ED8 /* Document.swift */,
 				1214AF601A4B346100F31ED8 /* Images.xcassets */,
@@ -262,6 +265,7 @@
 			files = (
 				1214AF5D1A4B346100F31ED8 /* SourceEditViewController.swift in Sources */,
 				12F983881A4DECA30041FE43 /* LineModelContainer.swift in Sources */,
+				1202B2501AC0DD5B00A7B5F3 /* ChangeHeader.swift in Sources */,
 				12F20B1C1ABED56700B5611A /* ChangeHeaderViewController.swift in Sources */,
 				12F9837F1A4D8BC30041FE43 /* ColorModel.swift in Sources */,
 				12E12DD11A89181D001E96E0 /* ColorScanner.swift in Sources */,
