@@ -111,6 +111,38 @@ class HeaderChanger {
 				
 				return NSMakeRange(0, NSMaxRange(commentEndRange))
 			}
+		} else if fileString.hasPrefix(singleLineCommentPrefix) {
+			
+			var returnRange:NSRange = fileString.rangeOfString(NEW_LINE_STRING)
+			var lastReturnRange:NSRange!
+			var continueLoop = true
+			
+			while continueLoop && returnRange.location != NSNotFound {
+				
+				let singleLineCommentPrefixRange = NSMakeRange(NSMaxRange(returnRange), 2)
+//				println(singleLineCommentPrefixRange); println(fileString.length); println(); 
+				
+				if fileString.length >= NSMaxRange(singleLineCommentPrefixRange) {
+					if fileString.substringWithRange(singleLineCommentPrefixRange) == singleLineCommentPrefix {
+						
+					} else {
+						continueLoop = false
+					}
+				} else {
+					//continueLoop = false
+				}
+				
+				lastReturnRange = returnRange
+				returnRange = fileString.rangeOfString(NEW_LINE_STRING, options: .allZeros, range: NSMakeRange(NSMaxRange(returnRange), fileString.length - NSMaxRange(returnRange)))
+			}
+			
+			if let lastReturnRange = lastReturnRange {
+				if lastReturnRange.location != NSNotFound {
+					return NSMakeRange(0, lastReturnRange.location)
+				}
+			}
+			
+			return fileString.rangeOfString(fileString)
 		}
 		
 		return NSMakeRange(0, 0)
