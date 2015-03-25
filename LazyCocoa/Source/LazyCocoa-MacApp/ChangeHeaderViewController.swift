@@ -16,7 +16,7 @@ class ChangeHeaderViewController : NSViewController {
 	
 	@IBOutlet weak var basePathTextField: NSTextField!
 	@IBOutlet weak var fileTableView: NSTableView!
-	var dataArray = [String]()
+	var dataArray = [NSURL]()
 	
 	func updateFileTableView() {
 		dataArray = ChangeHeader.allFiles(baseDirectory: basePathTextField.stringValue)
@@ -32,6 +32,9 @@ class ChangeHeaderViewController : NSViewController {
 		fileTableView.reloadData()
 	
 		basePathTextField.delegate = self
+		
+		originalFileTextView.setUpTextStyleWith(size: 12)
+		editedFileTextView.setUpTextStyleWith(size: 12)
 	}
 	
 	@IBAction func chooseBasePathButtonTapped(sender: AnyObject) {
@@ -71,11 +74,11 @@ extension ChangeHeaderViewController : NSTextFieldDelegate {
 extension ChangeHeaderViewController : NSTableViewDelegate {
 
 	func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-		let path = dataArray[row]
+		let fileURL = dataArray[row]
 		
 		if tableView.selectedRow != row {
 			
-			if let data = NSData(contentsOfURL: NSURL(string: path)! ) {
+			if let data = NSData(contentsOfURL: fileURL) {
 				
 				if let string = NSString(data:data, encoding: NSUTF8StringEncoding) {
 					
@@ -103,7 +106,7 @@ extension ChangeHeaderViewController : NSTableViewDataSource {
 				switch tableColumn.title {
 				case "File":
 					let basePath = basePathTextField.stringValue
-					var currentFilePath = dataArray[row]
+					var currentFilePath = dataArray[row].absoluteString!
 					
 					if let range = currentFilePath.rangeOfString(basePath) {
 						currentFilePath = currentFilePath.substringFromIndex(range.endIndex)

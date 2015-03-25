@@ -9,22 +9,26 @@
 import Cocoa
 
 extension NSTextView {
-    
-    func setUpForDisplayingSourceCode() {
+	func setUpTextStyleWith(fontName:String = "Monaco", size:CGFloat = 12) {
+		
+		let myFont:NSFont = NSFont(name: fontName, size: size)!
+		continuousSpellCheckingEnabled = false
+		automaticQuoteSubstitutionEnabled = false
+		enabledTextCheckingTypes = 0
+		richText = false
+		font = myFont
+		
+		textStorage?.font = myFont
+	}
+	
+	func setUpForDisplayingSourceCode() {
 		var size:CGFloat = 12
 		
-		if let sizeString = Settings.parameterForKey(paramKey_windowFontSize) {
+		if let sizeString = Settings.parameterForKey(paramKey_windowFontSize){
 			size = CGFloat( (sizeString as NSString).floatValue )
 		}
 		
-        let myFont:NSFont = NSFont(name: "Monaco", size: size)!
-        continuousSpellCheckingEnabled = false
-        automaticQuoteSubstitutionEnabled = false
-        enabledTextCheckingTypes = 0
-        richText = false
-        font = myFont
-		
-		textStorage?.font = myFont
+		self.setUpTextStyleWith(size: size)
     }
 }
 

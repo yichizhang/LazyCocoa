@@ -9,8 +9,8 @@
 import Foundation
 
 class ChangeHeader {
-	class func allFiles(#baseDirectory:String) -> [String] {
-		var directories = [String]()
+	class func allFiles(#baseDirectory:String) -> [NSURL] {
+		var directories = [NSURL]()
 		
 		let fileManager = NSFileManager()
 		if let directoryURL = NSURL(string: baseDirectory) {
@@ -32,7 +32,7 @@ class ChangeHeader {
 				}
 				
 				if element.absoluteString!.hasSuffix(".swift") { // checks the extension
-					directories.append(element.absoluteString!)
+					directories.append(element)
 				}
 			}
 			
