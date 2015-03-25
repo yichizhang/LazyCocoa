@@ -12,29 +12,33 @@ import AppKit
 class ChangeHeaderViewController : NSViewController {
 	
 	@IBOutlet var originalFileTextView: NSTextView!
-	@IBOutlet var editedFileTextView: NSTextView!
+	@IBOutlet var newFileTextView: NSTextView!
+	@IBOutlet var newHeaderCommentTextView: NSTextView!
 	
 	@IBOutlet weak var basePathTextField: NSTextField!
 	@IBOutlet weak var fileTableView: NSTableView!
-	var dataArray = [NSURL]()
+	var dataArray:[NSURL]?
 	
 	func updateFileTableView() {
-		dataArray = ChangeHeader.allFiles(baseDirectory: basePathTextField.stringValue)
+		dataArray = DirectoryWalker.allFiles(baseDirectory: basePathTextField.stringValue)
 		fileTableView.reloadData()
 	}
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		fileTableView.setDataSource(self)
-		fileTableView.setDelegate(self)
+		originalFileTextView.setUpTextStyleWith(size: 12)
 		
-		fileTableView.reloadData()
-	
+		newFileTextView.setUpTextStyleWith(size: 12)
+		
+		newHeaderCommentTextView.setUpTextStyleWith(size: 12)
+		newHeaderCommentTextView.string = "/* \n\nNew Header\n\n */"
+		
 		basePathTextField.delegate = self
 		
-		originalFileTextView.setUpTextStyleWith(size: 12)
-		editedFileTextView.setUpTextStyleWith(size: 12)
+		fileTableView.setDataSource(self)
+		fileTableView.setDelegate(self)
+		fileTableView.reloadData()
 	}
 	
 	@IBAction func chooseBasePathButtonTapped(sender: AnyObject) {
@@ -74,7 +78,7 @@ extension ChangeHeaderViewController : NSTextFieldDelegate {
 extension ChangeHeaderViewController : NSTableViewDelegate {
 
 	func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-		let fileURL = dataArray[row]
+		let fileURL = dataArray![row]
 		
 		if tableView.selectedRow != row {
 			
@@ -82,8 +86,11 @@ extension ChangeHeaderViewController : NSTableViewDelegate {
 				
 				if let string = NSString(data:data, encoding: NSUTF8StringEncoding) {
 					
+					let headerChanger = HeaderChanger(string: string, newComment: newHeaderCommentTextView.string!)
 					
-					self.originalFileTextView.string = string
+					self.originalFileTextView.textStorage?.setAttributedString(headerChanger.originalAttributedString)
+					self.newFileTextView.textStorage?.setAttributedString(headerChanger.newAttributedString)
+					
 				}
 			}
 		}
@@ -95,7 +102,10 @@ extension ChangeHeaderViewController : NSTableViewDelegate {
 extension ChangeHeaderViewController : NSTableViewDataSource {
 	
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-		return dataArray.count
+		if let dataArray = dataArray {
+			return dataArray.count
+		}
+		return 0
 	}
 	
 	func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -106,7 +116,7 @@ extension ChangeHeaderViewController : NSTableViewDataSource {
 				switch tableColumn.title {
 				case "File":
 					let basePath = basePathTextField.stringValue
-					var currentFilePath = dataArray[row].absoluteString!
+					var currentFilePath = dataArray![row].absoluteString!
 					
 					if let range = currentFilePath.rangeOfString(basePath) {
 						currentFilePath = currentFilePath.substringFromIndex(range.endIndex)

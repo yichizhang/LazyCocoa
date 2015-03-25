@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C109" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jGA-0Y-lOj">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jGA-0Y-lOj">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6751"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -1238,8 +1238,9 @@
                     </view>
                     <connections>
                         <outlet property="basePathTextField" destination="ct8-Ar-a4P" id="UYD-Fq-dxx"/>
-                        <outlet property="editedFileTextView" destination="Buf-jC-Hk0" id="e3y-od-Q4i"/>
                         <outlet property="fileTableView" destination="akK-2E-jI8" id="fEo-yS-EEY"/>
+                        <outlet property="newFileTextView" destination="Buf-jC-Hk0" id="c1T-o9-9L3"/>
+                        <outlet property="newHeaderCommentTextView" destination="RHC-Uk-edD" id="F7Z-Bv-92H"/>
                         <outlet property="originalFileTextView" destination="R9k-nU-tbf" id="zAk-z8-zgq"/>
                     </connections>
                 </viewController>
