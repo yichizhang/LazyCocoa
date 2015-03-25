@@ -11,6 +11,9 @@ import AppKit
 
 class ChangeHeaderViewController : NSViewController {
 	
+	@IBOutlet var originalFileTextView: NSTextView!
+	@IBOutlet var editedFileTextView: NSTextView!
+	
 	@IBOutlet weak var basePathTextField: NSTextField!
 	@IBOutlet weak var fileTableView: NSTableView!
 	var dataArray = [String]()
@@ -65,7 +68,28 @@ extension ChangeHeaderViewController : NSTextFieldDelegate {
 	}
 }
 
-extension ChangeHeaderViewController : NSTableViewDelegate, NSTableViewDataSource {
+extension ChangeHeaderViewController : NSTableViewDelegate {
+
+	func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+		let path = dataArray[row]
+		
+		if tableView.selectedRow != row {
+			
+			if let data = NSData(contentsOfURL: NSURL(string: path)! ) {
+				
+				if let string = NSString(data:data, encoding: NSUTF8StringEncoding) {
+					
+					
+					self.originalFileTextView.string = string
+				}
+			}
+		}
+		
+		return true
+	}
+}
+
+extension ChangeHeaderViewController : NSTableViewDataSource {
 	
 	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
 		return dataArray.count
