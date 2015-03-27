@@ -129,7 +129,7 @@ class HeaderChanger {
 						continueLoop = false
 					}
 				} else {
-					//continueLoop = false
+					continueLoop = false
 				}
 				
 				lastReturnRange = returnRange
@@ -138,7 +138,9 @@ class HeaderChanger {
 			
 			if let lastReturnRange = lastReturnRange {
 				if lastReturnRange.location != NSNotFound {
-					return NSMakeRange(0, lastReturnRange.location)
+					if returnRange.location != NSNotFound {
+						return NSMakeRange(0, lastReturnRange.location)
+					}
 				}
 			}
 			
