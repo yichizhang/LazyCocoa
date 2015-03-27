@@ -19,6 +19,12 @@ class ChangeHeaderViewController : NSViewController {
 	@IBOutlet weak var fileTableView: NSTableView!
 	var dataArray:[NSURL]?
 	
+	@IBOutlet weak var filePathRegexCheckBox: NSButton!
+	@IBOutlet weak var filePathRegexTextField: NSTextField!
+	
+	@IBOutlet weak var originalHeaderRegexCheckBox: NSButton!
+	@IBOutlet weak var originalHeaderRegexTextField: NSTextField!
+	
 	func updateFileTableView() {
 		dataArray = DirectoryWalker.allFiles(baseDirectory: basePathTextField.stringValue)
 		fileTableView.reloadData()
@@ -39,6 +45,16 @@ class ChangeHeaderViewController : NSViewController {
 		fileTableView.setDataSource(self)
 		fileTableView.setDelegate(self)
 		fileTableView.reloadData()
+		
+		filePathRegexCheckBox.action = "checkBoxStateChanged:"
+		filePathRegexTextField.delegate = self
+		
+		originalHeaderRegexCheckBox.action = "checkBoxStateChanged:"
+		originalHeaderRegexTextField.delegate = self
+	}
+	
+	func checkBoxStateChanged(sender: NSButton) {
+		println(sender.state == NSOnState ? "On" : "Off")
 	}
 	
 	@IBAction func chooseBasePathButtonTapped(sender: AnyObject) {

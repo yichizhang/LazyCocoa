@@ -1077,13 +1077,6 @@
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                             </button>
-                            <button translatesAutoresizingMaskIntoConstraints="NO" id="J1W-W0-K1t">
-                                <rect key="frame" x="249" y="338" width="73" height="18"/>
-                                <buttonCell key="cell" type="check" title="Enabled" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jsq-zE-KnK">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                            </button>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Gf3-I2-Yie">
                                 <rect key="frame" x="20" y="378" width="300" height="40"/>
                                 <textFieldCell key="cell" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="regex" drawsBackground="YES" id="VoJ-oy-TiX">
@@ -1092,6 +1085,13 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
+                            <button translatesAutoresizingMaskIntoConstraints="NO" id="J1W-W0-K1t">
+                                <rect key="frame" x="249" y="338" width="73" height="18"/>
+                                <buttonCell key="cell" type="check" title="Enabled" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jsq-zE-KnK">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="ui9-rE-ndq">
                                 <rect key="frame" x="20" y="292" width="300" height="40"/>
                                 <constraints>
@@ -1238,10 +1238,14 @@
                     </view>
                     <connections>
                         <outlet property="basePathTextField" destination="ct8-Ar-a4P" id="UYD-Fq-dxx"/>
+                        <outlet property="filePathRegexCheckBox" destination="3Ao-60-cfQ" id="UJd-oY-hiL"/>
+                        <outlet property="filePathRegexTextField" destination="Gf3-I2-Yie" id="jqf-bR-S1T"/>
                         <outlet property="fileTableView" destination="akK-2E-jI8" id="fEo-yS-EEY"/>
-                        <outlet property="newFileTextView" destination="Buf-jC-Hk0" id="c1T-o9-9L3"/>
-                        <outlet property="newHeaderCommentTextView" destination="RHC-Uk-edD" id="F7Z-Bv-92H"/>
-                        <outlet property="originalFileTextView" destination="R9k-nU-tbf" id="zAk-z8-zgq"/>
+                        <outlet property="newFileTextView" destination="Buf-jC-Hk0" id="mA4-FV-eyn"/>
+                        <outlet property="newHeaderCommentTextView" destination="RHC-Uk-edD" id="e3t-LP-IpP"/>
+                        <outlet property="originalFileTextView" destination="R9k-nU-tbf" id="1SY-nr-mLy"/>
+                        <outlet property="originalHeaderRegexCheckBox" destination="J1W-W0-K1t" id="ObV-h2-fGp"/>
+                        <outlet property="originalHeaderRegexTextField" destination="ui9-rE-ndq" id="4Hl-TO-AoW"/>
                     </connections>
                 </viewController>
                 <customObject id="PIu-5i-ETp" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
