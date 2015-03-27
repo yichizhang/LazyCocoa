@@ -113,38 +113,41 @@ class HeaderChanger {
 			}
 		} else if fileString.hasPrefix(singleLineCommentPrefix) {
 			
-			var returnRange:NSRange = fileString.rangeOfString(NEW_LINE_STRING)
-			var lastReturnRange:NSRange!
-			var continueLoop = true
+			var commentLength = 0
+			var rangeOfNewLine:NSRange = fileString.rangeOfCharacterFromSet(NSCharacterSet.newlineCharacterSet())
 			
-			while continueLoop && returnRange.location != NSNotFound {
+			while rangeOfNewLine.location != NSNotFound {
 				
-				let singleLineCommentPrefixRange = NSMakeRange(NSMaxRange(returnRange), 2)
-//				println(singleLineCommentPrefixRange); println(fileString.length); println(); 
+				let rangeOfCommentPrefix = NSMakeRange(NSMaxRange(rangeOfNewLine), singleLineCommentPrefix.length)
 				
-				if fileString.length >= NSMaxRange(singleLineCommentPrefixRange) {
-					if fileString.substringWithRange(singleLineCommentPrefixRange) == singleLineCommentPrefix {
-						
-					} else {
-						continueLoop = false
+				if fileString.length >= NSMaxRange(rangeOfCommentPrefix) {
+					
+					if fileString.substringWithRange(rangeOfCommentPrefix) != singleLineCommentPrefix {
+						// The line does not start with single line comment prefix
+						commentLength = rangeOfNewLine.location
+						break
 					}
 				} else {
-					continueLoop = false
+					// The last line is shorter than single line comment prefix
+					commentLength = NSMaxRange(rangeOfNewLine)
+					break
 				}
 				
-				lastReturnRange = returnRange
-				returnRange = fileString.rangeOfString(NEW_LINE_STRING, options: .allZeros, range: NSMakeRange(NSMaxRange(returnRange), fileString.length - NSMaxRange(returnRange)))
+				rangeOfNewLine = fileString.rangeOfCharacterFromSet(NSCharacterSet.newlineCharacterSet(),
+					options: .allZeros,
+					range: NSMakeRange(
+						NSMaxRange(rangeOfNewLine),
+						fileString.length - NSMaxRange(rangeOfNewLine)
+					)
+				)
 			}
 			
-			if let lastReturnRange = lastReturnRange {
-				if lastReturnRange.location != NSNotFound {
-					if returnRange.location != NSNotFound {
-						return NSMakeRange(0, lastReturnRange.location)
-					}
-				}
+			if rangeOfNewLine.location == NSNotFound {
+				// Handle the case when the single line comment ends with EOF instead of \n
+				commentLength = fileString.length
 			}
 			
-			return fileString.rangeOfString(fileString)
+			return NSMakeRange(0, commentLength)
 		}
 		
 		return NSMakeRange(0, 0)
