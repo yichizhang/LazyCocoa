@@ -193,3 +193,19 @@ extension String {
 		return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
 	}
 }
+
+extension String {
+	func hasMatchesFor(#regexString:String) -> Bool {
+		var result = false
+		let selfString = self as NSString
+		// I'm a bit concerned with doing thing like NSMakeRange(0, countElements(self))
+		
+		if let regex = NSRegularExpression(pattern: regexString, options: NSRegularExpressionOptions.allZeros, error: nil) {
+			if let firstMatch = regex.firstMatchInString(selfString, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, selfString.length)) {
+				result = true
+			}
+		}
+		
+		return result
+	}
+}

@@ -54,7 +54,7 @@ class ChangeHeaderViewController : NSViewController {
 	}
 	
 	func checkBoxStateChanged(sender: NSButton) {
-		println(sender.state == NSOnState ? "On" : "Off")
+		fileTableView.reloadData()
 	}
 	
 	@IBAction func chooseBasePathButtonTapped(sender: AnyObject) {
@@ -84,7 +84,7 @@ extension ChangeHeaderViewController : NSTextFieldDelegate {
 				updateFileTableView()
 				break
 			default:
-				
+				fileTableView.reloadData()
 				break
 			}
 		}
@@ -140,8 +140,25 @@ extension ChangeHeaderViewController : NSTableViewDataSource {
 					println(currentFilePath)
 					
 					cellView.textField?.stringValue = currentFilePath
+				case "Included":
+					var currentFilePath = dataArray![row].absoluteString!
+					
+					var filePathCheckResult = true
+					if filePathRegexCheckBox.state == NSOnState {
+						filePathCheckResult = currentFilePath.hasMatchesFor(regexString: filePathRegexTextField.stringValue)
+					}
+					
+					var originalHeaderCheckResult = true
+					// FIXME: Does not work yet
+//					if originalHeaderRegexCheckBox.state == NSOnState {
+//						originalHeaderCheckResult = currentFilePath.hasMatchesFor(regexString: originalHeaderRegexTextField.stringValue)
+//					}
+					
+					var included = filePathCheckResult && originalHeaderCheckResult
+					cellView.textField?.stringValue = included ? "Yes" : "No"
+					break
 				default:
-					cellView.textField?.stringValue = "?"
+					break
 				}
 				
 				
