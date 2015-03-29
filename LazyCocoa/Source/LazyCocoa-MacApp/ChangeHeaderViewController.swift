@@ -25,17 +25,22 @@ class ChangeHeaderViewController : NSViewController {
 	@IBOutlet weak var originalHeaderRegexCheckBox: NSButton!
 	@IBOutlet weak var originalHeaderRegexTextField: NSTextField!
 	
+	// MARK: Load and update data
 	func reloadFiles() {
 		if let baseURL = NSURL(fileURLWithPath: basePathTextField.stringValue) {
 			
 			dataArray = PlainTextFile.sourceCodeFileArray(baseURL: baseURL)
+			
+			fileTableView.reloadData()
+			
 			updateFiles()
 		}
-		
-		fileTableView.reloadData()
 	}
 	
 	func updateFiles() {
+		
+		fileTableView.beginUpdates()
+		
 		if dataArray != nil {
 			for textFile in dataArray! {
 				
@@ -53,9 +58,32 @@ class ChangeHeaderViewController : NSViewController {
 			}
 		}
 		
-		fileTableView.reloadData()
+		fileTableView.endUpdates()
 	}
 	
+	func updateTextViewsWith(textFileAtRow row:Int) {
+		
+		// NSTableView's selectedRow property
+		// When multiple rows are selected, this property contains only the index of the last one in the selection.
+		// If no row is selected, the value of this property is -1.
+		
+		// "row < dataArray?.count" is false if dataArray is nil.
+		if row >= 0 && row < dataArray?.count {
+			let textFile = dataArray![row]
+			updateTextViewsWith(textFile: textFile)
+		}
+	}
+	
+	func updateTextViewsWith(#textFile:PlainTextFile) {
+		
+		if let string = textFile.fileString {
+			let headerChanger = HeaderChanger(string: string, newComment: newHeaderCommentTextView.string!)
+			self.originalFileTextView.textStorage?.setAttributedString(headerChanger.originalAttributedString)
+			self.newFileTextView.textStorage?.setAttributedString(headerChanger.newAttributedString)
+		}
+	}
+	
+	// MARK: View life cycle
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -77,8 +105,10 @@ class ChangeHeaderViewController : NSViewController {
 		
 		originalHeaderRegexCheckBox.action = "checkBoxStateChanged:"
 		originalHeaderRegexTextField.delegate = self
+		
 	}
 	
+	// MARK: UI actions
 	func checkBoxStateChanged(sender: NSButton) {
 		updateFiles()
 	}
@@ -120,16 +150,9 @@ extension ChangeHeaderViewController : NSTextFieldDelegate {
 extension ChangeHeaderViewController : NSTableViewDelegate {
 
 	func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-		let textFile = dataArray![row]
 		
 		if tableView.selectedRow != row {
-			
-			if let string = textFile.fileString {
-				
-				let headerChanger = HeaderChanger(string: string, newComment: newHeaderCommentTextView.string!)
-				self.originalFileTextView.textStorage?.setAttributedString(headerChanger.originalAttributedString)
-				self.newFileTextView.textStorage?.setAttributedString(headerChanger.newAttributedString)
-			}
+			updateTextViewsWith(textFileAtRow: row)
 		}
 		
 		return true
