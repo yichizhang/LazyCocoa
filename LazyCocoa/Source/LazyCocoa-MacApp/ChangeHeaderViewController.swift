@@ -17,7 +17,7 @@ class ChangeHeaderViewController : NSViewController {
 	
 	@IBOutlet weak var basePathTextField: NSTextField!
 	@IBOutlet weak var fileTableView: NSTableView!
-	var dataArray:[NSURL]?
+	var dataArray:[PlainTextFile]?
 	
 	@IBOutlet weak var filePathRegexCheckBox: NSButton!
 	@IBOutlet weak var filePathRegexTextField: NSTextField!
@@ -25,8 +25,34 @@ class ChangeHeaderViewController : NSViewController {
 	@IBOutlet weak var originalHeaderRegexCheckBox: NSButton!
 	@IBOutlet weak var originalHeaderRegexTextField: NSTextField!
 	
-	func updateFileTableView() {
-		dataArray = DirectoryWalker.allFiles(baseDirectory: basePathTextField.stringValue)
+	func reloadFiles() {
+		if let baseURL = NSURL(fileURLWithPath: basePathTextField.stringValue) {
+			
+			dataArray = PlainTextFile.sourceCodeFileArray(baseURL: baseURL)
+			updateFiles()
+		}
+		
+		fileTableView.reloadData()
+	}
+	
+	func updateFiles() {
+		if dataArray != nil {
+			for textFile in dataArray! {
+				
+				var filePathRegexString:String? = nil
+				if filePathRegexCheckBox.state == NSOnState {
+					filePathRegexString = filePathRegexTextField.stringValue
+				}
+				
+				var originalHeaderRegexString:String? = nil
+				if originalHeaderRegexCheckBox.state == NSOnState {
+					originalHeaderRegexString = originalHeaderRegexTextField.stringValue
+				}
+				
+				textFile.updateInclusiveness(filePathRegexString: filePathRegexString, originalHeaderRegexString: originalHeaderRegexString)
+			}
+		}
+		
 		fileTableView.reloadData()
 	}
 	
@@ -54,7 +80,7 @@ class ChangeHeaderViewController : NSViewController {
 	}
 	
 	func checkBoxStateChanged(sender: NSButton) {
-		fileTableView.reloadData()
+		updateFiles()
 	}
 	
 	@IBAction func chooseBasePathButtonTapped(sender: AnyObject) {
@@ -67,11 +93,11 @@ class ChangeHeaderViewController : NSViewController {
 		
 		if openDialog.runModal() == NSOKButton {
 			if let url = openDialog.URLs.first as? NSURL {
-				basePathTextField.stringValue = url.absoluteString!
+				basePathTextField.stringValue = url.path!
 			}
 		}
 		
-		updateFileTableView()
+		reloadFiles()
 	}
 }
 
@@ -81,10 +107,10 @@ extension ChangeHeaderViewController : NSTextFieldDelegate {
 		if let textField = obj.object as? NSTextField {
 			switch textField {
 			case basePathTextField:
-				updateFileTableView()
+				reloadFiles()
 				break
 			default:
-				fileTableView.reloadData()
+				updateFiles()
 				break
 			}
 		}
@@ -94,20 +120,15 @@ extension ChangeHeaderViewController : NSTextFieldDelegate {
 extension ChangeHeaderViewController : NSTableViewDelegate {
 
 	func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-		let fileURL = dataArray![row]
+		let textFile = dataArray![row]
 		
 		if tableView.selectedRow != row {
 			
-			if let data = NSData(contentsOfURL: fileURL) {
+			if let string = textFile.fileString {
 				
-				if let string = NSString(data:data, encoding: NSUTF8StringEncoding) {
-					
-					let headerChanger = HeaderChanger(string: string, newComment: newHeaderCommentTextView.string!)
-					
-					self.originalFileTextView.textStorage?.setAttributedString(headerChanger.originalAttributedString)
-					self.newFileTextView.textStorage?.setAttributedString(headerChanger.newAttributedString)
-					
-				}
+				let headerChanger = HeaderChanger(string: string, newComment: newHeaderCommentTextView.string!)
+				self.originalFileTextView.textStorage?.setAttributedString(headerChanger.originalAttributedString)
+				self.newFileTextView.textStorage?.setAttributedString(headerChanger.newAttributedString)
 			}
 		}
 		
@@ -129,33 +150,22 @@ extension ChangeHeaderViewController : NSTableViewDataSource {
 		if let tableColumn = tableColumn {
 			if let cellView = tableView.makeViewWithIdentifier("Cell", owner: self) as? NSTableCellView {
 				
+				let currentFile = dataArray![row]
+				
 				switch tableColumn.title {
 				case "File":
+					
 					let basePath = basePathTextField.stringValue
-					var currentFilePath = dataArray![row].absoluteString!
+					var currentFilePath = currentFile.path
 					
 					if let range = currentFilePath.rangeOfString(basePath) {
 						currentFilePath = currentFilePath.substringFromIndex(range.endIndex)
 					}
-					println(currentFilePath)
 					
 					cellView.textField?.stringValue = currentFilePath
 				case "Included":
-					var currentFilePath = dataArray![row].absoluteString!
 					
-					var filePathCheckResult = true
-					if filePathRegexCheckBox.state == NSOnState {
-						filePathCheckResult = currentFilePath.hasMatchesFor(regexString: filePathRegexTextField.stringValue)
-					}
-					
-					var originalHeaderCheckResult = true
-					// FIXME: Does not work yet
-//					if originalHeaderRegexCheckBox.state == NSOnState {
-//						originalHeaderCheckResult = currentFilePath.hasMatchesFor(regexString: originalHeaderRegexTextField.stringValue)
-//					}
-					
-					var included = filePathCheckResult && originalHeaderCheckResult
-					cellView.textField?.stringValue = included ? "Yes" : "No"
+					cellView.textField?.stringValue = currentFile.included ? "Yes" : "No"
 					break
 				default:
 					break

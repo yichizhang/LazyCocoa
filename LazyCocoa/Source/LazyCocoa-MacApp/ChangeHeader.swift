@@ -9,13 +9,74 @@
 import Foundation
 import AppKit
 
+class PlainTextFile {
+	var fileURL:NSURL!
+	var path:String {
+		return fileURL.path!
+	}
+	var relativePath:String {
+		return fileURL.relativePath!
+	}
+	
+	var included = true
+	
+	var fileString:NSString? {
+		if let data = NSData(contentsOfURL: fileURL) {
+			return NSString(data:data, encoding: NSUTF8StringEncoding)
+		}
+		return nil
+	}
+	
+	func updateInclusiveness(filePathRegexString:String? = nil, originalHeaderRegexString:String? = nil) {
+		
+		var filePathCheckResult = true
+		if let filePathRegexString = filePathRegexString {
+			
+			filePathCheckResult = path.hasMatchesFor(regexString: filePathRegexString)
+		}
+		
+		var originalHeaderCheckResult = true
+		if let originalHeaderRegexString = originalHeaderRegexString {
+			
+			if let fileString = fileString {
+				let originalHeaderComment = fileString.substringWithRange(fileString.rangeOfHeaderComment)
+				
+				
+				originalHeaderCheckResult = originalHeaderComment.hasMatchesFor(regexString: originalHeaderRegexString)
+			} else {
+				originalHeaderCheckResult = false
+			}
+		}
+		
+		included = filePathCheckResult && originalHeaderCheckResult
+	}
+	
+	init(fileURL:NSURL) {
+		
+		self.fileURL = fileURL
+		
+	}
+	
+	class func sourceCodeFileArray(#baseURL:NSURL) -> [PlainTextFile] {
+		let fileURLArray = DirectoryWalker.allFiles(baseURL:baseURL, acceptableSuffixArray: [".h", ".m", ".swift"])
+		
+		var textFileArray = [PlainTextFile]()
+		
+		for fileURL in fileURLArray {
+			let textFile = PlainTextFile(fileURL: fileURL)
+			textFileArray.append(textFile)
+		}
+		
+		return textFileArray
+	}
+}
+
 class DirectoryWalker {
-	class func allFiles(#baseURL:NSURL) -> [NSURL] {
+	class func allFiles(#baseURL:NSURL, acceptableSuffixArray:[String]) -> [NSURL] {
 		
 		var directories = [NSURL]()
 		let fileManager = NSFileManager()
 		let keys = [NSURLIsDirectoryKey]
-		let acceptableSuffixes = [".h", ".m", ".swift"]
 		
 		let enumerator = fileManager.enumeratorAtURL(baseURL, includingPropertiesForKeys: keys, options: NSDirectoryEnumerationOptions.allZeros, errorHandler: { (url:NSURL!, err:NSError!) -> Bool in
 			
@@ -32,7 +93,7 @@ class DirectoryWalker {
 				
 			}
 			
-			for suffix in acceptableSuffixes {
+			for suffix in acceptableSuffixArray {
 				if element.absoluteString!.hasSuffix(suffix) { // checks the extension
 					directories.append(element)
 				}
@@ -40,15 +101,6 @@ class DirectoryWalker {
 		}
 		
 		return directories
-	}
-	
-	class func allFiles(#baseDirectory:String) -> [NSURL]? {
-		
-		if let baseURL = NSURL(string: baseDirectory) {
-			return allFiles(baseURL: baseURL)
-		}
-		
-		return nil
 	}
 }
 
@@ -63,15 +115,11 @@ class HeaderChanger {
 	
 	var originalString:NSString!
 	lazy var originalCommentRange:NSRange = {
-		return self.rangeOfHeaderCommentIn(fileString: self.originalString)
+		return self.originalString.rangeOfHeaderComment
 		}()
 	var newFileString:NSString!
 	
 	var newComment:NSString!
-	
-	let singleLineCommentPrefix = SINGLE_LINE_COMMENT
-	let multilineCommentPrefix = MULTI_LINE_COMMENT_START
-	let multilineCommentSuffix = MULTI_LINE_COMMENT_END
 	
 	var originalAttributedString:NSAttributedString {
 		var attributedString = NSMutableAttributedString(string: originalString)
@@ -87,7 +135,7 @@ class HeaderChanger {
 		attributedString.addAttributes([
 			NSBackgroundColorAttributeName: NSColor.greenColor(),
 			
-			], range: rangeOfHeaderCommentIn(fileString:newFileString))
+			], range: newFileString.rangeOfHeaderComment)
 		return attributedString
 	}
 	
@@ -100,8 +148,16 @@ class HeaderChanger {
 			newFileString = originalString.stringByReplacingCharactersInRange(originalCommentRange, withString: self.newComment)
 		}
 	}
-	
-	func rangeOfHeaderCommentIn(#fileString:NSString) -> NSRange {
+}
+
+extension NSString {
+	var rangeOfHeaderComment:NSRange {
+		
+		let singleLineCommentPrefix = SINGLE_LINE_COMMENT
+		let multilineCommentPrefix = MULTI_LINE_COMMENT_START
+		let multilineCommentSuffix = MULTI_LINE_COMMENT_END
+		
+		let fileString = self
 		
 		if fileString.hasPrefix(multilineCommentPrefix) {
 			
@@ -152,5 +208,4 @@ class HeaderChanger {
 		
 		return NSMakeRange(0, 0)
 	}
-	
 }
