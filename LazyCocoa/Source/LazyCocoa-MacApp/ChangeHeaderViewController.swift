@@ -25,6 +25,8 @@ class ChangeHeaderViewController : NSViewController {
 	@IBOutlet weak var originalHeaderRegexCheckBox: NSButton!
 	@IBOutlet weak var originalHeaderRegexTextField: NSTextField!
 	
+	@IBOutlet weak var applyChangesButton: NSButton!
+	
 	// MARK: Load and update data
 	func reloadFiles() {
 		if let baseURL = NSURL(fileURLWithPath: basePathTextField.stringValue) {
@@ -38,8 +40,6 @@ class ChangeHeaderViewController : NSViewController {
 	}
 	
 	func updateFiles() {
-		
-		fileTableView.beginUpdates()
 		
 		if dataArray != nil {
 			for textFile in dataArray! {
@@ -58,15 +58,18 @@ class ChangeHeaderViewController : NSViewController {
 			}
 		}
 		
-		fileTableView.endUpdates()
+		fileTableView.reloadData()
 	}
 	
-	func updateTextViewsWith(textFileAtRow row:Int) {
+	func updateTextViews() {
 		
 		// NSTableView's selectedRow property
 		// When multiple rows are selected, this property contains only the index of the last one in the selection.
 		// If no row is selected, the value of this property is -1.
-		
+		updateTextViewsWith(textFileAtRow: fileTableView.selectedRow)
+	}
+	
+	func updateTextViewsWith(textFileAtRow row:Int) {
 		// "row < dataArray?.count" is false if dataArray is nil.
 		if row >= 0 && row < dataArray?.count {
 			let textFile = dataArray![row]
@@ -106,11 +109,51 @@ class ChangeHeaderViewController : NSViewController {
 		originalHeaderRegexCheckBox.action = "checkBoxStateChanged:"
 		originalHeaderRegexTextField.delegate = self
 		
+		applyChangesButton.action = "applyChangesButtonTapped:"
 	}
 	
 	// MARK: UI actions
 	func checkBoxStateChanged(sender: NSButton) {
 		updateFiles()
+	}
+	
+	func applyChangesButtonTapped(sender: NSButton) {
+		
+		if dataArray != nil {
+			var count = 0
+			for file in dataArray! {
+				
+				if file.included {
+					count++
+				}
+			}
+			
+			if count > 0 {
+				let alert = NSAlert()
+				let fileString = count>1 ? "files" : "file"
+				
+				alert.alertStyle = NSAlertStyle.InformationalAlertStyle
+				alert.messageText = "You are about to change \(count) \(fileString). You might want to back up first to prevent possible data loss. Do you wish to proceed? "
+				alert.addButtonWithTitle("OK")
+				alert.addButtonWithTitle("Cancel")
+				if alert.runModal() == NSAlertFirstButtonReturn {
+					let newHeaderComment = newHeaderCommentTextView.string!
+					
+					for file in dataArray! {
+						
+						if file.included {
+							if let string = file.fileString {
+								
+								let headerChanger = HeaderChanger(string: string, newComment: newHeaderComment)
+								file.updateFileWith(newFileString: headerChanger.newFileString)
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		updateTextViews()
 	}
 	
 	@IBAction func chooseBasePathButtonTapped(sender: AnyObject) {

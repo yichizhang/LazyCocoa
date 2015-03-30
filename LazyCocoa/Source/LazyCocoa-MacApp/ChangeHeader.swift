@@ -27,6 +27,12 @@ class PlainTextFile {
 		return nil
 	}
 	
+	func updateFileWith(#newFileString:String) {
+		if let data = newFileString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
+			data.writeToURL(fileURL, atomically: true)
+		}
+	}
+	
 	func updateInclusiveness(filePathRegexString:String? = nil, originalHeaderRegexString:String? = nil) {
 		
 		var filePathCheckResult = true
