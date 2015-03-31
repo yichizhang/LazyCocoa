@@ -121,9 +121,20 @@ class ChangeHeaderViewController : NSViewController {
 		
 		if dataArray != nil {
 			var count = 0
+			
+			let listMax = 10
+			var fileListString = ""
+			
 			for file in dataArray! {
 				
 				if file.included {
+					
+					if count < listMax {
+						fileListString = fileListString + relativePathFrom(fullPath: file.path) + NEW_LINE_STRING
+					} else if count == listMax {
+						fileListString = fileListString + "..." + NEW_LINE_STRING
+					}
+					
 					count++
 				}
 			}
@@ -133,7 +144,8 @@ class ChangeHeaderViewController : NSViewController {
 				let fileString = count>1 ? "files" : "file"
 				
 				alert.alertStyle = NSAlertStyle.InformationalAlertStyle
-				alert.messageText = "You are about to change \(count) \(fileString). You might want to back up first to prevent possible data loss. Do you wish to proceed? "
+				alert.messageText = "You are about to change \(count) \(fileString). You might want to back up first to prevent possible data loss. Do you wish to proceed? Files to be changed: "
+				alert.informativeText = fileListString
 				alert.addButtonWithTitle("OK")
 				alert.addButtonWithTitle("Cancel")
 				if alert.runModal() == NSAlertFirstButtonReturn {
@@ -221,14 +233,7 @@ extension ChangeHeaderViewController : NSTableViewDataSource {
 				switch tableColumn.title {
 				case "File":
 					
-					let basePath = basePathTextField.stringValue
-					var currentFilePath = currentFile.path
-					
-					if let range = currentFilePath.rangeOfString(basePath) {
-						currentFilePath = currentFilePath.substringFromIndex(range.endIndex)
-					}
-					
-					cellView.textField?.stringValue = currentFilePath
+					cellView.textField?.stringValue = relativePathFrom(fullPath: currentFile.path)
 				case "Included":
 					
 					cellView.textField?.stringValue = currentFile.included ? "Yes" : "No"
@@ -242,5 +247,15 @@ extension ChangeHeaderViewController : NSTableViewDataSource {
 			}
 		}
 		return nil
+	}
+	
+	func relativePathFrom(#fullPath:String) -> String {
+		let basePath = basePathTextField.stringValue
+		
+		if let range = fullPath.rangeOfString(basePath) {
+			return fullPath.substringFromIndex(range.endIndex)
+		} else {
+			return fullPath
+		}
 	}
 }
