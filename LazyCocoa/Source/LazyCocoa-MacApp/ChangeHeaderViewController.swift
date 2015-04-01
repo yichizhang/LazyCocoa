@@ -81,8 +81,11 @@ class ChangeHeaderViewController : NSViewController {
 		
 		if let string = textFile.fileString {
 			let headerChanger = HeaderChanger(string: string, newComment: newHeaderCommentTextView.string!)
-			self.originalFileTextView.textStorage?.setAttributedString(headerChanger.originalAttributedString)
-			self.newFileTextView.textStorage?.setAttributedString(headerChanger.newAttributedString)
+			originalFileTextView.textStorage?.setAttributedString(headerChanger.originalAttributedString)
+			newFileTextView.textStorage?.setAttributedString(headerChanger.newAttributedString)
+			
+			originalFileTextView.scrollRectToVisible(NSRect(origin: CGPointZero, size: CGSizeZero))
+			newFileTextView.scrollRectToVisible(NSRect(origin: CGPointZero, size: CGSizeZero))
 		}
 	}
 	
