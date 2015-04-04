@@ -98,7 +98,7 @@ class ChangeHeaderViewController : NSViewController {
 		newFileTextView.setUpTextStyleWith(size: 12)
 		
 		newHeaderCommentTextView.setUpTextStyleWith(size: 12)
-		newHeaderCommentTextView.string = "/* \n\nNew Header\n\n */"
+		newHeaderCommentTextView.string = String.stringInBundle(name:"MIT_template")
 		
 		basePathTextField.delegate = self
 		

@@ -208,4 +208,13 @@ extension String {
 		
 		return result
 	}
+	
+	static func stringInBundle(#name:String, ofType type: String = "txt", encoding: UInt = NSUTF8StringEncoding) -> String? {
+		if let path = NSBundle.mainBundle().pathForResource(name, ofType: type, inDirectory: nil) {
+			if let data = NSData(contentsOfFile: path) {
+				return NSString(data: data, encoding: encoding)
+			}
+		}
+		return nil
+	}
 }
