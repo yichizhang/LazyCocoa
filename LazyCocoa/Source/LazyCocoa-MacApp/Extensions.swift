@@ -218,3 +218,9 @@ extension String {
 		return nil
 	}
 }
+
+extension NSString {
+	var fullRange:NSRange {
+		return NSMakeRange(0, self.length)
+	}
+}

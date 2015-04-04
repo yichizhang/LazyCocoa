@@ -11,6 +11,9 @@ import AppKit
 
 class PlainTextFile {
 	var fileURL:NSURL!
+	var filename:String {
+		return path.lastPathComponent
+	}
 	var path:String {
 		return fileURL.path!
 	}
@@ -125,7 +128,7 @@ class HeaderChanger {
 		}()
 	var newFileString:NSString!
 	
-	var newComment:NSString!
+	var preparedNewComment:NSString!
 	
 	var originalAttributedString:NSAttributedString {
 		var attributedString = NSMutableAttributedString(string: originalString)
@@ -145,13 +148,59 @@ class HeaderChanger {
 		return attributedString
 	}
 	
-	init(string:NSString, newComment:NSString) {
+	init(string:NSString, newComment:NSString, filename:String? = nil) {
 		
 		originalString = string
-		self.newComment = newComment
+		
+		let tempCommentString = newComment.mutableCopy() as NSMutableString
+		
+		let currentDate = NSDate()
+		let dateFormatter = NSDateFormatter()
+		dateFormatter.dateFormat = "yyyy"
+		let yearString = dateFormatter.stringFromDate(currentDate)
+		
+		dateFormatter.dateStyle = .ShortStyle
+		dateFormatter.timeStyle = .NoStyle
+		let dateString = dateFormatter.stringFromDate(currentDate)
+		
+		tempCommentString.replaceOccurrencesOfString("___FULLUSERNAME___",
+			withString: NSFullUserName(),
+			options: .allZeros,
+			range: tempCommentString.fullRange
+		)
+		
+		tempCommentString.replaceOccurrencesOfString("___YEAR___",
+			withString: yearString,
+			options: .allZeros,
+			range: tempCommentString.fullRange
+		)
+		
+		if let filename = filename {
+			
+			tempCommentString.replaceOccurrencesOfString("___FILENAME___",
+				withString: filename,
+				options: .allZeros,
+				range: tempCommentString.fullRange
+			)
+		}
+		
+		// TODO:
+		tempCommentString.replaceOccurrencesOfString("___PROJECTNAME___",
+			withString: "Project",
+			options: .allZeros, range:
+			tempCommentString.fullRange
+		)
+		
+		tempCommentString.replaceOccurrencesOfString("___DATE___",
+			withString: dateString,
+			options: .allZeros,
+			range: tempCommentString.fullRange
+		)
+		
+		preparedNewComment = tempCommentString
 		
 		if originalCommentRange.location != NSNotFound {
-			newFileString = originalString.stringByReplacingCharactersInRange(originalCommentRange, withString: self.newComment)
+			newFileString = originalString.stringByReplacingCharactersInRange(originalCommentRange, withString: preparedNewComment)
 		}
 	}
 }

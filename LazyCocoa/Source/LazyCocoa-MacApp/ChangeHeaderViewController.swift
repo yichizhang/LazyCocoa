@@ -80,7 +80,8 @@ class ChangeHeaderViewController : NSViewController {
 	func updateTextViewsWith(#textFile:PlainTextFile) {
 		
 		if let string = textFile.fileString {
-			let headerChanger = HeaderChanger(string: string, newComment: newHeaderCommentTextView.string!)
+			let headerChanger = HeaderChanger(string: string, newComment: newHeaderCommentTextView.string!, filename: textFile.filename)
+			
 			originalFileTextView.textStorage?.setAttributedString(headerChanger.originalAttributedString)
 			newFileTextView.textStorage?.setAttributedString(headerChanger.newAttributedString)
 			
@@ -159,7 +160,7 @@ class ChangeHeaderViewController : NSViewController {
 						if file.included {
 							if let string = file.fileString {
 								
-								let headerChanger = HeaderChanger(string: string, newComment: newHeaderComment)
+								let headerChanger = HeaderChanger(string: string, newComment: newHeaderComment, filename: file.filename)
 								file.updateFileWith(newFileString: headerChanger.newFileString)
 							}
 						}
