@@ -10,62 +10,37 @@ import Foundation
 
 class ColorScanner: NSObject {
 	
-	class func scanText(text:String) -> String{
-		
-		var array:Array<String> = Array()
-		let aa:NSArray = (text as NSString).componentsSeparatedByString(" ")
-		
-		let k:NSString = ((aa.count > 1) ? (aa[1] as NSString) : (""))
+	class func resultStringFrom(text:String) -> String{
 		
 		let scanner = NSScanner(string: text)
 		var resultString:NSString?
 		var resultFloat:Float = 0.0
-		var a: [Float] = [1.0, 1.0, 1.0, 1.0]
-		var i = 0
+		var colorComponents = [CGFloat]()
 		
-		let numberAndDot = NSCharacterSet.decimalDigitCharacterSet().mutableCopy() as NSMutableCharacterSet
-		numberAndDot.addCharactersInString(".")
-		
-		let fuckYouSet = NSCharacterSet(charactersInString: text).mutableCopy() as NSMutableCharacterSet
-		fuckYouSet.removeCharactersInString("1234567890.")
-		//scanner.charactersToBeSkipped = fuckYouSet
-		//scanner.charactersToBeSkipped = numberAndDot
-		
-		println(text)
+		let decDigitSet = NSCharacterSet.decimalDigitCharacterSet()
+		let set1 = NSCharacterSet(charactersInString: " :*-=()[]{};")
 		
 		while ( scanner.scanLocation < countElements(scanner.string) ) {
 			
-			let character = (scanner.string as NSString).characterAtIndex(scanner.scanLocation)
+			let charString = (scanner.string as NSString).substringWithRange(
+				NSMakeRange(scanner.scanLocation, 1)
+			)
 			
-//			println( NSString(format: "%c", character) )
-			
-			
-			scanner.scanUpToString(":", intoString: &resultString)
-
-
-//			println(resultString)
-			
-			if (scanner.scanLocation < countElements(scanner.string)) {
-				scanner.scanLocation++
-				
-				
+			if charString.containsCharactersInSet(decDigitSet) {
 				scanner.scanFloat(&resultFloat)
-				a[i] = resultFloat
-				i++
-				
 				println(resultFloat)
+			} else if charString.containsCharactersInSet(NSCharacterSet.newlineCharacterSet()) {
+				println("---NEW LINE!---")
+				scanner.scanLocation++
+			} else if scanner.scanUpToCharactersFromSet(set1, intoString: &resultString) {
+				println(resultString!)
+			} else {
+				scanner.scanLocation++
 			}
 			
 		}
 		
-		for f in a {
-			let s = NSString(format: "%02x", Int(f*255) )
-			println( s )
-			array.append(s.uppercaseString)
-		}
-		
-		let joined = "".join(array)
-		return "\(k) #\(joined)"
+		return ""
 		
 	}
 }

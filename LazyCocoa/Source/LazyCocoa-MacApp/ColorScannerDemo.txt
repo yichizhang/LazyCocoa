@@ -1,0 +1,4 @@
+UIColor *awesomeColor = [UIColor colorWithRed:0.949f green:0.557f blue:0.690f alpha:1.00f]
+- (UIColor*)customBlueColor {
+	return [UIColor colorWithRed:0.439f green:0.659f blue:0.804f alpha:1.00f];
+}

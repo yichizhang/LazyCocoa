@@ -29,6 +29,9 @@ class ConversionViewController: NSViewController {
 		sourceTextView.setUpForDisplayingSourceCode()
 		resultTextView.setUpForDisplayingSourceCode()
 		
+		// Demo text
+		sourceTextView.string = String.stringInBundle(name:"ColorScannerDemo")
+		
 		resultTextView.editable = false
 	}
 	
@@ -47,19 +50,8 @@ class ConversionViewController: NSViewController {
     @IBAction func parseColorButtonTapped(sender: AnyObject) {
         
         if let source = sourceTextView.string {
-            var array = source.componentsSeparatedByString("\n")
-            
-            var xa:[String] = Array()
-            
-            for s in array {
-                
-                let ss = s as NSString
-                if ((s as String).isEmpty == false) {
-                    xa.append(ColorScanner.scanText(ss as String))
-                }
-            }
-            
-            resultTextView.string = (xa as NSArray).componentsJoinedByString("\n")
+			
+            resultTextView.string = ColorScanner.resultStringFrom(source)
         }
     }
     
