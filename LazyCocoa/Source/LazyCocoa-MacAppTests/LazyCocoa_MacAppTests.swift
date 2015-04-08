@@ -21,9 +21,31 @@ class LazyCocoa_MacAppTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
+    func testColorFormatter() {
+		XCTAssertEqual(
+			ColorFormatter.hexStringFrom(componentArray: [0.098, 0.149, 0.176, 1.00]),
+			"#19262DFF"
+		)
+		
+		XCTAssertEqual(
+			ColorFormatter.hexStringFrom(componentArray: [0.098, 0.149, 0.176]),
+			"#19262D"
+		)
+		
+		XCTAssertEqual(
+			ColorFormatter.hexStringFrom(componentArray: [0.098, 0.149]),
+			"#192600"
+		)
+		
+		XCTAssertEqual(
+			ColorFormatter.hexStringFrom(componentArray: [0.098]),
+			"#190000"
+		)
+		
+		XCTAssertEqual(
+			ColorFormatter.hexStringFrom(componentArray: []),
+			"#000000"
+		)
     }
     
     func testPerformanceExample() {

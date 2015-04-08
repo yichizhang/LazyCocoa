@@ -17,6 +17,8 @@
 		1214AF641A4B346100F31ED8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1214AF621A4B346100F31ED8 /* Main.storyboard */; };
 		1214AF701A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1214AF6F1A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift */; };
 		122941EA1AAB77B700782A2C /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122941E91AAB77B700782A2C /* UserDefaults.swift */; };
+		124E2A961AD55F5E00174583 /* ColorFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A951AD55F5E00174583 /* ColorFormatter.swift */; };
+		124E2A971AD565A500174583 /* ColorFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A951AD55F5E00174583 /* ColorFormatter.swift */; };
 		125DD5D21A84C09C00C90757 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125DD5D11A84C09C00C90757 /* FileManager.swift */; };
 		12767EEA1A503E0E00BCFED3 /* LineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12767EE91A503E0E00BCFED3 /* LineModel.swift */; };
 		12C5359D1A8C216900B1B287 /* NewScanningMechanism.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C5359C1A8C216900B1B287 /* NewScanningMechanism.swift */; };
@@ -55,6 +57,7 @@
 		1214AF6E1A4B346100F31ED8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1214AF6F1A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyCocoa_MacAppTests.swift; sourceTree = "<group>"; };
 		122941E91AAB77B700782A2C /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		124E2A951AD55F5E00174583 /* ColorFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorFormatter.swift; sourceTree = "<group>"; };
 		125DD5D11A84C09C00C90757 /* FileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		12767EE91A503E0E00BCFED3 /* LineModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineModel.swift; sourceTree = "<group>"; };
 		12C5359C1A8C216900B1B287 /* NewScanningMechanism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewScanningMechanism.swift; sourceTree = "<group>"; };
@@ -152,6 +155,7 @@
 		12F9837C1A4D8BC30041FE43 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				124E2A951AD55F5E00174583 /* ColorFormatter.swift */,
 				12F9837D1A4D8BC30041FE43 /* ColorModel.swift */,
 				12E12DD01A89181D001E96E0 /* ColorScanner.swift */,
 				12F983851A4DC3E40041FE43 /* FontModel.swift */,
@@ -269,6 +273,7 @@
 			files = (
 				1214AF5D1A4B346100F31ED8 /* SourceEditViewController.swift in Sources */,
 				12F983881A4DECA30041FE43 /* LineModelContainer.swift in Sources */,
+				124E2A961AD55F5E00174583 /* ColorFormatter.swift in Sources */,
 				1202B2501AC0DD5B00A7B5F3 /* ChangeHeader.swift in Sources */,
 				12F20B1C1ABED56700B5611A /* ChangeHeaderViewController.swift in Sources */,
 				12F9837F1A4D8BC30041FE43 /* ColorModel.swift in Sources */,
@@ -291,6 +296,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				124E2A971AD565A500174583 /* ColorFormatter.swift in Sources */,
 				1214AF701A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
