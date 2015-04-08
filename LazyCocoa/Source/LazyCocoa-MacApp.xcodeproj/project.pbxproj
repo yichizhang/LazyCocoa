@@ -19,6 +19,8 @@
 		122941EA1AAB77B700782A2C /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122941E91AAB77B700782A2C /* UserDefaults.swift */; };
 		124E2A961AD55F5E00174583 /* ColorFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A951AD55F5E00174583 /* ColorFormatter.swift */; };
 		124E2A971AD565A500174583 /* ColorFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A951AD55F5E00174583 /* ColorFormatter.swift */; };
+		124E2A991AD590E800174583 /* ColorScannerDemo.txt in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A981AD590E800174583 /* ColorScannerDemo.txt */; };
+		124E2A9A1AD5919C00174583 /* ColorScannerDemo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 124E2A981AD590E800174583 /* ColorScannerDemo.txt */; };
 		125DD5D21A84C09C00C90757 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125DD5D11A84C09C00C90757 /* FileManager.swift */; };
 		12767EEA1A503E0E00BCFED3 /* LineModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12767EE91A503E0E00BCFED3 /* LineModel.swift */; };
 		12C5359D1A8C216900B1B287 /* NewScanningMechanism.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C5359C1A8C216900B1B287 /* NewScanningMechanism.swift */; };
@@ -58,6 +60,7 @@
 		1214AF6F1A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyCocoa_MacAppTests.swift; sourceTree = "<group>"; };
 		122941E91AAB77B700782A2C /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		124E2A951AD55F5E00174583 /* ColorFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorFormatter.swift; sourceTree = "<group>"; };
+		124E2A981AD590E800174583 /* ColorScannerDemo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ColorScannerDemo.txt; sourceTree = "<group>"; };
 		125DD5D11A84C09C00C90757 /* FileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		12767EE91A503E0E00BCFED3 /* LineModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineModel.swift; sourceTree = "<group>"; };
 		12C5359C1A8C216900B1B287 /* NewScanningMechanism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewScanningMechanism.swift; sourceTree = "<group>"; };
@@ -121,6 +124,7 @@
 				1214AF5E1A4B346100F31ED8 /* Document.swift */,
 				1214AF601A4B346100F31ED8 /* Images.xcassets */,
 				12F53EE61ACF5F18006A0B94 /* MIT_template.txt */,
+				124E2A981AD590E800174583 /* ColorScannerDemo.txt */,
 				1214AF621A4B346100F31ED8 /* Main.storyboard */,
 				1214AF581A4B346100F31ED8 /* Supporting Files */,
 			);
@@ -251,6 +255,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				124E2A9A1AD5919C00174583 /* ColorScannerDemo.txt in Resources */,
 				1214AF611A4B346100F31ED8 /* Images.xcassets in Resources */,
 				12F53EE71ACF5F23006A0B94 /* MIT_template.txt in Resources */,
 				1214AF641A4B346100F31ED8 /* Main.storyboard in Resources */,
@@ -288,6 +293,7 @@
 				12F983841A4D92380041FE43 /* Base.swift in Sources */,
 				12C5359D1A8C216900B1B287 /* NewScanningMechanism.swift in Sources */,
 				12767EEA1A503E0E00BCFED3 /* LineModel.swift in Sources */,
+				124E2A991AD590E800174583 /* ColorScannerDemo.txt in Sources */,
 				120927E41A87E92C0023D05B /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

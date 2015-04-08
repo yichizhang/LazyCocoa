@@ -15,10 +15,14 @@ class ColorScanner: NSObject {
 		let scanner = NSScanner(string: text)
 		var resultString:NSString?
 		var resultFloat:Float = 0.0
-		var colorComponents = [CGFloat]()
 		
 		let decDigitSet = NSCharacterSet.decimalDigitCharacterSet()
 		let set1 = NSCharacterSet(charactersInString: " :*-=()[]{};")
+		
+		var currentColorName:String?
+		var currentColorComponents = [CGFloat]()
+		
+		var returnString:String = ""
 		
 		while ( scanner.scanLocation < countElements(scanner.string) ) {
 			
@@ -28,19 +32,42 @@ class ColorScanner: NSObject {
 			
 			if charString.containsCharactersInSet(decDigitSet) {
 				scanner.scanFloat(&resultFloat)
-				println(resultFloat)
+				
+				currentColorComponents.append( CGFloat(resultFloat) )
+				
 			} else if charString.containsCharactersInSet(NSCharacterSet.newlineCharacterSet()) {
-				println("---NEW LINE!---")
+				// New line.
+				
+				if currentColorComponents.count >= 3 {
+					let hexString = ColorFormatter.hexStringFrom(componentArray: currentColorComponents)
+					if let colorName = currentColorName {
+						returnString = returnString + "\(colorName) \(hexString)\n"
+					}
+					
+					currentColorComponents.removeAll()
+					currentColorName = nil
+				}
+				
 				scanner.scanLocation++
+				
 			} else if scanner.scanUpToCharactersFromSet(set1, intoString: &resultString) {
-				println(resultString!)
+				
+				if let resultString = resultString {
+					if resultString.hasSuffix("Color") &&
+					resultString != "UIColor" &&
+					resultString != "NSColor" {
+						currentColorName = resultString
+						currentColorComponents.removeAll()
+					}
+				}
+				
 			} else {
 				scanner.scanLocation++
 			}
 			
 		}
 		
-		return ""
+		return returnString
 		
 	}
 }
