@@ -1,0 +1,43 @@
+!!! colorAndFont
+// Processing mode: Color and font.
+
+!!prefix _jc
+
+light "MyFont-Light" // Light font
+regular "MyFont-Regular" // Regular font
+bold "MyFont-Bold" // Bold font
+
+small 14
+medium 16
+large 20
+extra-large 24
+
+red #000
+gray #555
+darkerGray #222
+white #FFF
+
+defaultBackground gray
+
+frontPageBackground defaultBackground
+frontPageText red regular small
+
+homePageBackground defaultBackground
+
+contactCellBackground white
+contactCellTitle darkerGray bold extra-large
+contactCellDescription gray regular small
+
+!!!stringConst
+
+!!prefix key_
+web_id; name; email; contact_details; location; position; work_unit
+
+!!!userDefaults
+
+testBool Bool
+testInt Int
+testFloat Float
+testDouble Double
+testString String
+testNSURL NSURL

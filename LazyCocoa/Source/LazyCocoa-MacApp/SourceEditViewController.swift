@@ -34,8 +34,10 @@ class SourceEditViewController: NSViewController {
 		// Do any additional setup after loading the view.
 		title = "Source Editor"
 		
-		filePopUpButton.removeAllItems()
+		// TODO: Temp solution for demo file
+		sourceFileTextView.string = String.stringInBundle(name: "SourceDemo")
 		
+		filePopUpButton.removeAllItems()
 		filePopUpButton.addItemsWithTitles(["Test Title 1", "Test Title 2"])
 	}
 	
