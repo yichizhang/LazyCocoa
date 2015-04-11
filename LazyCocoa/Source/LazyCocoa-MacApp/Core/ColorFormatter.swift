@@ -17,7 +17,7 @@ import Foundation
 class ColorFormatter {
 	
 	class func hexStringFrom(#componentArray:[CGFloat], useUpperCase:Bool = true) -> String {
-		var hexString = ("#" as NSString).mutableCopy() as NSMutableString
+		var hexString = ("#" as NSString).mutableCopy() as! NSMutableString
 		
 		for i in 0..<4 {
 			// If there are less than 3 members in the component array

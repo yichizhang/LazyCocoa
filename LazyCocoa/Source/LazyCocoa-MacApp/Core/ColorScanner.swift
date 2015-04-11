@@ -24,7 +24,7 @@ class ColorScanner: NSObject {
 		
 		var returnString:String = ""
 		
-		while ( scanner.scanLocation < countElements(scanner.string) ) {
+		while ( scanner.scanLocation < count(scanner.string) ) {
 			
 			let charString = (scanner.string as NSString).substringWithRange(
 				NSMakeRange(scanner.scanLocation, 1)
@@ -56,7 +56,7 @@ class ColorScanner: NSObject {
 					if resultString.hasSuffix("Color") &&
 					resultString != "UIColor" &&
 					resultString != "NSColor" {
-						currentColorName = resultString
+						currentColorName = resultString as String
 						currentColorComponents.removeAll()
 					}
 				}

@@ -120,16 +120,16 @@ class SourceCodeScanner {
 		let whitespace = NSCharacterSet.whitespaceCharacterSet()
 		let newline = NSCharacterSet.newlineCharacterSet()
 		
-		let whitespaceNewlineAndSemicolon = whitespaceAndNewline.mutableCopy() as NSMutableCharacterSet
+		let whitespaceNewlineAndSemicolon = whitespaceAndNewline.mutableCopy() as! NSMutableCharacterSet
 		whitespaceNewlineAndSemicolon.addCharactersInString(";")
 		
-		let newlineAndSemicolon = newline.mutableCopy() as NSMutableCharacterSet
+		let newlineAndSemicolon = newline.mutableCopy() as! NSMutableCharacterSet
 		newlineAndSemicolon.addCharactersInString(";")
 		
 		var currentProcessModeString:String!
 		var resultString:NSString?
 		
-		while scanner.scanLocation < countElements(scanner.string) {
+		while scanner.scanLocation < count(scanner.string) {
 			
 			let currentChar = scanner.string.characterAtIndex(scanner.scanLocation)
 			let threeCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 3)
@@ -164,8 +164,8 @@ class SourceCodeScanner {
 				let parameterValue = resultString
 				
 				if parameterKey != nil && parameterValue != nil {
-					let processedParameterValue = (parameterValue as String).stringByRemovingSingleLineComment()
-					self.addParameter(parameterKey: parameterKey as String, parameterValue: processedParameterValue, forProcessMode: currentProcessModeString)
+					let processedParameterValue = (parameterValue as! String).stringByRemovingSingleLineComment()
+					self.addParameter(parameterKey: parameterKey as! String, parameterValue: processedParameterValue, forProcessMode: currentProcessModeString)
 				}
 				
 			} else {
@@ -179,7 +179,7 @@ class SourceCodeScanner {
 //					SourceCodeScanner.pln("!!!")
 //					SourceCodeScanner.NSPln(resultString)
 					
-					addAsName(statementItem: resultString as String, forProcessMode: currentProcessModeString)
+					addAsName(statementItem: resultString as! String, forProcessMode: currentProcessModeString)
 					
 				} else {
 					scanner.scanUpToCharactersFromSet(whitespaceNewlineAndSemicolon, intoString: &resultString)
@@ -188,7 +188,7 @@ class SourceCodeScanner {
 //					SourceCodeScanner.NSPln(resultString)
 					
 					
-					add(statementItem: resultString as String, forProcessMode: currentProcessModeString)
+					add(statementItem: resultString as! String, forProcessMode: currentProcessModeString)
 				}
 				
 			}
@@ -199,7 +199,7 @@ class SourceCodeScanner {
 				makeNewStatementModelForProcessMode(currentProcessModeString)
 			}
 			
-			while scanner.scanLocation < countElements(scanner.string)
+			while scanner.scanLocation < count(scanner.string)
 			&& oneCharString.containsCharactersInSet(whitespaceNewlineAndSemicolon)
 			{
 				scanner.scanLocation++

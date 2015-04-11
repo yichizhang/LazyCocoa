@@ -131,7 +131,7 @@ class HeaderChanger {
 	var preparedNewComment:NSString!
 	
 	var originalAttributedString:NSAttributedString {
-		var attributedString = NSMutableAttributedString(string: originalString)
+		var attributedString = NSMutableAttributedString(string: originalString as String)
 		attributedString.addBasicAttributesForHeaderChangerTextView()
 		attributedString.addAttributes([
 			NSBackgroundColorAttributeName: NSColor.redColor(),
@@ -139,7 +139,7 @@ class HeaderChanger {
 		return attributedString
 	}
 	var newAttributedString:NSAttributedString {
-		var attributedString = NSMutableAttributedString(string: newFileString)
+		var attributedString = NSMutableAttributedString(string: newFileString as String)
 		attributedString.addBasicAttributesForHeaderChangerTextView()
 		attributedString.addAttributes([
 			NSBackgroundColorAttributeName: NSColor.greenColor(),
@@ -152,7 +152,7 @@ class HeaderChanger {
 		
 		originalString = string
 		
-		let tempCommentString = newComment.mutableCopy() as NSMutableString
+		let tempCommentString = newComment.mutableCopy() as! NSMutableString
 		
 		let currentDate = NSDate()
 		let dateFormatter = NSDateFormatter()
@@ -200,7 +200,7 @@ class HeaderChanger {
 		preparedNewComment = tempCommentString
 		
 		if originalCommentRange.location != NSNotFound {
-			newFileString = originalString.stringByReplacingCharactersInRange(originalCommentRange, withString: preparedNewComment)
+			newFileString = originalString.stringByReplacingCharactersInRange(originalCommentRange, withString: preparedNewComment as String)
 		}
 	}
 }

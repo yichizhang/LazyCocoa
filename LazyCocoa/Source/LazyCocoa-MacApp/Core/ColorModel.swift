@@ -35,20 +35,20 @@ class ColorModel : BaseModel, BaseModelProtocol{
 		var hexValue: CUnsignedLongLong = 0
 		
 		if scanner.scanHexLongLong(&hexValue) {
-			if countElements(hex) == 3 {
+			if count(hex) == 3 {
 				red   = Float((hexValue & 0xF00) >> 8)  / 15.0
 				green = Float((hexValue & 0x0F0) >> 4)  / 15.0
 				blue  = Float(hexValue & 0x00F) / 15.0
-			} else if countElements(hex) == 4 {
+			} else if count(hex) == 4 {
 				red   = Float((hexValue & 0xF000) >> 12) / 15.0
 				green = Float((hexValue & 0x0F00) >> 8)  / 15.0
 				blue  = Float((hexValue & 0x00F0) >> 4)  / 15.0
 				alpha = Float(hexValue & 0x000F)         / 15.0
-			} else if countElements(hex) == 6 {
+			} else if count(hex) == 6 {
 				red   = Float((hexValue & 0xFF0000) >> 16) / 255.0
 				green = Float((hexValue & 0x00FF00) >> 8)  / 255.0
 				blue  = Float(hexValue & 0x0000FF) / 255.0
-			} else if countElements(hex) == 8 {
+			} else if count(hex) == 8 {
 				red   = Float((hexValue & 0xFF000000) >> 24) / 255.0
 				green = Float((hexValue & 0x00FF0000) >> 16) / 255.0
 				blue  = Float((hexValue & 0x0000FF00) >> 8)  / 255.0

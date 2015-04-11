@@ -40,7 +40,7 @@ class ConversionViewController: NSViewController {
         if let source = sourceTextView.string {
             var error:NSError?
             let regex = NSRegularExpression(pattern: "@property \\((.*)\\) (.*) \\*?(.*);", options: NSRegularExpressionOptions.CaseInsensitive, error: &error)
-            let modifiedString = regex?.stringByReplacingMatchesInString(source, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, countElements(source)), withTemplate: "var $3:$2?")
+            let modifiedString = regex?.stringByReplacingMatchesInString(source, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, count(source)), withTemplate: "var $3:$2?")
             
             resultTextView.string = modifiedString
         }

@@ -161,7 +161,7 @@ class ChangeHeaderViewController : NSViewController {
 							if let string = file.fileString {
 								
 								let headerChanger = HeaderChanger(string: string, newComment: newHeaderComment, filename: file.filename)
-								file.updateFileWith(newFileString: headerChanger.newFileString)
+								file.updateFileWith(newFileString: headerChanger.newFileString as String)
 							}
 						}
 					}

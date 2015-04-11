@@ -41,7 +41,7 @@ class Document: NSDocument {
 		
 
 		let storyboard = NSStoryboard(name: "Main", bundle: nil)!
-		let windowController = storyboard.instantiateControllerWithIdentifier("Document Window Controller") as NSWindowController
+		let windowController = storyboard.instantiateControllerWithIdentifier("Document Window Controller") as! NSWindowController
 		println(windowController.contentViewController.self)
 		
 		//let mainViewController:SourceEditViewController = windowController.contentViewController as SourceEditViewController
@@ -49,7 +49,7 @@ class Document: NSDocument {
 		
 		//documentMainViewController = windowController.contentViewController as? SourceEditViewController
         if let tabVC = windowController.contentViewController as? NSTabViewController {
-            documentMainViewController = (tabVC.childViewControllers as [NSViewController])[0] as? SourceEditViewController
+            documentMainViewController = (tabVC.childViewControllers as! [NSViewController])[0] as? SourceEditViewController
         }
         
 		if let documentMainViewController = documentMainViewController {
@@ -123,7 +123,7 @@ class Document: NSDocument {
 			if tempString != nil {
 				
 				// Otherwise would crash when opening new files
-				var str = tempString as String
+				var str = tempString as! String
 				let colorAndFontProcessingMode = "!!!colorAndFont"
 				if str.rangeOfString(colorAndFontProcessingMode) == nil{
 					

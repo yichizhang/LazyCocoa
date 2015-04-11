@@ -35,7 +35,7 @@ extension NSTextView {
 
 extension String {
 	var isValidNumber:Bool {
-		var setOfNonNumberCharacters = NSCharacterSet.decimalDigitCharacterSet().invertedSet.mutableCopy() as NSMutableCharacterSet
+		var setOfNonNumberCharacters = NSCharacterSet.decimalDigitCharacterSet().invertedSet.mutableCopy() as! NSMutableCharacterSet
 		setOfNonNumberCharacters.removeCharactersInString(".")
 		
 		if( self.containsCharactersInSet(setOfNonNumberCharacters) ){
@@ -68,7 +68,7 @@ extension String {
 	
 	var length:Int{
 		
-		return countElements(self)
+		return count(self)
 	}
 	
 	func containsCharactersInSet(set:NSCharacterSet) -> Bool {
@@ -201,7 +201,7 @@ extension String {
 		// I'm a bit concerned with doing thing like NSMakeRange(0, countElements(self))
 		
 		if let regex = NSRegularExpression(pattern: regexString, options: NSRegularExpressionOptions.allZeros, error: nil) {
-			if let firstMatch = regex.firstMatchInString(selfString, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, selfString.length)) {
+			if let firstMatch = regex.firstMatchInString(selfString as String, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, selfString.length)) {
 				result = true
 			}
 		}
@@ -212,7 +212,7 @@ extension String {
 	static func stringInBundle(#name:String, ofType type: String = "txt", encoding: UInt = NSUTF8StringEncoding) -> String? {
 		if let path = NSBundle.mainBundle().pathForResource(name, ofType: type, inDirectory: nil) {
 			if let data = NSData(contentsOfFile: path) {
-				return NSString(data: data, encoding: encoding)
+				return NSString(data: data, encoding: encoding) as? String
 			}
 		}
 		return nil
