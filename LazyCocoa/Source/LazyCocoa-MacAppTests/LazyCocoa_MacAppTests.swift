@@ -47,6 +47,26 @@ class LazyCocoa_MacAppTests: XCTestCase {
 			"#000000"
 		)
     }
+	
+	func testStringExtensions() {
+		
+		let lowercaseSet = NSCharacterSet.lowercaseLetterCharacterSet();
+		let digitSet = NSCharacterSet.decimalDigitCharacterSet();
+		
+		var testString:String!
+		
+		testString = "#999999"
+		XCTAssertTrue(testString.containsCharactersInSet(lowercaseSet) == false)
+		XCTAssertTrue(testString.containsCharactersInSet(digitSet) == true)
+		
+		testString = "Aardvark"
+		XCTAssertTrue(testString.containsCharactersInSet(lowercaseSet) == true)
+		XCTAssertTrue(testString.containsCharactersInSet(digitSet) == false)
+		
+		testString = "AAA#####"
+		XCTAssertTrue(testString.containsCharactersInSet(lowercaseSet) == false)
+		XCTAssertTrue(testString.containsCharactersInSet(digitSet) == false)
+	}
     
     func testPerformanceExample() {
         // This is an example of a performance test case.

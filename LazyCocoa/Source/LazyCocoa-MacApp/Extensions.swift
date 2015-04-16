@@ -73,13 +73,10 @@ extension String {
 	
 	func containsCharactersInSet(set:NSCharacterSet) -> Bool {
 		
-		// FIXME: Use Swift native String
-		let range = (self as NSString).rangeOfCharacterFromSet(set)
-		if(range.location == NSNotFound){
-			// Does not contain characters in set
-			return false
+		if let range = self.rangeOfCharacterFromSet(set) {
+			return true
 		}
-		return true
+		return false
 		
 	}
 	
