@@ -180,7 +180,7 @@ class ChangeHeaderViewController : NSViewController {
 		openDialog.canCreateDirectories = true
 		openDialog.allowsMultipleSelection = false
 		
-		if openDialog.runModal() == NSOKButton {
+		if openDialog.runModal() == NSModalResponseOK {
 			if let url = openDialog.URLs.first as? NSURL {
 				basePathTextField.stringValue = url.path!
 			}
