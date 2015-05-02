@@ -33,8 +33,9 @@ let acceptedProcessModes = [processMode_colorAndFont, processMode_stringConst, p
 
 class StatementModel: NSObject, Printable {
 	
-	var identifiers:[String] = [] //
-	var names:[String] = [] // Strings within double quotation marks; "strings that contains white spaces"
+	var identifiers:[String] = []
+	// Strings within double quotation marks; "strings that contains white spaces"
+	var names:[String] = []
 	var colorCodes:[String] = []
 	var numbers:[String] = []
 	
@@ -193,17 +194,10 @@ class SourceCodeScanner {
 					scanner.scanUpToString(DOUBLE_QUOTE_STRING, intoString: &resultString)
 					scanner.scanLocation += DOUBLE_QUOTE_STRING.length
 					
-//					SourceCodeScanner.pln("!!!")
-//					SourceCodeScanner.NSPln(resultString)
-					
 					addAsName(statementItem: resultString as! String, forProcessMode: currentProcessModeString)
 					
 				} else {
 					scanner.scanUpToCharactersFromSet(whitespaceNewlineAndSemicolon, intoString: &resultString)
-					
-//					SourceCodeScanner.pln("XXX")
-//					SourceCodeScanner.NSPln(resultString)
-					
 					
 					add(statementItem: resultString as! String, forProcessMode: currentProcessModeString)
 				}
@@ -230,18 +224,5 @@ class SourceCodeScanner {
 		
 		println("--\n\n\n--")
 		println(self.statementDict)
-	}
-	
-	class func pln(string:String) {
-		
-		println("---\(string)---")
-	}
-	class func NSPln(string:NSString?) {
-		if let string = string {
-			
-			println("---\(string)---")
-		} else {
-			println("!!!nil!!!")
-		}
 	}
 }
