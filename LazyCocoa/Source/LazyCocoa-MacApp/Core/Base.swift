@@ -101,7 +101,6 @@ class Argument : NSObject {
 			return "\"" + str + "\""
 		case ArgumentFormattingStrategy.Name.rawValue:
 			return "\(object)"
-//			return object as String
 		default:
 			return "__ERROR__"
 		}
@@ -117,12 +116,9 @@ class SettingsManager : NSObject {
 	}
 	
 	var colorClassName:String!
-//	var colorRGBAInitMethodFormatString:String!
 	var colorRGBAInitSignatureString:String!
 	
 	var fontClassName:String!
-//	var fontNameAndSizeInitMethodFormatString:String!
-//	var fontOfSizeInitMethodFormatString:String!
 	var fontNameAndSizeInitSignatureString:String!
 	
 	private var parameters:[String: String] = Dictionary()
@@ -194,20 +190,14 @@ class SettingsManager : NSObject {
 			fontClassName = "UIFont"
 			colorClassName = "UIColor"
 			
-//			colorRGBAInitMethodFormatString = colorClassName + "(red:%.3f, green:%.3f, blue:%.3f, alpha:%.3f)"
 			colorRGBAInitSignatureString = "red:green:blue:alpha:"
 			
 		case .MacOS:
 			fontClassName = "NSFont"
 			colorClassName = "NSColor"
 			
-//			colorRGBAInitMethodFormatString = colorClassName + "(calibratedRed:%.3f, green:%.3f, blue:%.3f, alpha:%.3f)"
 			colorRGBAInitSignatureString = "calibratedRed:green:blue:alpha:"
-			
 		}
-		
-//		fontOfSizeInitMethodFormatString = fontClassName + "(name:\"%@\", size:size)"
-//		fontNameAndSizeInitMethodFormatString = fontClassName + "(name:\"%@\", size:%.1f)"
 		
 		fontNameAndSizeInitSignatureString = "name:size:"
 	}
