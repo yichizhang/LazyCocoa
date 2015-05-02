@@ -98,11 +98,7 @@ extension String {
 	}
 	
 	static func extensionString(#className:String, content:String) -> String {
-		
 		return "extension \(className) { \n\n\(content.stringByIndenting(numberOfTabs: 1))\n} \n\n"
-		
-		//		return "extension \(className) { " + NEW_LINE_STRING + NEW_LINE_STRING +
-		//		content + "} " + NEW_LINE_STRING + NEW_LINE_STRING
 	}
 	
 	static func importStatementString(string:String) -> String {
@@ -212,7 +208,7 @@ extension String {
 	func hasMatchesFor(#regexString:String) -> Bool {
 		var result = false
 		let selfString = self as NSString
-		// I'm a bit concerned with doing thing like NSMakeRange(0, countElements(self))
+		// TODO: Would NSMakeRange(0, countElements(self)) work?
 		
 		if let regex = NSRegularExpression(pattern: regexString, options: NSRegularExpressionOptions.allZeros, error: nil) {
 			if let firstMatch = regex.firstMatchInString(selfString as String, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, selfString.length)) {
