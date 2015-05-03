@@ -53,8 +53,33 @@ class DocumentAnalyzer : NSObject {
 		
 		var userDefaultsString = ""
 		
+		var currentProcessMode = ""
+		
 		// Reset all parameters
 		Settings.resetParameters()
+		
+		for s in sourceScanner.statementArray {
+			
+			if let processMode = s as? String {
+				// A String representing the current process mode
+				currentProcessMode = processMode
+				
+			} else if let statement = s as? StatementModel {
+				// It is a StatementModel
+				switch currentProcessMode {
+				case processMode_colorAndFont:
+					
+					break
+				case processMode_stringConst:
+					
+					break
+				case processMode_userDefaults:
+					
+					break
+				}
+			}
+		}
+		
 		
 		for processMode in acceptedProcessModes {
 			
@@ -65,6 +90,8 @@ class DocumentAnalyzer : NSObject {
 				}
 			}
 			
+			// TODO:
+			// New mode. Do not put statements in a dictionary. Put them in an array.
 			if processMode == processMode_colorAndFont {
 				
 				if let statementModelArray = sourceScanner.statementDict[processMode] {
@@ -139,5 +166,6 @@ class DocumentAnalyzer : NSObject {
 		mainResultString = "\(Settings.headerComment)\( importStatements )\n\(constantsSwiftString)\n\(userDefaultsString)\n\(fontFileString)\(colorFileString)"
 
 		otherResultString = "\(constantsObjcHeaderString)\n\n\(constantsObjcImplementationString)"
+
 	}
 }
