@@ -83,40 +83,41 @@ class StatementModel: NSObject, Printable {
 
 class SourceCodeScanner {
 	
-	var statementDict:[String:[StatementModel]] = Dictionary()
+	var currentProcessMode = ""
+	// statementArray contains StatementModel and String objects
+	var statementArray = [AnyObject]()
 	var parameterDict:[String:[String:String]] = Dictionary()
 	
 	private func makeNewStatementModelForProcessMode(key:String) {
-		if statementDict[key] == nil {
-			statementDict[key] = []
+		
+		if currentProcessMode != key {
+			statementArray.append(key)
+			currentProcessMode = key
 		}
 		
-		if let last = statementDict[key]!.last {
+		if let last = statementArray.last as? StatementModel {
 			if last.isEmpty == true {
 				return
 			}
 		}
-		statementDict[key]!.append( StatementModel() )
+		statementArray.append( StatementModel() )
 	}
 
 	private func add(#statementItem:String, forProcessMode key:String) {
-		if statementDict[key] == nil {
-			makeNewStatementModelForProcessMode(key)
-		} else if statementDict[key]!.isEmpty{
+		
+		if currentProcessMode != key {
 			makeNewStatementModelForProcessMode(key)
 		}
 		
-		statementDict[key]!.last!.add(statementItem: statementItem)
+		statementArray.last!.add(statementItem: statementItem)
 	}
 	
 	private func addAsName(#statementItem:String, forProcessMode key:String) {
-		if statementDict[key] == nil {
-			makeNewStatementModelForProcessMode(key)
-		} else if statementDict[key]!.isEmpty{
+		if currentProcessMode != key {
 			makeNewStatementModelForProcessMode(key)
 		}
 		
-		statementDict[key]!.last!.addAsName(statementItem: statementItem)
+		statementArray.last!.addAsName(statementItem: statementItem)
 	}
 	
 	private func addParameter(#parameterKey:String, parameterValue:String, forProcessMode key:String) {
@@ -129,7 +130,7 @@ class SourceCodeScanner {
 	func processSourceString(string:String) {
 		
 		parameterDict.removeAll(keepCapacity: true)
-		statementDict.removeAll(keepCapacity: true)
+		statementArray.removeAll(keepCapacity: true)
 		
 		let scanner = NSScanner(string: string)
 		
@@ -223,6 +224,6 @@ class SourceCodeScanner {
 		println(self.parameterDict)
 		
 		println("--\n\n\n--")
-		println(self.statementDict)
+		println(self.statementArray)
 	}
 }
