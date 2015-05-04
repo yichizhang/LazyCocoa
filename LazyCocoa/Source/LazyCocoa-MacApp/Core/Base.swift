@@ -62,20 +62,6 @@ enum Platform : Int {
 	case MacOS
 }
 
-protocol BaseModelProtocol {
-	
-	func autoMethodName() -> String
-	func statementString() -> String
-	func documentationString() -> String
-	func funcString() -> String
-}
-
-class BaseModel : NSObject {
-	
-	var identifier = "someIdentifier"
-
-}
-
 enum ArgumentFormattingStrategy : Int {
 	case CGFloatNumber = 0
 	case StringLiteral

@@ -60,6 +60,20 @@ class BasicDocumentComponent : DocumentComponent, Printable {
 
 class ColorAndFontComponent : DocumentComponent {
 	
+	protocol BaseModelProtocol {
+		
+		func autoMethodName() -> String
+		func statementString() -> String
+		func documentationString() -> String
+		func funcString() -> String
+	}
+	
+	class BaseModel : NSObject {
+		
+		var identifier = "someIdentifier"
+		
+	}
+	
 	class LineModel: Printable {
 		
 		var identifier:String = ""
@@ -154,6 +168,172 @@ class ColorAndFontComponent : DocumentComponent {
 		}
 	}
 
+	class ColorModel : BaseModel, BaseModelProtocol{
+		
+		var colorHexString:String!
+		var red:Float = 1.0
+		var green:Float = 1.0
+		var blue:Float = 1.0
+		var alpha:Float = 1.0
+		
+		convenience init(identifier:String, colorHexString:String){
+			
+			self.init()
+			
+			self.identifier = identifier
+			self.colorHexString = colorHexString
+			
+			let index   = advance(colorHexString.startIndex, 1)
+			let hex     = colorHexString.substringFromIndex(index)
+			let scanner = NSScanner(string: hex)
+			var hexValue: CUnsignedLongLong = 0
+			
+			if scanner.scanHexLongLong(&hexValue) {
+				if count(hex) == 3 {
+					red   = Float((hexValue & 0xF00) >> 8)  / 15.0
+					green = Float((hexValue & 0x0F0) >> 4)  / 15.0
+					blue  = Float(hexValue & 0x00F) / 15.0
+				} else if count(hex) == 4 {
+					red   = Float((hexValue & 0xF000) >> 12) / 15.0
+					green = Float((hexValue & 0x0F00) >> 8)  / 15.0
+					blue  = Float((hexValue & 0x00F0) >> 4)  / 15.0
+					alpha = Float(hexValue & 0x000F)         / 15.0
+				} else if count(hex) == 6 {
+					red   = Float((hexValue & 0xFF0000) >> 16) / 255.0
+					green = Float((hexValue & 0x00FF00) >> 8)  / 255.0
+					blue  = Float(hexValue & 0x0000FF) / 255.0
+				} else if count(hex) == 8 {
+					red   = Float((hexValue & 0xFF000000) >> 24) / 255.0
+					green = Float((hexValue & 0x00FF0000) >> 16) / 255.0
+					blue  = Float((hexValue & 0x0000FF00) >> 8)  / 255.0
+					alpha = Float(hexValue & 0x000000FF)         / 255.0
+				} else {
+					print("error")
+				}
+			} else {
+				println("scan hex error")
+			}
+			
+		}
+		
+		func autoMethodName() -> String {
+			
+			let base = Settings.unwrappedParameterForKey(paramKey_prefix)
+			if identifier.isMeantToBeColor {
+				return base + identifier
+			}else{
+				return base + identifier + COLOR_SUFFIX
+			}
+		}
+		
+		func statementString() -> String {
+			
+			return String.initString(className: Settings.colorClassName, initMethodSignature: Settings.colorRGBAInitSignatureString, arguments: [red, green, blue, alpha])
+		}
+		
+		func documentationString() -> String {
+			return "Color code: \(colorHexString)"
+		}
+		
+		func funcString() -> String {
+			
+			let formatString:NSString =
+			"class func %@() -> %@ {\n" +
+				"\t" + "return %@\n" +
+			"}"
+			
+			return NSString(format: formatString, autoMethodName(), Settings.colorClassName, statementString() ) as String
+		}
+		
+	}
+	
+	class FontModel : BaseModel, BaseModelProtocol{
+		
+		var typefaceName:String!
+		var fontSize:Float?
+		
+		convenience init(identifier:String, fontName:String){
+			self.init()
+			self.identifier = identifier
+			self.typefaceName = fontName
+		}
+		
+		convenience init(identifier:String, fontName:String, sizeString:String){
+			self.init()
+			self.identifier = identifier
+			self.typefaceName = fontName
+			self.fontSize = (sizeString as NSString).floatValue
+		}
+		
+		convenience init(identifier:String, fontName:String, sizeFloat:Float){
+			self.init()
+			self.identifier = identifier
+			self.typefaceName = fontName
+			self.fontSize = sizeFloat
+		}
+		
+		func autoMethodName() -> String {
+			
+			let base = Settings.unwrappedParameterForKey(paramKey_prefix)
+			if identifier.isMeantToBeFont {
+				return base + identifier
+			}else{
+				return base + identifier + FONT_SUFFIX
+			}
+		}
+		
+		func statementString() -> String {
+			
+			let firstParameter:Argument = Argument(object: typefaceName, formattingStrategy: .StringLiteral )
+			var secondParameter:Any?
+			
+			if let fontSize = fontSize {
+				secondParameter = fontSize
+			} else {
+				secondParameter = "size"
+			}
+			
+			let statementString = String.initString(className:Settings.fontClassName, initMethodSignature: Settings.fontNameAndSizeInitSignatureString, arguments: [firstParameter, secondParameter])
+			
+			return statementString
+		}
+		
+		func documentationString() -> String {
+			var string:String!
+			if let fontSize = fontSize {
+				string = "Font name: \(typefaceName), font size: \(fontSize)"
+			} else {
+				string = "Font name: \(typefaceName)"
+			}
+			return string
+		}
+		
+		func funcString() -> String {
+			
+			var formatString:NSString
+			
+			if let fontSize = fontSize {
+				
+				formatString =
+					"class func %@() -> %@ {\n" +
+					"\t" + "return %@!\n" +
+				"}"
+				
+			} else {
+				
+				// NO FONT SIZE PROVIDED
+				formatString =
+					"class func %@OfSize(size:CGFloat) -> %@ {\n" +
+					"\t" + "return %@!\n" +
+				"}"
+				
+			}
+			
+			return NSString(format: formatString, autoMethodName(), Settings.fontClassName, statementString()) as String
+		}
+		
+		
+	}
 	
 	var modelArray: Array<LineModel> = Array()
 	var modelDictionary: Dictionary<String, LineModel> = Dictionary()
