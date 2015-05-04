@@ -1,7 +1,7 @@
 !!! colorAndFont
 // Processing mode: Color and font.
 
-!!prefix _jc
+!!prefix jc_
 !!exportTo file1.swift
 
 light "MyFont-Light" // Light font
