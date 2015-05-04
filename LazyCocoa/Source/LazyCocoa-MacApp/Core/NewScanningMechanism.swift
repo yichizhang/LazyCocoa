@@ -31,7 +31,23 @@ let processMode_userDefaults = "userDefaults"
 
 let acceptedProcessModes = [processMode_colorAndFont, processMode_stringConst, processMode_userDefaults]
 
-class StatementModel: NSObject, Printable {
+class ConfigurationModel: Printable {
+	
+	var key = ""
+	var value = ""
+	
+	init(key:String, value:String) {
+		self.key = key
+		self.value = value
+	}
+	
+	var description:String {
+		
+		return "\nConfiguration: Key = \(key), Value = \(value)."
+	}
+}
+
+class StatementModel: Printable {
 	
 	var identifiers:[String] = []
 	// Strings within double quotation marks; "strings that contains white spaces"
@@ -47,7 +63,7 @@ class StatementModel: NSObject, Printable {
 		}
 	}
 	
-	override var description:String {
+	var description:String {
 		var desc = "\n"
 		if !identifiers.isEmpty {
 			desc = desc + "IDS: " + join(", ", identifiers) + "; "
@@ -109,7 +125,9 @@ class SourceCodeScanner {
 			makeNewStatementModelForProcessMode(key)
 		}
 		
-		statementArray.last!.add(statementItem: statementItem)
+		if let last = statementArray.last as? StatementModel {
+			last.add(statementItem: statementItem)
+		}
 	}
 	
 	private func addAsName(#statementItem:String, forProcessMode key:String) {
@@ -117,7 +135,9 @@ class SourceCodeScanner {
 			makeNewStatementModelForProcessMode(key)
 		}
 		
-		statementArray.last!.addAsName(statementItem: statementItem)
+		if let last = statementArray.last as? StatementModel {
+			last.addAsName(statementItem: statementItem)
+		}
 	}
 	
 	private func addParameter(#parameterKey:String, parameterValue:String, forProcessMode key:String) {
