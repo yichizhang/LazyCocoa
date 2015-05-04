@@ -43,7 +43,7 @@ class ConfigurationModel: Printable {
 	
 	var description:String {
 		
-		return "\nConfiguration: Key = \(key), Value = \(value)."
+		return "\n<Configuration: Key = \(key), Value = \(value)>"
 	}
 }
 
@@ -64,21 +64,16 @@ class StatementModel: Printable {
 	}
 	
 	var description:String {
-		var desc = "\n"
-		if !identifiers.isEmpty {
-			desc = desc + "IDS: " + join(", ", identifiers) + "; "
-		}
-		if !names.isEmpty {
-			desc = desc + "names: " + join(", ", names) + "; "
-		}
-		if !colorCodes.isEmpty {
-			desc = desc + "colorCodes: " + join(", ", colorCodes) + "; "
-		}
-		if !numbers.isEmpty {
-			desc = desc + "numbers: " + join(", ", numbers) + "; "
+		
+		let arrayToString = { (array:[String]) -> String in
+			if array.isEmpty {
+				return "NONE"
+			} else {
+				return "(" + join(", ", array) + ")"
+			}
 		}
 		
-		return desc
+		return "\n<Statement: IDS = \(arrayToString(identifiers)), names = \(arrayToString(names)), colorCodes = \(arrayToString(colorCodes)), numbers = \(arrayToString(numbers))>"
 	}
 
 	func add(#statementItem:String) {
@@ -100,15 +95,14 @@ class StatementModel: Printable {
 class SourceCodeScanner {
 	
 	var currentProcessMode = ""
-	// statementArray contains StatementModel and String objects
+	// statementArray contains StatementModel, ConfigurationModel and String objects
 	var statementArray = [AnyObject]()
-	var parameterDict:[String:[String:String]] = Dictionary()
 	
-	private func makeNewStatementModelForProcessMode(key:String) {
+	private func appendNewStatementModelForProcessMode(processMode:String) {
 		
-		if currentProcessMode != key {
-			statementArray.append(key)
-			currentProcessMode = key
+		if currentProcessMode != processMode {
+			statementArray.append(processMode)
+			currentProcessMode = processMode
 		}
 		
 		if let last = statementArray.last as? StatementModel {
@@ -121,8 +115,10 @@ class SourceCodeScanner {
 
 	private func add(#statementItem:String, forProcessMode key:String) {
 		
-		if currentProcessMode != key {
-			makeNewStatementModelForProcessMode(key)
+		if let last = statementArray.last as? StatementModel {
+			
+		} else {
+			appendNewStatementModelForProcessMode(key)
 		}
 		
 		if let last = statementArray.last as? StatementModel {
@@ -131,8 +127,11 @@ class SourceCodeScanner {
 	}
 	
 	private func addAsName(#statementItem:String, forProcessMode key:String) {
-		if currentProcessMode != key {
-			makeNewStatementModelForProcessMode(key)
+		
+		if let last = statementArray.last as? StatementModel {
+			
+		} else {
+			appendNewStatementModelForProcessMode(key)
 		}
 		
 		if let last = statementArray.last as? StatementModel {
@@ -141,19 +140,15 @@ class SourceCodeScanner {
 	}
 	
 	private func addParameter(#parameterKey:String, parameterValue:String, forProcessMode key:String) {
-		if parameterDict[key] == nil {
-			parameterDict[key] = Dictionary()
-		}
-		parameterDict[key]![parameterKey] = parameterValue
+		
+		statementArray.append(ConfigurationModel(key: parameterKey, value: parameterValue))
 	}
 	
 	func processSourceString(string:String) {
 		
-		parameterDict.removeAll(keepCapacity: true)
 		statementArray.removeAll(keepCapacity: true)
 		
 		let scanner = NSScanner(string: string)
-		
 		
 		let whitespaceAndNewline = NSCharacterSet.whitespaceAndNewlineCharacterSet()
 		let whitespace = NSCharacterSet.whitespaceCharacterSet()
@@ -228,7 +223,7 @@ class SourceCodeScanner {
 			var oneCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 1)
 			
 			if oneCharString.containsCharactersInSet(newlineAndSemicolon) {
-				makeNewStatementModelForProcessMode(currentProcessModeString)
+				appendNewStatementModelForProcessMode(currentProcessModeString)
 			}
 			
 			while scanner.scanLocation < count(scanner.string)
@@ -238,10 +233,6 @@ class SourceCodeScanner {
 				oneCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 1)
 			}
 		}
-		
-		
-		println("--\n\n\n--")
-		println(self.parameterDict)
 		
 		println("--\n\n\n--")
 		println(self.statementArray)

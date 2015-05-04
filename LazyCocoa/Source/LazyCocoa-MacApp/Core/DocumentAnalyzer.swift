@@ -65,14 +65,13 @@ class DocumentAnalyzer : NSObject {
 				// A String representing the current process mode
 				currentProcessMode = processMode
 				
-				// Set parameters
-				if let parameters = sourceScanner.parameterDict[processMode] {
-					for (k, v) in parameters {
-						Settings.setParameter(value: v, forKey: k)
-					}
-				}
-				
 				count = 0;
+				
+			} else if let configurationModel = s as? ConfigurationModel {
+			
+				// Set parameters
+				Settings.setParameter(value: configurationModel.value, forKey: configurationModel.key)
+					
 				
 			} else if let statementModel = s as? StatementModel {
 				// It is a StatementModel
