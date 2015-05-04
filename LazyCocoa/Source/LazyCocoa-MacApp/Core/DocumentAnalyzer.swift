@@ -25,10 +25,6 @@
 
 import Cocoa
 
-func isNonEmpty(item:String)->Bool {
-	return !isEmpty(item)
-}
-
 class DocumentAnalyzer : NSObject {
 	
 	var inputString = ""
