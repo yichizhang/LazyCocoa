@@ -25,32 +25,65 @@
 
 import Cocoa
 
-class DocumentAnalyzer : NSObject {
+class SourceCodeDocument : Printable {
+	
+	var exportTo = ""
+	
+	var components = [DocumentComponent]()
+	
+	var headerComment:String {
+		let dateFormatter = NSDateFormatter()
+		let date = NSDate()
+		dateFormatter.dateFormat = "yyyy-MM-dd"
+		let dateString = dateFormatter.stringFromDate(date)
+		dateFormatter.dateFormat = "yyyy"
+		let yearString = dateFormatter.stringFromDate(date)
+		
+		return
+			"//  \n" +
+			"//  \(self.exportTo.lastPathComponent) \n" +
+			"//  \(Settings.messageString) \n" +
+			"// \n//  Created by \(Settings.userName) on \(dateString). \n" +
+			"//  Copyright (c) \(yearString) \(Settings.companyName). All rights reserved. \n" +
+			"// \n\n"
+	}
+	
+	var documentString:String {
+		var string = headerComment
+		
+		string = string + String.importStatementString("Foundation") + ( String.importStatementString("UIKit") ) + NEW_LINE_STRING
+		
+		for component in components {
+			string = string + component.componentString
+		}
+		
+		return string
+	}
+	
+	var description:String {
+		
+		return "\n\(components)"
+	}
+}
+
+class DocumentAnalyzer {
 	
 	var inputString = ""
-	var mainResultString = ""
-	var otherResultString = ""
 	
 	var platform:Platform!
 	
-	var lineContainer: LineModelContainer = LineModelContainer()
+	var lineContainer: ColorAndFontComponent = ColorAndFontComponent()
 	
+	var sourceCodeDocuments = [SourceCodeDocument]()
 	let sourceScanner = SourceCodeScanner()
 	
 	func process(){
 
 		sourceScanner.processSourceString(inputString)
 		
-		var fontFileString = ""
-		var colorFileString = ""
-		var constantsSwiftString = ""
-		var constantsObjcHeaderString = ""
-		var constantsObjcImplementationString = ""
-		
-		var userDefaultsString = ""
+		sourceCodeDocuments.removeAll(keepCapacity: true)
 		
 		var currentProcessMode = ""
-		var count = Int(0)
 		
 		// Reset all parameters
 		Settings.resetParameters()
@@ -61,105 +94,80 @@ class DocumentAnalyzer : NSObject {
 				// A String representing the current process mode
 				currentProcessMode = processMode
 				
-				count = 0;
-				
 			} else if let configurationModel = s as? ConfigurationModel {
 			
 				// Set parameters
 				Settings.setParameter(value: configurationModel.value, forKey: configurationModel.key)
-					
 				
-			} else if let statementModel = s as? StatementModel {
-				// It is a StatementModel
-				switch currentProcessMode {
-				case processMode_colorAndFont:
+				if configurationModel.key == paramKey_exportTo {
 					
-					if count == 0 {
-						// First StatementModel
-						lineContainer.removeAllObjects()
-						
+					var addNewDocument = false
+					
+					if let last = sourceCodeDocuments.last {
+						if last.exportTo == "" {
+							addNewDocument = false
+						} else if last.exportTo != configurationModel.value {
+							addNewDocument = true
+						}
 					} else {
-						
-						let currentStatement = LineModel(newStatementModel: statementModel)
-						lineContainer.addObject(currentStatement)
+						addNewDocument = true
 					}
 					
-					break
-				case processMode_stringConst:
+					if addNewDocument {
+						
+						let document = SourceCodeDocument()
+						sourceCodeDocuments.append(document)
+						document.exportTo = configurationModel.value
+					} else {
+						
+						sourceCodeDocuments.last!.exportTo = configurationModel.value
+					}
+				}
+				
+			} else if let statementModel = s as? StatementModel {
+				
+				// It is a StatementModel
+				
+				var currentDocument:SourceCodeDocument!
+				
+				if sourceCodeDocuments.last == nil {
+					// "sourceCodeDocuments" does not have any documents.
+					// Add an empty one.
+					currentDocument = SourceCodeDocument()
+					sourceCodeDocuments.append(currentDocument)
+				} else {
+					currentDocument = sourceCodeDocuments.last!
+				}
+				
+				if currentDocument.components.count < 1 {
+					// First StatementModel
 					
-					if let identifier = statementModel.identifiers.first {
-						
-						let name = Settings.unwrappedParameterForKey(paramKey_prefix) + identifier
-						let arg = Argument(object: identifier, formattingStrategy: ArgumentFormattingStrategy.StringLiteral)
-						constantsSwiftString = constantsSwiftString + "let \( name ) = \(arg.formattedString)\n"
-						
+					switch currentProcessMode {
+					case processMode_colorAndFont:
+						currentDocument.components.append(ColorAndFontComponent())
+						break
+					case processMode_stringConst:
+						currentDocument.components.append(StringConstComponent())
+						/*
 						constantsObjcHeaderString = constantsObjcHeaderString + "FOUNDATION_EXPORT NSString *const \( name );\n"
 						
 						constantsObjcImplementationString = constantsObjcImplementationString + "NSString *const \( name ) = @\(arg.formattedString);\n"
-					}
-					
-					break
-				case processMode_userDefaults:
-					
-					if count == 0 {
-						// First StatementModel
-						userDefaultsString = "struct UserDefaults { \n"
+						*/
+						break
+					case processMode_userDefaults:
+						currentDocument.components.append(UserDefaultsComponent())
+						break
+					default:
 						
-					} else {
-						
-						if let identifier = statementModel.identifiers.first {
-							
-							let name = Settings.unwrappedParameterForKey(paramKey_prefix) + identifier
-							var returnType = "AnyObject"
-							if statementModel.identifiers.count > 1 {
-								returnType = statementModel.identifiers[1]
-							}
-							
-							let keyArg = Argument(object: name, formattingStrategy: ArgumentFormattingStrategy.StringLiteral)
-							
-							var setterString = "set { \n" +
-								"NSUserDefaults.standardUserDefaults().\( UserDefaultsGenerationManager.setMethodNameFor(type: returnType) )(newValue, forKey: \(keyArg.formattedString))".stringByIndenting(numberOfTabs: 1) +
-							"\n} "
-							
-							var getterString = "get { \n" +
-								"return NSUserDefaults.standardUserDefaults().\( UserDefaultsGenerationManager.getMethodNameFor(type: returnType) )(\(keyArg.formattedString))".stringByIndenting(numberOfTabs: 1) +
-							"\n} "
-							
-							var funcString = "static var \(name):\(returnType) { \n" +
-								(setterString + "\n" + getterString).stringByIndenting(numberOfTabs: 1) +
-							"\n} "
-							
-							userDefaultsString = userDefaultsString + funcString.stringByIndenting(numberOfTabs: 1) + "\n\n"
-						}
+						break
 					}
-					
-					break
-				default:
-					
-					break
 				}
 				
-				count++
+				if let last = currentDocument.components.last {
+					last.addStatement(statementModel)
+				}
 			}
 		}
-		
-		// processMode_colorAndFont
-		
-		lineContainer.prepareLineModels()
-		
-		fontFileString = String.extensionString(className: Settings.fontClassName, content: lineContainer.fontMethodsString)
-		colorFileString = String.extensionString(className: Settings.colorClassName, content: lineContainer.colorMethodsString)
-		
-		// processMode_userDefaults
-		
-		userDefaultsString = userDefaultsString + "\n} \n"
-		
-		//
-		
-		let importStatements = String.importStatementString("Foundation") + ( String.importStatementString("UIKit") )
-		mainResultString = "\(Settings.headerComment)\( importStatements )\n\(constantsSwiftString)\n\(userDefaultsString)\n\(fontFileString)\(colorFileString)"
-
-		otherResultString = "\(constantsObjcHeaderString)\n\n\(constantsObjcImplementationString)"
 
 	}
 }

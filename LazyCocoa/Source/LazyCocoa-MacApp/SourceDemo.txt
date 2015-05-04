@@ -2,6 +2,7 @@
 // Processing mode: Color and font.
 
 !!prefix _jc
+!!exportTo file1.swift
 
 light "MyFont-Light" // Light font
 regular "MyFont-Regular" // Regular font
@@ -31,10 +32,12 @@ contactCellDescription gray regular small
 !!!stringConst
 
 !!prefix key_
+!!exportTo StringConst.swift
 web_id; name; email; contact_details; location; position; work_unit
 
 !!!userDefaults
 
+!!exportTo UserDefaults.swift
 testBool Bool
 testInt Int
 testFloat Float

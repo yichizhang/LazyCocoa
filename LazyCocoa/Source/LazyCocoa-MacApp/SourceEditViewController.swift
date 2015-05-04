@@ -36,6 +36,7 @@ class SourceEditViewController: NSViewController {
 	@IBOutlet private var mainGeneratedCodeTextView: NSTextView!
 	
 	@IBOutlet weak var filePopUpButton: NSPopUpButtonCell!
+	var filePopUpLastSelectedIndex = Int(0)
 	
 	var analyzer: DocumentAnalyzer = DocumentAnalyzer()
 	
@@ -48,8 +49,7 @@ class SourceEditViewController: NSViewController {
 		// TODO: Temp solution for demo file
 		sourceFileTextView.string = String.stringInBundle(name: "SourceDemo")
 		
-		filePopUpButton.removeAllItems()
-		filePopUpButton.addItemsWithTitles(["Test Title 1", "Test Title 2"])
+		update()
 	}
 	
 	func updateUserInterfaceSettings() {
@@ -60,6 +60,29 @@ class SourceEditViewController: NSViewController {
 		
 		otherGeneratedCodeTextView.editable = false
 		mainGeneratedCodeTextView.editable = false
+		
+		// Update filePopUpButton
+		filePopUpButton.removeAllItems()
+		
+		var count = Int(0)
+		for sourceCodeDocument in analyzer.sourceCodeDocuments {
+			let title = sourceCodeDocument.exportTo == "" ? "NONAME-\(count++).swift" : sourceCodeDocument.exportTo
+			filePopUpButton.addItemWithTitle(title)
+		}
+		
+		if analyzer.sourceCodeDocuments.count > filePopUpLastSelectedIndex {
+			filePopUpLastSelectedIndex = 0
+		}
+		
+		// Display last selected file
+		if analyzer.sourceCodeDocuments.count > filePopUpLastSelectedIndex {
+			filePopUpButton.selectItemAtIndex(filePopUpLastSelectedIndex)
+			mainGeneratedCodeTextView.string = analyzer.sourceCodeDocuments[filePopUpLastSelectedIndex].documentString
+		} else {
+			mainGeneratedCodeTextView.string = ""
+		}
+		
+		println(analyzer.sourceCodeDocuments)
 	}
 	
 	override var representedObject: AnyObject? {
@@ -78,8 +101,8 @@ class SourceEditViewController: NSViewController {
 		
 		analyzer.process()
 		
-		otherGeneratedCodeTextView.string = analyzer.otherResultString
-		mainGeneratedCodeTextView.string = analyzer.mainResultString
+		//otherGeneratedCodeTextView.string = analyzer.otherResultString
+		//mainGeneratedCodeTextView.string = analyzer.mainResultString
 		
 		updateUserInterfaceSettings()
 	}
@@ -87,13 +110,14 @@ class SourceEditViewController: NSViewController {
 	@IBAction func updateButtonActionPerformed(sender: AnyObject) {
 		
 		update()
+		
 	}
 	
 	@IBAction func exportButtonActionPerformed(sender: AnyObject) {
 		
 		update()
 			
-		FileManager.write(string: analyzer.mainResultString, currentDocumentRealPath: Settings.currentDocumentRealPath, exportPath: Settings.parameterForKey(paramKey_exportTo) )
+		//FileManager.write(string: analyzer.mainResultString, currentDocumentRealPath: Settings.currentDocumentRealPath, exportPath: Settings.parameterForKey(paramKey_exportTo) )
 		
 	}
 	
@@ -105,6 +129,14 @@ class SourceEditViewController: NSViewController {
 			Settings.platform = .iOS
 		}
 		update()
+	}
+	
+	@IBAction func filePopUpButtonUpdated(sender: AnyObject) {
+		
+		filePopUpLastSelectedIndex = filePopUpButton.indexOfSelectedItem
+		if filePopUpButton.indexOfSelectedItem < analyzer.sourceCodeDocuments.count {
+			mainGeneratedCodeTextView.string = analyzer.sourceCodeDocuments[filePopUpButton.indexOfSelectedItem].documentString
+		}
 	}
 }
 
