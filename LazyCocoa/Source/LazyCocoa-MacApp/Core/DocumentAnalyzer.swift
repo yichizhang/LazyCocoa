@@ -104,9 +104,7 @@ class DocumentAnalyzer {
 					var addNewDocument = false
 					
 					if let last = sourceCodeDocuments.last {
-						if last.exportTo == "" {
-							addNewDocument = false
-						} else if last.exportTo != configurationModel.value {
+						if last.exportTo != "" && last.exportTo != configurationModel.value {
 							addNewDocument = true
 						}
 					} else {
@@ -164,7 +162,9 @@ class DocumentAnalyzer {
 				}
 				
 				if let last = currentDocument.components.last {
-					last.addStatement(statementModel)
+					if !statementModel.isEmpty {
+						last.addStatement(statementModel)
+					}
 				}
 			}
 		}
