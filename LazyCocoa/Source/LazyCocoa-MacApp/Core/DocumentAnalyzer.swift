@@ -54,6 +54,7 @@ class DocumentAnalyzer : NSObject {
 		var userDefaultsString = ""
 		
 		var currentProcessMode = ""
+		var count = Int(0)
 		
 		// Reset all parameters
 		Settings.resetParameters()
@@ -64,72 +65,52 @@ class DocumentAnalyzer : NSObject {
 				// A String representing the current process mode
 				currentProcessMode = processMode
 				
-			} else if let statement = s as? StatementModel {
+				// Set parameters
+				if let parameters = sourceScanner.parameterDict[processMode] {
+					for (k, v) in parameters {
+						Settings.setParameter(value: v, forKey: k)
+					}
+				}
+				
+				count = 0;
+				
+			} else if let statementModel = s as? StatementModel {
 				// It is a StatementModel
 				switch currentProcessMode {
 				case processMode_colorAndFont:
 					
-					break
-				case processMode_stringConst:
-					
-					break
-				case processMode_userDefaults:
-					
-					break
-				}
-			}
-		}
-		
-		
-		for processMode in acceptedProcessModes {
-			
-			// Set parameters
-			if let parameters = sourceScanner.parameterDict[processMode] {
-				for (k, v) in parameters {
-					Settings.setParameter(value: v, forKey: k)
-				}
-			}
-			
-			// TODO:
-			// New mode. Do not put statements in a dictionary. Put them in an array.
-			if processMode == processMode_colorAndFont {
-				
-				if let statementModelArray = sourceScanner.statementDict[processMode] {
-					
-					lineContainer.removeAllObjects()
-					for statementModel in statementModelArray {
+					if count == 0 {
+						// First StatementModel
+						lineContainer.removeAllObjects()
+						
+					} else {
 						
 						let currentStatement = LineModel(newStatementModel: statementModel)
 						lineContainer.addObject(currentStatement)
 					}
-					lineContainer.prepareLineModels()
 					
-					fontFileString = String.extensionString(className: Settings.fontClassName, content: lineContainer.fontMethodsString)
-					colorFileString = String.extensionString(className: Settings.colorClassName, content: lineContainer.colorMethodsString)
+					break
+				case processMode_stringConst:
 					
-				}
-				
-			} else if processMode == processMode_stringConst {
-				
-				if let statementModelArray = sourceScanner.statementDict[processMode] {
-					for statementModel in statementModelArray {
-						if let identifier = statementModel.identifiers.first {
-							
-							let name = Settings.unwrappedParameterForKey(paramKey_prefix) + identifier
-							let arg = Argument(object: identifier, formattingStrategy: ArgumentFormattingStrategy.StringLiteral)
-							constantsSwiftString = constantsSwiftString + "let \( name ) = \(arg.formattedString)\n"
-							
-							constantsObjcHeaderString = constantsObjcHeaderString + "FOUNDATION_EXPORT NSString *const \( name );\n"
-							
-							constantsObjcImplementationString = constantsObjcImplementationString + "NSString *const \( name ) = @\(arg.formattedString);\n"
-						}
+					if let identifier = statementModel.identifiers.first {
+						
+						let name = Settings.unwrappedParameterForKey(paramKey_prefix) + identifier
+						let arg = Argument(object: identifier, formattingStrategy: ArgumentFormattingStrategy.StringLiteral)
+						constantsSwiftString = constantsSwiftString + "let \( name ) = \(arg.formattedString)\n"
+						
+						constantsObjcHeaderString = constantsObjcHeaderString + "FOUNDATION_EXPORT NSString *const \( name );\n"
+						
+						constantsObjcImplementationString = constantsObjcImplementationString + "NSString *const \( name ) = @\(arg.formattedString);\n"
 					}
-				}
-			} else if processMode == processMode_userDefaults {
-				
-				userDefaultsString = "struct UserDefaults { \n"
-				if let statementModelArray = sourceScanner.statementDict[processMode] {
-					for statementModel in statementModelArray {
+					
+					break
+				case processMode_userDefaults:
+					
+					if count == 0 {
+						// First StatementModel
+						userDefaultsString = "struct UserDefaults { \n"
+						
+					} else {
 						
 						if let identifier = statementModel.identifiers.first {
 							
@@ -156,11 +137,29 @@ class DocumentAnalyzer : NSObject {
 							userDefaultsString = userDefaultsString + funcString.stringByIndenting(numberOfTabs: 1) + "\n\n"
 						}
 					}
+					
+					break
+				default:
+					
+					break
 				}
-				userDefaultsString = userDefaultsString + "\n} \n"
+				
+				count++
 			}
-			
 		}
+		
+		// processMode_colorAndFont
+		
+		lineContainer.prepareLineModels()
+		
+		fontFileString = String.extensionString(className: Settings.fontClassName, content: lineContainer.fontMethodsString)
+		colorFileString = String.extensionString(className: Settings.colorClassName, content: lineContainer.colorMethodsString)
+		
+		// processMode_userDefaults
+		
+		userDefaultsString = userDefaultsString + "\n} \n"
+		
+		//
 		
 		let importStatements = String.importStatementString("Foundation") + ( String.importStatementString("UIKit") )
 		mainResultString = "\(Settings.headerComment)\( importStatements )\n\(constantsSwiftString)\n\(userDefaultsString)\n\(fontFileString)\(colorFileString)"
