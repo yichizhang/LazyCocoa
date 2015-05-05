@@ -30,6 +30,14 @@ protocol DocumentComponent {
 	var componentString:String {get}
 }
 
+protocol BaseModelProtocol {
+	
+	func autoMethodName() -> String
+	func statementString() -> String
+	func documentationString() -> String
+	func funcString() -> String
+}
+
 class BasicDocumentComponent : DocumentComponent, Printable {
 	var statementArray = [StatementModel]()
 	
@@ -60,112 +68,10 @@ class BasicDocumentComponent : DocumentComponent, Printable {
 
 class ColorAndFontComponent : DocumentComponent {
 	
-	protocol BaseModelProtocol {
-		
-		func autoMethodName() -> String
-		func statementString() -> String
-		func documentationString() -> String
-		func funcString() -> String
-	}
-	
 	class BaseModel : NSObject {
 		
 		var identifier = "someIdentifier"
 		
-	}
-	
-	class LineModel: Printable {
-		
-		var identifier:String = ""
-		var otherNames:[String] = []
-		var colorCodeString:String = ""
-		var fontNameString:String = ""
-		var fontSizeString:String = ""
-		
-		var description:String {
-			let y = join(", ", self.otherNames)
-			
-			return "\(identifier), {\(y)}, \(colorCodeString), \(fontNameString), \(fontSizeString)"
-		}
-		
-		convenience init(newStatementModel:StatementModel){
-			self.init()
-			
-			if let first = newStatementModel.identifiers.first {
-				identifier = first
-				
-				otherNames = newStatementModel.identifiers
-				otherNames.removeAtIndex(0)
-				
-			}
-			
-			if let first = newStatementModel.colorCodes.first {
-				colorCodeString = first
-			}
-			
-			if let first = newStatementModel.numbers.first {
-				fontSizeString = first
-			}
-			
-			if let first = newStatementModel.names.first {
-				fontNameString = first
-			}
-		}
-		
-		func populateWithOtherLineModel(model:LineModel) {
-			
-			if(colorCodeString.isEmpty){
-				colorCodeString = model.colorCodeString
-			}
-			if(fontNameString.isEmpty){
-				fontNameString = model.fontNameString
-			}
-			if(fontSizeString.isEmpty){
-				fontSizeString = model.fontSizeString
-			}
-		}
-		
-		var canProduceColorFuncString:Bool{
-			
-			return !colorCodeString.isEmpty
-		}
-		
-		var canProduceFontFuncString:Bool{
-			
-			return canProduceFontOfSizeFuncString
-		}
-		
-		var canProduceFullFontFuncString:Bool{
-			
-			return !fontSizeString.isEmpty && !fontNameString.isEmpty
-		}
-		
-		var canProduceFontOfSizeFuncString:Bool{
-			
-			return !fontNameString.isEmpty
-		}
-		
-		func fontFuncString() ->String {
-			if !canProduceFontFuncString {
-				return ""
-			}
-			var model:FontModel
-			
-			if canProduceFullFontFuncString {
-				model = FontModel(identifier: identifier, fontName: fontNameString, sizeString: fontSizeString)
-			} else {
-				model = FontModel(identifier: identifier, fontName: fontNameString)
-			}
-			return model.documentationString().stringInSwiftDocumentationStyle() + model.funcString()
-		}
-		
-		func colorFuncString() ->String {
-			if( !canProduceColorFuncString ){
-				return ""
-			}
-			let model = ColorModel(identifier: identifier, colorHexString: colorCodeString)
-			return model.documentationString().stringInSwiftDocumentationStyle() + model.funcString()
-		}
 	}
 
 	class ColorModel : BaseModel, BaseModelProtocol{
@@ -335,16 +241,38 @@ class ColorAndFontComponent : DocumentComponent {
 		
 	}
 	
-	var modelArray: Array<LineModel> = Array()
-	var modelDictionary: Dictionary<String, LineModel> = Dictionary()
+	var modelArray: Array<StatementModel> = Array()
+	var modelDictionary: Dictionary<String, StatementModel> = Dictionary()
 	
 	var fontMethodsString:String {
 		var fontString = ""
 		
-		for model in modelArray {
-			if (model.canProduceFontFuncString){
+		for statementModel in modelArray {
+			// statementModel.numbers --- fontSizeString
+			// statementModel.names --- fontNameString
+			
+			// Can produce "font of size" func string or "full" func string
+			if let fontName = statementModel.names.first{
+				var fontModel:FontModel!
 				
-				fontString = fontString + model.fontFuncString() + NEW_LINE_STRING + NEW_LINE_STRING
+				// Can produce "full" font func string
+				if let fontSizeString = statementModel.numbers.first {
+					fontModel = FontModel(
+						identifier: statementModel.identifiers.first!,
+						fontName: fontName,
+						sizeString: fontSizeString
+					)
+				} else {
+					fontModel = FontModel(
+						identifier: statementModel.identifiers.first!,
+						fontName: fontName
+					)
+				}
+					
+				fontString =
+					fontString +
+					fontModel.documentationString().stringInSwiftDocumentationStyle() +
+					fontModel.funcString() + NEW_LINE_STRING + NEW_LINE_STRING
 			}
 		}
 		
@@ -354,17 +282,28 @@ class ColorAndFontComponent : DocumentComponent {
 	var colorMethodsString:String {
 		var colorString = ""
 		
-		for model in modelArray {
-			if (model.canProduceColorFuncString){
+		for statementModel in modelArray {
+			var colorModel:ColorModel!
+			
+			// statementModel.colorCodes --- colorCodeString
+			if let colorCodeString = statementModel.colorCodes.first {
 				
-				colorString = colorString + model.colorFuncString() + NEW_LINE_STRING + NEW_LINE_STRING
+				colorModel = ColorModel(
+					identifier: statementModel.identifiers.first!,
+					colorHexString: colorCodeString
+				)
+				
+				colorString =
+					colorString +
+					colorModel.documentationString().stringInSwiftDocumentationStyle() +
+					colorModel.funcString() + NEW_LINE_STRING + NEW_LINE_STRING
 			}
 		}
 		
 		return colorString
 	}
 	
-	func objectForKey(key:String) -> LineModel? {
+	func objectForKey(key:String) -> StatementModel? {
 		
 		return modelDictionary[key]
 	}
@@ -375,13 +314,35 @@ class ColorAndFontComponent : DocumentComponent {
 		modelDictionary.removeAll(keepCapacity: true)
 	}
 	
-	func prepareLineModels() {
+	func prepareStatementModels() {
 		
 		for model in modelArray {
-			for name in model.otherNames {
-				if let otherModel = objectForKey(name){
-					model.populateWithOtherLineModel( otherModel )
+			var count = 0
+			for name in model.identifiers {
+				if count >= 1 {
+					if let otherModel = objectForKey(name){
+						// Populate with other statement model
+						// colorCodeString
+						if model.colorCodes.isEmpty {
+							if let otherFirst = otherModel.colorCodes.first{
+								model.colorCodes.append(otherFirst)
+							}
+						}
+						// fontNameString
+						if model.names.isEmpty {
+							if let otherFirst = otherModel.names.first{
+								model.names.append(otherFirst)
+							}
+						}
+						// fontSizeString
+						if model.numbers.isEmpty {
+							if let otherFirst = otherModel.numbers.first{
+								model.numbers.append(otherFirst)
+							}
+						}
+					}
 				}
+				count++
 			}
 		}
 		
@@ -390,16 +351,14 @@ class ColorAndFontComponent : DocumentComponent {
 	// MARK: DocumentComponent
 	func addStatement(statementModel:StatementModel) {
 		
-		let model = LineModel(newStatementModel: statementModel)
-		
-		if (model.identifier.isEmpty == false) {
-			modelArray.append(model)
-			modelDictionary[model.identifier] = model
+		if let identifier = statementModel.identifiers.first {
+			modelArray.append(statementModel)
+			modelDictionary[identifier] = statementModel
 		}
 	}
 	
 	var componentString:String {
-		prepareLineModels()
+		prepareStatementModels()
 		
 		let fontFileString = String.extensionString(className: Settings.fontClassName, content: fontMethodsString)
 		let colorFileString = String.extensionString(className: Settings.colorClassName, content: colorMethodsString)
