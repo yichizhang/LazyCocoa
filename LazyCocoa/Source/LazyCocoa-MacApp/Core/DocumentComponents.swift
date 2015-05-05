@@ -68,7 +68,7 @@ class BasicDocumentComponent : DocumentComponent, Printable {
 
 class ColorAndFontComponent : DocumentComponent {
 	
-	class BaseModel : NSObject {
+	class BaseModel {
 		
 		var identifier = "someIdentifier"
 		
@@ -77,53 +77,17 @@ class ColorAndFontComponent : DocumentComponent {
 	class ColorModel : BaseModel, BaseModelProtocol{
 		
 		var colorHexString:String!
-		var red:Float = 1.0
-		var green:Float = 1.0
-		var blue:Float = 1.0
-		var alpha:Float = 1.0
+		var colorComponentArray:[CGFloat]!
 		
 		convenience init(identifier:String, colorHexString:String){
-			
 			self.init()
 			
 			self.identifier = identifier
 			self.colorHexString = colorHexString
-			
-			let index   = advance(colorHexString.startIndex, 1)
-			let hex     = colorHexString.substringFromIndex(index)
-			let scanner = NSScanner(string: hex)
-			var hexValue: CUnsignedLongLong = 0
-			
-			if scanner.scanHexLongLong(&hexValue) {
-				if count(hex) == 3 {
-					red   = Float((hexValue & 0xF00) >> 8)  / 15.0
-					green = Float((hexValue & 0x0F0) >> 4)  / 15.0
-					blue  = Float(hexValue & 0x00F) / 15.0
-				} else if count(hex) == 4 {
-					red   = Float((hexValue & 0xF000) >> 12) / 15.0
-					green = Float((hexValue & 0x0F00) >> 8)  / 15.0
-					blue  = Float((hexValue & 0x00F0) >> 4)  / 15.0
-					alpha = Float(hexValue & 0x000F)         / 15.0
-				} else if count(hex) == 6 {
-					red   = Float((hexValue & 0xFF0000) >> 16) / 255.0
-					green = Float((hexValue & 0x00FF00) >> 8)  / 255.0
-					blue  = Float(hexValue & 0x0000FF) / 255.0
-				} else if count(hex) == 8 {
-					red   = Float((hexValue & 0xFF000000) >> 24) / 255.0
-					green = Float((hexValue & 0x00FF0000) >> 16) / 255.0
-					blue  = Float((hexValue & 0x0000FF00) >> 8)  / 255.0
-					alpha = Float(hexValue & 0x000000FF)         / 255.0
-				} else {
-					print("error")
-				}
-			} else {
-				println("scan hex error")
-			}
-			
+			self.colorComponentArray = ColorFormatter.componentArrayFrom(hexString: colorHexString)
 		}
 		
 		func autoMethodName() -> String {
-			
 			let base = Settings.unwrappedParameterForKey(paramKey_prefix)
 			if identifier.isMeantToBeColor {
 				return base + identifier
@@ -133,8 +97,7 @@ class ColorAndFontComponent : DocumentComponent {
 		}
 		
 		func statementString() -> String {
-			
-			return String.initString(className: Settings.colorClassName, initMethodSignature: Settings.colorRGBAInitSignatureString, arguments: [red, green, blue, alpha])
+			return String.initString(className: Settings.colorClassName, initMethodSignature: Settings.colorRGBAInitSignatureString, arguments: colorComponentArray)
 		}
 		
 		func documentationString() -> String {
@@ -241,8 +204,8 @@ class ColorAndFontComponent : DocumentComponent {
 		
 	}
 	
-	var modelArray: Array<StatementModel> = Array()
-	var modelDictionary: Dictionary<String, StatementModel> = Dictionary()
+	var modelArray = [StatementModel]()
+	var modelDictionary = [String:StatementModel]()
 	
 	var fontMethodsString:String {
 		var fontString = ""
@@ -269,8 +232,7 @@ class ColorAndFontComponent : DocumentComponent {
 					)
 				}
 					
-				fontString =
-					fontString +
+				fontString +=
 					fontModel.documentationString().stringInSwiftDocumentationStyle() +
 					fontModel.funcString() + NEW_LINE_STRING + NEW_LINE_STRING
 			}
@@ -293,8 +255,7 @@ class ColorAndFontComponent : DocumentComponent {
 					colorHexString: colorCodeString
 				)
 				
-				colorString =
-					colorString +
+				colorString +=
 					colorModel.documentationString().stringInSwiftDocumentationStyle() +
 					colorModel.funcString() + NEW_LINE_STRING + NEW_LINE_STRING
 			}
@@ -320,8 +281,10 @@ class ColorAndFontComponent : DocumentComponent {
 			var count = 0
 			for name in model.identifiers {
 				if count >= 1 {
+					
+					// Populate with other statement model
 					if let otherModel = objectForKey(name){
-						// Populate with other statement model
+						
 						// colorCodeString
 						if model.colorCodes.isEmpty {
 							if let otherFirst = otherModel.colorCodes.first{
@@ -348,7 +311,7 @@ class ColorAndFontComponent : DocumentComponent {
 		
 	}
 	
-	// MARK: DocumentComponent
+	// MARK: DocumentComponent protocol
 	func addStatement(statementModel:StatementModel) {
 		
 		if let identifier = statementModel.identifiers.first {
