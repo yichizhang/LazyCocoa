@@ -154,7 +154,7 @@ class ColorAndFontComponent : DocumentComponent {
 		func statementString() -> String {
 			
 			let firstParameter:Argument = Argument(object: typefaceName, formattingStrategy: .StringLiteral )
-			var secondParameter:Any?
+			var secondParameter:AnyObject!
 			
 			if let fontSize = fontSize {
 				secondParameter = fontSize

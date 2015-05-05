@@ -105,11 +105,11 @@ extension String {
 		return "import \(string)\n"
 	}
 	
-	static func initString(#className:String, initMethodSignature:String, arguments:[Any?] ) -> String {
+	static func initString(#className:String, initMethodSignature:String, arguments:[AnyObject] ) -> String {
 		// FIXME: ---
 		var args:[Argument] = Array()
 		
-		for (i, n) in enumerate(arguments) {
+		for n in arguments {
 			if let float = n as? Float {
 				args.append( Argument(object: CGFloat(float), formattingStrategy: .CGFloatNumber) )
 			} else if let float = n as? CGFloat {
