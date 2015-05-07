@@ -46,11 +46,77 @@ class ConfigurationsManager {
 	}
 }
 
+class NewConfigurationsManager {
+	
+	class Configuration : Printable {
+		var key : String!
+		var value : String!
+		var startIndex : Int!
+		var endIndex : Int!
+		
+		init(key:String, value:String, startIndex:Int, endIndex:Int) {
+			self.key = key
+			self.value = value
+			self.startIndex = startIndex
+			self.endIndex = endIndex
+		}
+		
+		var description:String {
+			return "\n<key = \(key), value = \(value), pos = (\(startIndex) ~ \(endIndex))>"
+		}
+	}
+	
+	private var values = [Configuration]()
+	
+	func setValue(value:String, forKey key:String, startIndex:Int) {
+		var i = values.count - 1
+		
+		if let configuration = valueForKey(key) {
+			configuration.endIndex = startIndex - 1
+		}
+		
+		values.append(
+			Configuration(
+				key: key,
+				value: value,
+				startIndex: startIndex,
+				endIndex: Int.max
+			)
+		)
+	}
+	
+	func valueForKey(key:String, forIndex index:Int? = nil) -> Configuration? {
+		var i = values.count - 1
+		
+		while (i>=0) {
+			let configuration = values[i]
+			
+			if key == configuration.key {
+				
+				if let index = index {
+					
+					if configuration.startIndex >= index &&
+						 configuration.endIndex <= index {
+							return configuration
+					}
+				} else {
+					return configuration
+				}
+			}
+			
+			i--
+		}
+		
+		return nil
+	}
+}
+
 class SourceCodeDocument : Printable {
 	
 	var exportTo = ""
 	
 	var configurations = ConfigurationsManager()
+	
 	var components = [DocumentComponent]()
 	
 	var headerComment:String {
@@ -99,6 +165,8 @@ class DocumentAnalyzer {
 	var sourceCodeDocuments = [SourceCodeDocument]()
 	let sourceScanner = SourceCodeScanner()
 	
+	var newConfigurations = NewConfigurationsManager()
+	
 	func process(){
 
 		sourceScanner.processSourceString(inputString)
@@ -107,7 +175,7 @@ class DocumentAnalyzer {
 		
 		var currentProcessMode = ""
 		
-		for s in sourceScanner.statementArray {
+		for (index, s) in enumerate(sourceScanner.statementArray) {
 			
 			if let processMode = s as? String {
 				// A String representing the current process mode
@@ -150,6 +218,8 @@ class DocumentAnalyzer {
 						lastComponent.configurations.setValue(configurationModel.value, forKey: configurationModel.key)
 					}
 				}
+				
+				newConfigurations.setValue(configurationModel.value, forKey: configurationModel.key, startIndex: index)
 				
 			} else if let statementModel = s as? StatementModel {
 				
@@ -197,6 +267,7 @@ class DocumentAnalyzer {
 				}
 			}
 		}
-
+		
+		println(newConfigurations.values)
 	}
 }
