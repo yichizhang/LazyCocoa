@@ -26,12 +26,17 @@
 import Foundation
 
 protocol DocumentComponent {
+	
 	func addStatement(statementModel:StatementModel)
+	func configurationForKey(key:String) -> String
+	
 	var componentString:String {get}
+	var configurations:ConfigurationsManager {get set}
+	weak var document:SourceCodeDocument? {get set}
 }
 
 protocol BaseModelProtocol {
-	
+
 	func autoMethodName() -> String
 	func statementString() -> String
 	func documentationString() -> String
@@ -40,6 +45,21 @@ protocol BaseModelProtocol {
 
 class BasicDocumentComponent : DocumentComponent, Printable {
 	var statementArray = [StatementModel]()
+	var configurations = ConfigurationsManager()
+	
+	weak var document:SourceCodeDocument?
+	
+	func configurationForKey(key:String) -> String {
+		if let val = configurations.valueForKey(key) {
+			return val
+		} else if let document = document {
+			if let val = document.configurations.valueForKey(key) {
+				return val
+			}
+		}
+		
+		return ""
+	}
 	
 	func stringFromStatement(statementModel:StatementModel) -> String {
 		// Override this method
@@ -50,8 +70,14 @@ class BasicDocumentComponent : DocumentComponent, Printable {
 		statementArray.append(statementModel)
 	}
 	
+	func prepareStatements() {
+		
+	}
+	
 	var componentString:String {
 		var string = ""
+		
+		prepareStatements()
 		
 		for statementModel in statementArray {
 			string = string + stringFromStatement(statementModel)
@@ -66,12 +92,12 @@ class BasicDocumentComponent : DocumentComponent, Printable {
 	}
 }
 
-class ColorAndFontComponent : DocumentComponent {
+class ColorAndFontComponent : BasicDocumentComponent {
 	
 	class BaseModel {
 		
 		var identifier = "someIdentifier"
-		
+		var base = ""
 	}
 
 	class ColorModel : BaseModel, BaseModelProtocol{
@@ -88,7 +114,6 @@ class ColorAndFontComponent : DocumentComponent {
 		}
 		
 		func autoMethodName() -> String {
-			let base = Settings.unwrappedParameterForKey(paramKey_prefix)
 			if identifier.isMeantToBeColor {
 				return base + identifier
 			}else{
@@ -97,7 +122,7 @@ class ColorAndFontComponent : DocumentComponent {
 		}
 		
 		func statementString() -> String {
-			return String.initString(className: Settings.colorClassName, initMethodSignature: Settings.colorRGBAInitSignatureString, arguments: colorComponentArray)
+			return String.initString(className: Global.colorClassName, initMethodSignature: Global.colorRGBAInitSignatureString, arguments: colorComponentArray)
 		}
 		
 		func documentationString() -> String {
@@ -111,7 +136,7 @@ class ColorAndFontComponent : DocumentComponent {
 				"\t" + "return %@\n" +
 			"}"
 			
-			return NSString(format: formatString, autoMethodName(), Settings.colorClassName, statementString() ) as String
+			return NSString(format: formatString, autoMethodName(), Global.colorClassName, statementString() ) as String
 		}
 		
 	}
@@ -142,8 +167,6 @@ class ColorAndFontComponent : DocumentComponent {
 		}
 		
 		func autoMethodName() -> String {
-			
-			let base = Settings.unwrappedParameterForKey(paramKey_prefix)
 			if identifier.isMeantToBeFont {
 				return base + identifier
 			}else{
@@ -162,7 +185,7 @@ class ColorAndFontComponent : DocumentComponent {
 				secondParameter = "size"
 			}
 			
-			let statementString = String.initString(className:Settings.fontClassName, initMethodSignature: Settings.fontNameAndSizeInitSignatureString, arguments: [firstParameter, secondParameter])
+			let statementString = String.initString(className:Global.fontClassName, initMethodSignature: Global.fontNameAndSizeInitSignatureString, arguments: [firstParameter, secondParameter])
 			
 			return statementString
 		}
@@ -198,7 +221,7 @@ class ColorAndFontComponent : DocumentComponent {
 				
 			}
 			
-			return NSString(format: formatString, autoMethodName(), Settings.fontClassName, statementString()) as String
+			return NSString(format: formatString, autoMethodName(), Global.fontClassName, statementString()) as String
 		}
 		
 		
@@ -231,6 +254,8 @@ class ColorAndFontComponent : DocumentComponent {
 						fontName: fontName
 					)
 				}
+				
+				fontModel.base = configurationForKey(paramKey_prefix)
 					
 				fontString +=
 					fontModel.documentationString().stringInSwiftDocumentationStyle() +
@@ -255,6 +280,8 @@ class ColorAndFontComponent : DocumentComponent {
 					colorHexString: colorCodeString
 				)
 				
+				colorModel.base = configurationForKey(paramKey_prefix)
+				
 				colorString +=
 					colorModel.documentationString().stringInSwiftDocumentationStyle() +
 					colorModel.funcString() + NEW_LINE_STRING + NEW_LINE_STRING
@@ -275,7 +302,7 @@ class ColorAndFontComponent : DocumentComponent {
 		modelDictionary.removeAll(keepCapacity: true)
 	}
 	
-	func prepareStatementModels() {
+	override func prepareStatements() {
 		
 		for model in modelArray {
 			var count = 0
@@ -311,8 +338,8 @@ class ColorAndFontComponent : DocumentComponent {
 		
 	}
 	
-	// MARK: DocumentComponent protocol
-	func addStatement(statementModel:StatementModel) {
+	// MARK: DocumentComponent
+	override func addStatement(statementModel:StatementModel) {
 		
 		if let identifier = statementModel.identifiers.first {
 			modelArray.append(statementModel)
@@ -320,11 +347,11 @@ class ColorAndFontComponent : DocumentComponent {
 		}
 	}
 	
-	var componentString:String {
-		prepareStatementModels()
+	override var componentString:String {
+		prepareStatements()
 		
-		let fontFileString = String.extensionString(className: Settings.fontClassName, content: fontMethodsString)
-		let colorFileString = String.extensionString(className: Settings.colorClassName, content: colorMethodsString)
+		let fontFileString = String.extensionString(className: Global.fontClassName, content: fontMethodsString)
+		let colorFileString = String.extensionString(className: Global.colorClassName, content: colorMethodsString)
 		
 		return "\(fontFileString)\(colorFileString)"
 	}
@@ -333,10 +360,15 @@ class ColorAndFontComponent : DocumentComponent {
 
 class StringConstComponent : BasicDocumentComponent {
 	
+	/*
+	constantsObjcHeaderString = constantsObjcHeaderString + "FOUNDATION_EXPORT NSString *const \( name );\n"
+	
+	constantsObjcImplementationString = constantsObjcImplementationString + "NSString *const \( name ) = @\(arg.formattedString);\n"
+	*/
 	override func stringFromStatement(statementModel:StatementModel) -> String {
 		if let identifier = statementModel.identifiers.first {
 			
-			let name = Settings.unwrappedParameterForKey(paramKey_prefix) + identifier
+			let name = configurationForKey(paramKey_prefix) + identifier
 			let arg = Argument(object: identifier, formattingStrategy: ArgumentFormattingStrategy.StringLiteral)
 			
 			return "let \( name ) = \(arg.formattedString)\n"
@@ -353,7 +385,7 @@ class UserDefaultsComponent : BasicDocumentComponent {
 	override func stringFromStatement(statementModel:StatementModel) -> String {
 		if let identifier = statementModel.identifiers.first {
 			
-			let name = Settings.unwrappedParameterForKey(paramKey_prefix) + identifier
+			let name = configurationForKey(paramKey_prefix) + identifier
 			var returnType = "AnyObject"
 			if statementModel.identifiers.count > 1 {
 				returnType = statementModel.identifiers[1]

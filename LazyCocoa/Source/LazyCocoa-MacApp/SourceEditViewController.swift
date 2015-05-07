@@ -117,16 +117,16 @@ class SourceEditViewController: NSViewController {
 		
 		update()
 			
-		//FileManager.write(string: analyzer.mainResultString, currentDocumentRealPath: Settings.currentDocumentRealPath, exportPath: Settings.parameterForKey(paramKey_exportTo) )
+		//FileManager.write(string: analyzer.mainResultString, currentDocumentRealPath: Global.currentDocumentRealPath, exportPath: Global.parameterForKey(paramKey_exportTo) )
 		
 	}
 	
 	@IBAction func platformSegControlUpdated(sender: AnyObject) {
 		switch platformSegControl.selectedSegment {
 		case 1:
-			Settings.platform = .MacOS
+			Global.platform = .MacOS
 		default:
-			Settings.platform = .iOS
+			Global.platform = .iOS
 		}
 		update()
 	}

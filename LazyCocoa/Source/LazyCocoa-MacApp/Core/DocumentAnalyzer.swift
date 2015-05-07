@@ -25,10 +25,32 @@
 
 import Cocoa
 
+class ConfigurationsManager {
+	
+	private var configurationsDictionary = [String: String]()
+	
+	func setValue(value:String, forKey key:String) {
+		configurationsDictionary[key] = value
+	}
+	
+	func valueForKey(key:String) -> String? {
+		return configurationsDictionary[key]
+	}
+	
+	func unwrappedValueForKey(key:String) -> String {
+		if let val = self.valueForKey(key) {
+			return val
+		} else {
+			return ""
+		}
+	}
+}
+
 class SourceCodeDocument : Printable {
 	
 	var exportTo = ""
 	
+	var configurations = ConfigurationsManager()
 	var components = [DocumentComponent]()
 	
 	var headerComment:String {
@@ -39,12 +61,15 @@ class SourceCodeDocument : Printable {
 		dateFormatter.dateFormat = "yyyy"
 		let yearString = dateFormatter.stringFromDate(date)
 		
+		var userName = Global.configurations.valueForKey(paramKey_userName) ?? "User"
+		var companyName = Global.configurations.valueForKey(paramKey_organizationName) ?? "The Lazy Cocoa Project"
+		
 		return
 			"//  \n" +
 			"//  \(self.exportTo.lastPathComponent) \n" +
-			"//  \(Settings.messageString) \n" +
-			"// \n//  Created by \(Settings.userName) on \(dateString). \n" +
-			"//  Copyright (c) \(yearString) \(Settings.companyName). All rights reserved. \n" +
+			"//  \(Global.messageString) \n" +
+			"// \n//  Created by \(userName) on \(dateString). \n" +
+			"//  Copyright (c) \(yearString) \(companyName). All rights reserved. \n" +
 			"// \n\n"
 	}
 	
@@ -69,10 +94,7 @@ class SourceCodeDocument : Printable {
 class DocumentAnalyzer {
 	
 	var inputString = ""
-	
 	var platform:Platform!
-	
-	var lineContainer: ColorAndFontComponent = ColorAndFontComponent()
 	
 	var sourceCodeDocuments = [SourceCodeDocument]()
 	let sourceScanner = SourceCodeScanner()
@@ -85,9 +107,6 @@ class DocumentAnalyzer {
 		
 		var currentProcessMode = ""
 		
-		// Reset all parameters
-		Settings.resetParameters()
-		
 		for s in sourceScanner.statementArray {
 			
 			if let processMode = s as? String {
@@ -96,9 +115,6 @@ class DocumentAnalyzer {
 				
 			} else if let configurationModel = s as? ConfigurationModel {
 			
-				// Set parameters
-				Settings.setParameter(value: configurationModel.value, forKey: configurationModel.key)
-				
 				if configurationModel.key == paramKey_exportTo {
 					
 					var addNewDocument = false
@@ -122,6 +138,19 @@ class DocumentAnalyzer {
 					}
 				}
 				
+				// Set global parameters
+				Global.configurations.setValue(configurationModel.value, forKey: configurationModel.key)
+				
+				// Set parameters in current document
+				if let currentDocument = sourceCodeDocuments.last {
+					currentDocument.configurations.setValue(configurationModel.value, forKey: configurationModel.key)
+					
+					// Set parameters in current document component
+					if let lastComponent = currentDocument.components.last {
+						lastComponent.configurations.setValue(configurationModel.value, forKey: configurationModel.key)
+					}
+				}
+				
 			} else if let statementModel = s as? StatementModel {
 				
 				// It is a StatementModel
@@ -137,28 +166,28 @@ class DocumentAnalyzer {
 					currentDocument = sourceCodeDocuments.last!
 				}
 				
+				// Current Document does not have any components
+				var component:DocumentComponent!
+				
 				if currentDocument.components.count < 1 {
-					// First StatementModel
 					
 					switch currentProcessMode {
 					case processMode_colorAndFont:
-						currentDocument.components.append(ColorAndFontComponent())
+						component = ColorAndFontComponent()
 						break
 					case processMode_stringConst:
-						currentDocument.components.append(StringConstComponent())
-						/*
-						constantsObjcHeaderString = constantsObjcHeaderString + "FOUNDATION_EXPORT NSString *const \( name );\n"
-						
-						constantsObjcImplementationString = constantsObjcImplementationString + "NSString *const \( name ) = @\(arg.formattedString);\n"
-						*/
+						component = StringConstComponent()
 						break
 					case processMode_userDefaults:
-						currentDocument.components.append(UserDefaultsComponent())
+						component = UserDefaultsComponent()
 						break
 					default:
 						
 						break
 					}
+					
+					currentDocument.components.append(component)
+					component.document = currentDocument
 				}
 				
 				if let last = currentDocument.components.last {

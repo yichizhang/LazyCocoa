@@ -41,7 +41,7 @@ extension NSTextView {
 	func setUpForDisplayingSourceCode() {
 		var size:CGFloat = 12
 		
-		if let sizeString = Settings.parameterForKey(paramKey_windowFontSize){
+		if let sizeString = Global.configurations.valueForKey(paramKey_windowFontSize){
 			size = CGFloat( (sizeString as NSString).floatValue )
 		}
 		

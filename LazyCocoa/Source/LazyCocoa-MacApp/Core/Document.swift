@@ -159,7 +159,7 @@ class Document: NSDocument {
 		// http://stackoverflow.com/questions/3950971/nsdocument-get-real-save-path
 		if let path = url.path {
 			
-			Settings.currentDocumentRealPath = path
+			Global.currentDocumentRealPath = path
 			println(path)
 		}
 		return super.writeSafelyToURL(url, ofType: typeName, forSaveOperation: saveOperation, error: outError)
