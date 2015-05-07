@@ -40,6 +40,12 @@ struct ParamKey {
 	static let OrganizationName = "organizationName"
 }
 
+struct ProcessMode {
+	static let ColorAndFont = "colorAndFont"
+	static let StringConst = "stringConst"
+	static let UserDefaults = "userDefaults"
+}
+
 struct StringConst {
 	static let Hash = "#"
 	static let Exclamation = "!"

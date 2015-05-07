@@ -172,13 +172,13 @@ class DocumentAnalyzer {
 				if currentDocument.components.count < 1 {
 					
 					switch currentProcessMode {
-					case processMode_colorAndFont:
+					case ProcessMode.ColorAndFont:
 						component = ColorAndFontComponent()
 						break
-					case processMode_stringConst:
+					case ProcessMode.StringConst:
 						component = StringConstComponent()
 						break
-					case processMode_userDefaults:
+					case ProcessMode.UserDefaults:
 						component = UserDefaultsComponent()
 						break
 					default:

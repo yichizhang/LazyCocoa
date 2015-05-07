@@ -25,12 +25,6 @@
 
 import Foundation
 
-let processMode_colorAndFont = "colorAndFont"
-let processMode_stringConst = "stringConst"
-let processMode_userDefaults = "userDefaults"
-
-let acceptedProcessModes = [processMode_colorAndFont, processMode_stringConst, processMode_userDefaults]
-
 class ConfigurationModel: Printable {
 	
 	var key = ""
