@@ -61,8 +61,8 @@ class SourceCodeDocument : Printable {
 		dateFormatter.dateFormat = "yyyy"
 		let yearString = dateFormatter.stringFromDate(date)
 		
-		var userName = Global.configurations.valueForKey(paramKey_userName) ?? "User"
-		var companyName = Global.configurations.valueForKey(paramKey_organizationName) ?? "The Lazy Cocoa Project"
+		var userName = Global.configurations.valueForKey(ParamKey.UserName) ?? "User"
+		var companyName = Global.configurations.valueForKey(ParamKey.OrganizationName) ?? "The Lazy Cocoa Project"
 		
 		return
 			"//  \n" +
@@ -76,7 +76,7 @@ class SourceCodeDocument : Printable {
 	var documentString:String {
 		var string = headerComment
 		
-		string = string + String.importStatementString("Foundation") + ( String.importStatementString("UIKit") ) + NEW_LINE_STRING
+		string = string + String.importStatementString("Foundation") + ( String.importStatementString("UIKit") ) + StringConst.NewLine
 		
 		for component in components {
 			string = string + component.componentString
@@ -115,7 +115,7 @@ class DocumentAnalyzer {
 				
 			} else if let configurationModel = s as? ConfigurationModel {
 			
-				if configurationModel.key == paramKey_exportTo {
+				if configurationModel.key == ParamKey.ExportTo {
 					
 					var addNewDocument = false
 					

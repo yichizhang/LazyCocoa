@@ -177,16 +177,16 @@ class SourceCodeScanner {
 					currentProcessModeString = resultString as String
 				}
 				
-			} else if twoCharString == SINGLE_LINE_COMMENT {
+			} else if twoCharString == StringConst.SigleLineComment {
 				
 				scanner.scanLocation += twoCharString.length
 				scanner.scanUpToCharactersFromSet(newline, intoString: &resultString)
 				
-			} else if twoCharString == MULTI_LINE_COMMENT_START {
+			} else if twoCharString == StringConst.MultiLineCommentStart {
 				
 				scanner.scanLocation += twoCharString.length
-				scanner.scanUpToString(MULTI_LINE_COMMENT_END, intoString: &resultString)
-				scanner.scanLocation += MULTI_LINE_COMMENT_END.length
+				scanner.scanUpToString(StringConst.MultiLineCommentEnd, intoString: &resultString)
+				scanner.scanLocation += StringConst.MultiLineCommentEnd.length
 				
 			} else if twoCharString == "!!" {
 				
@@ -204,11 +204,11 @@ class SourceCodeScanner {
 				
 			} else {
 				
-				if currentChar == DOUBLE_QUOTE_CHAR {
+				if currentChar == Character(StringConst.DoubleQuote) {
 					
 					scanner.scanLocation++
-					scanner.scanUpToString(DOUBLE_QUOTE_STRING, intoString: &resultString)
-					scanner.scanLocation += DOUBLE_QUOTE_STRING.length
+					scanner.scanUpToString(StringConst.DoubleQuote, intoString: &resultString)
+					scanner.scanLocation += StringConst.DoubleQuote.length
 					
 					addAsName(statementItem: resultString as! String, forProcessMode: currentProcessModeString)
 					

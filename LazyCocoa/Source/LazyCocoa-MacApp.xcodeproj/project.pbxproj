@@ -26,6 +26,8 @@
 		124E2A991AD590E800174583 /* ColorScannerDemo.txt in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A981AD590E800174583 /* ColorScannerDemo.txt */; };
 		125DD5D21A84C09C00C90757 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 125DD5D11A84C09C00C90757 /* FileManager.swift */; };
 		12767EEA1A503E0E00BCFED3 /* DocumentComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12767EE91A503E0E00BCFED3 /* DocumentComponents.swift */; };
+		1288C4771AFB983E0067EB60 /* CodeGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1288C4761AFB983E0067EB60 /* CodeGeneration.swift */; };
+		1288C4781AFB99180067EB60 /* CodeGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1288C4761AFB983E0067EB60 /* CodeGeneration.swift */; };
 		12C5359D1A8C216900B1B287 /* NewScanningMechanism.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C5359C1A8C216900B1B287 /* NewScanningMechanism.swift */; };
 		12E12DD11A89181D001E96E0 /* ColorScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E12DD01A89181D001E96E0 /* ColorScanner.swift */; };
 		12EFA3F11ADFA3B100B9884C /* ColorScannerDemo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 124E2A981AD590E800174583 /* ColorScannerDemo.txt */; };
@@ -76,6 +78,7 @@
 		124E2A981AD590E800174583 /* ColorScannerDemo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ColorScannerDemo.txt; sourceTree = "<group>"; };
 		125DD5D11A84C09C00C90757 /* FileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileManager.swift; sourceTree = "<group>"; };
 		12767EE91A503E0E00BCFED3 /* DocumentComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentComponents.swift; sourceTree = "<group>"; };
+		1288C4761AFB983E0067EB60 /* CodeGeneration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeGeneration.swift; sourceTree = "<group>"; };
 		12C5359C1A8C216900B1B287 /* NewScanningMechanism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewScanningMechanism.swift; sourceTree = "<group>"; };
 		12E12DD01A89181D001E96E0 /* ColorScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScanner.swift; sourceTree = "<group>"; };
 		12F20B1B1ABED56700B5611A /* ChangeHeaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeHeaderViewController.swift; sourceTree = "<group>"; };
@@ -170,6 +173,7 @@
 				12F983831A4D92380041FE43 /* Base.swift */,
 				12153D0D1AE1413E002B34D0 /* ChangeHeader.swift */,
 				124E2A951AD55F5E00174583 /* ColorFormatter.swift */,
+				1288C4761AFB983E0067EB60 /* CodeGeneration.swift */,
 				12E12DD01A89181D001E96E0 /* ColorScanner.swift */,
 				12153D0E1AE1413E002B34D0 /* Document.swift */,
 				12F9837E1A4D8BC30041FE43 /* DocumentAnalyzer.swift */,
@@ -287,6 +291,7 @@
 			files = (
 				1214AF5D1A4B346100F31ED8 /* SourceEditViewController.swift in Sources */,
 				12153D101AE1413E002B34D0 /* ChangeHeader.swift in Sources */,
+				1288C4771AFB983E0067EB60 /* CodeGeneration.swift in Sources */,
 				124E2A961AD55F5E00174583 /* ColorFormatter.swift in Sources */,
 				12F20B1C1ABED56700B5611A /* ChangeHeaderViewController.swift in Sources */,
 				12E12DD11A89181D001E96E0 /* ColorScanner.swift in Sources */,
@@ -310,6 +315,7 @@
 			files = (
 				12EFA4011ADFA62D00B9884C /* ChangeHeaderViewController.swift in Sources */,
 				12EFA3FA1ADFA61300B9884C /* DocumentComponents.swift in Sources */,
+				1288C4781AFB99180067EB60 /* CodeGeneration.swift in Sources */,
 				12153D131AE1414F002B34D0 /* ChangeHeader.swift in Sources */,
 				12EFA3FE1ADFA62100B9884C /* SourceEditViewController.swift in Sources */,
 				124E2A971AD565A500174583 /* ColorFormatter.swift in Sources */,

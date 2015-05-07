@@ -225,9 +225,9 @@ class HeaderChanger {
 extension NSString {
 	var rangeOfHeaderComment:NSRange {
 		
-		let singleLineCommentPrefix = SINGLE_LINE_COMMENT
-		let multilineCommentPrefix = MULTI_LINE_COMMENT_START
-		let multilineCommentSuffix = MULTI_LINE_COMMENT_END
+		let singleLineCommentPrefix = StringConst.SigleLineComment
+		let multilineCommentPrefix = StringConst.MultiLineCommentStart
+		let multilineCommentSuffix = StringConst.MultiLineCommentEnd
 		
 		let fileString = self
 		

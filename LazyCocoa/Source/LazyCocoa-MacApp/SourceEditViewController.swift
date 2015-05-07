@@ -117,7 +117,7 @@ class SourceEditViewController: NSViewController {
 		
 		update()
 			
-		//FileManager.write(string: analyzer.mainResultString, currentDocumentRealPath: Global.currentDocumentRealPath, exportPath: Global.parameterForKey(paramKey_exportTo) )
+		//FileManager.write(string: analyzer.mainResultString, currentDocumentRealPath: Global.currentDocumentRealPath, exportPath: Global.parameterForKey(ParamKey.ExportTo) )
 		
 	}
 	

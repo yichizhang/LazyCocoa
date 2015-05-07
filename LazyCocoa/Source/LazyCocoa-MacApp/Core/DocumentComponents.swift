@@ -117,7 +117,7 @@ class ColorAndFontComponent : BasicDocumentComponent {
 			if identifier.isMeantToBeColor {
 				return base + identifier
 			}else{
-				return base + identifier + COLOR_SUFFIX
+				return base + identifier + StringConst.ColorSuffix
 			}
 		}
 		
@@ -170,7 +170,7 @@ class ColorAndFontComponent : BasicDocumentComponent {
 			if identifier.isMeantToBeFont {
 				return base + identifier
 			}else{
-				return base + identifier + FONT_SUFFIX
+				return base + identifier + StringConst.FontSuffix
 			}
 		}
 		
@@ -255,11 +255,11 @@ class ColorAndFontComponent : BasicDocumentComponent {
 					)
 				}
 				
-				fontModel.base = configurationForKey(paramKey_prefix)
+				fontModel.base = configurationForKey(ParamKey.Prefix)
 					
 				fontString +=
 					fontModel.documentationString().stringInSwiftDocumentationStyle() +
-					fontModel.funcString() + NEW_LINE_STRING + NEW_LINE_STRING
+					fontModel.funcString() + StringConst.NewLine + StringConst.NewLine
 			}
 		}
 		
@@ -280,11 +280,11 @@ class ColorAndFontComponent : BasicDocumentComponent {
 					colorHexString: colorCodeString
 				)
 				
-				colorModel.base = configurationForKey(paramKey_prefix)
+				colorModel.base = configurationForKey(ParamKey.Prefix)
 				
 				colorString +=
 					colorModel.documentationString().stringInSwiftDocumentationStyle() +
-					colorModel.funcString() + NEW_LINE_STRING + NEW_LINE_STRING
+					colorModel.funcString() + StringConst.NewLine + StringConst.NewLine
 			}
 		}
 		
@@ -368,7 +368,7 @@ class StringConstComponent : BasicDocumentComponent {
 	override func stringFromStatement(statementModel:StatementModel) -> String {
 		if let identifier = statementModel.identifiers.first {
 			
-			let name = configurationForKey(paramKey_prefix) + identifier
+			let name = configurationForKey(ParamKey.Prefix) + identifier
 			let arg = Argument(object: identifier, formattingStrategy: ArgumentFormattingStrategy.StringLiteral)
 			
 			return "let \( name ) = \(arg.formattedString)\n"
@@ -385,7 +385,7 @@ class UserDefaultsComponent : BasicDocumentComponent {
 	override func stringFromStatement(statementModel:StatementModel) -> String {
 		if let identifier = statementModel.identifiers.first {
 			
-			let name = configurationForKey(paramKey_prefix) + identifier
+			let name = configurationForKey(ParamKey.Prefix) + identifier
 			var returnType = "AnyObject"
 			if statementModel.identifiers.count > 1 {
 				returnType = statementModel.identifiers[1]

@@ -151,9 +151,9 @@ class ChangeHeaderViewController : NSViewController {
 				if file.included {
 					
 					if count < listMax {
-						fileListString = fileListString + relativePathFrom(fullPath: file.path) + NEW_LINE_STRING
+						fileListString = fileListString + relativePathFrom(fullPath: file.path) + StringConst.NewLine
 					} else if count == listMax {
-						fileListString = fileListString + "..." + NEW_LINE_STRING
+						fileListString = fileListString + "..." + StringConst.NewLine
 					}
 					
 					count++

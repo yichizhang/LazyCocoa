@@ -41,7 +41,7 @@ extension NSTextView {
 	func setUpForDisplayingSourceCode() {
 		var size:CGFloat = 12
 		
-		if let sizeString = Global.configurations.valueForKey(paramKey_windowFontSize){
+		if let sizeString = Global.configurations.valueForKey(ParamKey.WindowFontSize){
 			size = CGFloat( (sizeString as NSString).floatValue )
 		}
 		
@@ -63,19 +63,19 @@ extension String {
 	}
 	var isValidColorCode:Bool {
 		
-		return hasPrefix(HASH_STRING)
+		return hasPrefix(StringConst.Hash)
 	}
 	var isMeantToBeComment:Bool {
 		
-		return hasPrefix(COMMENT_PREFIX)
+		return hasPrefix(StringConst.SigleLineComment)
 	}
 	var isMeantToBeFont:Bool {
 		
-		return hasSuffix(FONT_SUFFIX)
+		return hasSuffix(StringConst.FontSuffix)
 	}
 	var isMeantToBeColor:Bool {
 		
-		return hasSuffix(COLOR_SUFFIX)
+		return hasSuffix(StringConst.ColorSuffix)
 	}
 	var isMeantToBeNeitherFontOrColor:Bool {
 		
@@ -190,7 +190,7 @@ extension String {
 	func stringByRemovingSingleLineComment() -> String {
 		let nsstring = self as NSString
 		
-		let range = nsstring.rangeOfString(SINGLE_LINE_COMMENT)
+		let range = nsstring.rangeOfString(StringConst.SigleLineComment)
 		
 		if range.location == NSNotFound {
 			return self

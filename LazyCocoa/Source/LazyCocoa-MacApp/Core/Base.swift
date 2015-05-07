@@ -25,72 +25,38 @@
 
 import Cocoa
 
-let HASH_STRING = "#"
-let EXCLAMATION_MARK_STRING = "!"
-let EXCLAMATION_MARK_CHAR = Character(EXCLAMATION_MARK_STRING)
-let DOUBLE_QUOTE_STRING = "\""
-let DOUBLE_QUOTE_CHAR = Character(DOUBLE_QUOTE_STRING)
-let SPACE_STRING = " "
-let NEW_LINE_STRING = "\n"
-let NEW_LINE_CHAR = Character(NEW_LINE_STRING)
-let FONT_SUFFIX = "Font"
-let COLOR_SUFFIX = "Color"
-let COMMENT_PREFIX = "//"
-
-let SINGLE_LINE_COMMENT = "//"
-let MULTI_LINE_COMMENT_START = "/*"
-let MULTI_LINE_COMMENT_END = "*/"
+let fileKey_mainSource = "mainSource"
+let Global = GlobalClass.sharedInstance
 
 /*
-
 !!prefix paramKey_
 exportTo; prefix; windowFontSize; userName; organizationName
-
 */
-let paramKey_exportTo = "exportTo"
-let paramKey_prefix = "prefix"
-let paramKey_windowFontSize = "windowFontSize"
-let paramKey_userName = "userName"
-let paramKey_organizationName = "organizationName"
+struct ParamKey {
+	static let ExportTo = "exportTo"
+	static let Prefix = "prefix"
+	static let WindowFontSize = "windowFontSize"
+	static let UserName = "userName"
+	static let OrganizationName = "organizationName"
+}
 
-let fileKey_mainSource = "mainSource"	
-
-let Global = GlobalClass.sharedInstance
+struct StringConst {
+	static let Hash = "#"
+	static let Exclamation = "!"
+	static let DoubleQuote = "\""
+	static let Space = " "
+	static let NewLine = "\n"
+	static let SigleLineComment = "//"
+	static let MultiLineCommentStart = "/*"
+	static let MultiLineCommentEnd = "*/"
+	
+	static let FontSuffix = "Font"
+	static let ColorSuffix = "Color"
+}
 
 enum Platform : Int {
 	case iOS = 0
 	case MacOS
-}
-
-enum ArgumentFormattingStrategy : Int {
-	case CGFloatNumber = 0
-	case StringLiteral
-	case Name
-}
-
-class Argument : NSObject {
-	var object:AnyObject!
-	var formattingStrategy:ArgumentFormattingStrategy!
-	
-	init(object:AnyObject, formattingStrategy:ArgumentFormattingStrategy) {
-		self.object = object
-		self.formattingStrategy = formattingStrategy
-		super.init()
-	}
-	
-	var formattedString:String {
-		switch formattingStrategy.rawValue {
-		case ArgumentFormattingStrategy.CGFloatNumber.rawValue:
-			return NSString(format: "%.3f", object.floatValue) as String
-		case ArgumentFormattingStrategy.StringLiteral.rawValue:
-			let str = object as! String
-			return "\"" + str + "\""
-		case ArgumentFormattingStrategy.Name.rawValue:
-			return "\(object)"
-		default:
-			return "__ERROR__"
-		}
-	}
 }
 
 class GlobalClass {
