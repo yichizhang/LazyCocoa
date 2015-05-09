@@ -117,12 +117,6 @@ class SourceCodeDocument : Printable {
 	
 	var components = [DocumentComponent]()
 	
-	weak var documentAnalyzer:DocumentAnalyzer?
-	
-	func configurationForKey(key:String, index:Int) -> String {
-		return documentAnalyzer?.newConfigurations.valueForKey(key, forIndex: index)?.value ?? ""
-	}
-	
 	var headerComment:String {
 		let dateFormatter = NSDateFormatter()
 		let date = NSDate()
@@ -161,7 +155,7 @@ class SourceCodeDocument : Printable {
 	}
 }
 
-class DocumentAnalyzer {
+class DocumentAnalyzer : ConfigurationProtocol {
 	
 	var inputString = ""
 	var platform:Platform!
@@ -203,7 +197,6 @@ class DocumentAnalyzer {
 						
 						let document = SourceCodeDocument()
 						sourceCodeDocuments.append(document)
-						document.documentAnalyzer = self
 						document.exportTo = configurationModel.value
 					} else {
 						
@@ -227,7 +220,6 @@ class DocumentAnalyzer {
 					// "sourceCodeDocuments" does not have any documents.
 					// Add an empty one.
 					currentDocument = SourceCodeDocument()
-					currentDocument.documentAnalyzer = self
 					sourceCodeDocuments.append(currentDocument)
 				} else {
 					currentDocument = sourceCodeDocuments.last!
@@ -254,7 +246,7 @@ class DocumentAnalyzer {
 					}
 					
 					currentDocument.components.append(component)
-					component.document = currentDocument
+					component.cofigurationDelegate = self
 				}
 				
 				if let last = currentDocument.components.last {
@@ -266,5 +258,10 @@ class DocumentAnalyzer {
 		}
 		
 		println(newConfigurations.values)
+	}
+	
+	// Configuration Protocol
+	func configurationFor(object: AnyObject, key: String, index: Int) -> String {
+		return newConfigurations.valueForKey(key, forIndex: index)?.value ?? ""
 	}
 }

@@ -31,7 +31,7 @@ protocol DocumentComponent {
 	func configurationForKey(key:String, index:Int) -> String
 	
 	var componentString:String {get}
-	weak var document:SourceCodeDocument? {get set}
+	weak var cofigurationDelegate:ConfigurationProtocol? {get set}
 }
 
 protocol BaseModelProtocol {
@@ -42,13 +42,18 @@ protocol BaseModelProtocol {
 	func funcString() -> String
 }
 
-class BasicDocumentComponent : DocumentComponent, Printable {
-	var statementArray = [StatementModel]()
+protocol ConfigurationProtocol : class{
 	
-	weak var document:SourceCodeDocument?
+	func configurationFor(object:AnyObject, key:String, index:Int) -> String
+}
+
+class BasicDocumentComponent : DocumentComponent, Printable {
+	
+	var statementArray = [StatementModel]()
+	weak var cofigurationDelegate:ConfigurationProtocol?
 	
 	func configurationForKey(key:String, index:Int) -> String {
-		return document?.configurationForKey(key, index: index) ?? ""
+		return cofigurationDelegate?.configurationFor(self, key: key, index: index) ?? ""
 	}
 	
 	func stringFromStatement(statementModel:StatementModel) -> String {
