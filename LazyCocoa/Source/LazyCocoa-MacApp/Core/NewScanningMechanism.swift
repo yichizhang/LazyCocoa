@@ -43,11 +43,23 @@ class ConfigurationModel: Printable {
 
 class StatementModel: Printable {
 	
+	var index:Int = -1
 	var identifiers:[String] = []
 	// Strings within double quotation marks; "strings that contains white spaces"
 	var names:[String] = []
 	var colorCodes:[String] = []
 	var numbers:[String] = []
+	
+	func copy() -> StatementModel {
+		let s = StatementModel()
+		s.index = self.index
+		s.identifiers = self.identifiers
+		s.names = self.names
+		s.colorCodes = self.colorCodes
+		s.numbers = self.numbers
+		
+		return s
+	}
 	
 	var isEmpty:Bool {
 		if identifiers.count + names.count + colorCodes.count + numbers.count > 0 {
@@ -67,7 +79,7 @@ class StatementModel: Printable {
 			}
 		}
 		
-		return "\n<Statement: IDS = \(arrayToString(identifiers)), names = \(arrayToString(names)), colorCodes = \(arrayToString(colorCodes)), numbers = \(arrayToString(numbers))>"
+		return "\n<Statement #\(index): IDS = \(arrayToString(identifiers)), names = \(arrayToString(names)), colorCodes = \(arrayToString(colorCodes)), numbers = \(arrayToString(numbers))>"
 	}
 
 	func add(#statementItem:String) {

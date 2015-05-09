@@ -115,9 +115,13 @@ class SourceCodeDocument : Printable {
 	
 	var exportTo = ""
 	
-	var configurations = ConfigurationsManager()
-	
 	var components = [DocumentComponent]()
+	
+	weak var documentAnalyzer:DocumentAnalyzer?
+	
+	func configurationForKey(key:String, index:Int) -> String {
+		return documentAnalyzer?.newConfigurations.valueForKey(key, forIndex: index)?.value ?? ""
+	}
 	
 	var headerComment:String {
 		let dateFormatter = NSDateFormatter()
@@ -199,6 +203,7 @@ class DocumentAnalyzer {
 						
 						let document = SourceCodeDocument()
 						sourceCodeDocuments.append(document)
+						document.documentAnalyzer = self
 						document.exportTo = configurationModel.value
 					} else {
 						
@@ -209,21 +214,12 @@ class DocumentAnalyzer {
 				// Set global parameters
 				Global.configurations.setValue(configurationModel.value, forKey: configurationModel.key)
 				
-				// Set parameters in current document
-				if let currentDocument = sourceCodeDocuments.last {
-					currentDocument.configurations.setValue(configurationModel.value, forKey: configurationModel.key)
-					
-					// Set parameters in current document component
-					if let lastComponent = currentDocument.components.last {
-						lastComponent.configurations.setValue(configurationModel.value, forKey: configurationModel.key)
-					}
-				}
-				
 				newConfigurations.setValue(configurationModel.value, forKey: configurationModel.key, startIndex: index)
 				
 			} else if let statementModel = s as? StatementModel {
 				
 				// It is a StatementModel
+				statementModel.index = index
 				
 				var currentDocument:SourceCodeDocument!
 				
@@ -231,6 +227,7 @@ class DocumentAnalyzer {
 					// "sourceCodeDocuments" does not have any documents.
 					// Add an empty one.
 					currentDocument = SourceCodeDocument()
+					currentDocument.documentAnalyzer = self
 					sourceCodeDocuments.append(currentDocument)
 				} else {
 					currentDocument = sourceCodeDocuments.last!

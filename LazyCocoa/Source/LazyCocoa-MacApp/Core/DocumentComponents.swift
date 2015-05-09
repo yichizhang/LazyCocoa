@@ -28,10 +28,9 @@ import Foundation
 protocol DocumentComponent {
 	
 	func addStatement(statementModel:StatementModel)
-	func configurationForKey(key:String) -> String
+	func configurationForKey(key:String, index:Int) -> String
 	
 	var componentString:String {get}
-	var configurations:ConfigurationsManager {get set}
 	weak var document:SourceCodeDocument? {get set}
 }
 
@@ -45,20 +44,11 @@ protocol BaseModelProtocol {
 
 class BasicDocumentComponent : DocumentComponent, Printable {
 	var statementArray = [StatementModel]()
-	var configurations = ConfigurationsManager()
 	
 	weak var document:SourceCodeDocument?
 	
-	func configurationForKey(key:String) -> String {
-		if let val = configurations.valueForKey(key) {
-			return val
-		} else if let document = document {
-			if let val = document.configurations.valueForKey(key) {
-				return val
-			}
-		}
-		
-		return ""
+	func configurationForKey(key:String, index:Int) -> String {
+		return document?.configurationForKey(key, index: index) ?? ""
 	}
 	
 	func stringFromStatement(statementModel:StatementModel) -> String {
@@ -227,13 +217,12 @@ class ColorAndFontComponent : BasicDocumentComponent {
 		
 	}
 	
-	var modelArray = [StatementModel]()
 	var modelDictionary = [String:StatementModel]()
 	
 	var fontMethodsString:String {
 		var fontString = ""
 		
-		for statementModel in modelArray {
+		for statementModel in statementArray {
 			// statementModel.numbers --- fontSizeString
 			// statementModel.names --- fontNameString
 			
@@ -255,7 +244,7 @@ class ColorAndFontComponent : BasicDocumentComponent {
 					)
 				}
 				
-				fontModel.base = configurationForKey(ParamKey.Prefix)
+				fontModel.base = configurationForKey(ParamKey.Prefix, index: statementModel.index)
 					
 				fontString +=
 					fontModel.documentationString().stringInSwiftDocumentationStyle() +
@@ -269,7 +258,7 @@ class ColorAndFontComponent : BasicDocumentComponent {
 	var colorMethodsString:String {
 		var colorString = ""
 		
-		for statementModel in modelArray {
+		for statementModel in statementArray {
 			var colorModel:ColorModel!
 			
 			// statementModel.colorCodes --- colorCodeString
@@ -280,7 +269,7 @@ class ColorAndFontComponent : BasicDocumentComponent {
 					colorHexString: colorCodeString
 				)
 				
-				colorModel.base = configurationForKey(ParamKey.Prefix)
+				colorModel.base = configurationForKey(ParamKey.Prefix, index: statementModel.index)
 				
 				colorString +=
 					colorModel.documentationString().stringInSwiftDocumentationStyle() +
@@ -298,13 +287,13 @@ class ColorAndFontComponent : BasicDocumentComponent {
 	
 	func removeAllObjects() {
 		
-		modelArray.removeAll(keepCapacity: true)
+		statementArray.removeAll(keepCapacity: true)
 		modelDictionary.removeAll(keepCapacity: true)
 	}
 	
 	override func prepareStatements() {
 		
-		for model in modelArray {
+		for model in statementArray {
 			var count = 0
 			for name in model.identifiers {
 				if count >= 1 {
@@ -342,8 +331,10 @@ class ColorAndFontComponent : BasicDocumentComponent {
 	override func addStatement(statementModel:StatementModel) {
 		
 		if let identifier = statementModel.identifiers.first {
-			modelArray.append(statementModel)
-			modelDictionary[identifier] = statementModel
+			let s = statementModel.copy()
+			
+			statementArray.append(s)
+			modelDictionary[identifier] = s
 		}
 	}
 	
@@ -368,7 +359,7 @@ class StringConstComponent : BasicDocumentComponent {
 	override func stringFromStatement(statementModel:StatementModel) -> String {
 		if let identifier = statementModel.identifiers.first {
 			
-			let name = configurationForKey(ParamKey.Prefix) + identifier
+			let name = configurationForKey(ParamKey.Prefix, index: statementModel.index) + identifier
 			let arg = Argument(object: identifier, formattingStrategy: ArgumentFormattingStrategy.StringLiteral)
 			
 			return "let \( name ) = \(arg.formattedString)\n"
@@ -385,7 +376,7 @@ class UserDefaultsComponent : BasicDocumentComponent {
 	override func stringFromStatement(statementModel:StatementModel) -> String {
 		if let identifier = statementModel.identifiers.first {
 			
-			let name = configurationForKey(ParamKey.Prefix) + identifier
+			let name = configurationForKey(ParamKey.Prefix, index: statementModel.index) + identifier
 			var returnType = "AnyObject"
 			if statementModel.identifiers.count > 1 {
 				returnType = statementModel.identifiers[1]
