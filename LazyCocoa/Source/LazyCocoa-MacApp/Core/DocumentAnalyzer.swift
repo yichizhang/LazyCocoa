@@ -95,8 +95,8 @@ class NewConfigurationsManager {
 				
 				if let index = index {
 					
-					if configuration.startIndex >= index &&
-						 configuration.endIndex <= index {
+					if index >= configuration.startIndex &&
+						 index <= configuration.endIndex {
 							return configuration
 					}
 				} else {
