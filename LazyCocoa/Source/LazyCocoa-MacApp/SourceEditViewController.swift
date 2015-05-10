@@ -70,7 +70,7 @@ class SourceEditViewController: NSViewController {
 			filePopUpButton.addItemWithTitle(title)
 		}
 		
-		if analyzer.sourceCodeDocuments.count > filePopUpLastSelectedIndex {
+		if filePopUpLastSelectedIndex > analyzer.sourceCodeDocuments.count {
 			filePopUpLastSelectedIndex = 0
 		}
 		
