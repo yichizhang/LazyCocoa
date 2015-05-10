@@ -70,15 +70,21 @@ class SourceEditViewController: NSViewController {
 			filePopUpButton.addItemWithTitle(title)
 		}
 		
-		if filePopUpLastSelectedIndex > analyzer.sourceCodeDocuments.count {
+		// If the new file changes and the number of files changes,
+		// "last selected index" might be out of bounds.
+		if filePopUpLastSelectedIndex >= analyzer.sourceCodeDocuments.count {
+			// Set it to 0 if that occurs.
 			filePopUpLastSelectedIndex = 0
 		}
 		
-		// Display last selected file
-		if analyzer.sourceCodeDocuments.count > filePopUpLastSelectedIndex {
+		// Display last selected file.
+		if filePopUpLastSelectedIndex < analyzer.sourceCodeDocuments.count {
+			// The number of files is not 0.
 			filePopUpButton.selectItemAtIndex(filePopUpLastSelectedIndex)
 			mainGeneratedCodeTextView.string = analyzer.sourceCodeDocuments[filePopUpLastSelectedIndex].documentString
 		} else {
+			// The number of files is 0.
+			// Make mainGeneratedCodeTextView display an empty string.
 			mainGeneratedCodeTextView.string = ""
 		}
 		
