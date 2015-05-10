@@ -140,7 +140,10 @@ class SourceCodeDocument : Printable {
 	var documentString:String {
 		var string = headerComment
 		
-		string = string + String.importStatementString("Foundation") + ( String.importStatementString("UIKit") ) + StringConst.NewLine
+		string +=
+			String.importStatementString("Foundation") +
+			( String.importStatementString(Global.platform == .iOS ? "UIKit" : "AppKit") ) +
+			StringConst.NewLine
 		
 		for component in components {
 			string = string + component.componentString
