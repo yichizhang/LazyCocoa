@@ -29,6 +29,10 @@ class ConfigurationsManager {
 	
 	private var configurationsDictionary = [String: String]()
 	
+	func removeAll() {
+		configurationsDictionary.removeAll(keepCapacity: true)
+	}
+	
 	func setValue(value:String, forKey key:String) {
 		configurationsDictionary[key] = value
 	}
@@ -67,6 +71,10 @@ class NewConfigurationsManager {
 	}
 	
 	private var values = [Configuration]()
+	
+	func removeAll() {
+		values.removeAll(keepCapacity: true)
+	}
 	
 	func setValue(value:String, forKey key:String, startIndex:Int) {
 		var i = values.count - 1
@@ -171,6 +179,9 @@ class DocumentAnalyzer : ConfigurationProtocol {
 	func process(){
 
 		sourceScanner.processSourceString(inputString)
+		
+		Global.configurations.removeAll()
+		newConfigurations.removeAll()
 		
 		sourceCodeDocuments.removeAll(keepCapacity: true)
 		
