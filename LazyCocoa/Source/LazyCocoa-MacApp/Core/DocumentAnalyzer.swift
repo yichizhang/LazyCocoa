@@ -154,7 +154,7 @@ class SourceCodeDocument : Printable {
 			StringConst.NewLine
 		
 		for component in components {
-			string = string + component.componentString
+			string = string + component.componentString + StringConst.NewLine + StringConst.NewLine
 		}
 		
 		return string
@@ -204,39 +204,16 @@ class DocumentAnalyzer : ConfigurationProtocol {
 		
 		sourceCodeDocuments.removeAll(keepCapacity: true)
 		
-		var currentProcessMode = ""
-		
 		for (index, s) in enumerate(sourceScanner.statementArray) {
 			
 			if let processMode = s as? String {
+				
 				// A String representing the current process mode
-				currentProcessMode = processMode
+				newConfigurations.setValue(processMode, forKey: ParamKey.ProcessMode, startIndex: index)
 				
 			} else if let configurationModel = s as? ConfigurationModel {
 			
-				if configurationModel.key == ParamKey.ExportTo {
-					
-					var addNewDocument = false
-					
-					if let last = sourceCodeDocuments.last {
-						if last.exportTo != "" && last.exportTo != configurationModel.value {
-							addNewDocument = true
-						}
-					} else {
-						addNewDocument = true
-					}
-					
-					if addNewDocument {
-						
-						let document = SourceCodeDocument()
-						sourceCodeDocuments.append(document)
-						document.exportTo = configurationModel.value
-					} else {
-						
-						sourceCodeDocuments.last!.exportTo = configurationModel.value
-					}
-				}
-				
+				Global.configurations.setValue(configurationModel.value, forKey: configurationModel.key)
 				newConfigurations.setValue(configurationModel.value, forKey: configurationModel.key, startIndex: index)
 				
 			} else if let statementModel = s as? StatementModel {
@@ -244,48 +221,95 @@ class DocumentAnalyzer : ConfigurationProtocol {
 				// It is a StatementModel
 				statementModel.index = index
 				
-				var currentDocument:SourceCodeDocument!
-				
-				if sourceCodeDocuments.last == nil {
-					// "sourceCodeDocuments" does not have any documents.
-					// Add an empty one.
-					currentDocument = SourceCodeDocument()
-					sourceCodeDocuments.append(currentDocument)
-				} else {
-					currentDocument = sourceCodeDocuments.last!
-				}
-				
-				// Current Document does not have any components
-				var component:DocumentComponent!
-				
-				if currentDocument.components.count < 1 {
-					
-					switch currentProcessMode {
-					case ProcessMode.ColorAndFont:
-						component = ColorAndFontComponent()
-						break
-					case ProcessMode.StringConst:
-						component = StringConstComponent()
-						break
-					case ProcessMode.UserDefaults:
-						component = UserDefaultsComponent()
-						break
-					default:
-						
-						break
-					}
-					
-					currentDocument.components.append(component)
-					component.cofigurationDelegate = self
-				}
-				
-				if let last = currentDocument.components.last {
-					if !statementModel.isEmpty {
-						last.addStatement(statementModel)
-					}
-				}
 			}
 		}
+		
+		var i = newConfigurations.values.count - 1
+		
+		var currentDocument = SourceCodeDocument()
+		sourceCodeDocuments.append(currentDocument)
+		
+		while (i>=0) {
+			let configuration = newConfigurations.values[i]
+			
+			if configuration.key == ParamKey.ProcessMode {
+				
+				var component:DocumentComponent!
+				
+				switch configuration.value {
+				case ProcessMode.ColorAndFont:
+					component = ColorAndFontComponent()
+					break
+				case ProcessMode.StringConst:
+					component = StringConstComponent()
+					break
+				case ProcessMode.UserDefaults:
+					component = UserDefaultsComponent()
+					break
+				default:
+					
+					break
+				}
+				
+				var endIndex = configuration.endIndex
+				
+				if endIndex > sourceScanner.statementArray.count {
+					endIndex = sourceScanner.statementArray.count
+				}
+				
+				component.addStatements(
+					Array(sourceScanner.statementArray[configuration.startIndex..<endIndex])
+					)
+				currentDocument.components.append(component)
+				component.cofigurationDelegate = self
+			}
+			
+			i--
+		}
+		
+		/*
+		var currentDocument:SourceCodeDocument!
+		
+		if sourceCodeDocuments.last == nil {
+		// "sourceCodeDocuments" does not have any documents.
+		// Add an empty one.
+		currentDocument = SourceCodeDocument()
+		sourceCodeDocuments.append(currentDocument)
+		} else {
+		currentDocument = sourceCodeDocuments.last!
+		}
+		
+		// Current Document does not have any components
+		var component:DocumentComponent!
+		
+		if currentDocument.components.count < 1 {
+		
+		switch currentProcessMode {
+		case ProcessMode.ColorAndFont:
+		component = ColorAndFontComponent()
+		break
+		case ProcessMode.StringConst:
+		component = StringConstComponent()
+		break
+		case ProcessMode.UserDefaults:
+		component = UserDefaultsComponent()
+		break
+		default:
+		
+		break
+		}
+		
+		currentDocument.components.append(component)
+		component.cofigurationDelegate = self
+		}
+		
+		if let last = currentDocument.components.last {
+		if !statementModel.isEmpty {
+		last.addStatement(statementModel)
+		}
+		}
+ 
+		*/
 		
 		println(newConfigurations.values)
 	}

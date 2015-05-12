@@ -28,6 +28,7 @@ import Foundation
 protocol DocumentComponent {
 	
 	func addStatement(statementModel:StatementModel)
+	func addStatements(statementModelArray:[AnyObject])
 	func configurationForKey(key:String, index:Int) -> String
 	
 	var componentString:String {get}
@@ -63,6 +64,14 @@ class BasicDocumentComponent : DocumentComponent, Printable {
 	
 	func addStatement(statementModel:StatementModel) {
 		statementArray.append(statementModel)
+	}
+	
+	func addStatements(statementModelArray:[AnyObject]) {
+		for o in statementModelArray {
+			if let s = o as? StatementModel {
+				addStatement(s)
+			}
+		}
 	}
 	
 	func prepareStatements() {

@@ -33,6 +33,8 @@ let Global = GlobalClass.sharedInstance
 exportTo; prefix; windowFontSize; userName; organizationName
 */
 struct ParamKey {
+	static let ProcessMode = "processMode"
+	
 	static let ExportTo = "exportTo"
 	static let Prefix = "prefix"
 	static let WindowFontSize = "windowFontSize"
