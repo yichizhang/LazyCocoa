@@ -67,11 +67,7 @@ enum Platform : Int {
 
 class GlobalClass {
 	
-	var platform : Platform {
-		didSet {
-			updateStrings()
-		}
-	}
+	var platform:Platform = .iOS
 	
 	var colorClassName:String!
 	var colorRGBAInitSignatureString:String!
@@ -89,29 +85,5 @@ class GlobalClass {
 			static let instance = GlobalClass()
 		}
 		return GlobalStruct.instance
-	}
-	
-	init() {
-		platform = .iOS
-		updateStrings()
-	}
-	
-	func updateStrings() {
-
-		switch platform {
-		case .iOS:
-			fontClassName = "UIFont"
-			colorClassName = "UIColor"
-			
-			colorRGBAInitSignatureString = "red:green:blue:alpha:"
-			
-		case .MacOS:
-			fontClassName = "NSFont"
-			colorClassName = "NSColor"
-			
-			colorRGBAInitSignatureString = "calibratedRed:green:blue:alpha:"
-		}
-		
-		fontNameAndSizeInitSignatureString = "name:size:"
 	}
 }

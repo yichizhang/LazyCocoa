@@ -177,7 +177,26 @@ class DocumentAnalyzer : ConfigurationProtocol {
 	var newConfigurations = NewConfigurationsManager()
 	
 	func process(){
-
+		
+		switch self.platform.rawValue {
+		case Platform.iOS.rawValue:
+			Global.fontClassName = "UIFont"
+			Global.colorClassName = "UIColor"
+			
+			Global.colorRGBAInitSignatureString = "red:green:blue:alpha:"
+			
+		case Platform.MacOS.rawValue:
+			Global.fontClassName = "NSFont"
+			Global.colorClassName = "NSColor"
+			
+			Global.colorRGBAInitSignatureString = "calibratedRed:green:blue:alpha:"
+		default:
+			break
+		}
+		
+		Global.fontNameAndSizeInitSignatureString = "name:size:"
+		
+		
 		sourceScanner.processSourceString(inputString)
 		
 		Global.configurations.removeAll()
@@ -217,9 +236,6 @@ class DocumentAnalyzer : ConfigurationProtocol {
 						sourceCodeDocuments.last!.exportTo = configurationModel.value
 					}
 				}
-				
-				// Set global parameters
-				Global.configurations.setValue(configurationModel.value, forKey: configurationModel.key)
 				
 				newConfigurations.setValue(configurationModel.value, forKey: configurationModel.key, startIndex: index)
 				
