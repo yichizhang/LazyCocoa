@@ -26,13 +26,14 @@
 import Foundation
 
 protocol DocumentComponent {
+	init(delegate:ConfigurationProtocol)
 	
 	func addStatement(statementModel:StatementModel)
 	func addStatements(statementModelArray:[AnyObject])
 	func configurationForKey(key:String, index:Int) -> String
 	
 	var componentString:String {get}
-	weak var cofigurationDelegate:ConfigurationProtocol? {get set}
+	weak var configurationDelegate:ConfigurationProtocol? {get set}
 }
 
 protocol BaseModelProtocol {
@@ -51,10 +52,14 @@ protocol ConfigurationProtocol : class{
 class BasicDocumentComponent : DocumentComponent, Printable {
 	
 	var statementArray = [StatementModel]()
-	weak var cofigurationDelegate:ConfigurationProtocol?
+	weak var configurationDelegate:ConfigurationProtocol?
+	
+	required init(delegate:ConfigurationProtocol) {
+		self.configurationDelegate = delegate
+	}
 	
 	func configurationForKey(key:String, index:Int) -> String {
-		return cofigurationDelegate?.configurationFor(self, key: key, index: index) ?? ""
+		return configurationDelegate?.configurationFor(self, key: key, index: index) ?? ""
 	}
 	
 	func stringFromStatement(statementModel:StatementModel) -> String {

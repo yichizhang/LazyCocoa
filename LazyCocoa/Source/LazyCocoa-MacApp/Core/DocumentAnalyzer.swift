@@ -238,13 +238,13 @@ class DocumentAnalyzer : ConfigurationProtocol {
 				
 				switch configuration.value {
 				case ProcessMode.ColorAndFont:
-					component = ColorAndFontComponent()
+					component = ColorAndFontComponent(delegate: self)
 					break
 				case ProcessMode.StringConst:
-					component = StringConstComponent()
+					component = StringConstComponent(delegate: self)
 					break
 				case ProcessMode.UserDefaults:
-					component = UserDefaultsComponent()
+					component = UserDefaultsComponent(delegate: self)
 					break
 				default:
 					
@@ -261,7 +261,6 @@ class DocumentAnalyzer : ConfigurationProtocol {
 					Array(sourceScanner.statementArray[configuration.startIndex..<endIndex])
 					)
 				currentDocument.components.append(component)
-				component.cofigurationDelegate = self
 			}
 			
 			i--
