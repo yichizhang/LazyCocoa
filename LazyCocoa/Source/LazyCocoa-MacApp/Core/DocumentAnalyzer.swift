@@ -267,50 +267,6 @@ class DocumentAnalyzer : ConfigurationProtocol {
 			i--
 		}
 		
-		/*
-		var currentDocument:SourceCodeDocument!
-		
-		if sourceCodeDocuments.last == nil {
-		// "sourceCodeDocuments" does not have any documents.
-		// Add an empty one.
-		currentDocument = SourceCodeDocument()
-		sourceCodeDocuments.append(currentDocument)
-		} else {
-		currentDocument = sourceCodeDocuments.last!
-		}
-		
-		// Current Document does not have any components
-		var component:DocumentComponent!
-		
-		if currentDocument.components.count < 1 {
-		
-		switch currentProcessMode {
-		case ProcessMode.ColorAndFont:
-		component = ColorAndFontComponent()
-		break
-		case ProcessMode.StringConst:
-		component = StringConstComponent()
-		break
-		case ProcessMode.UserDefaults:
-		component = UserDefaultsComponent()
-		break
-		default:
-		
-		break
-		}
-		
-		currentDocument.components.append(component)
-		component.cofigurationDelegate = self
-		}
-		
-		if let last = currentDocument.components.last {
-		if !statementModel.isEmpty {
-		last.addStatement(statementModel)
-		}
-		}
- 
-		*/
-		
 		println(newConfigurations.values)
 	}
 	
