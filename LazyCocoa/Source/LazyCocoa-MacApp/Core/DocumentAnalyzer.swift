@@ -117,6 +117,26 @@ class NewConfigurationsManager {
 		
 		return nil
 	}
+	
+	func exportToFor(#startIndex:Int, endIndex:Int) -> Configuration? {
+		var i = 0
+		
+		while ( i < values.count ) {
+			let configuration = values[i]
+			
+			if configuration.key == ParamKey.ExportTo {
+				
+				if abs( startIndex - configuration.startIndex ) <= 4 &&
+					(abs( endIndex - configuration.endIndex ) <= 4 || endIndex < configuration.endIndex){
+						return configuration
+				}
+			}
+			
+			i++
+		}
+		
+		return nil
+	}
 }
 
 class SourceCodeDocument : Printable {
@@ -224,12 +244,12 @@ class DocumentAnalyzer : ConfigurationProtocol {
 			}
 		}
 		
-		var i = newConfigurations.values.count - 1
-		
 		var currentDocument = SourceCodeDocument()
 		sourceCodeDocuments.append(currentDocument)
 		
-		while (i>=0) {
+		var i = 0
+		
+		while (i < newConfigurations.values.count) {
 			let configuration = newConfigurations.values[i]
 			
 			if configuration.key == ParamKey.ProcessMode {
@@ -251,6 +271,12 @@ class DocumentAnalyzer : ConfigurationProtocol {
 					break
 				}
 				
+				var startIndex = configuration.startIndex
+				
+				if i == 0 {
+					startIndex = 0
+				}
+				
 				var endIndex = configuration.endIndex
 				
 				if endIndex > sourceScanner.statementArray.count {
@@ -258,12 +284,25 @@ class DocumentAnalyzer : ConfigurationProtocol {
 				}
 				
 				component.addStatements(
-					Array(sourceScanner.statementArray[configuration.startIndex..<endIndex])
+					Array(sourceScanner.statementArray[startIndex..<endIndex])
 					)
+				
+				if let c = newConfigurations.exportToFor(startIndex: startIndex, endIndex: endIndex) {
+					if currentDocument.exportTo == "" {
+						currentDocument.exportTo = c.value
+						
+					} else if currentDocument.exportTo != c.value {
+						
+						currentDocument = SourceCodeDocument()
+						currentDocument.exportTo = c.value
+						sourceCodeDocuments.append(currentDocument)
+					}
+				}
+				
 				currentDocument.components.append(component)
 			}
 			
-			i--
+			i++
 		}
 		
 		println(newConfigurations.values)
