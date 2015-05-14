@@ -118,13 +118,13 @@ class NewConfigurationsManager {
 		return nil
 	}
 	
-	func exportToFor(#startIndex:Int, endIndex:Int) -> Configuration? {
+	func valueForKey(key:String, startIndex:Int, endIndex:Int) -> Configuration? {
 		var i = 0
 		
 		while ( i < values.count ) {
 			let configuration = values[i]
 			
-			if configuration.key == ParamKey.ExportTo {
+			if configuration.key == key {
 				
 				if abs( startIndex - configuration.startIndex ) <= 4 &&
 					(abs( endIndex - configuration.endIndex ) <= 4 || endIndex < configuration.endIndex){
@@ -287,7 +287,8 @@ class DocumentAnalyzer : ConfigurationProtocol {
 					Array(sourceScanner.statementArray[startIndex..<endIndex])
 					)
 				
-				if let c = newConfigurations.exportToFor(startIndex: startIndex, endIndex: endIndex) {
+				if let c = newConfigurations.valueForKey(ParamKey.ExportTo, startIndex: startIndex, endIndex: endIndex) {
+					
 					if currentDocument.exportTo == "" {
 						currentDocument.exportTo = c.value
 						
