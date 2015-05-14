@@ -28,7 +28,6 @@ import Cocoa
 class Document: NSDocument {
 
 	var fileContentString = ""
-	var alwaysSaveAsPlainText = true
 	var documentMainViewController:SourceEditViewController?
 	
 	override init() {
@@ -76,22 +75,10 @@ class Document: NSDocument {
 		// Insert code here to write your document to data of the specified type. If outError != nil, ensure that you create and set an appropriate error when returning nil.
 		// You can also choose to override fileWrapperOfType:error:, writeToURL:ofType:error:, or writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
 		
-		if let string = documentMainViewController?.sourceFileTextView.string{
-			fileContentString = string
-		}
+		fileContentString = documentMainViewController?.sourceFileTextView.string ?? ""
 		
-		var jsonError:NSError?
-		let container = [fileKey_mainSource: fileContentString]
-		
-		var data:NSData?
-		
-		if alwaysSaveAsPlainText {
-			data = fileContentString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
-		} else {
-			data = NSJSONSerialization.dataWithJSONObject(container, options: NSJSONWritingOptions.allZeros, error: &jsonError)
-		}
-		
-		if data != nil {
+		if let data = fileContentString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
+			
 			return data
 		}else {
 			
