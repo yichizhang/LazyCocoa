@@ -43,6 +43,8 @@ class ConfigurationModel: Printable {
 
 class StatementModel: Printable {
 	
+	var added = false
+	
 	var index:Int = -1
 	var identifiers:[String] = []
 	// Strings within double quotation marks; "strings that contains white spaces"
@@ -103,54 +105,31 @@ class SourceCodeScanner {
 	// statementArray contains StatementModel, ConfigurationModel and String objects
 	var statementArray = [AnyObject]()
 	
-	var currentStatementModel:StatementModel?
+	var statementCounter = 0
+	var currentStatementModel = StatementModel()
 	
 	private func addProcessMode(processMode:String) {
 		statementArray.append(processMode)
 	}
 	
-	private func appendNewStatementModel() {
-		
-		if let last = statementArray.last as? StatementModel {
-			if last.isEmpty == true {
-				return
-			}
+	private func createNewStatementModel() {
+		currentStatementModel = StatementModel()
+	}
+	
+	private func addCurrentStatementModel() {
+		if !currentStatementModel.added && !currentStatementModel.isEmpty {
+			statementArray.append(currentStatementModel)
+			currentStatementModel.index = statementCounter++
+			currentStatementModel.added == true
 		}
-		statementArray.append( StatementModel() )
 	}
 
 	private func add(#statementItem:String) {
-		
-		if let last = statementArray.last as? StatementModel {
-			
-		} else {
-			appendNewStatementModel()
-		}
-		
-		if let last = statementArray.last as? StatementModel {
-			last.add(statementItem: statementItem)
-		}
-		
-		/*
-		if currentStatementModel == nil {
-			appendNewStatementModel()
-		}
-		
-		currentStatementModel?.add(statementItem: statementItem)
-		*/
+		currentStatementModel.add(statementItem: statementItem)
 	}
 	
 	private func addAsName(#statementItem:String) {
-		
-		if let last = statementArray.last as? StatementModel {
-			
-		} else {
-			appendNewStatementModel()
-		}
-		
-		if let last = statementArray.last as? StatementModel {
-			last.addAsName(statementItem: statementItem)
-		}
+		currentStatementModel.addAsName(statementItem: statementItem)
 	}
 	
 	private func addParameter(#parameterKey:String, parameterValue:String) {
@@ -236,7 +215,8 @@ class SourceCodeScanner {
 			var oneCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 1)
 			
 			if oneCharString.containsCharactersInSet(newlineAndSemicolon) {
-				appendNewStatementModel()
+				addCurrentStatementModel()
+				createNewStatementModel()
 			}
 			
 			while scanner.scanLocation < count(scanner.string)
@@ -246,6 +226,8 @@ class SourceCodeScanner {
 				oneCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 1)
 			}
 		}
+		
+		addCurrentStatementModel()
 		
 		println("--\n\n\n--")
 		println(self.statementArray)
