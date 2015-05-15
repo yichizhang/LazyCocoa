@@ -106,7 +106,7 @@ class SourceCodeScanner {
 	var statementArray = [AnyObject]()
 	
 	var statementCounter = 0
-	var currentStatementModel = StatementModel()
+	var currentStatementModel:StatementModel!
 	
 	private func addProcessMode(processMode:String) {
 		statementArray.append(processMode)
@@ -140,6 +140,9 @@ class SourceCodeScanner {
 	func processSourceString(string:String) {
 		
 		statementArray.removeAll(keepCapacity: true)
+		
+		statementCounter = 0
+		currentStatementModel = StatementModel()
 		
 		let scanner = NSScanner(string: string)
 		
