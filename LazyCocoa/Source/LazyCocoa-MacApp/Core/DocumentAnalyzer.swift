@@ -80,7 +80,7 @@ class NewConfigurationsManager {
 		var i = values.count - 1
 		
 		if let configuration = valueForKey(key) {
-			configuration.endIndex = startIndex - 1
+			configuration.endIndex = startIndex
 		}
 		
 		values.append(
@@ -126,8 +126,8 @@ class NewConfigurationsManager {
 			
 			if configuration.key == key {
 				
-				if abs( startIndex - configuration.startIndex ) <= 4 &&
-					(abs( endIndex - configuration.endIndex ) <= 4 || endIndex < configuration.endIndex){
+				if startIndex == configuration.startIndex &&
+					( (endIndex == configuration.endIndex) || endIndex < configuration.endIndex ){
 						return configuration
 				}
 			}
@@ -198,6 +198,8 @@ class DocumentAnalyzer : ConfigurationProtocol {
 	
 	func process(){
 		
+		var lastStatementModelIndex = -1
+		
 		switch self.platform.rawValue {
 		case Platform.iOS.rawValue:
 			Global.fontClassName = "UIFont"
@@ -224,25 +226,32 @@ class DocumentAnalyzer : ConfigurationProtocol {
 		
 		sourceCodeDocuments.removeAll(keepCapacity: true)
 		
-		for (index, s) in enumerate(sourceScanner.statementArray) {
+		for s in sourceScanner.statementArray {
 			
 			if let processMode = s as? String {
 				
 				// A String representing the current process mode
-				newConfigurations.setValue(processMode, forKey: ParamKey.ProcessMode, startIndex: index)
+				newConfigurations.setValue(processMode, forKey: ParamKey.ProcessMode, startIndex: lastStatementModelIndex+1)
 				
 			} else if let configurationModel = s as? ConfigurationModel {
 			
 				Global.configurations.setValue(configurationModel.value, forKey: configurationModel.key)
-				newConfigurations.setValue(configurationModel.value, forKey: configurationModel.key, startIndex: index)
+				newConfigurations.setValue(configurationModel.value, forKey: configurationModel.key, startIndex: lastStatementModelIndex+1)
 				
 			} else if let statementModel = s as? StatementModel {
 				
 				// It is a StatementModel
-				statementModel.index = index
+				// FIXME: Remove this
+				lastStatementModelIndex = statementModel.index
 				
 			}
 		}
+		
+		// FIXME
+		sourceScanner.statementArray = sourceScanner.statementArray.filter { (o) -> Bool in
+			return o.isKindOfClass(StatementModel.self)
+		}
+		//
 		
 		var currentDocument = SourceCodeDocument()
 		sourceCodeDocuments.append(currentDocument)
