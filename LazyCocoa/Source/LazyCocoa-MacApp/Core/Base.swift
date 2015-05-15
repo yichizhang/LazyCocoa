@@ -25,7 +25,6 @@
 
 import Cocoa
 
-let fileKey_mainSource = "mainSource"
 let Global = GlobalClass.sharedInstance
 
 /*

@@ -93,26 +93,6 @@ class Document: NSDocument {
 		// You can also choose to override readFromFileWrapper:ofType:error: or readFromURL:ofType:error: instead.
 		// If you override either of these, you should also override -isEntireFileLoaded to return NO if the contents are lazily loaded.
 		var readSuccess = false
-		var jsonError:NSError?
-		
-		var tempObject: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.allZeros, error: &jsonError)
-		
-		if jsonError == nil {
-			
-			if let dataObject = tempObject as? NSDictionary{
-				if let mainSource = dataObject[fileKey_mainSource] as? String {
-					
-					fileContentString = mainSource
-					readSuccess = true
-					
-				} else {
-					
-				}
-			} else {
-				
-			}
-			
-		}
 		
 		if !readSuccess {
 			
