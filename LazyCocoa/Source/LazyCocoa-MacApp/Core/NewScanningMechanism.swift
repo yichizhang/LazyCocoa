@@ -100,16 +100,16 @@ class StatementModel: Printable {
 
 class SourceCodeScanner {
 	
-	var currentProcessMode = ""
 	// statementArray contains StatementModel, ConfigurationModel and String objects
 	var statementArray = [AnyObject]()
 	
-	private func appendNewStatementModelForProcessMode(processMode:String) {
-		
-		if currentProcessMode != processMode {
-			statementArray.append(processMode)
-			currentProcessMode = processMode
-		}
+	var currentStatementModel:StatementModel?
+	
+	private func addProcessMode(processMode:String) {
+		statementArray.append(processMode)
+	}
+	
+	private func appendNewStatementModel() {
 		
 		if let last = statementArray.last as? StatementModel {
 			if last.isEmpty == true {
@@ -119,25 +119,33 @@ class SourceCodeScanner {
 		statementArray.append( StatementModel() )
 	}
 
-	private func add(#statementItem:String, forProcessMode key:String) {
+	private func add(#statementItem:String) {
 		
 		if let last = statementArray.last as? StatementModel {
 			
 		} else {
-			appendNewStatementModelForProcessMode(key)
+			appendNewStatementModel()
 		}
 		
 		if let last = statementArray.last as? StatementModel {
 			last.add(statementItem: statementItem)
 		}
+		
+		/*
+		if currentStatementModel == nil {
+			appendNewStatementModel()
+		}
+		
+		currentStatementModel?.add(statementItem: statementItem)
+		*/
 	}
 	
-	private func addAsName(#statementItem:String, forProcessMode key:String) {
+	private func addAsName(#statementItem:String) {
 		
 		if let last = statementArray.last as? StatementModel {
 			
 		} else {
-			appendNewStatementModelForProcessMode(key)
+			appendNewStatementModel()
 		}
 		
 		if let last = statementArray.last as? StatementModel {
@@ -145,7 +153,7 @@ class SourceCodeScanner {
 		}
 	}
 	
-	private func addParameter(#parameterKey:String, parameterValue:String, forProcessMode key:String) {
+	private func addParameter(#parameterKey:String, parameterValue:String) {
 		
 		statementArray.append(ConfigurationModel(key: parameterKey, value: parameterValue))
 	}
@@ -166,21 +174,20 @@ class SourceCodeScanner {
 		let newlineAndSemicolon = newline.mutableCopy() as! NSMutableCharacterSet
 		newlineAndSemicolon.addCharactersInString(";")
 		
-		var currentProcessModeString:String!
 		var resultString:NSString?
 		
 		while scanner.scanLocation < count(scanner.string) {
 			
 			let currentChar = scanner.string.characterAtIndex(scanner.scanLocation)
-			let threeCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 3)
 			let twoCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 2)
+			let threeCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 3)
 			
 			if threeCharString == "!!!" {
 				//This is the string after !!!, before any white space or new line characters.
 				scanner.scanLocation += threeCharString.length
 				scanner.scanUpToCharactersFromSet(whitespaceAndNewline, intoString: &resultString)
 				if let resultString = resultString {
-					currentProcessModeString = resultString as String
+					addProcessMode(resultString as String)
 				}
 				
 			} else if twoCharString == StringConst.SigleLineComment {
@@ -205,7 +212,7 @@ class SourceCodeScanner {
 				
 				if parameterKey != nil && parameterValue != nil {
 					let processedParameterValue = (parameterValue as! String).stringByRemovingSingleLineComment()
-					self.addParameter(parameterKey: parameterKey as! String, parameterValue: processedParameterValue, forProcessMode: currentProcessModeString)
+					self.addParameter(parameterKey: parameterKey as! String, parameterValue: processedParameterValue)
 				}
 				
 			} else {
@@ -216,12 +223,12 @@ class SourceCodeScanner {
 					scanner.scanUpToString(StringConst.DoubleQuote, intoString: &resultString)
 					scanner.scanLocation += StringConst.DoubleQuote.length
 					
-					addAsName(statementItem: resultString as! String, forProcessMode: currentProcessModeString)
+					addAsName(statementItem: resultString as! String)
 					
 				} else {
 					scanner.scanUpToCharactersFromSet(whitespaceNewlineAndSemicolon, intoString: &resultString)
 					
-					add(statementItem: resultString as! String, forProcessMode: currentProcessModeString)
+					add(statementItem: resultString as! String)
 				}
 				
 			}
@@ -229,7 +236,7 @@ class SourceCodeScanner {
 			var oneCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 1)
 			
 			if oneCharString.containsCharactersInSet(newlineAndSemicolon) {
-				appendNewStatementModelForProcessMode(currentProcessModeString)
+				appendNewStatementModel()
 			}
 			
 			while scanner.scanLocation < count(scanner.string)
