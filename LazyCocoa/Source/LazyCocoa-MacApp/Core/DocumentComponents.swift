@@ -150,92 +150,6 @@ class ColorAndFontComponent : BasicDocumentComponent {
 		
 	}
 	
-	class FontModel : BaseModel, BaseModelProtocol{
-		
-		var typefaceName:String!
-		var fontSize:Float?
-		
-		convenience init(identifier:String, fontName:String){
-			self.init()
-			self.identifier = identifier
-			self.typefaceName = fontName
-		}
-		
-		convenience init(identifier:String, fontName:String, sizeString:String){
-			self.init()
-			self.identifier = identifier
-			self.typefaceName = fontName
-			self.fontSize = (sizeString as NSString).floatValue
-		}
-		
-		convenience init(identifier:String, fontName:String, sizeFloat:Float){
-			self.init()
-			self.identifier = identifier
-			self.typefaceName = fontName
-			self.fontSize = sizeFloat
-		}
-		
-		func autoMethodName() -> String {
-			if identifier.isMeantToBeFont {
-				return base + identifier
-			}else{
-				return base + identifier + StringConst.FontSuffix
-			}
-		}
-		
-		func statementString() -> String {
-			
-			let firstParameter:Argument = Argument(object: typefaceName, formattingStrategy: .StringLiteral )
-			var secondParameter:AnyObject!
-			
-			if let fontSize = fontSize {
-				secondParameter = fontSize
-			} else {
-				secondParameter = "size"
-			}
-			
-			let statementString = String.initString(className:Global.fontClassName, initMethodSignature: Global.fontNameAndSizeInitSignatureString, arguments: [firstParameter, secondParameter])
-			
-			return statementString
-		}
-		
-		func documentationString() -> String {
-			var string:String!
-			if let fontSize = fontSize {
-				string = "Font name: \(typefaceName), font size: \(fontSize)"
-			} else {
-				string = "Font name: \(typefaceName)"
-			}
-			return string
-		}
-		
-		func funcString() -> String {
-			
-			var formatString:NSString
-			
-			if let fontSize = fontSize {
-				
-				formatString =
-					"class func %@() -> %@ {\n" +
-					"\t" + "return %@!\n" +
-				"}"
-				
-			} else {
-				
-				// NO FONT SIZE PROVIDED
-				formatString =
-					"class func %@OfSize(size:CGFloat) -> %@ {\n" +
-					"\t" + "return %@!\n" +
-				"}"
-				
-			}
-			
-			return NSString(format: formatString, autoMethodName(), Global.fontClassName, statementString()) as String
-		}
-		
-		
-	}
-	
 	var modelDictionary = [String:StatementModel]()
 	
 	var fontMethodsString:String {
@@ -246,28 +160,33 @@ class ColorAndFontComponent : BasicDocumentComponent {
 			// statementModel.names --- fontNameString
 			
 			// Can produce "font of size" func string or "full" func string
-			if let fontName = statementModel.names.first{
-				var fontModel:FontModel!
+			if let fontName = statementModel.names.first {
+				if let identifier = statementModel.identifiers.first {
 				
-				// Can produce "full" font func string
-				if let fontSizeString = statementModel.numbers.first {
-					fontModel = FontModel(
-						identifier: statementModel.identifiers.first!,
-						fontName: fontName,
-						sizeString: fontSizeString
-					)
-				} else {
-					fontModel = FontModel(
-						identifier: statementModel.identifiers.first!,
-						fontName: fontName
-					)
-				}
-				
-				fontModel.base = configurationForKey(ParamKey.Prefix, index: statementModel.index)
+					var fontSizeString:String? = statementModel.numbers.first
 					
-				fontString +=
-					fontModel.documentationString().stringInSwiftDocumentationStyle() +
-					fontModel.funcString() + StringConst.NewLine + StringConst.NewLine
+					let prefix = configurationForKey(ParamKey.Prefix, index: statementModel.index)
+					
+					var documentationString = "Font name: \(fontName)"
+					if let fontSizeString = fontSizeString {
+						documentationString += ", font size: \(fontSizeString)"
+					}
+					
+					let firstParameter:Argument = Argument(object: fontName, formattingStrategy: .StringLiteral )
+					var secondParameter:AnyObject = fontSizeString ?? "size"
+					
+					let statementString = String.initString(className:Global.fontClassName, initMethodSignature: Global.fontNameAndSizeInitSignatureString, arguments: [firstParameter, secondParameter])
+					
+					let funcString = "class func " + prefix + identifier +
+						(identifier.isMeantToBeFont ? "" : StringConst.FontSuffix) +
+						(fontSizeString == nil ? "OfSize(size:CGFloat)" : "()") + " -> \(Global.fontClassName) {\n" +
+						"\t" + "return \(statementString)!\n" +
+						"}"
+						
+					fontString +=
+						documentationString.stringInSwiftDocumentationStyle() +
+						funcString + StringConst.NewLine + StringConst.NewLine
+				}
 			}
 		}
 		
