@@ -276,8 +276,8 @@ class DocumentAnalyzer : ConfigurationProtocol {
 					component = UserDefaultsComponent(delegate: self)
 					break
 				default:
-					
-					break
+					i++
+					continue
 				}
 				
 				var startIndex = configuration.startIndex
@@ -292,9 +292,8 @@ class DocumentAnalyzer : ConfigurationProtocol {
 					endIndex = sourceScanner.statementArray.count
 				}
 				
-				component.addStatements(
-					Array(sourceScanner.statementArray[startIndex..<endIndex])
-					)
+				let a = Array(sourceScanner.statementArray[startIndex..<endIndex])
+				component.addStatements(a)
 				
 				if let c = newConfigurations.valueForKey(ParamKey.ExportTo, startIndex: startIndex, endIndex: endIndex) {
 					
