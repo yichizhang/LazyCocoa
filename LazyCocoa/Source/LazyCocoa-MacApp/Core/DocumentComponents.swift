@@ -103,53 +103,6 @@ class BasicDocumentComponent : DocumentComponent, Printable {
 
 class ColorAndFontComponent : BasicDocumentComponent {
 	
-	class BaseModel {
-		
-		var identifier = "someIdentifier"
-		var base = ""
-	}
-
-	class ColorModel : BaseModel, BaseModelProtocol{
-		
-		var colorHexString:String!
-		var colorComponentArray:[CGFloat]!
-		
-		convenience init(identifier:String, colorHexString:String){
-			self.init()
-			
-			self.identifier = identifier
-			self.colorHexString = colorHexString
-			self.colorComponentArray = ColorFormatter.componentArrayFrom(hexString: colorHexString)
-		}
-		
-		func autoMethodName() -> String {
-			if identifier.isMeantToBeColor {
-				return base + identifier
-			}else{
-				return base + identifier + StringConst.ColorSuffix
-			}
-		}
-		
-		func statementString() -> String {
-			return String.initString(className: Global.colorClassName, initMethodSignature: Global.colorRGBAInitSignatureString, arguments: colorComponentArray)
-		}
-		
-		func documentationString() -> String {
-			return "Color code: \(colorHexString)"
-		}
-		
-		func funcString() -> String {
-			
-			let formatString:NSString =
-			"class func %@() -> %@ {\n" +
-				"\t" + "return %@\n" +
-			"}"
-			
-			return NSString(format: formatString, autoMethodName(), Global.colorClassName, statementString() ) as String
-		}
-		
-	}
-	
 	var modelDictionary = [String:StatementModel]()
 	
 	var fontMethodsString:String {
@@ -197,21 +150,29 @@ class ColorAndFontComponent : BasicDocumentComponent {
 		var colorString = ""
 		
 		for statementModel in statementArray {
-			var colorModel:ColorModel!
 			
 			// statementModel.colorCodes --- colorCodeString
 			if let colorCodeString = statementModel.colorCodes.first {
-				
-				colorModel = ColorModel(
-					identifier: statementModel.identifiers.first!,
-					colorHexString: colorCodeString
-				)
-				
-				colorModel.base = configurationForKey(ParamKey.Prefix, index: statementModel.index)
-				
-				colorString +=
-					colorModel.documentationString().stringInSwiftDocumentationStyle() +
-					colorModel.funcString() + StringConst.NewLine + StringConst.NewLine
+				if let identifier = statementModel.identifiers.first {
+					
+					let prefix = configurationForKey(ParamKey.Prefix, index: statementModel.index)
+					
+					let documentationString = "Color code: \(colorCodeString)"
+					
+					let colorComponentArray = ColorFormatter.componentArrayFrom(hexString: colorCodeString)
+					let statementString = String.initString(className: Global.colorClassName, initMethodSignature: Global.colorRGBAInitSignatureString, arguments: colorComponentArray)
+					
+					let funcString = "class func " + prefix + identifier +
+						(identifier.isMeantToBeColor ? "" : StringConst.ColorSuffix) +
+						"() -> \(Global.colorClassName) {\n" +
+						"\t" + "return \(statementString)\n" +
+					"}"
+					
+					colorString +=
+						documentationString.stringInSwiftDocumentationStyle() +
+						funcString + StringConst.NewLine + StringConst.NewLine
+					
+				}
 			}
 		}
 		
