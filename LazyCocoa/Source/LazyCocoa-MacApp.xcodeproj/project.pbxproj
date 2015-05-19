@@ -28,6 +28,8 @@
 		1288C4771AFB983E0067EB60 /* CodeGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1288C4761AFB983E0067EB60 /* CodeGeneration.swift */; };
 		1288C4781AFB99180067EB60 /* CodeGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1288C4761AFB983E0067EB60 /* CodeGeneration.swift */; };
 		12C5359D1A8C216900B1B287 /* NewScanningMechanism.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12C5359C1A8C216900B1B287 /* NewScanningMechanism.swift */; };
+		12DC16161B0B636700BDB5C5 /* LineNumberRulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12DC16151B0B636700BDB5C5 /* LineNumberRulerView.swift */; };
+		12DC16171B0B645A00BDB5C5 /* LineNumberRulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12DC16151B0B636700BDB5C5 /* LineNumberRulerView.swift */; };
 		12E12DD11A89181D001E96E0 /* ColorScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E12DD01A89181D001E96E0 /* ColorScanner.swift */; };
 		12EFA3F11ADFA3B100B9884C /* ColorScannerDemo.txt in Resources */ = {isa = PBXBuildFile; fileRef = 124E2A981AD590E800174583 /* ColorScannerDemo.txt */; };
 		12EFA3F41ADFA5FC00B9884C /* ColorScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12E12DD01A89181D001E96E0 /* ColorScanner.swift */; };
@@ -77,6 +79,7 @@
 		12767EE91A503E0E00BCFED3 /* DocumentComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentComponents.swift; sourceTree = "<group>"; };
 		1288C4761AFB983E0067EB60 /* CodeGeneration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeGeneration.swift; sourceTree = "<group>"; };
 		12C5359C1A8C216900B1B287 /* NewScanningMechanism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewScanningMechanism.swift; sourceTree = "<group>"; };
+		12DC16151B0B636700BDB5C5 /* LineNumberRulerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineNumberRulerView.swift; sourceTree = "<group>"; };
 		12E12DD01A89181D001E96E0 /* ColorScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScanner.swift; sourceTree = "<group>"; };
 		12F20B1B1ABED56700B5611A /* ChangeHeaderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeHeaderViewController.swift; sourceTree = "<group>"; };
 		12F53EE61ACF5F18006A0B94 /* MIT_template.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = MIT_template.txt; sourceTree = "<group>"; };
@@ -127,6 +130,7 @@
 				12F9837C1A4D8BC30041FE43 /* Core */,
 				1214AF5A1A4B346100F31ED8 /* AppDelegate.swift */,
 				1214AF5C1A4B346100F31ED8 /* SourceEditViewController.swift */,
+				12DC16151B0B636700BDB5C5 /* LineNumberRulerView.swift */,
 				120927E11A87E37F0023D05B /* ConversionViewController.swift */,
 				12F20B1B1ABED56700B5611A /* ChangeHeaderViewController.swift */,
 				1214AF601A4B346100F31ED8 /* Images.xcassets */,
@@ -293,6 +297,7 @@
 				12E12DD11A89181D001E96E0 /* ColorScanner.swift in Sources */,
 				12153D121AE1413E002B34D0 /* Extensions.swift in Sources */,
 				122941EA1AAB77B700782A2C /* UserDefaults.swift in Sources */,
+				12DC16161B0B636700BDB5C5 /* LineNumberRulerView.swift in Sources */,
 				1214AF5B1A4B346100F31ED8 /* AppDelegate.swift in Sources */,
 				120927E21A87E37F0023D05B /* ConversionViewController.swift in Sources */,
 				12F983801A4D8BC30041FE43 /* DocumentAnalyzer.swift in Sources */,
@@ -316,6 +321,7 @@
 				124E2A971AD565A500174583 /* ColorFormatter.swift in Sources */,
 				12EFA4021ADFA63000B9884C /* ConversionViewController.swift in Sources */,
 				12153D151AE14156002B34D0 /* Extensions.swift in Sources */,
+				12DC16171B0B645A00BDB5C5 /* LineNumberRulerView.swift in Sources */,
 				12EFA3FD1ADFA61D00B9884C /* AppDelegate.swift in Sources */,
 				12EFA3FC1ADFA61900B9884C /* UserDefaults.swift in Sources */,
 				12EFA3FB1ADFA61500B9884C /* NewScanningMechanism.swift in Sources */,

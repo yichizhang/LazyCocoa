@@ -29,6 +29,7 @@ import AppKit
 class SourceEditViewController: NSViewController {
 	
 	@IBOutlet var sourceFileTextView: NSTextView!
+	var rulerView:LineNumberRulerView!
 	
 	@IBOutlet weak var platformSegControl: NSSegmentedControl!
 	
@@ -50,6 +51,14 @@ class SourceEditViewController: NSViewController {
 		sourceFileTextView.string = String.stringInBundle(name: "SourceDemo")
 		
 		update()
+		
+		if let scrollView = sourceFileTextView.enclosingScrollView {
+			var rulerView = LineNumberRulerView(textView: sourceFileTextView)
+			
+			scrollView.verticalRulerView = rulerView
+			scrollView.hasVerticalRuler = true
+			scrollView.rulersVisible = true
+		}
 	}
 	
 	func updateUserInterfaceSettings() {
