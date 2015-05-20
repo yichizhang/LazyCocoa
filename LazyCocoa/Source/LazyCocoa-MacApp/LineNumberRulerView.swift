@@ -52,10 +52,17 @@ class LineNumberRulerView: NSRulerView {
 			
 			let relativePoint = self.convertPoint(NSZeroPoint, fromView: textView)
 			
-			for lineNumber in 1..<25 {
-				let attString = NSAttributedString(string: "\(lineNumber)")
+			let visibleGlyphRange = textView.layoutManager!.glyphRangeForBoundingRect(textView.visibleRect, inTextContainer: textView.textContainer!)
+			let firstVisibleGlyphCharacterIndex = textView.layoutManager!.characterIndexForGlyphAtIndex(visibleGlyphRange.location)
+			
+			let newLineRegex = NSRegularExpression(pattern: "\n", options: .allZeros, error: nil)!
+			// The line number for the first visible line
+			var lineNumber = newLineRegex.numberOfMatchesInString(textView.string!, options: .allZeros, range: NSMakeRange(0, firstVisibleGlyphCharacterIndex)) + 1
+			
+//			for lineNumber in 1..<25 {
+				let attString = NSAttributedString(string: "\(lineNumber)", attributes: [NSFontAttributeName: textView.font!, NSForegroundColorAttributeName: NSColor.grayColor()])
 				attString.drawAtPoint(NSPoint(x: 20, y: relativePoint.y + CGFloat((lineNumber-1) * 16)))
-			}
+//			}
 		}
 	}
 }
