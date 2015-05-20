@@ -38,6 +38,8 @@ class LineNumberRulerView: NSRulerView {
 		super.init(scrollView: textView.enclosingScrollView!, orientation: NSRulerOrientation.VerticalRuler)
 		self.font = textView.font ?? NSFont.systemFontOfSize(NSFont.smallSystemFontSize())
 		self.clientView = textView
+		
+		self.ruleThickness = 40
 	}
 
 	required init?(coder: NSCoder) {
@@ -45,10 +47,15 @@ class LineNumberRulerView: NSRulerView {
 	}
 	
 	override func drawHashMarksAndLabelsInRect(rect: NSRect) {
-	
-		for lineNumber in 1..<25 {
-			let attString = NSAttributedString(string: "\(lineNumber)")
-			attString.drawAtPoint(NSPoint(x: 0, y: CGFloat((lineNumber-1) * 16)))
+		
+		if let textView = self.clientView as? NSTextView {
+			
+			let relativePoint = self.convertPoint(NSZeroPoint, fromView: textView)
+			
+			for lineNumber in 1..<25 {
+				let attString = NSAttributedString(string: "\(lineNumber)")
+				attString.drawAtPoint(NSPoint(x: 20, y: relativePoint.y + CGFloat((lineNumber-1) * 16)))
+			}
 		}
 	}
 }
