@@ -105,6 +105,10 @@ class LineNumberRulerView: NSRulerView {
 					lineNumber++
 				}
 				
+				// Draw line number for the extra line at the end of the text
+				if layoutManager.extraLineFragmentTextContainer != nil {
+					drawLineNumber("\(lineNumber)", layoutManager.extraLineFragmentRect.minY)
+				}
 			}
 		}
 		
