@@ -77,11 +77,6 @@ extension String {
 		
 		return hasSuffix(StringConst.ColorSuffix)
 	}
-	var isMeantToBeNeitherFontOrColor:Bool {
-		
-		return !(isMeantToBeFont && isMeantToBeColor)
-	}
-	
 	
 	var length:Int{
 		
