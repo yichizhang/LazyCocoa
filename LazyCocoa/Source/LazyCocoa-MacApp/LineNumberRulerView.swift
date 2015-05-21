@@ -49,20 +49,64 @@ class LineNumberRulerView: NSRulerView {
 	override func drawHashMarksAndLabelsInRect(rect: NSRect) {
 		
 		if let textView = self.clientView as? NSTextView {
+			if let layoutManager = textView.layoutManager {
 			
-			let relativePoint = self.convertPoint(NSZeroPoint, fromView: textView)
-			
-			let visibleGlyphRange = textView.layoutManager!.glyphRangeForBoundingRect(textView.visibleRect, inTextContainer: textView.textContainer!)
-			let firstVisibleGlyphCharacterIndex = textView.layoutManager!.characterIndexForGlyphAtIndex(visibleGlyphRange.location)
-			
-			let newLineRegex = NSRegularExpression(pattern: "\n", options: .allZeros, error: nil)!
-			// The line number for the first visible line
-			var lineNumber = newLineRegex.numberOfMatchesInString(textView.string!, options: .allZeros, range: NSMakeRange(0, firstVisibleGlyphCharacterIndex)) + 1
-			
-//			for lineNumber in 1..<25 {
-				let attString = NSAttributedString(string: "\(lineNumber)", attributes: [NSFontAttributeName: textView.font!, NSForegroundColorAttributeName: NSColor.grayColor()])
-				attString.drawAtPoint(NSPoint(x: 20, y: relativePoint.y + CGFloat((lineNumber-1) * 16)))
-//			}
+				let lineNumberAttributes = [NSFontAttributeName: textView.font!, NSForegroundColorAttributeName: NSColor.grayColor()]
+				
+				let relativePoint = self.convertPoint(NSZeroPoint, fromView: textView)
+				
+				let visibleGlyphRange = layoutManager.glyphRangeForBoundingRect(textView.visibleRect, inTextContainer: textView.textContainer!)
+				let firstVisibleGlyphCharacterIndex = layoutManager.characterIndexForGlyphAtIndex(visibleGlyphRange.location)
+				
+				let newLineRegex = NSRegularExpression(pattern: "\n", options: .allZeros, error: nil)!
+				// The line number for the first visible line
+				var lineNumber = newLineRegex.numberOfMatchesInString(textView.string!, options: .allZeros, range: NSMakeRange(0, firstVisibleGlyphCharacterIndex)) + 1
+				
+				var glyphIndexForStringLine = visibleGlyphRange.location
+				
+				// Go through each line in the string.
+				while glyphIndexForStringLine < NSMaxRange(visibleGlyphRange) {
+					
+					// Range of current line in the string.
+					let characterRangeForStringLine = (textView.string! as NSString).lineRangeForRange(
+						NSMakeRange( layoutManager.characterIndexForGlyphAtIndex(glyphIndexForStringLine), 0 )
+					)
+					let glyphRangeForStringLine = layoutManager.glyphRangeForCharacterRange(characterRangeForStringLine, actualCharacterRange: nil)
+				
+					var glyphIndexForGlyphLine = glyphIndexForStringLine
+					var glyphLineCount = 0
+					
+					while ( glyphIndexForGlyphLine < NSMaxRange(glyphRangeForStringLine) ) {
+						
+						// See if the current line in the string spread across
+						// several lines of glyphs
+						var effectiveRange = NSMakeRange(0, 0)
+						
+						// Range of current "line of glyphs". If a line is wrapped,
+						// then it will have more than one "line of glyphs"
+						let lineRect = layoutManager.lineFragmentRectForGlyphAtIndex(glyphIndexForGlyphLine, effectiveRange: &effectiveRange, withoutAdditionalLayout: true)
+						
+						if glyphLineCount > 0 {
+							
+							let attString = NSAttributedString(string: "-", attributes: lineNumberAttributes)
+							attString.drawAtPoint(NSPoint(x: 20, y: relativePoint.y + lineRect.minY))
+							
+						} else {
+							
+							let attString = NSAttributedString(string: "\(lineNumber)", attributes: lineNumberAttributes)
+							attString.drawAtPoint(NSPoint(x: 20, y: relativePoint.y + lineRect.minY))
+						}
+						
+						// Move to next glyph line
+						glyphLineCount++
+						glyphIndexForGlyphLine = NSMaxRange(effectiveRange)
+					}
+					
+					glyphIndexForStringLine = NSMaxRange(glyphRangeForStringLine)
+					lineNumber++
+				}
+			}
 		}
+		
 	}
 }
