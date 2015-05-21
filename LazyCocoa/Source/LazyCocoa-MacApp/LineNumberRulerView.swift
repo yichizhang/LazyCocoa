@@ -51,9 +51,13 @@ class LineNumberRulerView: NSRulerView {
 		if let textView = self.clientView as? NSTextView {
 			if let layoutManager = textView.layoutManager {
 			
-				let lineNumberAttributes = [NSFontAttributeName: textView.font!, NSForegroundColorAttributeName: NSColor.grayColor()]
-				
 				let relativePoint = self.convertPoint(NSZeroPoint, fromView: textView)
+				let lineNumberAttributes = [NSFontAttributeName: textView.font!, NSForegroundColorAttributeName: NSColor.grayColor()]
+				let drawLineNumber = { (lineNumberString:String, y:CGFloat) -> Void in
+					let attString = NSAttributedString(string: lineNumberString, attributes: lineNumberAttributes)
+					let x = 35 - attString.size.width
+					attString.drawAtPoint(NSPoint(x: x, y: relativePoint.y + y))
+				}
 				
 				let visibleGlyphRange = layoutManager.glyphRangeForBoundingRect(textView.visibleRect, inTextContainer: textView.textContainer!)
 				let firstVisibleGlyphCharacterIndex = layoutManager.characterIndexForGlyphAtIndex(visibleGlyphRange.location)
@@ -87,14 +91,9 @@ class LineNumberRulerView: NSRulerView {
 						let lineRect = layoutManager.lineFragmentRectForGlyphAtIndex(glyphIndexForGlyphLine, effectiveRange: &effectiveRange, withoutAdditionalLayout: true)
 						
 						if glyphLineCount > 0 {
-							
-							let attString = NSAttributedString(string: "-", attributes: lineNumberAttributes)
-							attString.drawAtPoint(NSPoint(x: 20, y: relativePoint.y + lineRect.minY))
-							
+							drawLineNumber("-", lineRect.minY)
 						} else {
-							
-							let attString = NSAttributedString(string: "\(lineNumber)", attributes: lineNumberAttributes)
-							attString.drawAtPoint(NSPoint(x: 20, y: relativePoint.y + lineRect.minY))
+							drawLineNumber("\(lineNumber)", lineRect.minY)
 						}
 						
 						// Move to next glyph line
@@ -105,6 +104,7 @@ class LineNumberRulerView: NSRulerView {
 					glyphIndexForStringLine = NSMaxRange(glyphRangeForStringLine)
 					lineNumber++
 				}
+				
 			}
 		}
 		
