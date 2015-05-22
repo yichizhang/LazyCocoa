@@ -25,6 +25,8 @@
 
 import Cocoa
 
+/*
+
 class Document: NSDocument {
 
 	var fileContentString = ""
@@ -133,3 +135,4 @@ class Document: NSDocument {
 	}
 }
 
+*/
