@@ -24,6 +24,7 @@
 		124E2A961AD55F5E00174583 /* ColorFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A951AD55F5E00174583 /* ColorFormatter.swift */; };
 		124E2A971AD565A500174583 /* ColorFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A951AD55F5E00174583 /* ColorFormatter.swift */; };
 		124E2A991AD590E800174583 /* ColorScannerDemo.txt in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A981AD590E800174583 /* ColorScannerDemo.txt */; };
+		126A85EE1B101F3900E6C3C1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 126A85ED1B101F3900E6C3C1 /* main.swift */; };
 		12767EEA1A503E0E00BCFED3 /* DocumentComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12767EE91A503E0E00BCFED3 /* DocumentComponents.swift */; };
 		1288C4771AFB983E0067EB60 /* CodeGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1288C4761AFB983E0067EB60 /* CodeGeneration.swift */; };
 		1288C4781AFB99180067EB60 /* CodeGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1288C4761AFB983E0067EB60 /* CodeGeneration.swift */; };
@@ -58,6 +59,18 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		126A85E91B101F3900E6C3C1 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		120927E11A87E37F0023D05B /* ConversionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversionViewController.swift; sourceTree = "<group>"; };
 		120D1CBB1AD6C3ED0062B26E /* SourceDemo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SourceDemo.txt; sourceTree = "<group>"; };
@@ -76,6 +89,8 @@
 		122941E91AAB77B700782A2C /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		124E2A951AD55F5E00174583 /* ColorFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorFormatter.swift; sourceTree = "<group>"; };
 		124E2A981AD590E800174583 /* ColorScannerDemo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ColorScannerDemo.txt; sourceTree = "<group>"; };
+		126A85EB1B101F3900E6C3C1 /* lzyc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lzyc; sourceTree = BUILT_PRODUCTS_DIR; };
+		126A85ED1B101F3900E6C3C1 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		12767EE91A503E0E00BCFED3 /* DocumentComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentComponents.swift; sourceTree = "<group>"; };
 		1288C4761AFB983E0067EB60 /* CodeGeneration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeGeneration.swift; sourceTree = "<group>"; };
 		12C5359C1A8C216900B1B287 /* NewScanningMechanism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewScanningMechanism.swift; sourceTree = "<group>"; };
@@ -103,6 +118,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		126A85E81B101F3900E6C3C1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -111,6 +133,7 @@
 			children = (
 				1214AF571A4B346100F31ED8 /* LazyCocoa-MacApp */,
 				1214AF6C1A4B346100F31ED8 /* LazyCocoa-MacAppTests */,
+				126A85EC1B101F3900E6C3C1 /* lzyc */,
 				1214AF561A4B346100F31ED8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -120,6 +143,7 @@
 			children = (
 				1214AF551A4B346100F31ED8 /* LazyCocoa-MacApp.app */,
 				1214AF691A4B346100F31ED8 /* LazyCocoa-MacAppTests.xctest */,
+				126A85EB1B101F3900E6C3C1 /* lzyc */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -166,6 +190,14 @@
 				1214AF6E1A4B346100F31ED8 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		126A85EC1B101F3900E6C3C1 /* lzyc */ = {
+			isa = PBXGroup;
+			children = (
+				126A85ED1B101F3900E6C3C1 /* main.swift */,
+			);
+			path = lzyc;
 			sourceTree = "<group>";
 		};
 		12F9837C1A4D8BC30041FE43 /* Core */ = {
@@ -225,6 +257,23 @@
 			productReference = 1214AF691A4B346100F31ED8 /* LazyCocoa-MacAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		126A85EA1B101F3900E6C3C1 /* lzyc */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 126A85F11B101F3900E6C3C1 /* Build configuration list for PBXNativeTarget "lzyc" */;
+			buildPhases = (
+				126A85E71B101F3900E6C3C1 /* Sources */,
+				126A85E81B101F3900E6C3C1 /* Frameworks */,
+				126A85E91B101F3900E6C3C1 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = lzyc;
+			productName = lzyc;
+			productReference = 126A85EB1B101F3900E6C3C1 /* lzyc */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -240,6 +289,9 @@
 					1214AF681A4B346100F31ED8 = {
 						CreatedOnToolsVersion = 6.1.1;
 						TestTargetID = 1214AF541A4B346100F31ED8;
+					};
+					126A85EA1B101F3900E6C3C1 = {
+						CreatedOnToolsVersion = 6.3;
 					};
 				};
 			};
@@ -258,6 +310,7 @@
 			targets = (
 				1214AF541A4B346100F31ED8 /* LazyCocoa-MacApp */,
 				1214AF681A4B346100F31ED8 /* LazyCocoa-MacAppTests */,
+				126A85EA1B101F3900E6C3C1 /* lzyc */,
 			);
 		};
 /* End PBXProject section */
@@ -330,6 +383,14 @@
 				12EFA3F61ADFA60200B9884C /* Base.swift in Sources */,
 				12153D141AE14153002B34D0 /* Document.swift in Sources */,
 				12EFA3F81ADFA60D00B9884C /* DocumentAnalyzer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		126A85E71B101F3900E6C3C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				126A85EE1B101F3900E6C3C1 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,6 +560,28 @@
 			};
 			name = Release;
 		};
+		126A85EF1B101F3900E6C3C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		126A85F01B101F3900E6C3C1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -528,6 +611,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		126A85F11B101F3900E6C3C1 /* Build configuration list for PBXNativeTarget "lzyc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				126A85EF1B101F3900E6C3C1 /* Debug */,
+				126A85F01B101F3900E6C3C1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
