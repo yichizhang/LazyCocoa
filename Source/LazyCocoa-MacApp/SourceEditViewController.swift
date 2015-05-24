@@ -97,7 +97,7 @@ class SourceEditViewController: NSViewController {
 			mainGeneratedCodeTextView.string = ""
 		}
 		
-		println(analyzer.sourceCodeDocuments)
+		// println(analyzer.sourceCodeDocuments)
 	}
 	
 	override var representedObject: AnyObject? {

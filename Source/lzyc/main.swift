@@ -43,12 +43,11 @@ if ( Process.arguments.count < 2) {
 } else {
 	
 	let command = Process.arguments[1]
+	var fileName = "Lazyfile"
+	let fileManager = NSFileManager.defaultManager()
 	
 	switch command {
 	case "init":
-		
-		var fileName = "Lazyfile"
-		let fileManager = NSFileManager.defaultManager()
 		
 		if fileManager.fileExistsAtPath(fileName) {
 			
@@ -67,6 +66,46 @@ if ( Process.arguments.count < 2) {
 		break
 	case "update":
 		
+		if fileManager.fileExistsAtPath(fileName) {
+			
+			var analyzer = DocumentAnalyzer()
+			analyzer.platform = Platform.iOS
+
+			var error:NSError?
+			let sourceString = NSString(contentsOfFile: fileName, encoding: NSUTF8StringEncoding, error: &error)
+
+			if let sourceString = sourceString {
+				
+				analyzer.inputString = sourceString as String
+				analyzer.process()
+				
+				for d in analyzer.sourceCodeDocuments {
+					
+					if d.exportTo.isEmpty == false {
+						
+						let exportPath = d.exportTo.stringByTrimmingWhiteSpaceAndNewLineCharacters()
+						
+						let fullExportPath = fileManager.currentDirectoryPath.stringByAppendingPathComponent(exportPath)
+						
+						d.documentString.writeToFile(fullExportPath, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
+						
+						if let error = error {
+							println("Failed to export:  \(fullExportPath)")
+						} else {
+							println("Exported successfully:  \(fullExportPath)")
+						}
+					} else {
+						println("Failed to export, export path is not set")
+					}
+				}
+			} else {
+				
+				println("\(fileName) can not be opened")
+			}
+		} else {
+			
+			println("\(fileName) does not exist")
+		}
 		break
 	default:
 		println("Invalid command!")

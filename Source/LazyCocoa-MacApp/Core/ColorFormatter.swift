@@ -93,10 +93,10 @@ class ColorFormatter {
 				blue  = CGFloat((hexValue & 0x0000FF00) >> 8)  / 255.0
 				alpha = CGFloat(hexValue & 0x000000FF)         / 255.0
 			} else {
-				print("error")
+				// Error
 			}
 		} else {
-			println("scan hex error")
+			// Scan hex error
 		}
 		
 		return [red, green, blue, alpha]

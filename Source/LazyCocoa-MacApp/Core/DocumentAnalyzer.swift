@@ -314,7 +314,7 @@ class DocumentAnalyzer : ConfigurationProtocol {
 			i++
 		}
 		
-		println(newConfigurations.values)
+		// println(newConfigurations.values)
 	}
 	
 	// Configuration Protocol

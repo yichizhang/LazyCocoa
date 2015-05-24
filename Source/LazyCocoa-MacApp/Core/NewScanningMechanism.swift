@@ -232,7 +232,7 @@ class SourceCodeScanner {
 		
 		addCurrentStatementModel()
 		
-		println("--\n\n\n--")
-		println(self.statementArray)
+		// println("--\n\n\n--")
+		// println(self.statementArray)
 	}
 }
