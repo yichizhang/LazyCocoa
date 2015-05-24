@@ -24,6 +24,9 @@
 		124E2A961AD55F5E00174583 /* ColorFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A951AD55F5E00174583 /* ColorFormatter.swift */; };
 		124E2A971AD565A500174583 /* ColorFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A951AD55F5E00174583 /* ColorFormatter.swift */; };
 		124E2A991AD590E800174583 /* ColorScannerDemo.txt in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A981AD590E800174583 /* ColorScannerDemo.txt */; };
+		1251B5BA1B11D37900F4A051 /* LZYDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1251B5B91B11D37900F4A051 /* LZYDataManager.m */; };
+		1251B5BC1B11D44C00F4A051 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1251B5BB1B11D44C00F4A051 /* StringExtensions.swift */; };
+		1251B5BE1B11D4BF00F4A051 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1251B5BB1B11D44C00F4A051 /* StringExtensions.swift */; };
 		126A85EE1B101F3900E6C3C1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 126A85ED1B101F3900E6C3C1 /* main.swift */; };
 		12767EEA1A503E0E00BCFED3 /* DocumentComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12767EE91A503E0E00BCFED3 /* DocumentComponents.swift */; };
 		1288C4771AFB983E0067EB60 /* CodeGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1288C4761AFB983E0067EB60 /* CodeGeneration.swift */; };
@@ -89,6 +92,10 @@
 		122941E91AAB77B700782A2C /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		124E2A951AD55F5E00174583 /* ColorFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorFormatter.swift; sourceTree = "<group>"; };
 		124E2A981AD590E800174583 /* ColorScannerDemo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ColorScannerDemo.txt; sourceTree = "<group>"; };
+		1251B5B71B11D37900F4A051 /* lzyc-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "lzyc-Bridging-Header.h"; sourceTree = "<group>"; };
+		1251B5B81B11D37900F4A051 /* LZYDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LZYDataManager.h; sourceTree = "<group>"; };
+		1251B5B91B11D37900F4A051 /* LZYDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LZYDataManager.m; sourceTree = "<group>"; };
+		1251B5BB1B11D44C00F4A051 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		126A85EB1B101F3900E6C3C1 /* lzyc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = lzyc; sourceTree = BUILT_PRODUCTS_DIR; };
 		126A85ED1B101F3900E6C3C1 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		12767EE91A503E0E00BCFED3 /* DocumentComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentComponents.swift; sourceTree = "<group>"; };
@@ -195,6 +202,9 @@
 		126A85EC1B101F3900E6C3C1 /* lzyc */ = {
 			isa = PBXGroup;
 			children = (
+				1251B5B71B11D37900F4A051 /* lzyc-Bridging-Header.h */,
+				1251B5B81B11D37900F4A051 /* LZYDataManager.h */,
+				1251B5B91B11D37900F4A051 /* LZYDataManager.m */,
 				126A85ED1B101F3900E6C3C1 /* main.swift */,
 			);
 			path = lzyc;
@@ -205,8 +215,8 @@
 			children = (
 				12F983831A4D92380041FE43 /* Base.swift */,
 				12153D0D1AE1413E002B34D0 /* ChangeHeader.swift */,
-				124E2A951AD55F5E00174583 /* ColorFormatter.swift */,
 				1288C4761AFB983E0067EB60 /* CodeGeneration.swift */,
+				124E2A951AD55F5E00174583 /* ColorFormatter.swift */,
 				12E12DD01A89181D001E96E0 /* ColorScanner.swift */,
 				12153D0E1AE1413E002B34D0 /* Document.swift */,
 				12F9837E1A4D8BC30041FE43 /* DocumentAnalyzer.swift */,
@@ -214,6 +224,7 @@
 				12153D0F1AE1413E002B34D0 /* Extensions.swift */,
 				12FAA5611A4EF04400C3312B /* LazyCocoa-MacApp-Bridging-Header.h */,
 				12C5359C1A8C216900B1B287 /* NewScanningMechanism.swift */,
+				1251B5BB1B11D44C00F4A051 /* StringExtensions.swift */,
 				122941E91AAB77B700782A2C /* UserDefaults.swift */,
 			);
 			path = Core;
@@ -354,6 +365,7 @@
 				1214AF5B1A4B346100F31ED8 /* AppDelegate.swift in Sources */,
 				120927E21A87E37F0023D05B /* ConversionViewController.swift in Sources */,
 				12F983801A4D8BC30041FE43 /* DocumentAnalyzer.swift in Sources */,
+				1251B5BC1B11D44C00F4A051 /* StringExtensions.swift in Sources */,
 				12F983841A4D92380041FE43 /* Base.swift in Sources */,
 				12153D111AE1413E002B34D0 /* Document.swift in Sources */,
 				12C5359D1A8C216900B1B287 /* NewScanningMechanism.swift in Sources */,
@@ -378,6 +390,7 @@
 				12EFA3FD1ADFA61D00B9884C /* AppDelegate.swift in Sources */,
 				12EFA3FC1ADFA61900B9884C /* UserDefaults.swift in Sources */,
 				12EFA3FB1ADFA61500B9884C /* NewScanningMechanism.swift in Sources */,
+				1251B5BE1B11D4BF00F4A051 /* StringExtensions.swift in Sources */,
 				12EFA3F41ADFA5FC00B9884C /* ColorScanner.swift in Sources */,
 				1214AF701A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift in Sources */,
 				12EFA3F61ADFA60200B9884C /* Base.swift in Sources */,
@@ -391,6 +404,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				126A85EE1B101F3900E6C3C1 /* main.swift in Sources */,
+				1251B5BA1B11D37900F4A051 /* LZYDataManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,22 +577,29 @@
 		126A85EF1B101F3900E6C3C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "lzyc/lzyc-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		126A85F01B101F3900E6C3C1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "lzyc/lzyc-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -619,6 +640,7 @@
 				126A85F01B101F3900E6C3C1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

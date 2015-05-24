@@ -1,5 +1,5 @@
 //
-//  main.swift
+//  LZYDataManager.h
 //  The Lazy Cocoa Project
 //
 //  Copyright (c) 2015 Yichi Zhang. All rights reserved.
@@ -23,56 +23,10 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-import Foundation
-import Cocoa
+#import <Foundation/Foundation.h>
 
-func printUsage() {
-	
-	println()
-	println("Usage:")
-	println("\t$ lzyc COMMAND")
-	println("Commands:")
-	println("\t+ init    Generate a Lazyfile for the current directory.")
-	println("\t+ update  Export source code files required in the Lazyfile.")
-	println()
-}
+@interface LZYDataManager : NSObject
 
-if ( Process.arguments.count < 2) {
-	
-	printUsage()
-} else {
-	
-	let command = Process.arguments[1]
-	
-	switch command {
-	case "init":
-		
-		var fileName = "Lazyfile"
-		let fileManager = NSFileManager.defaultManager()
-		
-		if fileManager.fileExistsAtPath(fileName) {
-			
-			println("\(fileName) already exists")
-		} else {
-			
-			var error:NSError?
-			let template = LZYDataManager.lazyFileTemplate()
-			template.writeToFile(fileName, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
-			
-			if let error = error {
-				println(error.localizedDescription)
-			}
-		}
-		
-		break
-	case "update":
-		
-		break
-	default:
-		println("Invalid command!")
-		printUsage()
-		
-		break
-	}
-	
-}
++ (NSString*)lazyFileTemplate;
+
+@end

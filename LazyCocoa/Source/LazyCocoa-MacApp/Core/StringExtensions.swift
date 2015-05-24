@@ -1,5 +1,5 @@
 //
-//  main.swift
+//  StringExtensions.swift
 //  The Lazy Cocoa Project
 //
 //  Copyright (c) 2015 Yichi Zhang. All rights reserved.
@@ -24,55 +24,28 @@
 //
 
 import Foundation
-import Cocoa
 
-func printUsage() {
-	
-	println()
-	println("Usage:")
-	println("\t$ lzyc COMMAND")
-	println("Commands:")
-	println("\t+ init    Generate a Lazyfile for the current directory.")
-	println("\t+ update  Export source code files required in the Lazyfile.")
-	println()
-}
-
-if ( Process.arguments.count < 2) {
-	
-	printUsage()
-} else {
-	
-	let command = Process.arguments[1]
-	
-	switch command {
-	case "init":
+extension String {
+	func hasMatchesFor(#regexString:String) -> Bool {
+		var result = false
+		let selfString = self as NSString
+		// TODO: Would NSMakeRange(0, countElements(self)) work?
 		
-		var fileName = "Lazyfile"
-		let fileManager = NSFileManager.defaultManager()
-		
-		if fileManager.fileExistsAtPath(fileName) {
-			
-			println("\(fileName) already exists")
-		} else {
-			
-			var error:NSError?
-			let template = LZYDataManager.lazyFileTemplate()
-			template.writeToFile(fileName, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
-			
-			if let error = error {
-				println(error.localizedDescription)
+		if let regex = NSRegularExpression(pattern: regexString, options: NSRegularExpressionOptions.allZeros, error: nil) {
+			if let firstMatch = regex.firstMatchInString(selfString as String, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, selfString.length)) {
+				result = true
 			}
 		}
 		
-		break
-	case "update":
-		
-		break
-	default:
-		println("Invalid command!")
-		printUsage()
-		
-		break
+		return result
 	}
 	
+	static func stringInBundle(#name:String, ofType type: String = "txt", encoding: UInt = NSUTF8StringEncoding) -> String? {
+		if let path = NSBundle.mainBundle().pathForResource(name, ofType: type, inDirectory: nil) {
+			if let data = NSData(contentsOfFile: path) {
+				return NSString(data: data, encoding: encoding) as? String
+			}
+		}
+		return nil
+	}
 }

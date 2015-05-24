@@ -199,31 +199,6 @@ extension String {
 	}
 }
 
-extension String {
-	func hasMatchesFor(#regexString:String) -> Bool {
-		var result = false
-		let selfString = self as NSString
-		// TODO: Would NSMakeRange(0, countElements(self)) work?
-		
-		if let regex = NSRegularExpression(pattern: regexString, options: NSRegularExpressionOptions.allZeros, error: nil) {
-			if let firstMatch = regex.firstMatchInString(selfString as String, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, selfString.length)) {
-				result = true
-			}
-		}
-		
-		return result
-	}
-	
-	static func stringInBundle(#name:String, ofType type: String = "txt", encoding: UInt = NSUTF8StringEncoding) -> String? {
-		if let path = NSBundle.mainBundle().pathForResource(name, ofType: type, inDirectory: nil) {
-			if let data = NSData(contentsOfFile: path) {
-				return NSString(data: data, encoding: encoding) as? String
-			}
-		}
-		return nil
-	}
-}
-
 extension NSString {
 	var fullRange:NSRange {
 		return NSMakeRange(0, self.length)
