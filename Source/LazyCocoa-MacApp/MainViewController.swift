@@ -33,10 +33,17 @@ class MainViewController: NSViewController {
         super.viewDidLoad()
         // Do view setup here.
 		
-		if let vc = self.storyboard?.instantiateControllerWithIdentifier("SourceEditViewController") as? NSViewController {
+		if let vc = self.storyboard?.instantiateControllerWithIdentifier("SourceEditViewController") as? SourceEditViewController {
 			
 			let item = NSTabViewItem(viewController: vc)
-			tabView.insertTabViewItem(item, atIndex: 0)
+			tabView.insertTabViewItem(item, atIndex: tabView.numberOfTabViewItems)
+			
+		}
+		
+		if let vc = self.storyboard?.instantiateControllerWithIdentifier("ChangeHeaderViewController") as? ChangeHeaderViewController {
+			
+			let item = NSTabViewItem(viewController: vc)
+			tabView.insertTabViewItem(item, atIndex: tabView.numberOfTabViewItems)
 			
 		}
     }
