@@ -18,6 +18,7 @@
 		12153D121AE1413E002B34D0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12153D0F1AE1413E002B34D0 /* Extensions.swift */; };
 		12153D131AE1414F002B34D0 /* ChangeHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12153D0D1AE1413E002B34D0 /* ChangeHeader.swift */; };
 		12153D151AE14156002B34D0 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12153D0F1AE1413E002B34D0 /* Extensions.swift */; };
+		121DAFA01B155875000A48A4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121DAF9F1B155875000A48A4 /* MainViewController.swift */; };
 		122941EA1AAB77B700782A2C /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122941E91AAB77B700782A2C /* UserDefaults.swift */; };
 		124E2A961AD55F5E00174583 /* ColorFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A951AD55F5E00174583 /* ColorFormatter.swift */; };
 		124E2A971AD565A500174583 /* ColorFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A951AD55F5E00174583 /* ColorFormatter.swift */; };
@@ -95,6 +96,7 @@
 		1214AF6F1A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyCocoa_MacAppTests.swift; sourceTree = "<group>"; };
 		12153D0D1AE1413E002B34D0 /* ChangeHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeHeader.swift; sourceTree = "<group>"; };
 		12153D0F1AE1413E002B34D0 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		121DAF9F1B155875000A48A4 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		122941E91AAB77B700782A2C /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		124E2A951AD55F5E00174583 /* ColorFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorFormatter.swift; sourceTree = "<group>"; };
 		124E2A981AD590E800174583 /* ColorScannerDemo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ColorScannerDemo.txt; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				12DC16151B0B636700BDB5C5 /* LineNumberRulerView.swift */,
 				120927E11A87E37F0023D05B /* ConversionViewController.swift */,
 				12F20B1B1ABED56700B5611A /* ChangeHeaderViewController.swift */,
+				121DAF9F1B155875000A48A4 /* MainViewController.swift */,
 				1214AF601A4B346100F31ED8 /* Images.xcassets */,
 				12F53EE61ACF5F18006A0B94 /* MIT_template.txt */,
 				124E2A981AD590E800174583 /* ColorScannerDemo.txt */,
@@ -373,6 +376,7 @@
 				1251B5BC1B11D44C00F4A051 /* StringExtensions.swift in Sources */,
 				12F983841A4D92380041FE43 /* Base.swift in Sources */,
 				12C5359D1A8C216900B1B287 /* NewScanningMechanism.swift in Sources */,
+				121DAFA01B155875000A48A4 /* MainViewController.swift in Sources */,
 				12767EEA1A503E0E00BCFED3 /* DocumentComponents.swift in Sources */,
 				124E2A991AD590E800174583 /* ColorScannerDemo.txt in Sources */,
 			);
