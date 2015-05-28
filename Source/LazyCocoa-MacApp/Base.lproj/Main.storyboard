@@ -337,32 +337,7 @@
                 </viewController>
                 <customObject id="I7e-fd-LFd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="308" y="765"/>
-        </scene>
-        <!--Tab View Controller-->
-        <scene sceneID="25B-Pv-ZNn">
-            <objects>
-                <customObject id="CnR-ca-Zvd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <tabViewController selectedTabViewItemIndex="2" id="GeN-F7-6Gx" sceneMemberID="viewController">
-                    <tabViewItems>
-                        <tabViewItem id="0Ve-xZ-Fv1"/>
-                        <tabViewItem identifier="" id="477-rP-s0T"/>
-                        <tabViewItem id="eTi-xe-U0x"/>
-                    </tabViewItems>
-                    <tabView key="tabView" type="noTabsNoBorder" id="p6v-pa-SIx">
-                        <rect key="frame" x="0.0" y="-200" width="561" height="500"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <font key="font" metaFont="message"/>
-                        <tabViewItems/>
-                    </tabView>
-                    <connections>
-                        <segue destination="Zz3-hj-1pU" kind="relationship" relationship="tabItems" id="MG1-FG-022"/>
-                        <segue destination="PQr-FE-CCF" kind="relationship" relationship="tabItems" id="K2L-cM-bs0"/>
-                        <segue destination="bjj-1R-VhV" kind="relationship" relationship="tabItems" id="h5h-rO-1xJ"/>
-                    </connections>
-                </tabViewController>
-            </objects>
-            <point key="canvasLocation" x="831.5" y="91"/>
+            <point key="canvasLocation" x="996" y="285"/>
         </scene>
         <!--Change Header-->
         <scene sceneID="0Tk-xc-pZr">
@@ -612,7 +587,7 @@
                                                     </subviews>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </clipView>
-                                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="srq-1R-FH2">
+                                                <scroller key="horizontalScroller" verticalHuggingPriority="750" doubleValue="0.0013450985863116892" horizontal="YES" id="srq-1R-FH2">
                                                     <rect key="frame" x="1" y="117.99995851516724" width="238" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
@@ -740,7 +715,7 @@
                     <size key="maxSize" width="798" height="10000000"/>
                 </textView>
             </objects>
-            <point key="canvasLocation" x="1622" y="183.5"/>
+            <point key="canvasLocation" x="1862" y="259.5"/>
         </scene>
         <!--Conversion-->
         <scene sceneID="Sl7-g6-Bof">
@@ -849,7 +824,7 @@
                 </viewController>
                 <customObject id="zNM-WP-nQ3" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1122.5" y="808"/>
+            <point key="canvasLocation" x="996.5" y="920"/>
         </scene>
     </scenes>
 </document>
