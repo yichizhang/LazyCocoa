@@ -28,11 +28,18 @@ import AppKit
 
 class ChangeHeaderViewController : NSViewController {
 	
+	var basePath = "" {
+		didSet {
+			if viewLoaded {
+				reloadFiles()
+			}
+		}
+	}
+	
 	@IBOutlet var originalFileTextView: NSTextView!
 	@IBOutlet var newFileTextView: NSTextView!
 	@IBOutlet var newHeaderCommentTextView: NSTextView!
 	
-	@IBOutlet weak var basePathTextField: NSTextField!
 	@IBOutlet weak var fileTableView: NSTableView!
 	var dataArray:[PlainTextFile]?
 	
@@ -46,7 +53,7 @@ class ChangeHeaderViewController : NSViewController {
 	
 	// MARK: Load and update data
 	func reloadFiles() {
-		if let baseURL = NSURL(fileURLWithPath: basePathTextField.stringValue) {
+		if let baseURL = NSURL(fileURLWithPath: basePath) {
 			
 			dataArray = PlainTextFile.sourceCodeFileArray(baseURL: baseURL)
 			
@@ -112,13 +119,13 @@ class ChangeHeaderViewController : NSViewController {
 		super.viewDidLoad()
 		
 		originalFileTextView.setUpTextStyleWith(size: 12)
+		originalFileTextView.editable = false
 		
 		newFileTextView.setUpTextStyleWith(size: 12)
+		newFileTextView.editable = false
 		
 		newHeaderCommentTextView.setUpTextStyleWith(size: 12)
 		newHeaderCommentTextView.string = String.stringInBundle(name:"MIT_template")
-		
-		basePathTextField?.delegate = self
 		
 		fileTableView.setDataSource(self)
 		fileTableView.setDelegate(self)
@@ -189,37 +196,13 @@ class ChangeHeaderViewController : NSViewController {
 		updateTextViews()
 	}
 	
-	@IBAction func chooseBasePathButtonTapped(sender: AnyObject) {
-		let openDialog = NSOpenPanel()
-		
-		openDialog.canChooseFiles = false
-		openDialog.canChooseDirectories = true
-		openDialog.canCreateDirectories = true
-		openDialog.allowsMultipleSelection = false
-		
-		if openDialog.runModal() == NSModalResponseOK {
-			if let url = openDialog.URLs.first as? NSURL {
-				basePathTextField.stringValue = url.path!
-			}
-		}
-		
-		reloadFiles()
-	}
 }
 
 extension ChangeHeaderViewController : NSTextFieldDelegate {
 	
 	override func controlTextDidChange(obj: NSNotification) {
-		if let textField = obj.object as? NSTextField {
-			switch textField {
-			case basePathTextField:
-				reloadFiles()
-				break
-			default:
-				updateFiles()
-				break
-			}
-		}
+		
+		updateFiles()
 	}
 }
 
@@ -271,7 +254,6 @@ extension ChangeHeaderViewController : NSTableViewDataSource {
 	}
 	
 	func relativePathFrom(#fullPath:String) -> String {
-		let basePath = basePathTextField.stringValue
 		
 		if let range = fullPath.rangeOfString(basePath) {
 			return fullPath.substringFromIndex(range.endIndex)

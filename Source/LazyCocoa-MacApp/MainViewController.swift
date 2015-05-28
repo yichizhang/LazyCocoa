@@ -27,25 +27,51 @@ import Cocoa
 
 class MainViewController: NSViewController {
 	
+	@IBOutlet weak var basePathTextField: NSTextField!
+	
 	@IBOutlet var tabView: NSTabView!
+	
+	var sourceEditVC:SourceEditViewController!
+	var changeHeaderVC:ChangeHeaderViewController!
 	
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
 		
-		if let vc = self.storyboard?.instantiateControllerWithIdentifier("SourceEditViewController") as? SourceEditViewController {
-			
-			let item = NSTabViewItem(viewController: vc)
-			tabView.insertTabViewItem(item, atIndex: tabView.numberOfTabViewItems)
-			
-		}
+		basePathTextField.delegate = self
 		
-		if let vc = self.storyboard?.instantiateControllerWithIdentifier("ChangeHeaderViewController") as? ChangeHeaderViewController {
-			
+		sourceEditVC = storyboard?.instantiateControllerWithIdentifier("SourceEditViewController") as? SourceEditViewController
+		changeHeaderVC = storyboard?.instantiateControllerWithIdentifier("ChangeHeaderViewController") as? ChangeHeaderViewController
+		
+		for vc in [sourceEditVC, changeHeaderVC] {
 			let item = NSTabViewItem(viewController: vc)
 			tabView.insertTabViewItem(item, atIndex: tabView.numberOfTabViewItems)
-			
 		}
     }
-    
+	
+	@IBAction func chooseBasePathButtonTapped(sender: AnyObject) {
+		let openDialog = NSOpenPanel()
+		
+		openDialog.canChooseFiles = false
+		openDialog.canChooseDirectories = true
+		openDialog.canCreateDirectories = true
+		openDialog.allowsMultipleSelection = false
+		
+		if openDialog.runModal() == NSModalResponseOK {
+			if let url = openDialog.URLs.first as? NSURL {
+				
+				basePathTextField.stringValue = url.path!
+				sourceEditVC.basePath = url.path!
+				changeHeaderVC.basePath = url.path!
+			}
+		}
+	}
+}
+
+extension MainViewController : NSTextFieldDelegate {
+	
+	override func controlTextDidChange(obj: NSNotification) {
+		
+		changeHeaderVC.basePath = basePathTextField.stringValue
+	}
 }

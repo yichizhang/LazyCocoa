@@ -28,6 +28,12 @@ import AppKit
 
 class SourceEditViewController: NSViewController {
 	
+	var basePath = "" {
+		didSet {
+			
+		}
+	}
+	
 	@IBOutlet var sourceFileTextView: NSTextView!
 	var rulerView:LineNumberRulerView!
 	
