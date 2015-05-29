@@ -43,20 +43,24 @@ if ( Process.arguments.count < 2) {
 } else {
 	
 	let command = Process.arguments[1]
-	var fileName = "Lazyfile"
+	let prog = MainProgram()
 	let fileManager = NSFileManager.defaultManager()
+	var error:NSError?
 	
 	switch command {
 	case "init":
 		
-		if fileManager.fileExistsAtPath(fileName) {
+		if prog.fileExistsNotDirectory(
+			filePath: fileManager.currentDirectoryPath.stringByAppendingPathComponent(prog.fileName),
+			error: &error
+			) {
 			
-			println("\(fileName) already exists")
+			println("\(prog.fileName) already exists")
 		} else {
 			
 			var error:NSError?
 			let template = LZYDataManager.lazyFileTemplate()
-			template.writeToFile(fileName, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
+			template.writeToFile(prog.fileName, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
 			
 			if let error = error {
 				println(error.localizedDescription)
@@ -66,46 +70,39 @@ if ( Process.arguments.count < 2) {
 		break
 	case "update":
 		
-		if fileManager.fileExistsAtPath(fileName) {
+		var analyzer = DocumentAnalyzer()
+		analyzer.platform = Platform.iOS
+
+		error = nil
+		if let sourceString = prog.lazyfileString(basePath: fileManager.currentDirectoryPath, error: &error) {
 			
-			var analyzer = DocumentAnalyzer()
-			analyzer.platform = Platform.iOS
-
-			var error:NSError?
-			let sourceString = NSString(contentsOfFile: fileName, encoding: NSUTF8StringEncoding, error: &error)
-
-			if let sourceString = sourceString {
+			analyzer.inputString = sourceString as String
+			analyzer.process()
+			
+			for d in analyzer.sourceCodeDocuments {
 				
-				analyzer.inputString = sourceString as String
-				analyzer.process()
-				
-				for d in analyzer.sourceCodeDocuments {
+				if d.exportTo.isEmpty == false {
 					
-					if d.exportTo.isEmpty == false {
-						
-						let exportPath = d.exportTo.stringByTrimmingWhiteSpaceAndNewLineCharacters()
-						
-						let fullExportPath = fileManager.currentDirectoryPath.stringByAppendingPathComponent(exportPath)
-						
-						d.documentString.writeToFile(fullExportPath, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
-						
-						if let error = error {
-							println("Failed to export:  \(fullExportPath)")
-						} else {
-							println("Exported successfully:  \(fullExportPath)")
-						}
+					let exportPath = d.exportTo.stringByTrimmingWhiteSpaceAndNewLineCharacters()
+					
+					let fullExportPath = fileManager.currentDirectoryPath.stringByAppendingPathComponent(exportPath)
+					
+					d.documentString.writeToFile(fullExportPath, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
+					
+					if let error = error {
+						println("Failed to export:  \(fullExportPath)")
 					} else {
-						println("Failed to export, export path is not set")
+						println("Exported successfully:  \(fullExportPath)")
 					}
+				} else {
+					println("Failed to export, export path is not set")
 				}
-			} else {
-				
-				println("\(fileName) can not be opened")
 			}
 		} else {
 			
-			println("\(fileName) does not exist")
+			println(error?.localizedDescription)
 		}
+		
 		break
 	default:
 		println("Invalid command!")
