@@ -31,42 +31,24 @@ class SourceEditViewController: NSViewController {
 	var basePath = "" {
 		didSet {
 			
-			let fileName = "Lazyfile"
-			let path = basePath.stringByAppendingPathComponent(fileName)
-			let fileManager = NSFileManager.defaultManager()
+			var error:NSError?
+			let prog = MainProgram()
 			
-			var isDir:ObjCBool = false
-			var lazyfileExists = false
-			var errorMessage:String?
-			
-			if fileManager.fileExistsAtPath(path, isDirectory: &isDir) {
-				if isDir {
-					errorMessage = "\(fileName) is a directory, not a file."
-				} else {
-					lazyfileExists = true
-				}
-			} else {
-				errorMessage = "\(fileName) does not exist."
+			if let string = prog.lazyfileString(basePath, errorPointer: &error) {
+				sourceFileTextView.string = string
+				update()
 			}
 			
-			if lazyfileExists {
+			if let error = error {
+				sourceFileTextView.string = ""
+				update()
 				
-				var error:NSError?
-				self.sourceFileTextView.string = NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: &error) as? String
-				
-				if let error = error {
-					errorMessage = error.localizedDescription
-				} else {
-					self.update()
-				}
-			
-			}
-			
-			if let errorMessage = errorMessage {
 				let alert = NSAlert()
-				alert.messageText = errorMessage
+				alert.messageText = error.localizedDescription
 				alert.runModal()
 			}
+			
+			
 		}
 	}
 	

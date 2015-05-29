@@ -27,5 +27,39 @@ import Cocoa
 import Foundation
 
 class MainProgram {
+	var fileName = "Lazyfile"
 	
+	func lazyfileString(basePath:String, errorPointer:NSErrorPointer) -> String? {
+		
+		let path = basePath.stringByAppendingPathComponent(fileName)
+		let fileManager = NSFileManager.defaultManager()
+		
+		var isDir:ObjCBool = false
+		var errorMessage:String?
+		
+		if fileManager.fileExistsAtPath(path, isDirectory: &isDir) {
+			if isDir {
+				errorMessage = "\(fileName) is a directory, not a file."
+			} else {
+				
+			}
+		} else {
+			errorMessage = "\(fileName) does not exist."
+		}
+		
+		if errorMessage == nil {
+			
+			let string = NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: errorPointer) as? String
+			
+			if let error = errorPointer.memory {
+				errorMessage = error.localizedDescription
+				return nil
+			} else {
+				return string
+			}
+		} else {
+			errorPointer.memory = NSError(domain: "File", code: 990, userInfo: [NSLocalizedDescriptionKey:errorMessage!])
+			return nil
+		}
+	}
 }
