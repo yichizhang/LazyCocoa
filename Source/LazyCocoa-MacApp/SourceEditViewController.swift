@@ -34,7 +34,7 @@ class SourceEditViewController: NSViewController {
 			var error:NSError?
 			let prog = MainProgram()
 			
-			if let string = prog.lazyfileString(basePath, errorPointer: &error) {
+			if let string = prog.lazyfileString(basePath: basePath, error: &error) {
 				sourceFileTextView.string = string
 				update()
 			}

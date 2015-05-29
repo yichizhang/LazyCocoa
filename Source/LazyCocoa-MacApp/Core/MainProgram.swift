@@ -29,9 +29,8 @@ import Foundation
 class MainProgram {
 	var fileName = "Lazyfile"
 	
-	func lazyfileString(basePath:String, errorPointer:NSErrorPointer) -> String? {
+	func fileExistsNotDirectory(filePath path:String, error errorPointer:NSErrorPointer) -> Bool {
 		
-		let path = basePath.stringByAppendingPathComponent(fileName)
 		let fileManager = NSFileManager.defaultManager()
 		
 		var isDir:ObjCBool = false
@@ -49,16 +48,30 @@ class MainProgram {
 		
 		if errorMessage == nil {
 			
+			return true
+		} else {
+			errorPointer.memory = NSError(domain: "File", code: 990, userInfo: [NSLocalizedDescriptionKey:errorMessage!])
+			return false
+		}
+	}
+	
+	func lazyfileString(#basePath:String, error errorPointer:NSErrorPointer) -> String? {
+		
+		let path = basePath.stringByAppendingPathComponent(fileName)
+		var errorMessage:String?
+		
+		if fileExistsNotDirectory(filePath: path, error: errorPointer) {
+			
+			errorPointer.memory = nil
 			let string = NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: errorPointer) as? String
 			
 			if let error = errorPointer.memory {
-				errorMessage = error.localizedDescription
 				return nil
 			} else {
 				return string
 			}
 		} else {
-			errorPointer.memory = NSError(domain: "File", code: 990, userInfo: [NSLocalizedDescriptionKey:errorMessage!])
+			
 			return nil
 		}
 	}
