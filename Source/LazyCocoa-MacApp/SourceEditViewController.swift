@@ -77,12 +77,14 @@ class SourceEditViewController: NSViewController {
 		update()
 		
 		if let scrollView = sourceFileTextView.enclosingScrollView {
-			var rulerView = LineNumberRulerView(textView: sourceFileTextView)
+			rulerView = LineNumberRulerView(textView: sourceFileTextView)
 			
 			scrollView.verticalRulerView = rulerView
 			scrollView.hasVerticalRuler = true
 			scrollView.rulersVisible = true
 		}
+		
+		sourceFileTextView.delegate = self
 	}
 	
 	func updateUserInterfaceSettings() {
@@ -225,5 +227,12 @@ class SourceEditViewController: NSViewController {
 		if filePopUpButton.indexOfSelectedItem < analyzer.sourceCodeDocuments.count {
 			mainGeneratedCodeTextView.string = analyzer.sourceCodeDocuments[filePopUpButton.indexOfSelectedItem].documentString
 		}
+	}
+}
+
+extension SourceEditViewController : NSTextViewDelegate {
+	func textDidChange(notification: NSNotification) {
+		
+		self.rulerView.needsDisplay = true
 	}
 }
