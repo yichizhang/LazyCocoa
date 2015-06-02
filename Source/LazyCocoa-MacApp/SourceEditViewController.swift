@@ -57,7 +57,6 @@ class SourceEditViewController: NSViewController {
 	
 	@IBOutlet weak var platformSegControl: NSSegmentedControl!
 	
-	@IBOutlet private var otherGeneratedCodeTextView: NSTextView!
 	@IBOutlet private var mainGeneratedCodeTextView: NSTextView!
 	
 	@IBOutlet weak var filePopUpButton: NSPopUpButtonCell!
@@ -90,10 +89,8 @@ class SourceEditViewController: NSViewController {
 	func updateUserInterfaceSettings() {
 		
 		sourceFileTextView.setUpForDisplayingSourceCode()
-		otherGeneratedCodeTextView.setUpForDisplayingSourceCode()
 		mainGeneratedCodeTextView.setUpForDisplayingSourceCode()
 		
-		otherGeneratedCodeTextView.editable = false
 		mainGeneratedCodeTextView.editable = false
 		
 		// Update filePopUpButton
@@ -141,9 +138,6 @@ class SourceEditViewController: NSViewController {
 		}
 		
 		analyzer.process()
-		
-		//otherGeneratedCodeTextView.string = analyzer.otherResultString
-		//mainGeneratedCodeTextView.string = analyzer.mainResultString
 		
 		updateUserInterfaceSettings()
 	}
