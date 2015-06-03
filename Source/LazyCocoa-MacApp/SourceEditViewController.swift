@@ -69,11 +69,7 @@ class SourceEditViewController: NSViewController {
 		
 		// Do any additional setup after loading the view.
 		title = "Source Editor"
-		
-		// TODO: Temp solution for demo file
-		sourceFileTextView.string = String.stringInBundle(name: "SourceDemo")
-		
-		update()
+		sourceFileTextView.setUpForDisplayingSourceCode()
 		
 		if let scrollView = sourceFileTextView.enclosingScrollView {
 			rulerView = LineNumberRulerView(textView: sourceFileTextView)
@@ -228,6 +224,20 @@ class SourceEditViewController: NSViewController {
 		let vc = storyboard?.instantiateControllerWithIdentifier("ConversionViewController") as? ConversionViewController
 		
 		presentViewControllerAsSheet(vc!)
+	}
+	
+	@IBAction func showHelpButtonTapped(sender: AnyObject) {
+		let alert = NSAlert()
+		
+		alert.alertStyle = NSAlertStyle.InformationalAlertStyle
+		alert.messageText = "Would you like to load sample source code?"
+		alert.addButtonWithTitle("OK")
+		alert.addButtonWithTitle("Cancel")
+		
+		if alert.runModal() == NSAlertFirstButtonReturn {
+			sourceFileTextView.string = String.stringInBundle(name: "SourceDemo")
+			update()
+		}
 	}
 }
 

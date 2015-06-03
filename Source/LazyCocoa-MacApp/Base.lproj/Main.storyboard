@@ -156,7 +156,7 @@
                                 <rect key="frame" x="73" y="19" width="54" height="19"/>
                                 <buttonCell key="cell" type="roundRect" title="Cancel" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wsx-HS-Tg1">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="controlContent"/>
+                                    <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="cancelButtonTapped:" target="Vna-hE-oxO" id="BfK-zA-WtI"/>
@@ -212,7 +212,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="GKW-4K-gaj">
-                                            <rect key="frame" x="0.0" y="0.0" width="223" height="483"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="223" height="491"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <size key="minSize" width="262" height="491"/>
@@ -281,7 +281,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="nZL-Oh-FFm">
-                                            <rect key="frame" x="0.0" y="0.0" width="230" height="454"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="230" height="462"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <size key="minSize" width="425" height="462"/>
@@ -323,10 +323,20 @@
                                 <rect key="frame" x="130" y="521" width="154" height="19"/>
                                 <buttonCell key="cell" type="roundRect" title="Parse color source code" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xkv-u1-byW">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="controlContent"/>
+                                    <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="showParseColorButtonTapped:" target="Zz3-hj-1pU" id="kXD-UK-I9Z"/>
+                                </connections>
+                            </button>
+                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="b0Q-I5-QcA">
+                                <rect key="frame" x="70" y="516" width="25" height="25"/>
+                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="t96-Ee-y3S">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="showHelpButtonTapped:" target="Zz3-hj-1pU" id="rNA-ho-DJ1"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -349,8 +359,10 @@
                             <constraint firstAttribute="trailing" secondItem="4Q0-jm-6EZ" secondAttribute="trailing" constant="20" id="isb-77-UCq"/>
                             <constraint firstAttribute="bottom" secondItem="Hna-VZ-ou5" secondAttribute="bottom" constant="20" id="jrz-gS-bqa"/>
                             <constraint firstItem="4KP-h2-HxK" firstAttribute="leading" secondItem="2lX-8c-L5v" secondAttribute="leading" constant="20" id="kK5-vY-svT"/>
+                            <constraint firstItem="4KP-h2-HxK" firstAttribute="centerY" secondItem="b0Q-I5-QcA" secondAttribute="centerY" constant="-2" id="lPz-WM-l8x"/>
                             <constraint firstItem="OVm-c5-lgm" firstAttribute="top" secondItem="4KP-h2-HxK" secondAttribute="bottom" constant="10" id="llj-FS-dtf"/>
                             <constraint firstItem="4Q0-jm-6EZ" firstAttribute="leading" secondItem="6bH-dW-xtg" secondAttribute="trailing" constant="8" id="ucz-QT-CQU"/>
+                            <constraint firstItem="b0Q-I5-QcA" firstAttribute="leading" secondItem="4KP-h2-HxK" secondAttribute="trailing" constant="8" id="vAM-fx-sSo"/>
                             <constraint firstItem="4Q0-jm-6EZ" firstAttribute="centerY" secondItem="4KP-h2-HxK" secondAttribute="centerY" id="zbc-sP-p0u"/>
                         </constraints>
                     </view>
@@ -363,7 +375,7 @@
                 </viewController>
                 <customObject id="I7e-fd-LFd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="996" y="285"/>
+            <point key="canvasLocation" x="995.5" y="285"/>
         </scene>
         <!--Change Header-->
         <scene sceneID="0Tk-xc-pZr">
@@ -613,7 +625,7 @@
                                                     </subviews>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </clipView>
-                                                <scroller key="horizontalScroller" verticalHuggingPriority="750" doubleValue="0.002976190476190476" horizontal="YES" id="srq-1R-FH2">
+                                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="srq-1R-FH2">
                                                     <rect key="frame" x="1" y="117.99995851516724" width="238" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
@@ -831,7 +843,7 @@
                                 <rect key="frame" x="20" y="521" width="47" height="19"/>
                                 <buttonCell key="cell" type="roundRect" title="Close" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6ez-ec-bN7">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="controlContent"/>
+                                    <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="closeButtonTapped:" target="PQr-FE-CCF" id="DWm-CK-Xq8"/>
