@@ -23,6 +23,8 @@
 		12475E101B18510900102982 /* MainProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12475E0F1B18510900102982 /* MainProgram.swift */; };
 		12475E111B18512200102982 /* MainProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12475E0F1B18510900102982 /* MainProgram.swift */; };
 		12475E121B18512300102982 /* MainProgram.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12475E0F1B18510900102982 /* MainProgram.swift */; };
+		1248E9461B1F15B1001E2B00 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1248E9451B1F15B1001E2B00 /* LoadingViewController.swift */; };
+		1248E9471B1F31B2001E2B00 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1248E9451B1F15B1001E2B00 /* LoadingViewController.swift */; };
 		124E2A961AD55F5E00174583 /* ColorFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A951AD55F5E00174583 /* ColorFormatter.swift */; };
 		124E2A971AD565A500174583 /* ColorFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A951AD55F5E00174583 /* ColorFormatter.swift */; };
 		124E2A991AD590E800174583 /* ColorScannerDemo.txt in Sources */ = {isa = PBXBuildFile; fileRef = 124E2A981AD590E800174583 /* ColorScannerDemo.txt */; };
@@ -102,6 +104,7 @@
 		121DAF9F1B155875000A48A4 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		122941E91AAB77B700782A2C /* UserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
 		12475E0F1B18510900102982 /* MainProgram.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainProgram.swift; sourceTree = "<group>"; };
+		1248E9451B1F15B1001E2B00 /* LoadingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		124E2A951AD55F5E00174583 /* ColorFormatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorFormatter.swift; sourceTree = "<group>"; };
 		124E2A981AD590E800174583 /* ColorScannerDemo.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ColorScannerDemo.txt; sourceTree = "<group>"; };
 		1251B5B71B11D37900F4A051 /* lzyc-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "lzyc-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -174,6 +177,7 @@
 				1214AF5A1A4B346100F31ED8 /* AppDelegate.swift */,
 				1214AF5C1A4B346100F31ED8 /* SourceEditViewController.swift */,
 				12DC16151B0B636700BDB5C5 /* LineNumberRulerView.swift */,
+				1248E9451B1F15B1001E2B00 /* LoadingViewController.swift */,
 				120927E11A87E37F0023D05B /* ConversionViewController.swift */,
 				12F20B1B1ABED56700B5611A /* ChangeHeaderViewController.swift */,
 				121DAF9F1B155875000A48A4 /* MainViewController.swift */,
@@ -373,6 +377,7 @@
 				124E2A961AD55F5E00174583 /* ColorFormatter.swift in Sources */,
 				12F20B1C1ABED56700B5611A /* ChangeHeaderViewController.swift in Sources */,
 				12E12DD11A89181D001E96E0 /* ColorScanner.swift in Sources */,
+				1248E9461B1F15B1001E2B00 /* LoadingViewController.swift in Sources */,
 				12153D121AE1413E002B34D0 /* Extensions.swift in Sources */,
 				122941EA1AAB77B700782A2C /* UserDefaults.swift in Sources */,
 				12DC16161B0B636700BDB5C5 /* LineNumberRulerView.swift in Sources */,
@@ -403,6 +408,7 @@
 				12DC16171B0B645A00BDB5C5 /* LineNumberRulerView.swift in Sources */,
 				12EFA3FD1ADFA61D00B9884C /* AppDelegate.swift in Sources */,
 				12EFA3FC1ADFA61900B9884C /* UserDefaults.swift in Sources */,
+				1248E9471B1F31B2001E2B00 /* LoadingViewController.swift in Sources */,
 				12475E121B18512300102982 /* MainProgram.swift in Sources */,
 				12EFA3FB1ADFA61500B9884C /* NewScanningMechanism.swift in Sources */,
 				1251B5BE1B11D4BF00F4A051 /* StringExtensions.swift in Sources */,

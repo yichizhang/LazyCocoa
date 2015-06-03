@@ -132,15 +132,49 @@
             </objects>
             <point key="canvasLocation" x="963.5" y="-430.5"/>
         </scene>
-        <!--View Controller-->
+        <!--Loading View Controller-->
         <scene sceneID="gMi-ht-lBh">
             <objects>
                 <customObject id="WMi-Pf-G7n" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <viewController storyboardIdentifier="LoadingViewController" id="Vna-hE-oxO" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoadingViewController" id="Vna-hE-oxO" customClass="LoadingViewController" customModule="LazyCocoa_MacApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Paz-D1-4q0">
-                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="r7T-in-gHC">
+                                <rect key="frame" x="92" y="92" width="16" height="16"/>
+                            </progressIndicator>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Rr4-AN-V3y">
+                                <rect key="frame" x="73" y="163" width="54" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Loading" id="BV0-uy-S92">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2Jw-7s-MKk">
+                                <rect key="frame" x="73" y="19" width="54" height="19"/>
+                                <buttonCell key="cell" type="roundRect" title="Cancel" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wsx-HS-Tg1">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="controlContent"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="cancelButtonTapped:" target="Vna-hE-oxO" id="BfK-zA-WtI"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Rr4-AN-V3y" firstAttribute="top" secondItem="Paz-D1-4q0" secondAttribute="top" constant="20" id="A9t-Oi-1V8"/>
+                            <constraint firstAttribute="bottom" secondItem="2Jw-7s-MKk" secondAttribute="bottom" constant="20" id="Kzz-WV-UH5"/>
+                            <constraint firstAttribute="centerX" secondItem="r7T-in-gHC" secondAttribute="centerX" id="cgU-oe-0yF"/>
+                            <constraint firstAttribute="centerX" secondItem="Rr4-AN-V3y" secondAttribute="centerX" id="rLG-QX-LWG"/>
+                            <constraint firstAttribute="centerX" secondItem="2Jw-7s-MKk" secondAttribute="centerX" id="wGe-Ef-jjv"/>
+                            <constraint firstAttribute="centerY" secondItem="r7T-in-gHC" secondAttribute="centerY" id="yxs-fo-7ph"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="progressIndicator" destination="r7T-in-gHC" id="lNK-Q2-XRU"/>
+                    </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="228" y="754"/>

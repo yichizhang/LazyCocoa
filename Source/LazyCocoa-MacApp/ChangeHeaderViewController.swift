@@ -55,11 +55,23 @@ class ChangeHeaderViewController : NSViewController {
 	func reloadFiles() {
 		if let baseURL = NSURL(fileURLWithPath: basePath) {
 			
-			dataArray = PlainTextFile.sourceCodeFileArray(baseURL: baseURL)
+			let vc = storyboard?.instantiateControllerWithIdentifier("LoadingViewController") as? LoadingViewController
+			vc!.delegate = self
 			
-			fileTableView.reloadData()
+			presentViewControllerAsSheet(vc!)
 			
-			updateFiles()
+			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+				// do some task
+				self.dataArray = PlainTextFile.sourceCodeFileArray(baseURL: baseURL)
+				
+				dispatch_async(dispatch_get_main_queue()) {
+					// update some UI
+					self.fileTableView.reloadData()
+					
+					vc!.dismissController(nil)
+					self.updateFiles()
+				}
+			}
 		}
 	}
 	
@@ -196,6 +208,13 @@ class ChangeHeaderViewController : NSViewController {
 		updateTextViews()
 	}
 	
+}
+
+extension ChangeHeaderViewController : LoadingViewControllerDelegate {
+	
+	func loadingViewControllerCancelButtonTapped(vc: LoadingViewController) {
+		println("XX")
+	}
 }
 
 extension ChangeHeaderViewController : NSTextFieldDelegate {
