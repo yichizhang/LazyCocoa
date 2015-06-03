@@ -222,6 +222,13 @@ class SourceEditViewController: NSViewController {
 			mainGeneratedCodeTextView.string = analyzer.sourceCodeDocuments[filePopUpButton.indexOfSelectedItem].documentString
 		}
 	}
+	
+	@IBAction func showParseColorButtonTapped(sender: AnyObject) {
+		
+		let vc = storyboard?.instantiateControllerWithIdentifier("ConversionViewController") as? ConversionViewController
+		
+		presentViewControllerAsSheet(vc!)
+	}
 }
 
 extension SourceEditViewController : NSTextViewDelegate {

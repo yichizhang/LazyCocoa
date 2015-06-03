@@ -46,12 +46,10 @@ class ConversionViewController: NSViewController {
 		sourceTextView.setUpForDisplayingSourceCode()
 		resultTextView.setUpForDisplayingSourceCode()
 		
-		// Demo text
-		sourceTextView.string = String.stringInBundle(name:"ColorScannerDemo")
-		
 		resultTextView.editable = false
 	}
 	
+	/*
     @IBAction func convertButtonTapped(sender: AnyObject) {
         
         if let source = sourceTextView.string {
@@ -63,13 +61,23 @@ class ConversionViewController: NSViewController {
         }
         
     }
-    
-    @IBAction func parseColorButtonTapped(sender: AnyObject) {
+	*/
+	
+    @IBAction func convertButtonTapped(sender: AnyObject) {
         
         if let source = sourceTextView.string {
 			
             resultTextView.string = ColorScanner.resultStringFrom(source)
         }
     }
-    
+	
+	@IBAction func questionButtonTapped(sender: AnyObject) {
+		
+		// Demo text
+		sourceTextView.string = String.stringInBundle(name:"ColorScannerDemo")
+	}
+	
+	@IBAction func closeButtonTapped(sender: AnyObject) {
+		dismissController(nil)
+	}
 }
