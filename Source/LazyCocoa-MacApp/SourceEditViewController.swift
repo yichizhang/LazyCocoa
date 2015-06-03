@@ -28,39 +28,24 @@ import AppKit
 
 class SourceEditViewController: NSViewController {
 	
-	var basePath = "" {
+	var basePath:String? = nil {
 		didSet {
-			
-			var error:NSError?
-			let prog = MainProgram()
-			
-			if let string = prog.lazyfileString(basePath: basePath, error: &error) {
-				sourceFileTextView.string = string
-				update()
-			}
-			
-			if let error = error {
-				sourceFileTextView.string = ""
-				update()
-				
-				let alert = NSAlert()
-				alert.messageText = error.localizedDescription
-				alert.runModal()
-			}
-			
-			
+			openBasePath(basePath)
 		}
 	}
 	
 	@IBOutlet var sourceFileTextView: NSTextView!
 	var rulerView:LineNumberRulerView!
-	
-	@IBOutlet weak var platformSegControl: NSSegmentedControl!
-	
 	@IBOutlet private var mainGeneratedCodeTextView: NSTextView!
 	
+	@IBOutlet weak var platformSegControl: NSSegmentedControl!
 	@IBOutlet weak var filePopUpButton: NSPopUpButtonCell!
 	var filePopUpLastSelectedIndex = Int(0)
+	
+	@IBOutlet weak var showHelpButton: NSButton!
+	@IBOutlet weak var showParseColorButton: NSButton!
+	@IBOutlet weak var updateButton: NSButton!
+	@IBOutlet weak var exportButton: NSButton!
 	
 	var analyzer: DocumentAnalyzer = DocumentAnalyzer()
 	
@@ -80,6 +65,48 @@ class SourceEditViewController: NSViewController {
 		}
 		
 		sourceFileTextView.delegate = self
+		
+		openBasePath(basePath)
+	}
+	
+	func openBasePath(basePath:String?) {
+		var error:NSError?
+		let prog = MainProgram()
+		var success = false
+		
+		if let basePath = basePath {
+			if let string = prog.lazyfileString(basePath: basePath, error: &error) {
+				sourceFileTextView.string = string
+				update()
+			}
+			
+			if let error = error {
+				let alert = NSAlert()
+				alert.messageText = error.localizedDescription
+				alert.runModal()
+			} else {
+				success = true
+			}
+		}
+		
+		if success {
+			self.updateControlSettings(enabled:true)
+		} else {
+			
+			sourceFileTextView.string = ""
+			update()
+			
+			self.updateControlSettings(enabled:false)
+		}
+	}
+	
+	func updateControlSettings(#enabled:Bool) {
+		
+		self.sourceFileTextView.editable = enabled
+		self.showHelpButton.enabled = enabled
+		self.showParseColorButton.enabled = enabled
+		self.updateButton.enabled = enabled
+		self.exportButton.enabled = enabled
 	}
 	
 	func updateUserInterfaceSettings() {
@@ -116,7 +143,6 @@ class SourceEditViewController: NSViewController {
 			mainGeneratedCodeTextView.string = ""
 		}
 		
-		// println(analyzer.sourceCodeDocuments)
 	}
 	
 	override var representedObject: AnyObject? {
