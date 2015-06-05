@@ -35,7 +35,6 @@ class SourceEditViewController: NSViewController {
 	}
 	
 	@IBOutlet var sourceFileTextView: NSTextView!
-	var rulerView:LineNumberRulerView!
 	@IBOutlet private var mainGeneratedCodeTextView: NSTextView!
 	
 	@IBOutlet weak var platformSegControl: NSSegmentedControl!
@@ -56,15 +55,7 @@ class SourceEditViewController: NSViewController {
 		title = "Source Editor"
 		sourceFileTextView.setUpForDisplayingSourceCode()
 		
-		if let scrollView = sourceFileTextView.enclosingScrollView {
-			rulerView = LineNumberRulerView(textView: sourceFileTextView)
-			
-			scrollView.verticalRulerView = rulerView
-			scrollView.hasVerticalRuler = true
-			scrollView.rulersVisible = true
-		}
-		
-		sourceFileTextView.delegate = self
+		sourceFileTextView.lnv_setUpLineNumberView()
 		
 		openBasePath(basePath)
 	}
@@ -264,12 +255,5 @@ class SourceEditViewController: NSViewController {
 			sourceFileTextView.string = String.stringInBundle(name: "SourceDemo")
 			update()
 		}
-	}
-}
-
-extension SourceEditViewController : NSTextViewDelegate {
-	func textDidChange(notification: NSNotification) {
-		
-		self.rulerView.needsDisplay = true
 	}
 }

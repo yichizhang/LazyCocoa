@@ -25,6 +25,45 @@
 
 import AppKit
 import Foundation
+import ObjectiveC
+
+var LineNumberViewAssocObjKey: UInt8 = 0
+
+extension NSTextView {
+	var lineNumberView:LineNumberRulerView {
+		get {
+			return objc_getAssociatedObject(self, &LineNumberViewAssocObjKey) as! LineNumberRulerView
+		}
+		set {
+			objc_setAssociatedObject(self, &LineNumberViewAssocObjKey, newValue, objc_AssociationPolicy(OBJC_ASSOCIATION_RETAIN_NONATOMIC))
+		}
+	}
+	
+	func lnv_setUpLineNumberView() {
+		if font == nil {
+			font = NSFont.systemFontOfSize(16)
+		}
+		
+		if let scrollView = enclosingScrollView {
+			lineNumberView = LineNumberRulerView(textView: self)
+			
+			scrollView.verticalRulerView = lineNumberView
+			scrollView.hasVerticalRuler = true
+			scrollView.rulersVisible = true
+		}
+		
+		postsFrameChangedNotifications = true
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "lnv_updateLineNumberView:", name: NSViewFrameDidChangeNotification, object: self)
+		
+		NSNotificationCenter.defaultCenter().addObserver(self, selector: "lnv_updateLineNumberView:", name: NSTextDidChangeNotification, object: self)
+		
+	}
+	
+	func lnv_updateLineNumberView(sender: AnyObject?) {
+		
+		lineNumberView.needsDisplay = true
+	}
+}
 
 class LineNumberRulerView: NSRulerView {
 	
@@ -41,16 +80,16 @@ class LineNumberRulerView: NSRulerView {
 		
 		self.ruleThickness = 40
 	}
-
+	
 	required init?(coder: NSCoder) {
-	    fatalError("init(coder:) has not been implemented")
+		fatalError("init(coder:) has not been implemented")
 	}
 	
 	override func drawHashMarksAndLabelsInRect(rect: NSRect) {
 		
 		if let textView = self.clientView as? NSTextView {
 			if let layoutManager = textView.layoutManager {
-			
+				
 				let relativePoint = self.convertPoint(NSZeroPoint, fromView: textView)
 				let lineNumberAttributes = [NSFontAttributeName: textView.font!, NSForegroundColorAttributeName: NSColor.grayColor()]
 				let drawLineNumber = { (lineNumberString:String, y:CGFloat) -> Void in
@@ -76,7 +115,7 @@ class LineNumberRulerView: NSRulerView {
 						NSMakeRange( layoutManager.characterIndexForGlyphAtIndex(glyphIndexForStringLine), 0 )
 					)
 					let glyphRangeForStringLine = layoutManager.glyphRangeForCharacterRange(characterRangeForStringLine, actualCharacterRange: nil)
-				
+					
 					var glyphIndexForGlyphLine = glyphIndexForStringLine
 					var glyphLineCount = 0
 					
