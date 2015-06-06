@@ -184,6 +184,26 @@ class SourceCodeDocument : Printable {
 		
 		return "\n\(components)"
 	}
+	
+	func export(#basePath:String) -> String {
+		if exportTo.isEmpty == false {
+			
+			var error:NSError?
+			let exportPath = exportTo.stringByTrimmingWhiteSpaceAndNewLineCharacters()
+			
+			let fullExportPath = basePath.stringByAppendingPathComponent(exportPath)
+			
+			documentString.writeToFile(fullExportPath, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
+			
+			if let error = error {
+				return "Failed to export:  \(fullExportPath)"
+			} else {
+				return "Exported successfully:  \(fullExportPath)"
+			}
+		} else {
+			return "Failed to export, export path is not set"
+		}
+	}
 }
 
 class DocumentAnalyzer : ConfigurationProtocol {

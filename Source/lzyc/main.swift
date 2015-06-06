@@ -80,23 +80,8 @@ if ( Process.arguments.count < 2) {
 			analyzer.process()
 			
 			for d in analyzer.sourceCodeDocuments {
-				
-				if d.exportTo.isEmpty == false {
-					
-					let exportPath = d.exportTo.stringByTrimmingWhiteSpaceAndNewLineCharacters()
-					
-					let fullExportPath = fileManager.currentDirectoryPath.stringByAppendingPathComponent(exportPath)
-					
-					d.documentString.writeToFile(fullExportPath, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
-					
-					if let error = error {
-						println("Failed to export:  \(fullExportPath)")
-					} else {
-						println("Exported successfully:  \(fullExportPath)")
-					}
-				} else {
-					println("Failed to export, export path is not set")
-				}
+				let message = d.export(basePath: fileManager.currentDirectoryPath)
+				println(message)
 			}
 		} else {
 			
