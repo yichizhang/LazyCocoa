@@ -169,48 +169,17 @@ class SourceEditViewController: NSViewController {
 		
 		var message = ""
 		
-		if Global.currentDocumentRealPath == nil {
-			message = "The path to current document is unknown. Press ⌘ + S to set it. "
+		if basePath == nil {
+			message = "The base path is empty. "
 			
-			let alert = NSAlert()
-			alert.messageText = message
-			alert.runModal()
+		} else {
+		
+			update()
 			
-			return
-		}
-		
-		update()
-		
-		var filesSuccessfullyExported = [String]()
-		var filesFailedToExport = [String]()
-		var error:NSError?
-		
-		for d in analyzer.sourceCodeDocuments {
-			
-			if d.exportTo.isEmpty == false {
-				
-				let exportPath = d.exportTo.stringByTrimmingWhiteSpaceAndNewLineCharacters()
-				
-				let fullExportPath = Global.currentDocumentRealPath!.stringByDeletingLastPathComponent.stringByAppendingPathComponent(exportPath)
-				
-				d.documentString.writeToFile(fullExportPath, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
-				
-				if let error = error {
-					filesFailedToExport.append("\(fullExportPath) (\(error.localizedDescription))")
-				} else {
-					filesSuccessfullyExported.append(fullExportPath)
-				}
-			} else {
-				filesFailedToExport.append("(Export path is not set)")
+			for d in analyzer.sourceCodeDocuments {
+				message += d.export(basePath: basePath!)
+				message += "\n"
 			}
-		}
-		
-		if filesSuccessfullyExported.isEmpty == false {
-			message += "Successfully exported: \n" + "\n".join(filesSuccessfullyExported) + "\n"
-		}
-		
-		if filesFailedToExport.isEmpty == false {
-			message += "Failed to export: \n" + "\n".join(filesFailedToExport) + "\n"
 		}
 		
 		let alert = NSAlert()
