@@ -158,27 +158,28 @@ class SourceEditViewController: NSViewController {
 	@IBAction func updateButtonActionPerformed(sender: AnyObject) {
 		
 		update()
-		
 	}
 	
 	@IBAction func exportButtonActionPerformed(sender: AnyObject) {
 		
-		if analyzer.sourceCodeDocuments.isEmpty {
-			return
-		}
-		
 		var message = ""
 		
-		if basePath == nil {
-			message = "The base path is empty. "
+		if analyzer.sourceCodeDocuments.isEmpty {
 			
+			message = "There are no documents. "
 		} else {
-		
-			update()
 			
-			for d in analyzer.sourceCodeDocuments {
-				message += d.export(basePath: basePath!)
-				message += "\n"
+			if basePath == nil {
+				message = "The base path is empty. "
+				
+			} else {
+				
+				update()
+				
+				for d in analyzer.sourceCodeDocuments {
+					message += d.export(basePath: basePath!)
+					message += "\n"
+				}
 			}
 		}
 		
