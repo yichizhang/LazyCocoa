@@ -67,8 +67,10 @@ class SourceEditViewController: NSViewController {
 		
 		if let basePath = basePath {
 			if let string = prog.lazyfileString(basePath: basePath, error: &error) {
+				
 				sourceFileTextView.string = string
-				update()
+				sourceFileTextView.lnv_updateLineNumberView(nil)
+				updateDocumentsAndUserInterface()
 			}
 			
 			if let error = error {
@@ -85,7 +87,8 @@ class SourceEditViewController: NSViewController {
 		} else {
 			
 			sourceFileTextView.string = ""
-			update()
+			sourceFileTextView.lnv_updateLineNumberView(nil)
+			updateDocumentsAndUserInterface()
 			
 			self.updateControlSettings(enabled:false)
 		}
@@ -100,7 +103,30 @@ class SourceEditViewController: NSViewController {
 		self.exportButton.enabled = enabled
 	}
 	
-	func updateUserInterfaceSettings() {
+	override var representedObject: AnyObject? {
+		didSet {
+			// Update the view, if already loaded.
+		}
+	}
+	
+	func updateDocumentsAndUserInterface() {
+		
+		updateDocuments()
+		updateUserInterface()
+	}
+	
+	func updateDocuments() {
+		
+		analyzer.platform = Platform(rawValue: platformSegControl.selectedSegment)
+		
+		if let sourceString = sourceFileTextView.string {
+			analyzer.inputString = sourceString
+		}
+		
+		analyzer.process()
+	}
+	
+	func updateUserInterface() {
 		
 		sourceFileTextView.setUpForDisplayingSourceCode()
 		mainGeneratedCodeTextView.setUpForDisplayingSourceCode()
@@ -136,28 +162,9 @@ class SourceEditViewController: NSViewController {
 		
 	}
 	
-	override var representedObject: AnyObject? {
-		didSet {
-			// Update the view, if already loaded.
-		}
-	}
-	
-	func update() {
-		
-		analyzer.platform = Platform(rawValue: platformSegControl.selectedSegment)
-		
-		if let sourceString = sourceFileTextView.string {
-			analyzer.inputString = sourceString
-		}
-		
-		analyzer.process()
-		
-		updateUserInterfaceSettings()
-	}
-	
 	@IBAction func updateButtonActionPerformed(sender: AnyObject) {
 		
-		update()
+		updateDocumentsAndUserInterface()
 	}
 	
 	@IBAction func exportButtonActionPerformed(sender: AnyObject) {
@@ -174,7 +181,7 @@ class SourceEditViewController: NSViewController {
 				
 			} else {
 				
-				update()
+				updateDocumentsAndUserInterface()
 				
 				for d in analyzer.sourceCodeDocuments {
 					message += d.export(basePath: basePath!)
@@ -195,7 +202,7 @@ class SourceEditViewController: NSViewController {
 		default:
 			Global.platform = .iOS
 		}
-		update()
+		updateDocumentsAndUserInterface()
 	}
 	
 	@IBAction func filePopUpButtonUpdated(sender: AnyObject) {
@@ -223,7 +230,7 @@ class SourceEditViewController: NSViewController {
 		
 		if alert.runModal() == NSAlertFirstButtonReturn {
 			sourceFileTextView.string = String.stringInBundle(name: "SourceDemo")
-			update()
+			updateDocumentsAndUserInterface()
 		}
 	}
 }
