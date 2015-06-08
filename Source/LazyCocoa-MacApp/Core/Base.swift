@@ -39,6 +39,7 @@ struct ParamKey {
 	static let WindowFontSize = "windowFontSize"
 	static let UserName = "userName"
 	static let OrganizationName = "organizationName"
+	static let Platform = "platform"
 }
 
 struct ProcessMode {
@@ -68,7 +69,7 @@ enum Platform : Int {
 
 class GlobalClass {
 	
-	var platform:Platform = .iOS
+	//var platform:Platform = .iOS
 	
 	var colorClassName:String!
 	var colorRGBAInitSignatureString:String!

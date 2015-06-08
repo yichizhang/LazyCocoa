@@ -261,26 +261,13 @@
                                     <action selector="exportButtonActionPerformed:" target="Zz3-hj-1pU" id="UAf-rT-X8Z"/>
                                 </connections>
                             </button>
-                            <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cV9-9M-TO9">
-                                <rect key="frame" x="489" y="519" width="120" height="24"/>
-                                <segmentedCell key="cell" borderStyle="border" alignment="left" style="rounded" trackingMode="selectOne" id="LVX-96-C3K">
-                                    <font key="font" metaFont="system"/>
-                                    <segments>
-                                        <segment label="iOS" selected="YES"/>
-                                        <segment label="Mac OS" tag="1"/>
-                                    </segments>
-                                </segmentedCell>
-                                <connections>
-                                    <action selector="platformSegControlUpdated:" target="Zz3-hj-1pU" id="kjD-nU-Ruc"/>
-                                </connections>
-                            </segmentedControl>
-                            <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hna-VZ-ou5">
+                            <scrollView ambiguous="YES" misplaced="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hna-VZ-ou5">
                                 <rect key="frame" x="304" y="20" width="427" height="464"/>
-                                <clipView key="contentView" id="uxq-q6-VdY">
+                                <clipView key="contentView" ambiguous="YES" misplaced="YES" id="uxq-q6-VdY">
                                     <rect key="frame" x="1" y="1" width="223" height="133"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="nZL-Oh-FFm">
+                                        <textView ambiguous="YES" importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="nZL-Oh-FFm">
                                             <rect key="frame" x="0.0" y="0.0" width="230" height="462"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -302,7 +289,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HdJ-8e-Iz9">
+                            <popUpButton verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HdJ-8e-Iz9">
                                 <rect key="frame" x="302" y="489" width="432" height="26"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="79V-hn-qxX">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -342,13 +329,10 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="4KP-h2-HxK" firstAttribute="top" secondItem="2lX-8c-L5v" secondAttribute="top" constant="12" id="1jl-uR-yeL"/>
-                            <constraint firstItem="6bH-dW-xtg" firstAttribute="leading" secondItem="cV9-9M-TO9" secondAttribute="trailing" constant="8" id="3Gi-ef-xIe"/>
                             <constraint firstItem="6bH-dW-xtg" firstAttribute="centerY" secondItem="4KP-h2-HxK" secondAttribute="centerY" id="5wM-Q4-bPP"/>
                             <constraint firstAttribute="trailing" secondItem="Hna-VZ-ou5" secondAttribute="trailing" constant="20" id="8k3-QI-gKv"/>
                             <constraint firstItem="OVm-c5-lgm" firstAttribute="leading" secondItem="2lX-8c-L5v" secondAttribute="leading" constant="20" id="CCN-Wv-Wp6"/>
-                            <constraint firstItem="HdJ-8e-Iz9" firstAttribute="top" secondItem="cV9-9M-TO9" secondAttribute="bottom" constant="8" id="DfE-rE-L2S"/>
                             <constraint firstItem="OVm-c5-lgm" firstAttribute="width" secondItem="Hna-VZ-ou5" secondAttribute="width" multiplier="0.618" id="I1q-sD-cVX"/>
-                            <constraint firstItem="cV9-9M-TO9" firstAttribute="centerY" secondItem="4KP-h2-HxK" secondAttribute="centerY" id="PI0-e7-KW4"/>
                             <constraint firstAttribute="bottom" secondItem="OVm-c5-lgm" secondAttribute="bottom" constant="20" id="Q2I-jp-bgj"/>
                             <constraint firstItem="Hna-VZ-ou5" firstAttribute="leading" secondItem="OVm-c5-lgm" secondAttribute="trailing" constant="20" id="SPf-Oh-p6r"/>
                             <constraint firstItem="Hna-VZ-ou5" firstAttribute="width" secondItem="HdJ-8e-Iz9" secondAttribute="width" id="U3r-Bo-u5S"/>
@@ -370,7 +354,6 @@
                         <outlet property="exportButton" destination="4Q0-jm-6EZ" id="NY2-hN-hnq"/>
                         <outlet property="filePopUpButton" destination="79V-hn-qxX" id="x6W-Kf-3vn"/>
                         <outlet property="mainGeneratedCodeTextView" destination="nZL-Oh-FFm" id="ycB-oZ-GjV"/>
-                        <outlet property="platformSegControl" destination="cV9-9M-TO9" id="CHB-jp-aVw"/>
                         <outlet property="showHelpButton" destination="b0Q-I5-QcA" id="ZWu-pe-Esg"/>
                         <outlet property="showParseColorButton" destination="ri0-qD-nf8" id="4SV-g4-cNh"/>
                         <outlet property="sourceFileTextView" destination="GKW-4K-gaj" id="hpm-re-VRL"/>
@@ -629,7 +612,7 @@
                                                     </subviews>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </clipView>
-                                                <scroller key="horizontalScroller" verticalHuggingPriority="750" horizontal="YES" id="srq-1R-FH2">
+                                                <scroller key="horizontalScroller" verticalHuggingPriority="750" doubleValue="0.0012260882120602088" horizontal="YES" id="srq-1R-FH2">
                                                     <rect key="frame" x="1" y="117.99995851516724" width="238" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>

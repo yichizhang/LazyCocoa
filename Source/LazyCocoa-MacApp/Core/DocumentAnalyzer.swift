@@ -168,10 +168,9 @@ class SourceCodeDocument : Printable {
 	var documentString:String {
 		var string = headerComment
 		
-		string +=
-			String.importStatementString("Foundation") +
-			( String.importStatementString(Global.platform == .iOS ? "UIKit" : "AppKit") ) +
-			StringConst.NewLine
+		string += String.importStatementString("Foundation")
+		string += String.importStatementString(Global.configurations.unwrappedValueForKey(ParamKey.Platform) == "MacOS" ? "AppKit" : "UIKit")
+		string += StringConst.NewLine
 		
 		for component in components {
 			string = string + component.componentString + StringConst.NewLine + StringConst.NewLine
@@ -209,7 +208,6 @@ class SourceCodeDocument : Printable {
 class DocumentAnalyzer : ConfigurationProtocol {
 	
 	var inputString = ""
-	var platform:Platform!
 	
 	var sourceCodeDocuments = [SourceCodeDocument]()
 	let sourceScanner = SourceCodeScanner()
@@ -219,25 +217,6 @@ class DocumentAnalyzer : ConfigurationProtocol {
 	func process(){
 		
 		var lastStatementModelIndex = -1
-		
-		switch self.platform.rawValue {
-		case Platform.iOS.rawValue:
-			Global.fontClassName = "UIFont"
-			Global.colorClassName = "UIColor"
-			
-			Global.colorRGBAInitSignatureString = "red:green:blue:alpha:"
-			
-		case Platform.MacOS.rawValue:
-			Global.fontClassName = "NSFont"
-			Global.colorClassName = "NSColor"
-			
-			Global.colorRGBAInitSignatureString = "calibratedRed:green:blue:alpha:"
-		default:
-			break
-		}
-		
-		Global.fontNameAndSizeInitSignatureString = "name:size:"
-		
 		
 		sourceScanner.processSourceString(inputString)
 		
@@ -266,6 +245,20 @@ class DocumentAnalyzer : ConfigurationProtocol {
 				
 			}
 		}
+		
+		if Global.configurations.unwrappedValueForKey(ParamKey.Platform) == "MacOS" {
+			Global.fontClassName = "NSFont"
+			Global.colorClassName = "NSColor"
+			
+			Global.colorRGBAInitSignatureString = "calibratedRed:green:blue:alpha:"
+		} else {
+			Global.fontClassName = "UIFont"
+			Global.colorClassName = "UIColor"
+			
+			Global.colorRGBAInitSignatureString = "red:green:blue:alpha:"
+		}
+		
+		Global.fontNameAndSizeInitSignatureString = "name:size:"
 		
 		// FIXME
 		sourceScanner.statementArray = sourceScanner.statementArray.filter { (o) -> Bool in

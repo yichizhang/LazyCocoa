@@ -1,6 +1,7 @@
 !!! colorAndFont
 // Processing mode: Color and font.
 
+!!platform iOS
 !!prefix jc_
 !!exportTo file1.swift
 

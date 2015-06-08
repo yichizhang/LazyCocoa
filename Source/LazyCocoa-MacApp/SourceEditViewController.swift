@@ -37,7 +37,6 @@ class SourceEditViewController: NSViewController {
 	@IBOutlet var sourceFileTextView: NSTextView!
 	@IBOutlet private var mainGeneratedCodeTextView: NSTextView!
 	
-	@IBOutlet weak var platformSegControl: NSSegmentedControl!
 	@IBOutlet weak var filePopUpButton: NSPopUpButtonCell!
 	var filePopUpLastSelectedIndex = Int(0)
 	
@@ -117,8 +116,6 @@ class SourceEditViewController: NSViewController {
 	
 	func updateDocuments() {
 		
-		analyzer.platform = Platform(rawValue: platformSegControl.selectedSegment)
-		
 		if let sourceString = sourceFileTextView.string {
 			analyzer.inputString = sourceString
 		}
@@ -193,16 +190,6 @@ class SourceEditViewController: NSViewController {
 		let alert = NSAlert()
 		alert.messageText = message
 		alert.runModal()
-	}
-	
-	@IBAction func platformSegControlUpdated(sender: AnyObject) {
-		switch platformSegControl.selectedSegment {
-		case 1:
-			Global.platform = .MacOS
-		default:
-			Global.platform = .iOS
-		}
-		updateDocumentsAndUserInterface()
 	}
 	
 	@IBAction func filePopUpButtonUpdated(sender: AnyObject) {
