@@ -72,10 +72,43 @@ class SourceEditViewController: NSViewController {
 				updateDocumentsAndUserInterface()
 			}
 			
-			if let error = error {
-				let alert = NSAlert()
-				alert.messageText = error.localizedDescription
-				alert.runModal()
+			if error != nil {
+				
+				if error!.code == ErrorCode.FileIsDir {
+					let alert = NSAlert()
+					alert.messageText = error!.localizedDescription
+					alert.runModal()
+					
+				} else if error!.code == ErrorCode.FileNotExist {
+					
+					let alert = NSAlert()
+					
+					alert.alertStyle = NSAlertStyle.InformationalAlertStyle
+					alert.messageText = error!.localizedDescription
+					alert.informativeText = "Would you like to create a new Lazyfile?"
+					
+					alert.addButtonWithTitle("Create a new \(prog.fileName)")
+					alert.addButtonWithTitle("Cancel")
+					
+					if alert.runModal() == NSAlertFirstButtonReturn {
+						
+						// User asks to create a new file.
+						error = nil
+						prog.initLazyfile(basePath: basePath, error: &error)
+						
+						if error != nil {
+							// Fail to create a new file.
+							let alert = NSAlert()
+							alert.messageText = error!.localizedDescription
+							alert.runModal()
+						} else {
+							// Successfully created a new file.
+							openBasePath(basePath)
+							return
+						}
+					}
+				}
+				
 			} else {
 				success = true
 			}

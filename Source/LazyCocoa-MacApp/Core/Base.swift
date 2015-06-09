@@ -62,6 +62,11 @@ struct StringConst {
 	static let ColorSuffix = "Color"
 }
 
+struct ErrorCode {
+	static let FileNotExist:Int = 801
+	static let FileIsDir:Int = 802
+}
+
 enum Platform : Int {
 	case iOS = 0
 	case MacOS

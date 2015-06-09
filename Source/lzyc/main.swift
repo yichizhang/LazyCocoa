@@ -59,8 +59,7 @@ if ( Process.arguments.count < 2) {
 		} else {
 			
 			var error:NSError?
-			let template = LZYDataManager.lazyFileTemplate()
-			template.writeToFile(prog.fileName, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
+			prog.initLazyfile(basePath: fileManager.currentDirectoryPath, error: &error)
 			
 			if let error = error {
 				println(error.localizedDescription)

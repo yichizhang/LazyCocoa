@@ -35,22 +35,25 @@ class MainProgram {
 		
 		var isDir:ObjCBool = false
 		var errorMessage:String?
+		var code:Int = 0
 		
 		if fileManager.fileExistsAtPath(path, isDirectory: &isDir) {
 			if isDir {
 				errorMessage = "\(fileName) is a directory, not a file."
+				code = ErrorCode.FileIsDir
 			} else {
 				
 			}
 		} else {
 			errorMessage = "\(fileName) does not exist."
+			code = ErrorCode.FileNotExist
 		}
 		
 		if errorMessage == nil {
 			
 			return true
 		} else {
-			errorPointer.memory = NSError(domain: "File", code: 990, userInfo: [NSLocalizedDescriptionKey:errorMessage!])
+			errorPointer.memory = NSError(domain: "File", code: code, userInfo: [NSLocalizedDescriptionKey:errorMessage!])
 			return false
 		}
 	}
@@ -74,5 +77,11 @@ class MainProgram {
 			
 			return nil
 		}
+	}
+	
+	func initLazyfile(#basePath:String, error errorPointer:NSErrorPointer) {
+		let template = LZYDataManager.lazyFileTemplate()
+		let path = basePath.stringByAppendingPathComponent(fileName)
+		template.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding, error: errorPointer)
 	}
 }

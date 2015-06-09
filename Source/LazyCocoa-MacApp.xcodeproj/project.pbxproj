@@ -35,6 +35,8 @@
 		12767EEA1A503E0E00BCFED3 /* DocumentComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12767EE91A503E0E00BCFED3 /* DocumentComponents.swift */; };
 		1288C4771AFB983E0067EB60 /* CodeGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1288C4761AFB983E0067EB60 /* CodeGeneration.swift */; };
 		1288C4781AFB99180067EB60 /* CodeGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1288C4761AFB983E0067EB60 /* CodeGeneration.swift */; };
+		1298A5A41B2703B6007C97B9 /* LZYDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1251B5B91B11D37900F4A051 /* LZYDataManager.m */; };
+		1298A5A51B2703B6007C97B9 /* LZYDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1251B5B91B11D37900F4A051 /* LZYDataManager.m */; };
 		12A5AD031B120D3C004BA2E9 /* DocumentAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F9837E1A4D8BC30041FE43 /* DocumentAnalyzer.swift */; };
 		12A5AD041B120D57004BA2E9 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12F983831A4D92380041FE43 /* Base.swift */; };
 		12A5AD051B120D5E004BA2E9 /* CodeGeneration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1288C4761AFB983E0067EB60 /* CodeGeneration.swift */; };
@@ -115,6 +117,7 @@
 		126A85ED1B101F3900E6C3C1 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		12767EE91A503E0E00BCFED3 /* DocumentComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DocumentComponents.swift; sourceTree = "<group>"; };
 		1288C4761AFB983E0067EB60 /* CodeGeneration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CodeGeneration.swift; sourceTree = "<group>"; };
+		1298A5A61B270451007C97B9 /* LazyCocoa_MacAppTests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LazyCocoa_MacAppTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		12C5359C1A8C216900B1B287 /* NewScanningMechanism.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewScanningMechanism.swift; sourceTree = "<group>"; };
 		12DC16151B0B636700BDB5C5 /* LineNumberRulerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineNumberRulerView.swift; sourceTree = "<group>"; };
 		12E12DD01A89181D001E96E0 /* ColorScanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorScanner.swift; sourceTree = "<group>"; };
@@ -203,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				1214AF6F1A4B346100F31ED8 /* LazyCocoa_MacAppTests.swift */,
+				1298A5A61B270451007C97B9 /* LazyCocoa_MacAppTests-Bridging-Header.h */,
 				1214AF6D1A4B346100F31ED8 /* Supporting Files */,
 			);
 			path = "LazyCocoa-MacAppTests";
@@ -373,6 +377,7 @@
 				1214AF5D1A4B346100F31ED8 /* SourceEditViewController.swift in Sources */,
 				12153D101AE1413E002B34D0 /* ChangeHeader.swift in Sources */,
 				1288C4771AFB983E0067EB60 /* CodeGeneration.swift in Sources */,
+				1298A5A51B2703B6007C97B9 /* LZYDataManager.m in Sources */,
 				12475E101B18510900102982 /* MainProgram.swift in Sources */,
 				124E2A961AD55F5E00174583 /* ColorFormatter.swift in Sources */,
 				12F20B1C1ABED56700B5611A /* ChangeHeaderViewController.swift in Sources */,
@@ -404,6 +409,7 @@
 				12EFA3FE1ADFA62100B9884C /* SourceEditViewController.swift in Sources */,
 				124E2A971AD565A500174583 /* ColorFormatter.swift in Sources */,
 				12EFA4021ADFA63000B9884C /* ConversionViewController.swift in Sources */,
+				1298A5A41B2703B6007C97B9 /* LZYDataManager.m in Sources */,
 				12153D151AE14156002B34D0 /* Extensions.swift in Sources */,
 				12DC16171B0B645A00BDB5C5 /* LineNumberRulerView.swift in Sources */,
 				12EFA3FD1ADFA61D00B9884C /* AppDelegate.swift in Sources */,
@@ -584,6 +590,7 @@
 				INFOPLIST_FILE = "LazyCocoa-MacAppTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LazyCocoa-MacAppTests/LazyCocoa_MacAppTests-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LazyCocoa-MacApp.app/Contents/MacOS/LazyCocoa-MacApp";
 			};
 			name = Debug;
@@ -600,6 +607,7 @@
 				INFOPLIST_FILE = "LazyCocoa-MacAppTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LazyCocoa-MacAppTests/LazyCocoa_MacAppTests-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LazyCocoa-MacApp.app/Contents/MacOS/LazyCocoa-MacApp";
 			};
 			name = Release;
