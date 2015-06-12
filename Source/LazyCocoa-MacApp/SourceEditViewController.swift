@@ -34,12 +34,15 @@ class SourceEditViewController: NSViewController {
 		}
 	}
 	
+	var prog = MainProgram()
+	
 	@IBOutlet var sourceFileTextView: NSTextView!
 	@IBOutlet private var mainGeneratedCodeTextView: NSTextView!
 	
 	@IBOutlet weak var filePopUpButton: NSPopUpButtonCell!
 	var filePopUpLastSelectedIndex = Int(0)
 	
+	@IBOutlet weak var saveButton: NSButton!
 	@IBOutlet weak var showHelpButton: NSButton!
 	@IBOutlet weak var showParseColorButton: NSButton!
 	@IBOutlet weak var updateButton: NSButton!
@@ -55,13 +58,13 @@ class SourceEditViewController: NSViewController {
 		sourceFileTextView.setUpForDisplayingSourceCode()
 		
 		sourceFileTextView.lnv_setUpLineNumberView()
+		sourceFileTextView.delegate = self
 		
 		openBasePath(basePath)
 	}
 	
 	func openBasePath(basePath:String?) {
 		var error:NSError?
-		let prog = MainProgram()
 		var success = false
 		
 		if let basePath = basePath {
@@ -114,6 +117,7 @@ class SourceEditViewController: NSViewController {
 			}
 		}
 		
+		self.saveButton.enabled = false
 		if success {
 			self.updateControlSettings(enabled:true)
 		} else {
@@ -192,12 +196,21 @@ class SourceEditViewController: NSViewController {
 		
 	}
 	
-	@IBAction func updateButtonActionPerformed(sender: AnyObject) {
+	@IBAction func filePopUpButtonUpdated(sender: AnyObject) {
+		
+		filePopUpLastSelectedIndex = filePopUpButton.indexOfSelectedItem
+		if filePopUpButton.indexOfSelectedItem < analyzer.sourceCodeDocuments.count {
+			mainGeneratedCodeTextView.string = analyzer.sourceCodeDocuments[filePopUpButton.indexOfSelectedItem].documentString
+		}
+	}
+	
+	//MARK: Button Actions
+	@IBAction func updateButtonTapped(sender: AnyObject) {
 		
 		updateDocumentsAndUserInterface()
 	}
 	
-	@IBAction func exportButtonActionPerformed(sender: AnyObject) {
+	@IBAction func exportButtonTapped(sender: AnyObject) {
 		
 		var message = ""
 		
@@ -224,12 +237,19 @@ class SourceEditViewController: NSViewController {
 		alert.messageText = message
 		alert.runModal()
 	}
-	
-	@IBAction func filePopUpButtonUpdated(sender: AnyObject) {
-		
-		filePopUpLastSelectedIndex = filePopUpButton.indexOfSelectedItem
-		if filePopUpButton.indexOfSelectedItem < analyzer.sourceCodeDocuments.count {
-			mainGeneratedCodeTextView.string = analyzer.sourceCodeDocuments[filePopUpButton.indexOfSelectedItem].documentString
+
+	@IBAction func saveButtonTapped(sender: AnyObject) {
+		if let basePath = basePath {
+			var error:NSError?
+			prog.saveLazyfileString(sourceFileTextView.string!, basePath: basePath, error: &error)
+			
+			if let error = error {
+				let alert = NSAlert()
+				alert.messageText = error.localizedDescription
+				alert.runModal()
+			} else {
+				self.saveButton.enabled = false
+			}
 		}
 	}
 	
@@ -252,5 +272,11 @@ class SourceEditViewController: NSViewController {
 			sourceFileTextView.string = String.stringInBundle(name: "SourceDemo")
 			updateDocumentsAndUserInterface()
 		}
+	}
+}
+
+extension SourceEditViewController : NSTextViewDelegate {
+	func textDidChange(notification: NSNotification) {
+		self.saveButton.enabled = true
 	}
 }

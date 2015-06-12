@@ -212,7 +212,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="GKW-4K-gaj">
-                                            <rect key="frame" x="0.0" y="0.0" width="223" height="491"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="223" height="647"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <size key="minSize" width="356" height="647"/>
@@ -248,7 +248,7 @@
                                     <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="updateButtonActionPerformed:" target="Zz3-hj-1pU" id="tGa-mf-dd8"/>
+                                    <action selector="updateButtonTapped:" target="Zz3-hj-1pU" id="mga-gT-vmm"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4Q0-jm-6EZ">
@@ -258,7 +258,7 @@
                                     <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
                                 <connections>
-                                    <action selector="exportButtonActionPerformed:" target="Zz3-hj-1pU" id="UAf-rT-X8Z"/>
+                                    <action selector="exportButtonTapped:" target="Zz3-hj-1pU" id="5fq-du-oku"/>
                                 </connections>
                             </button>
                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hna-VZ-ou5">
@@ -268,7 +268,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="nZL-Oh-FFm">
-                                            <rect key="frame" x="0.0" y="0.0" width="230" height="462"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="230" height="618"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <size key="minSize" width="578" height="618"/>
@@ -326,6 +326,16 @@
                                     <action selector="showHelpButtonTapped:" target="Zz3-hj-1pU" id="rNA-ho-DJ1"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="udY-aC-Cas">
+                                <rect key="frame" x="173" y="678" width="43" height="19"/>
+                                <buttonCell key="cell" type="roundRect" title="Save" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wiK-MR-pGA">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="controlContent"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="saveButtonTapped:" target="Zz3-hj-1pU" id="n0x-Pb-F2Z"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="4KP-h2-HxK" firstAttribute="top" secondItem="2lX-8c-L5v" secondAttribute="top" constant="12" id="1jl-uR-yeL"/>
@@ -342,7 +352,9 @@
                             <constraint firstItem="ri0-qD-nf8" firstAttribute="trailing" secondItem="OVm-c5-lgm" secondAttribute="trailing" id="c3V-Xm-HdA"/>
                             <constraint firstItem="Hna-VZ-ou5" firstAttribute="top" secondItem="HdJ-8e-Iz9" secondAttribute="bottom" constant="8" id="hbq-Jy-fom"/>
                             <constraint firstItem="HdJ-8e-Iz9" firstAttribute="top" secondItem="4Q0-jm-6EZ" secondAttribute="bottom" constant="10" id="hi8-fl-lZI"/>
+                            <constraint firstItem="udY-aC-Cas" firstAttribute="centerY" secondItem="4KP-h2-HxK" secondAttribute="centerY" id="hqf-qg-dCs"/>
                             <constraint firstAttribute="trailing" secondItem="4Q0-jm-6EZ" secondAttribute="trailing" constant="20" id="isb-77-UCq"/>
+                            <constraint firstItem="ri0-qD-nf8" firstAttribute="leading" secondItem="udY-aC-Cas" secondAttribute="trailing" constant="8" id="jhY-nT-9bp"/>
                             <constraint firstAttribute="bottom" secondItem="Hna-VZ-ou5" secondAttribute="bottom" constant="20" id="jrz-gS-bqa"/>
                             <constraint firstItem="4KP-h2-HxK" firstAttribute="leading" secondItem="2lX-8c-L5v" secondAttribute="leading" constant="20" id="kK5-vY-svT"/>
                             <constraint firstItem="4KP-h2-HxK" firstAttribute="centerY" secondItem="b0Q-I5-QcA" secondAttribute="centerY" constant="-2" id="lPz-WM-l8x"/>
@@ -356,6 +368,7 @@
                         <outlet property="exportButton" destination="4Q0-jm-6EZ" id="NY2-hN-hnq"/>
                         <outlet property="filePopUpButton" destination="79V-hn-qxX" id="x6W-Kf-3vn"/>
                         <outlet property="mainGeneratedCodeTextView" destination="nZL-Oh-FFm" id="ycB-oZ-GjV"/>
+                        <outlet property="saveButton" destination="udY-aC-Cas" id="Txf-bu-6WR"/>
                         <outlet property="showHelpButton" destination="b0Q-I5-QcA" id="ZWu-pe-Esg"/>
                         <outlet property="showParseColorButton" destination="ri0-qD-nf8" id="4SV-g4-cNh"/>
                         <outlet property="sourceFileTextView" destination="GKW-4K-gaj" id="hpm-re-VRL"/>
@@ -434,10 +447,10 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <size key="minSize" width="584" height="188"/>
-                                                            <size key="maxSize" width="601" height="10000000"/>
+                                                            <size key="maxSize" width="603" height="10000000"/>
                                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                             <size key="minSize" width="584" height="188"/>
-                                                            <size key="maxSize" width="601" height="10000000"/>
+                                                            <size key="maxSize" width="603" height="10000000"/>
                                                         </textView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -528,7 +541,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="DUR-vm-ZwD" viewBased="YES" id="akK-2E-jI8">
-                                                            <rect key="frame" x="0.0" y="0.0" width="913" height="0.0"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="964" height="0.0"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -639,7 +652,7 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="R9k-nU-tbf">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="236" height="158.5"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="236" height="188"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <size key="minSize" width="20" height="188"/>
@@ -668,7 +681,7 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="Buf-jC-Hk0">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="231" height="158.5"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="231" height="269"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <size key="minSize" width="20" height="269"/>

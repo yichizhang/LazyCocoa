@@ -79,9 +79,15 @@ class MainProgram {
 		}
 	}
 	
-	func initLazyfile(#basePath:String, error errorPointer:NSErrorPointer) {
-		let template = LZYDataManager.lazyFileTemplate()
+	func saveLazyfileString(fileString:String, basePath:String, error errorPointer:NSErrorPointer) {
+		
 		let path = basePath.stringByAppendingPathComponent(fileName)
-		template.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding, error: errorPointer)
+		fileString.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding, error: errorPointer)
+	}
+	
+	func initLazyfile(#basePath:String, error errorPointer:NSErrorPointer) {
+		
+		let template = LZYDataManager.lazyFileTemplate()
+		saveLazyfileString(template, basePath: basePath, error: errorPointer)
 	}
 }
