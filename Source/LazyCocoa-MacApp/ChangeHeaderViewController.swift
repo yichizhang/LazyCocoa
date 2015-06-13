@@ -53,12 +53,20 @@ class ChangeHeaderViewController : NSViewController {
 	
 	// MARK: Load and update data
 	func reloadFiles() {
+		
 		if let baseURL = NSURL(fileURLWithPath: basePath) {
 			
 			let vc = storyboard?.instantiateControllerWithIdentifier("LoadingViewController") as? LoadingViewController
 			vc!.delegate = self
 			
-			presentViewControllerAsSheet(vc!)
+			let layer = CALayer()
+			layer.backgroundColor = CGColorCreateGenericRGB(0, 0, 0, 0.5)
+			
+			vc!.view.wantsLayer = true
+			vc!.view.layer = layer
+			vc!.view.viewDidMoveToWindow()
+			vc!.view.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
+			self.view.addSubview(vc!.view, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
 			
 			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
 				// do some task
@@ -68,7 +76,7 @@ class ChangeHeaderViewController : NSViewController {
 					// update some UI
 					self.fileTableView.reloadData()
 					
-					vc!.dismissController(nil)
+					vc!.view.removeFromSuperview()
 					self.updateFiles()
 				}
 			}
