@@ -38,6 +38,7 @@ class MainViewController: NSViewController {
         super.viewDidLoad()
         // Do view setup here.
 		
+		basePathTextField.enabled = false
 		basePathTextField.delegate = self
 		
 		sourceEditVC = storyboard?.instantiateControllerWithIdentifier("SourceEditViewController") as? SourceEditViewController

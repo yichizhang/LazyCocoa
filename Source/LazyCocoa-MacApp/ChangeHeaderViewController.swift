@@ -60,12 +60,14 @@ class ChangeHeaderViewController : NSViewController {
 			vc!.delegate = self
 			
 			let layer = CALayer()
-			layer.backgroundColor = CGColorCreateGenericRGB(0, 0, 0, 0.5)
+			layer.backgroundColor = NSColor.windowBackgroundColor().CGColor
 			
 			vc!.view.wantsLayer = true
 			vc!.view.layer = layer
 			vc!.view.viewDidMoveToWindow()
 			vc!.view.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
+			
+			(self.view as! UIEView).userInteractionEnabled = false
 			self.view.addSubview(vc!.view, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
 			
 			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
@@ -77,6 +79,8 @@ class ChangeHeaderViewController : NSViewController {
 					self.fileTableView.reloadData()
 					
 					vc!.view.removeFromSuperview()
+					(self.view as! UIEView).userInteractionEnabled = true
+					
 					self.updateFiles()
 				}
 			}
