@@ -67,7 +67,11 @@ class ChangeHeaderViewController : NSViewController {
 			vc!.view.viewDidMoveToWindow()
 			vc!.view.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
 			
-			(self.view as! UIEView).userInteractionEnabled = false
+			for o in self.view.subviews {
+				if let v = o as? NSView {
+					v.userInteractionEnabled = false
+				}
+			}
 			self.view.addSubview(vc!.view, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
 			
 			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
@@ -79,7 +83,15 @@ class ChangeHeaderViewController : NSViewController {
 					self.fileTableView.reloadData()
 					
 					vc!.view.removeFromSuperview()
-					(self.view as! UIEView).userInteractionEnabled = true
+					for o in self.view.subviews {
+						if let v = o as? NSView {
+							if v == self.newFileTextView || v == self.originalFileTextView {
+								
+							} else {
+								v.userInteractionEnabled = true
+							}
+						}
+					}
 					
 					self.updateFiles()
 				}

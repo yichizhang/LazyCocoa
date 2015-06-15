@@ -1,5 +1,5 @@
 //
-//  LazyCocoa-MacApp-Bridging-Header.h
+//  NSViewExtensions.h
 //  The Lazy Cocoa Project
 //
 //  Copyright (c) 2015 Yichi Zhang. All rights reserved.
@@ -23,5 +23,10 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-#import "LZYDataManager.h"
-#import "NSViewExtensions.h"
+@import Cocoa;
+
+@interface NSView (Extensions)
+
+@property (nonatomic, assign) BOOL userInteractionEnabled;
+
+@end

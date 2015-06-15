@@ -30,18 +30,6 @@ protocol LoadingViewControllerDelegate {
 	func loadingViewControllerCancelButtonTapped(vc:LoadingViewController)
 }
 
-class UIEView : NSView {
-	var userInteractionEnabled = true
-	
-	override func hitTest(aPoint: NSPoint) -> NSView? {
-		if self.userInteractionEnabled == true {
-			return super.hitTest(aPoint)
-		} else {
-			return nil
-		}
-	}
-}
-
 class LoadingViewController : NSViewController {
 	@IBOutlet weak var progressIndicator: NSProgressIndicator!
 	var delegate:LoadingViewControllerDelegate?

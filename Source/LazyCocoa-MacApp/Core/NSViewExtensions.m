@@ -1,5 +1,5 @@
 //
-//  LazyCocoa-MacApp-Bridging-Header.h
+//  NSViewExtensions.m
 //  The Lazy Cocoa Project
 //
 //  Copyright (c) 2015 Yichi Zhang. All rights reserved.
@@ -23,5 +23,27 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
-#import "LZYDataManager.h"
 #import "NSViewExtensions.h"
+
+@implementation NSView (Extensions)
+
+- (BOOL)userInteractionEnabled {
+	if ([self respondsToSelector:@selector(isEditable)]) {
+		return [(id)self isEditable];
+	}
+	if ([self respondsToSelector:@selector(isSelectable)]) {
+		return [(id)self isSelectable];
+	}
+	return NO;
+}
+
+- (void)setUserInteractionEnabled:(BOOL)userInteractionEnabled {
+	if ([self respondsToSelector:@selector(setSelectable:)]) {
+		[(id)self setSelectable:userInteractionEnabled];
+	}
+	if ([self respondsToSelector:@selector(setEditable:)]) {
+		[(id)self setEditable:userInteractionEnabled];
+	}
+}
+
+@end
