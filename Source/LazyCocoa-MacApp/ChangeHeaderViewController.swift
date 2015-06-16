@@ -67,11 +67,7 @@ class ChangeHeaderViewController : NSViewController {
 			vc!.view.viewDidMoveToWindow()
 			vc!.view.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
 			
-			for o in self.view.subviews {
-				if let v = o as? NSView {
-					v.userInteractionEnabled = false
-				}
-			}
+			changeViewUserInteractionEnabled(false)
 			self.view.addSubview(vc!.view, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
 			
 			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
@@ -83,15 +79,7 @@ class ChangeHeaderViewController : NSViewController {
 					self.fileTableView.reloadData()
 					
 					vc!.view.removeFromSuperview()
-					for o in self.view.subviews {
-						if let v = o as? NSView {
-							if v == self.newFileTextView || v == self.originalFileTextView {
-								
-							} else {
-								v.userInteractionEnabled = true
-							}
-						}
-					}
+					self.changeViewUserInteractionEnabled(true)
 					
 					self.updateFiles()
 				}
@@ -148,6 +136,24 @@ class ChangeHeaderViewController : NSViewController {
 			originalFileTextView.scrollRectToVisible(NSRect(origin: CGPointZero, size: CGSizeZero))
 			newFileTextView.scrollRectToVisible(NSRect(origin: CGPointZero, size: CGSizeZero))
 		}
+	}
+	
+	// MARK: Update views
+	func changeViewUserInteractionEnabled(value:Bool) {
+		newHeaderCommentTextView.userInteractionEnabled = value
+		
+		fileTableView.userInteractionEnabled = value
+		
+		filePathRegexCheckBox.userInteractionEnabled = value
+		filePathRegexTextField.userInteractionEnabled = value
+		
+		originalHeaderRegexCheckBox.userInteractionEnabled = value
+		originalHeaderRegexTextField.userInteractionEnabled = value
+		
+		applyChangesButton.userInteractionEnabled = value
+		
+		originalFileTextView.selectable = value
+		newFileTextView.selectable = value
 	}
 	
 	// MARK: View life cycle
