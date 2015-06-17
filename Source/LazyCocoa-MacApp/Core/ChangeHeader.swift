@@ -82,52 +82,6 @@ class PlainTextFile {
 		self.fileURL = fileURL
 		
 	}
-	
-	class func sourceCodeFileArray(#baseURL:NSURL) -> [PlainTextFile] {
-		let fileURLArray = DirectoryWalker.allFiles(baseURL:baseURL, acceptableSuffixArray: [".h", ".m", ".swift"])
-		
-		var textFileArray = [PlainTextFile]()
-		
-		for fileURL in fileURLArray {
-			let textFile = PlainTextFile(fileURL: fileURL)
-			textFileArray.append(textFile)
-		}
-		
-		return textFileArray
-	}
-}
-
-class DirectoryWalker {
-	class func allFiles(#baseURL:NSURL, acceptableSuffixArray:[String]) -> [NSURL] {
-		
-		var directories = [NSURL]()
-		let fileManager = NSFileManager()
-		let keys = [NSURLIsDirectoryKey]
-		
-		let enumerator = fileManager.enumeratorAtURL(baseURL, includingPropertiesForKeys: keys, options: NSDirectoryEnumerationOptions.allZeros, errorHandler: { (url:NSURL!, err:NSError!) -> Bool in
-			
-			// Handle the error.
-			// Return true if the enumeration should continue after the error.
-			return true
-		})
-		
-		while let element = enumerator?.nextObject() as? NSURL {
-			var error:NSError?
-			var isDirectory:AnyObject?
-			
-			if !element.getResourceValue(&isDirectory, forKey: NSURLIsDirectoryKey, error: &error) {
-				
-			}
-			
-			for suffix in acceptableSuffixArray {
-				if element.absoluteString!.hasSuffix(suffix) { // checks the extension
-					directories.append(element)
-				}
-			}
-		}
-		
-		return directories
-	}
 }
 
 extension NSMutableAttributedString {

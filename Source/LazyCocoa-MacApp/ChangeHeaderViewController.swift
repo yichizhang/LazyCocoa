@@ -51,6 +51,8 @@ class ChangeHeaderViewController : NSViewController {
 	
 	@IBOutlet weak var applyChangesButton: NSButton!
 	
+	var countinueEnumeratingFile:Bool = true
+	
 	// MARK: Load and update data
 	func reloadFiles() {
 		
@@ -70,9 +72,42 @@ class ChangeHeaderViewController : NSViewController {
 			changeViewUserInteractionEnabled(false)
 			self.view.addSubview(vc!.view, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
 			
+			self.countinueEnumeratingFile = true
+			
 			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-				// do some task
-				self.dataArray = PlainTextFile.sourceCodeFileArray(baseURL: baseURL)
+				
+				self.dataArray = [PlainTextFile]()
+				
+				let acceptableSuffixArray = [".h", ".m", ".swift"]
+				let fileManager = NSFileManager()
+				let keys = [NSURLIsDirectoryKey]
+				
+				let enumerator = fileManager.enumeratorAtURL(baseURL, includingPropertiesForKeys: keys, options: NSDirectoryEnumerationOptions.allZeros, errorHandler: { (url:NSURL!, err:NSError!) -> Bool in
+					
+					// Handle the error.
+					// Return true if the enumeration should continue after the error.
+					return true
+				})
+				
+				while let element = enumerator?.nextObject() as? NSURL {
+					if self.countinueEnumeratingFile == false {
+						break
+					}
+					
+					var error:NSError?
+					var isDirectory:AnyObject?
+					
+					if !element.getResourceValue(&isDirectory, forKey: NSURLIsDirectoryKey, error: &error) {
+						
+					}
+					
+					for suffix in acceptableSuffixArray {
+						if element.absoluteString!.hasSuffix(suffix) { // checks the extension
+							
+							self.dataArray?.append(PlainTextFile(fileURL: element))
+						}
+					}
+				}
 				
 				dispatch_async(dispatch_get_main_queue()) {
 					// update some UI
@@ -243,7 +278,7 @@ class ChangeHeaderViewController : NSViewController {
 extension ChangeHeaderViewController : LoadingViewControllerDelegate {
 	
 	func loadingViewControllerCancelButtonTapped(vc: LoadingViewController) {
-		println("XX")
+		countinueEnumeratingFile = false
 	}
 }
 
