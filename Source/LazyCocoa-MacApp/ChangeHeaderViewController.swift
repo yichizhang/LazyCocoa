@@ -102,8 +102,9 @@ class ChangeHeaderViewController : NSViewController {
 					}
 					
 					for suffix in acceptableSuffixArray {
-						if element.absoluteString!.hasSuffix(suffix) { // checks the extension
+						if element.absoluteString!.hasSuffix(suffix) {
 							
+							// check the extension
 							self.dataArray?.append(PlainTextFile(fileURL: element))
 						}
 					}

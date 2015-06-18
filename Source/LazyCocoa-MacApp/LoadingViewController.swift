@@ -31,6 +31,7 @@ protocol LoadingViewControllerDelegate {
 }
 
 class LoadingViewController : NSViewController {
+	
 	@IBOutlet weak var progressIndicator: NSProgressIndicator!
 	var delegate:LoadingViewControllerDelegate?
 	
@@ -42,5 +43,35 @@ class LoadingViewController : NSViewController {
 	
 	@IBAction func cancelButtonTapped(sender: AnyObject) {
 		delegate?.loadingViewControllerCancelButtonTapped(self)
+	}
+}
+
+protocol OptionsViewControllerDelegate {
+	/**
+	A button is tapped by the user.
+	
+	:param: vc The view controller.
+	:param: response The response. Is equal to either NSModalResponseOK or NSModalResponseCancel.
+	*/
+	func optionsViewControllerButtonTapped(vc:OptionsViewController, response:Int)
+}
+
+class OptionsViewController : NSViewController {
+	
+	@IBOutlet weak var messageField: NSTextField!
+	var delegate:OptionsViewControllerDelegate?
+	
+	override func viewDidAppear() {
+		super.viewDidAppear()
+		
+	}
+	
+	@IBAction func okButtonTapped(sender: AnyObject) {
+		
+		delegate?.optionsViewControllerButtonTapped(self, response: NSModalResponseOK)
+	}
+	
+	@IBAction func cancelButtonTapped(sender: AnyObject) {
+		delegate?.optionsViewControllerButtonTapped(self, response: NSModalResponseCancel)
 	}
 }

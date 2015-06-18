@@ -35,6 +35,7 @@ class SourceEditViewController: NSViewController {
 	}
 	
 	var prog = MainProgram()
+	var optionsVC:OptionsViewController?
 	
 	@IBOutlet var sourceFileTextView: NSTextView!
 	@IBOutlet private var mainGeneratedCodeTextView: NSTextView!
@@ -76,6 +77,26 @@ class SourceEditViewController: NSViewController {
 			}
 			
 			if error != nil {
+				
+				optionsVC?.view.removeFromSuperview()
+				optionsVC = storyboard?.instantiateControllerWithIdentifier("OptionsViewController") as? OptionsViewController
+				
+				if let vc = optionsVC {
+					
+					vc.delegate = self
+					
+					let layer = CALayer()
+					layer.backgroundColor = NSColor.windowBackgroundColor().CGColor
+					
+					//			vc.messageField.stringValue = "Would you like to create a new Lazyfile?"
+					vc.view.wantsLayer = true
+					vc.view.layer = layer
+					vc.view.viewDidMoveToWindow()
+					vc.view.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
+					
+					self.view.addSubview(vc.view, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
+				}
+
 				
 				if error!.code == ErrorCode.FileIsDir {
 					let alert = NSAlert()
@@ -272,6 +293,12 @@ class SourceEditViewController: NSViewController {
 			sourceFileTextView.string = String.stringInBundle(name: "SourceDemo")
 			updateDocumentsAndUserInterface()
 		}
+	}
+}
+
+extension SourceEditViewController : OptionsViewControllerDelegate {
+	func optionsViewControllerButtonTapped(vc: OptionsViewController, response: Int) {
+		
 	}
 }
 
