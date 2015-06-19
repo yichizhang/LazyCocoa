@@ -66,11 +66,11 @@ class ChangeHeaderViewController : NSViewController {
 			
 			vc!.view.wantsLayer = true
 			vc!.view.layer = layer
-			vc!.view.viewDidMoveToWindow()
 			vc!.view.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
 			
 			changeViewUserInteractionEnabled(false)
 			self.view.addSubview(vc!.view, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
+			vc!.view.viewDidMoveToWindow()
 			
 			self.countinueEnumeratingFile = true
 			

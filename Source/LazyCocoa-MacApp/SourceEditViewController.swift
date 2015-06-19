@@ -88,13 +88,13 @@ class SourceEditViewController: NSViewController {
 					let layer = CALayer()
 					layer.backgroundColor = NSColor.windowBackgroundColor().CGColor
 					
-					//			vc.messageField.stringValue = "Would you like to create a new Lazyfile?"
 					vc.view.wantsLayer = true
 					vc.view.layer = layer
-					vc.view.viewDidMoveToWindow()
 					vc.view.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
 					
 					self.view.addSubview(vc.view, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
+					vc.view.viewDidMoveToWindow()
+					vc.messageField.stringValue = "Would you like to create a new Lazyfile?"
 				}
 
 				

@@ -653,7 +653,7 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="R9k-nU-tbf">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="236" height="188"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="236" height="192"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <size key="minSize" width="20" height="192"/>
@@ -682,7 +682,7 @@
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="Buf-jC-Hk0">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="231" height="269"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="231" height="274"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <size key="minSize" width="20" height="274"/>
@@ -896,7 +896,7 @@
                                 </constraints>
                                 <buttonCell key="cell" type="roundRect" title="Cancel" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oNw-jq-2NO">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="titleBar" size="12"/>
+                                    <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="cancelButtonTapped:" target="JHR-2u-Ry4" id="Sg6-Fj-aq0"/>
@@ -936,7 +936,7 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="messageField" destination="fL5-Ad-ufg" id="yI1-Qy-MI7"/>
+                        <outlet property="messageField" destination="fL5-Ad-ufg" id="VeR-uE-j7M"/>
                         <outlet property="view" destination="dIl-Hh-0Ib" id="3fL-7T-pqp"/>
                     </connections>
                 </viewController>
