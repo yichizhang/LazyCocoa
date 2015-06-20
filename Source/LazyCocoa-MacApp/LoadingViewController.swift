@@ -57,7 +57,6 @@ protocol OptionsViewControllerDelegate {
 }
 
 class OptionsViewController : NSViewController {
-	
 	@IBOutlet weak var messageField: NSTextField!
 	var delegate:OptionsViewControllerDelegate?
 	

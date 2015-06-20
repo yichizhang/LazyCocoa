@@ -28,5 +28,6 @@
 @interface NSView (Extensions)
 
 @property (nonatomic, assign) BOOL userInteractionEnabled;
+- (void)setupConstraintsMakingViewAdhereToEdgesOfSuperview;
 
 @end

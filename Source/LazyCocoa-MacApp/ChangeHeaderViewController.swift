@@ -71,6 +71,7 @@ class ChangeHeaderViewController : NSViewController {
 			changeViewUserInteractionEnabled(false)
 			self.view.addSubview(vc!.view, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
 			vc!.view.viewDidMoveToWindow()
+			vc!.view.setupConstraintsMakingViewAdhereToEdgesOfSuperview()
 			
 			self.countinueEnumeratingFile = true
 			

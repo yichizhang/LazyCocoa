@@ -94,6 +94,7 @@ class SourceEditViewController: NSViewController {
 					
 					self.view.addSubview(vc.view, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
 					vc.view.viewDidMoveToWindow()
+					vc.view.setupConstraintsMakingViewAdhereToEdgesOfSuperview()
 					vc.messageField.stringValue = "Would you like to create a new Lazyfile?"
 				}
 
