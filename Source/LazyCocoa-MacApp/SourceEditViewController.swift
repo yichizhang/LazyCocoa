@@ -95,42 +95,15 @@ class SourceEditViewController: NSViewController {
 					self.view.addSubview(vc.view, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
 					vc.view.viewDidMoveToWindow()
 					vc.view.setupConstraintsMakingViewAdhereToEdgesOfSuperview()
-					vc.messageField.stringValue = "Would you like to create a new Lazyfile?"
-				}
-
-				
-				if error!.code == ErrorCode.FileIsDir {
-					let alert = NSAlert()
-					alert.messageText = error!.localizedDescription
-					alert.runModal()
 					
-				} else if error!.code == ErrorCode.FileNotExist {
-					
-					let alert = NSAlert()
-					
-					alert.alertStyle = NSAlertStyle.InformationalAlertStyle
-					alert.messageText = error!.localizedDescription
-					alert.informativeText = "Would you like to create a new Lazyfile?"
-					
-					alert.addButtonWithTitle("Create a new \(prog.fileName)")
-					alert.addButtonWithTitle("Cancel")
-					
-					if alert.runModal() == NSAlertFirstButtonReturn {
+					if error!.code == ErrorCode.FileIsDir {
+						vc.messageField.stringValue = error!.localizedDescription
+						vc.okButton.enabled = false
 						
-						// User asks to create a new file.
-						error = nil
-						prog.initLazyfile(basePath: basePath, error: &error)
+					} else if error!.code == ErrorCode.FileNotExist {
+						vc.messageField.stringValue = "\(error!.localizedDescription)\nWould you like to create a new \(prog.fileName)?"
+						vc.okButton.stringValue = "Create a new \(prog.fileName)"
 						
-						if error != nil {
-							// Fail to create a new file.
-							let alert = NSAlert()
-							alert.messageText = error!.localizedDescription
-							alert.runModal()
-						} else {
-							// Successfully created a new file.
-							openBasePath(basePath)
-							return
-						}
 					}
 				}
 				
@@ -299,7 +272,31 @@ class SourceEditViewController: NSViewController {
 
 extension SourceEditViewController : OptionsViewControllerDelegate {
 	func optionsViewControllerButtonTapped(vc: OptionsViewController, response: Int) {
+		switch response {
+		case NSModalResponseOK:
+			if let basePath = basePath {
+				var error:NSError?
+				
+				prog.initLazyfile(basePath: basePath, error: &error)
+				
+				if error != nil {
+					// Fail to create a new file.
+					let alert = NSAlert()
+					alert.messageText = error!.localizedDescription
+					alert.runModal()
+				} else {
+					// Successfully created a new file.
+					openBasePath(basePath)
+				}
+			}
+			break
+		default:
+			
+			break
+		}
 		
+		self.optionsVC?.view.removeFromSuperview()
+		self.optionsVC = nil
 	}
 }
 

@@ -58,6 +58,8 @@ protocol OptionsViewControllerDelegate {
 
 class OptionsViewController : NSViewController {
 	@IBOutlet weak var messageField: NSTextField!
+	@IBOutlet weak var okButton: NSButton!
+	@IBOutlet weak var cancelButton: NSButton!
 	var delegate:OptionsViewControllerDelegate?
 	
 	override func viewDidAppear() {
