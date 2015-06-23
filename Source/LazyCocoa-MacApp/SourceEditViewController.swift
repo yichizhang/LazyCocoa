@@ -28,9 +28,19 @@ import AppKit
 
 class SourceEditViewController: NSViewController {
 	
-	var basePath:String? = nil {
+	var viewVisible = false
+	var oldBasePath:String = ""
+	var basePath:String = "" {
+		willSet {
+			oldBasePath = basePath
+		}
 		didSet {
-			openBasePath(basePath)
+			if self.viewVisible {
+				if oldBasePath != basePath {
+					openBasePath(basePath)
+					oldBasePath = basePath
+				}
+			}
 		}
 	}
 	
@@ -51,6 +61,22 @@ class SourceEditViewController: NSViewController {
 	
 	var analyzer: DocumentAnalyzer = DocumentAnalyzer()
 	
+	// MARK: View life cycle
+	override func viewWillAppear() {
+		super.viewWillAppear()
+		viewVisible = true
+		
+		if oldBasePath != basePath {
+			openBasePath(basePath)
+			oldBasePath = basePath
+		}
+	}
+	
+	override func viewWillDisappear() {
+		super.viewWillDisappear()
+		viewVisible = false
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -60,8 +86,6 @@ class SourceEditViewController: NSViewController {
 		
 		sourceFileTextView.lnv_setUpLineNumberView()
 		sourceFileTextView.delegate = self
-		
-		openBasePath(basePath)
 	}
 	
 	func openBasePath(basePath:String?) {
@@ -214,7 +238,7 @@ class SourceEditViewController: NSViewController {
 			message = "There are no documents. "
 		} else {
 			
-			if basePath == nil {
+			if basePath == "" {
 				message = "The base path is empty. "
 				
 			} else {
@@ -222,7 +246,7 @@ class SourceEditViewController: NSViewController {
 				updateDocumentsAndUserInterface()
 				
 				for d in analyzer.sourceCodeDocuments {
-					message += d.export(basePath: basePath!)
+					message += d.export(basePath: basePath)
 					message += "\n"
 				}
 			}
@@ -234,7 +258,7 @@ class SourceEditViewController: NSViewController {
 	}
 
 	@IBAction func saveButtonTapped(sender: AnyObject) {
-		if let basePath = basePath {
+		if basePath != "" {
 			var error:NSError?
 			prog.saveLazyfileString(sourceFileTextView.string!, basePath: basePath, error: &error)
 			
@@ -274,7 +298,7 @@ extension SourceEditViewController : OptionsViewControllerDelegate {
 	func optionsViewControllerButtonTapped(vc: OptionsViewController, response: Int) {
 		switch response {
 		case NSModalResponseOK:
-			if let basePath = basePath {
+			if basePath != "" {
 				var error:NSError?
 				
 				prog.initLazyfile(basePath: basePath, error: &error)

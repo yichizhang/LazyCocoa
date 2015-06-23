@@ -28,10 +28,18 @@ import AppKit
 
 class ChangeHeaderViewController : NSViewController {
 	
-	var basePath = "" {
+	var viewVisible = false
+	var oldBasePath:String = ""
+	var basePath:String = "" {
+		willSet {
+			oldBasePath = basePath
+		}
 		didSet {
-			if viewLoaded {
-				reloadFiles()
+			if self.viewVisible {
+				if oldBasePath != basePath {
+					reloadFiles()
+					oldBasePath = basePath
+				}
 			}
 		}
 	}
@@ -194,6 +202,21 @@ class ChangeHeaderViewController : NSViewController {
 	}
 	
 	// MARK: View life cycle
+	override func viewWillAppear() {
+		super.viewWillAppear()
+		viewVisible = true
+		
+		if oldBasePath != basePath {
+			reloadFiles()
+			oldBasePath = basePath
+		}
+	}
+	
+	override func viewWillDisappear() {
+		super.viewWillDisappear()
+		viewVisible = false
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
