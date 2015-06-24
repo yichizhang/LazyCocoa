@@ -26,23 +26,7 @@
 import Cocoa
 import AppKit
 
-class SourceEditViewController: NSViewController {
-	
-	var viewVisible = false
-	var oldBasePath:String = ""
-	var basePath:String = "" {
-		willSet {
-			oldBasePath = basePath
-		}
-		didSet {
-			if self.viewVisible {
-				if oldBasePath != basePath {
-					openBasePath(basePath)
-					oldBasePath = basePath
-				}
-			}
-		}
-	}
+class SourceEditViewController: BaseViewController {
 	
 	var prog = MainProgram()
 	var optionsVC:OptionsViewController?
@@ -61,22 +45,16 @@ class SourceEditViewController: NSViewController {
 	
 	var analyzer: DocumentAnalyzer = DocumentAnalyzer()
 	
-	// MARK: View life cycle
-	override func viewWillAppear() {
-		super.viewWillAppear()
-		viewVisible = true
+	// MARK: Base View Controller
+	override func loadData() {
+		openBasePath(basePath)
+	}
+	
+	override func cancelLoading() {
 		
-		if oldBasePath != basePath {
-			openBasePath(basePath)
-			oldBasePath = basePath
-		}
 	}
 	
-	override func viewWillDisappear() {
-		super.viewWillDisappear()
-		viewVisible = false
-	}
-	
+	// MARK: View life cycle
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -310,7 +288,7 @@ extension SourceEditViewController : OptionsViewControllerDelegate {
 					alert.runModal()
 				} else {
 					// Successfully created a new file.
-					openBasePath(basePath)
+					self.loadData()
 				}
 			}
 			break

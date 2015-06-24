@@ -26,23 +26,7 @@
 import Foundation
 import AppKit
 
-class ChangeHeaderViewController : NSViewController {
-	
-	var viewVisible = false
-	var oldBasePath:String = ""
-	var basePath:String = "" {
-		willSet {
-			oldBasePath = basePath
-		}
-		didSet {
-			if self.viewVisible {
-				if oldBasePath != basePath {
-					reloadFiles()
-					oldBasePath = basePath
-				}
-			}
-		}
-	}
+class ChangeHeaderViewController : BaseViewController {
 	
 	@IBOutlet var originalFileTextView: NSTextView!
 	@IBOutlet var newFileTextView: NSTextView!
@@ -201,22 +185,17 @@ class ChangeHeaderViewController : NSViewController {
 		newFileTextView.selectable = value
 	}
 	
+	// MARK: Base View Controller
+	override func loadData() {
+		reloadFiles()
+	}
+	
+	override func cancelLoading() {
+		countinueEnumeratingFile = false
+		self.dataArray = [PlainTextFile]()
+	}
+	
 	// MARK: View life cycle
-	override func viewWillAppear() {
-		super.viewWillAppear()
-		viewVisible = true
-		
-		if oldBasePath != basePath {
-			reloadFiles()
-			oldBasePath = basePath
-		}
-	}
-	
-	override func viewWillDisappear() {
-		super.viewWillDisappear()
-		viewVisible = false
-	}
-	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -303,7 +282,7 @@ class ChangeHeaderViewController : NSViewController {
 extension ChangeHeaderViewController : LoadingViewControllerDelegate {
 	
 	func loadingViewControllerCancelButtonTapped(vc: LoadingViewController) {
-		countinueEnumeratingFile = false
+		self.cancelLoading()
 	}
 }
 
