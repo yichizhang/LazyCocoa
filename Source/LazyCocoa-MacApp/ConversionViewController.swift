@@ -59,8 +59,14 @@ class ConversionViewController: NSViewController {
 	
 	@IBAction func questionButtonTapped(sender: AnyObject) {
 		
-		// Demo text
-		sourceTextView.string = String.stringInBundle(name:"ColorScannerDemo")
+		let alert = NSAlert()
+		alert.messageText =
+			"How to use this functionality? \n" +
+			"It can convert code like: \n\n" +
+			String.stringInBundle(name:"ColorScannerDemo")! +
+			"\n\nTo:\n" +
+			"awesomeColor #F28EB0FF\ncustomBlueColor #70A8CDFF"
+		alert.runModal()
 	}
 	
 	@IBAction func closeButtonTapped(sender: AnyObject) {
