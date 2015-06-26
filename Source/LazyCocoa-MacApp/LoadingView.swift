@@ -1,5 +1,5 @@
 //
-//  BaseViewController.swift
+//  LoadingView.swift
 //  The Lazy Cocoa Project
 //
 //  Copyright (c) 2015 Yichi Zhang. All rights reserved.
@@ -23,67 +23,19 @@
 //  DEALINGS IN THE SOFTWARE.
 //
 
+import Foundation
 import Cocoa
 
-class BaseViewController: NSViewController {
-	
-	var viewVisible = false
-	var oldBasePath:String = ""
-	var basePath:String = "" {
-		willSet {
-			oldBasePath = basePath
-		}
-		didSet {
-			if self.viewVisible {
-				if oldBasePath != basePath {
-					self.cancelLoading()
-					self.loadData()
-					oldBasePath = basePath
-				}
-			}
-		}
-	}
+protocol LoadingViewDelegate {
+	func loadingViewCancelButtonTapped(v:LoadingView)
+}
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do view setup here.
-    }
+class LoadingView : NSView {
 	
-	// MARK: View life cycle
-//	override func viewWillAppear() {
-//		super.viewWillAppear()
-//		viewVisible = true
-//		
-//		if oldBasePath != basePath {
-//			self.loadData()
-//			oldBasePath = basePath
-//		}
-//	}
-//	
-//	override func viewWillDisappear() {
-//		super.viewWillDisappear()
-//		viewVisible = false
-//	}
-	override func viewDidAppear() {
-		super.viewDidAppear()
-		viewVisible = true
-		
-		if oldBasePath != basePath {
-			self.loadData()
-			oldBasePath = basePath
-		}
-	}
+	@IBOutlet weak var progressIndicator: NSProgressIndicator!
+	var delegate:LoadingViewDelegate?
 	
-	override func viewDidDisappear() {
-		super.viewDidDisappear()
-		viewVisible = false
-	}
-	// MARK: Load data; cancel loading
-	func loadData() {
-		
-	}
-	
-	func cancelLoading() {
-		
+	@IBAction func cancelButtonTapped(sender: AnyObject) {
+		delegate?.loadingViewCancelButtonTapped(self)
 	}
 }

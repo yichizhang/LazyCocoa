@@ -132,54 +132,6 @@
             </objects>
             <point key="canvasLocation" x="1125" y="-499"/>
         </scene>
-        <!--Loading View Controller-->
-        <scene sceneID="gMi-ht-lBh">
-            <objects>
-                <customObject id="WMi-Pf-G7n" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <viewController storyboardIdentifier="LoadingViewController" id="Vna-hE-oxO" customClass="LoadingViewController" customModule="LazyCocoa_MacApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="Paz-D1-4q0">
-                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="r7T-in-gHC">
-                                <rect key="frame" x="92" y="92" width="16" height="16"/>
-                            </progressIndicator>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Rr4-AN-V3y">
-                                <rect key="frame" x="73" y="163" width="54" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Loading" id="BV0-uy-S92">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2Jw-7s-MKk">
-                                <rect key="frame" x="73" y="19" width="54" height="19"/>
-                                <buttonCell key="cell" type="roundRect" title="Cancel" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wsx-HS-Tg1">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="cellTitle"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="cancelButtonTapped:" target="Vna-hE-oxO" id="BfK-zA-WtI"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="Rr4-AN-V3y" firstAttribute="top" secondItem="Paz-D1-4q0" secondAttribute="top" constant="20" id="A9t-Oi-1V8"/>
-                            <constraint firstAttribute="bottom" secondItem="2Jw-7s-MKk" secondAttribute="bottom" constant="20" id="Kzz-WV-UH5"/>
-                            <constraint firstAttribute="centerX" secondItem="r7T-in-gHC" secondAttribute="centerX" id="cgU-oe-0yF"/>
-                            <constraint firstAttribute="centerX" secondItem="Rr4-AN-V3y" secondAttribute="centerX" id="rLG-QX-LWG"/>
-                            <constraint firstAttribute="centerX" secondItem="2Jw-7s-MKk" secondAttribute="centerX" id="wGe-Ef-jjv"/>
-                            <constraint firstAttribute="centerY" secondItem="r7T-in-gHC" secondAttribute="centerY" id="yxs-fo-7ph"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="progressIndicator" destination="r7T-in-gHC" id="lNK-Q2-XRU"/>
-                        <outlet property="view" destination="Paz-D1-4q0" id="eZf-mf-k3l"/>
-                    </connections>
-                </viewController>
-            </objects>
-            <point key="canvasLocation" x="222" y="573"/>
-        </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
@@ -216,10 +168,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="223" height="647"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <size key="minSize" width="341" height="647"/>
+                                            <size key="minSize" width="356" height="647"/>
                                             <size key="maxSize" width="879" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="341" height="647"/>
+                                            <size key="minSize" width="356" height="647"/>
                                             <size key="maxSize" width="879" height="10000000"/>
                                         </textView>
                                     </subviews>
@@ -272,10 +224,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="230" height="618"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <size key="minSize" width="563" height="618"/>
+                                            <size key="minSize" width="578" height="618"/>
                                             <size key="maxSize" width="601" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="563" height="618"/>
+                                            <size key="minSize" width="578" height="618"/>
                                             <size key="maxSize" width="601" height="10000000"/>
                                         </textView>
                                     </subviews>
@@ -447,10 +399,10 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="240" height="188"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <size key="minSize" width="569" height="188"/>
+                                                            <size key="minSize" width="584" height="188"/>
                                                             <size key="maxSize" width="603" height="10000000"/>
                                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                            <size key="minSize" width="569" height="188"/>
+                                                            <size key="minSize" width="584" height="188"/>
                                                             <size key="maxSize" width="603" height="10000000"/>
                                                         </textView>
                                                     </subviews>
@@ -656,10 +608,10 @@
                                                                     <rect key="frame" x="0.0" y="0.0" width="236" height="192"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <size key="minSize" width="5" height="192"/>
+                                                                    <size key="minSize" width="20" height="192"/>
                                                                     <size key="maxSize" width="803" height="10000000"/>
                                                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                    <size key="minSize" width="5" height="192"/>
+                                                                    <size key="minSize" width="20" height="192"/>
                                                                     <size key="maxSize" width="803" height="10000000"/>
                                                                 </textView>
                                                             </subviews>
@@ -685,10 +637,10 @@
                                                                     <rect key="frame" x="0.0" y="0.0" width="231" height="274"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                    <size key="minSize" width="5" height="274"/>
+                                                                    <size key="minSize" width="20" height="274"/>
                                                                     <size key="maxSize" width="798" height="10000000"/>
                                                                     <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                    <size key="minSize" width="5" height="274"/>
+                                                                    <size key="minSize" width="20" height="274"/>
                                                                     <size key="maxSize" width="798" height="10000000"/>
                                                                 </textView>
                                                             </subviews>
@@ -776,10 +728,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="223" height="233"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <size key="minSize" width="710" height="224"/>
+                                            <size key="minSize" width="725" height="224"/>
                                             <size key="maxSize" width="735" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="710" height="224"/>
+                                            <size key="minSize" width="725" height="224"/>
                                             <size key="maxSize" width="735" height="10000000"/>
                                         </textView>
                                     </subviews>
@@ -804,10 +756,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="243" height="233"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <size key="minSize" width="710" height="224"/>
+                                            <size key="minSize" width="725" height="224"/>
                                             <size key="maxSize" width="732" height="10000000"/>
                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="710" height="224"/>
+                                            <size key="minSize" width="725" height="224"/>
                                             <size key="maxSize" width="732" height="10000000"/>
                                         </textView>
                                     </subviews>
@@ -878,72 +830,6 @@
                 <customObject id="zNM-WP-nQ3" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="996.5" y="1032"/>
-        </scene>
-        <!--Options View Controller-->
-        <scene sceneID="JIa-23-hXY">
-            <objects>
-                <customObject id="5nJ-16-30X" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <viewController storyboardIdentifier="OptionsViewController" id="JHR-2u-Ry4" customClass="OptionsViewController" customModule="LazyCocoa_MacApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="dIl-Hh-0Ib">
-                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <subviews>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BYL-gd-6Oj">
-                                <rect key="frame" x="103" y="90" width="54" height="19"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="54" id="QGf-OP-9Ei"/>
-                                    <constraint firstAttribute="height" constant="18" id="x0g-kE-eHb"/>
-                                </constraints>
-                                <buttonCell key="cell" type="roundRect" title="Cancel" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="oNw-jq-2NO">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="cellTitle"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="cancelButtonTapped:" target="JHR-2u-Ry4" id="Sg6-Fj-aq0"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="akQ-be-j5I">
-                                <rect key="frame" x="43" y="90" width="54" height="19"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="54" id="LRR-Ly-oEf"/>
-                                    <constraint firstAttribute="height" constant="18" id="VQX-0U-6iN"/>
-                                </constraints>
-                                <buttonCell key="cell" type="roundRect" title="OK" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="7BV-rC-ZtP">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="cellTitle"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="okButtonTapped:" target="JHR-2u-Ry4" id="NCd-5C-B1O"/>
-                                </connections>
-                            </button>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fL5-Ad-ufg">
-                                <rect key="frame" x="40" y="117" width="120" height="17"/>
-                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Message" id="sYN-jE-6O6">
-                                    <font key="font" metaFont="system"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="akQ-be-j5I" firstAttribute="top" secondItem="fL5-Ad-ufg" secondAttribute="bottom" constant="8" id="10N-kl-Oi9"/>
-                            <constraint firstAttribute="centerX" secondItem="akQ-be-j5I" secondAttribute="centerX" constant="30" id="Ekm-qf-NQD"/>
-                            <constraint firstAttribute="trailing" secondItem="fL5-Ad-ufg" secondAttribute="trailing" constant="42" id="HGq-qz-nFp"/>
-                            <constraint firstAttribute="centerY" secondItem="BYL-gd-6Oj" secondAttribute="centerY" id="UJw-0X-dJP"/>
-                            <constraint firstItem="fL5-Ad-ufg" firstAttribute="leading" secondItem="dIl-Hh-0Ib" secondAttribute="leading" constant="42" id="bbS-wR-sX7"/>
-                            <constraint firstAttribute="centerX" secondItem="BYL-gd-6Oj" secondAttribute="centerX" constant="-30" id="r4G-64-LSW"/>
-                            <constraint firstAttribute="centerY" secondItem="akQ-be-j5I" secondAttribute="centerY" id="syM-0Y-VAw"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="cancelButton" destination="BYL-gd-6Oj" id="qhJ-NK-3dl"/>
-                        <outlet property="messageField" destination="fL5-Ad-ufg" id="VeR-uE-j7M"/>
-                        <outlet property="okButton" destination="akQ-be-j5I" id="gvA-ab-bzJ"/>
-                        <outlet property="view" destination="dIl-Hh-0Ib" id="3fL-7T-pqp"/>
-                    </connections>
-                </viewController>
-            </objects>
-            <point key="canvasLocation" x="222" y="857"/>
         </scene>
     </scenes>
 </document>

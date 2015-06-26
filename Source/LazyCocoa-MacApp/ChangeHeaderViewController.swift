@@ -28,6 +28,8 @@ import AppKit
 
 class ChangeHeaderViewController : BaseViewController {
 	
+	var loadingView:LoadingView?
+	
 	@IBOutlet var originalFileTextView: NSTextView!
 	@IBOutlet var newFileTextView: NSTextView!
 	@IBOutlet var newHeaderCommentTextView: NSTextView!
@@ -50,67 +52,79 @@ class ChangeHeaderViewController : BaseViewController {
 		
 		if let baseURL = NSURL(fileURLWithPath: basePath) {
 			
-			let vc = storyboard?.instantiateControllerWithIdentifier("LoadingViewController") as? LoadingViewController
-			vc!.delegate = self
+			loadingView?.removeFromSuperview()
 			
-			let layer = CALayer()
-			layer.backgroundColor = NSColor.windowBackgroundColor().CGColor
+			let nib = NSNib(nibNamed: "LoadingView", bundle: nil)
+			var views:NSArray?
+			nib?.instantiateWithOwner(self, topLevelObjects: &views)
+			loadingView = views!.objectAtIndex(0) as? LoadingView
+			println("LoadingView loaded")
 			
-			vc!.view.wantsLayer = true
-			vc!.view.layer = layer
-			vc!.view.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
-			
-			changeViewUserInteractionEnabled(false)
-			self.view.addSubview(vc!.view, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
-			vc!.view.viewDidMoveToWindow()
-			vc!.view.setupConstraintsMakingViewAdhereToEdgesOfSuperview()
-			
-			self.countinueEnumeratingFile = true
-			
-			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+			if let v = loadingView {
+				println("LoadingView is not nil")
+				v.delegate = self
 				
-				self.dataArray = [PlainTextFile]()
+				let layer = CALayer()
+				layer.backgroundColor = NSColor.windowBackgroundColor().CGColor
 				
-				let acceptableSuffixArray = [".h", ".m", ".swift"]
-				let fileManager = NSFileManager()
-				let keys = [NSURLIsDirectoryKey]
+				v.wantsLayer = true
+				v.layer = layer
+				v.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
 				
-				let enumerator = fileManager.enumeratorAtURL(baseURL, includingPropertiesForKeys: keys, options: NSDirectoryEnumerationOptions.allZeros, errorHandler: { (url:NSURL!, err:NSError!) -> Bool in
+				changeViewUserInteractionEnabled(false)
+				self.view.addSubview(v, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
+				v.progressIndicator.startAnimation(self)
+				v.setupConstraintsMakingViewAdhereToEdgesOfSuperview()
+				
+				self.countinueEnumeratingFile = true
+				
+				dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
 					
-					// Handle the error.
-					// Return true if the enumeration should continue after the error.
-					return true
-				})
-				
-				while let element = enumerator?.nextObject() as? NSURL {
-					if self.countinueEnumeratingFile == false {
-						break
-					}
+					self.dataArray = [PlainTextFile]()
 					
-					var error:NSError?
-					var isDirectory:AnyObject?
+					let acceptableSuffixArray = [".h", ".m", ".swift"]
+					let fileManager = NSFileManager()
+					let keys = [NSURLIsDirectoryKey]
 					
-					if !element.getResourceValue(&isDirectory, forKey: NSURLIsDirectoryKey, error: &error) {
+					let enumerator = fileManager.enumeratorAtURL(baseURL, includingPropertiesForKeys: keys, options: NSDirectoryEnumerationOptions.allZeros, errorHandler: { (url:NSURL!, err:NSError!) -> Bool in
 						
-					}
+						// Handle the error.
+						// Return true if the enumeration should continue after the error.
+						return true
+					})
 					
-					for suffix in acceptableSuffixArray {
-						if element.absoluteString!.hasSuffix(suffix) {
+					while let element = enumerator?.nextObject() as? NSURL {
+						if self.countinueEnumeratingFile == false {
+							break
+						}
+						
+						var error:NSError?
+						var isDirectory:AnyObject?
+						
+						if !element.getResourceValue(&isDirectory, forKey: NSURLIsDirectoryKey, error: &error) {
 							
-							// check the extension
-							self.dataArray?.append(PlainTextFile(fileURL: element))
+						}
+						
+						for suffix in acceptableSuffixArray {
+							if element.absoluteString!.hasSuffix(suffix) {
+								
+								// check the extension
+								self.dataArray?.append(PlainTextFile(fileURL: element))
+							}
 						}
 					}
-				}
-				
-				dispatch_async(dispatch_get_main_queue()) {
-					// update some UI
-					self.fileTableView.reloadData()
 					
-					vc!.view.removeFromSuperview()
-					self.changeViewUserInteractionEnabled(true)
-					
-					self.updateFiles()
+					dispatch_async(dispatch_get_main_queue()) {
+						// update some UI
+						self.fileTableView.reloadData()
+						
+						self.loadingView?.removeFromSuperview()
+						self.loadingView = nil
+						
+						self.changeViewUserInteractionEnabled(true)
+						
+						self.updateFiles()
+					}
 				}
 			}
 		}
@@ -279,9 +293,9 @@ class ChangeHeaderViewController : BaseViewController {
 	
 }
 
-extension ChangeHeaderViewController : LoadingViewControllerDelegate {
+extension ChangeHeaderViewController : LoadingViewDelegate {
 	
-	func loadingViewControllerCancelButtonTapped(vc: LoadingViewController) {
+	func loadingViewCancelButtonTapped(vc: LoadingView) {
 		self.cancelLoading()
 	}
 }

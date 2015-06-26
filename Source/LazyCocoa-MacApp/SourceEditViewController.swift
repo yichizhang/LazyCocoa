@@ -29,7 +29,7 @@ import AppKit
 class SourceEditViewController: BaseViewController {
 	
 	var prog = MainProgram()
-	var optionsVC:OptionsViewController?
+	var optionsView:OptionsView?
 	
 	@IBOutlet var sourceFileTextView: NSTextView!
 	@IBOutlet private var mainGeneratedCodeTextView: NSTextView!
@@ -80,31 +80,36 @@ class SourceEditViewController: BaseViewController {
 			
 			if error != nil {
 				
-				optionsVC?.view.removeFromSuperview()
-				optionsVC = storyboard?.instantiateControllerWithIdentifier("OptionsViewController") as? OptionsViewController
+				optionsView?.removeFromSuperview()
 				
-				if let vc = optionsVC {
+				let nib = NSNib(nibNamed: "OptionsView", bundle: nil)
+				var views:NSArray?
+				nib?.instantiateWithOwner(self, topLevelObjects: &views)
+				optionsView = views!.objectAtIndex(0) as? OptionsView
+				println("OptionsView loaded")
+				
+				if let v = optionsView {
+					println("OptionsView is not nil")
 					
-					vc.delegate = self
+					v.delegate = self
 					
 					let layer = CALayer()
 					layer.backgroundColor = NSColor.windowBackgroundColor().CGColor
 					
-					vc.view.wantsLayer = true
-					vc.view.layer = layer
-					vc.view.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
+					v.wantsLayer = true
+					v.layer = layer
+					v.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
 					
-					self.view.addSubview(vc.view, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
-					vc.view.viewDidMoveToWindow()
-					vc.view.setupConstraintsMakingViewAdhereToEdgesOfSuperview()
+					self.view.addSubview(v, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
+					v.setupConstraintsMakingViewAdhereToEdgesOfSuperview()
 					
 					if error!.code == ErrorCode.FileIsDir {
-						vc.messageField.stringValue = error!.localizedDescription
-						vc.okButton.enabled = false
+						v.messageField.stringValue = error!.localizedDescription
+						v.okButton.enabled = false
 						
 					} else if error!.code == ErrorCode.FileNotExist {
-						vc.messageField.stringValue = "\(error!.localizedDescription)\nWould you like to create a new \(prog.fileName)?"
-						vc.okButton.stringValue = "Create a new \(prog.fileName)"
+						v.messageField.stringValue = "\(error!.localizedDescription)\nWould you like to create a new \(prog.fileName)?"
+						v.okButton.stringValue = "Create a new \(prog.fileName)"
 						
 					}
 				}
@@ -272,8 +277,8 @@ class SourceEditViewController: BaseViewController {
 	}
 }
 
-extension SourceEditViewController : OptionsViewControllerDelegate {
-	func optionsViewControllerButtonTapped(vc: OptionsViewController, response: Int) {
+extension SourceEditViewController : OptionsViewDelegate {
+	func optionsViewButtonTapped(vc: OptionsView, response: Int) {
 		switch response {
 		case NSModalResponseOK:
 			if basePath != "" {
@@ -297,8 +302,8 @@ extension SourceEditViewController : OptionsViewControllerDelegate {
 			break
 		}
 		
-		self.optionsVC?.view.removeFromSuperview()
-		self.optionsVC = nil
+		self.optionsView?.removeFromSuperview()
+		self.optionsView = nil
 	}
 }
 
