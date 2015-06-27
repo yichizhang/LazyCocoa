@@ -53,12 +53,7 @@ class ChangeHeaderViewController : BaseViewController {
 		if let baseURL = NSURL(fileURLWithPath: basePath) {
 			
 			loadingView?.removeFromSuperview()
-			
-			let nib = NSNib(nibNamed: "LoadingView", bundle: nil)
-			var views:NSArray?
-			nib?.instantiateWithOwner(self, topLevelObjects: &views)
-			loadingView = views!.objectAtIndex(0) as? LoadingView
-			println("LoadingView loaded")
+			loadingView = LoadingView.newViewWithNibName("LoadingView")
 			
 			if let v = loadingView {
 				println("LoadingView is not nil")

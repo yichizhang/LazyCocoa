@@ -46,6 +46,24 @@
 	}
 }
 
++ (instancetype)newViewWithNibName:(NSString*)nibName {
+	NSNib *nib = [[NSNib alloc] initWithNibNamed:nibName bundle:nil];
+	NSArray *objects;
+	if (![nib instantiateWithOwner:self topLevelObjects:&objects]) {
+		// error
+	}
+		
+	id view = nil;
+	for (id obj in objects) {
+		if ([obj isKindOfClass:[self class]]) {
+			view = obj;
+			break;
+		}
+	}
+	
+	return view;
+}
+
 - (void)setupConstraintsMakingViewAdhereToEdgesOfSuperview {
 	
 	NSView *contentView = self.superview;

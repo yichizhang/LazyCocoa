@@ -81,12 +81,7 @@ class SourceEditViewController: BaseViewController {
 			if error != nil {
 				
 				optionsView?.removeFromSuperview()
-				
-				let nib = NSNib(nibNamed: "OptionsView", bundle: nil)
-				var views:NSArray?
-				nib?.instantiateWithOwner(self, topLevelObjects: &views)
-				optionsView = views!.objectAtIndex(0) as? OptionsView
-				println("OptionsView loaded")
+				optionsView = OptionsView.newViewWithNibName("OptionsView")
 				
 				if let v = optionsView {
 					println("OptionsView is not nil")
