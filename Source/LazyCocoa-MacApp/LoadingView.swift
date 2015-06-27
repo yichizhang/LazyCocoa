@@ -31,7 +31,9 @@ protocol LoadingViewDelegate {
 }
 
 class LoadingView : NSView {
-	
+
+	@IBOutlet weak var titleTextField: NSTextField!
+	@IBOutlet weak var messageTextField: NSTextField!
 	@IBOutlet weak var progressIndicator: NSProgressIndicator!
 	var delegate:LoadingViewDelegate?
 	

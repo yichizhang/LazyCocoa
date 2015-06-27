@@ -64,6 +64,10 @@ class SourceEditViewController: BaseViewController {
 		
 		sourceFileTextView.lnv_setUpLineNumberView()
 		sourceFileTextView.delegate = self
+		
+		self.saveButton.enabled = false
+		self.filePopUpButton.enabled = false
+		self.updateControlSettings(enabled:false)
 	}
 	
 	func openBasePath(basePath:String?) {
@@ -130,6 +134,7 @@ class SourceEditViewController: BaseViewController {
 	func updateControlSettings(#enabled:Bool) {
 		
 		self.sourceFileTextView.editable = enabled
+		self.mainGeneratedCodeTextView.editable = false
 		self.showHelpButton.enabled = enabled
 		self.showParseColorButton.enabled = enabled
 		self.updateButton.enabled = enabled
@@ -161,8 +166,6 @@ class SourceEditViewController: BaseViewController {
 		
 		sourceFileTextView.setUpForDisplayingSourceCode()
 		mainGeneratedCodeTextView.setUpForDisplayingSourceCode()
-		
-		mainGeneratedCodeTextView.editable = false
 		
 		// Update filePopUpButton
 		filePopUpButton.removeAllItems()

@@ -103,6 +103,9 @@ class ChangeHeaderViewController : BaseViewController {
 						for suffix in acceptableSuffixArray {
 							if element.absoluteString!.hasSuffix(suffix) {
 								
+								dispatch_async(dispatch_get_main_queue()) {
+									self.loadingView?.messageTextField.stringValue = "\(relativePathFrom(fullPath: element.absoluteString!))"
+								}
 								// check the extension
 								self.dataArray?.append(PlainTextFile(fileURL: element))
 							}
@@ -353,7 +356,13 @@ extension ChangeHeaderViewController : NSTableViewDataSource {
 	func relativePathFrom(#fullPath:String) -> String {
 		
 		if let range = fullPath.rangeOfString(basePath) {
-			return fullPath.substringFromIndex(range.endIndex)
+			var relPath = fullPath.substringFromIndex(range.endIndex)
+			
+			if count(relPath)>0 && relPath.characterAtIndex(0) == Character("/") {
+				relPath = relPath.substringFromIndex( advance(relPath.startIndex, 1) )
+			}
+			
+			return relPath
 		} else {
 			return fullPath
 		}
