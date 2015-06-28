@@ -200,7 +200,7 @@ class SourceCodeDocument : Printable {
 				return "Exported successfully:  \(fullExportPath)"
 			}
 		} else {
-			return "Failed to export, export path is not set"
+			return "Failed to export, export path is not set. Use `!!exportPath` to set it.\nExample:\n\n!!!stringConst\n!!exportTo StringConst.swift\nweb_id; name; email; contact_details; location; position; work_unit"
 		}
 	}
 }
