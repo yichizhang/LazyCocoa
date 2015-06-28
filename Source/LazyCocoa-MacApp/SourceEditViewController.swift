@@ -194,6 +194,8 @@ class SourceEditViewController: BaseViewController {
 			mainGeneratedCodeTextView.string = ""
 		}
 		
+		filePopUpButton.enabled = true
+		
 	}
 	
 	@IBAction func filePopUpButtonUpdated(sender: AnyObject) {
