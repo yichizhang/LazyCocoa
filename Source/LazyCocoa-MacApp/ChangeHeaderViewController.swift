@@ -45,8 +45,73 @@ class ChangeHeaderViewController : BaseViewController {
 	@IBOutlet weak var applyChangesButton: NSButton!
 	
 	// MARK: Load and update data
-	func reloadFiles() {
+	func updateFiles() {
 		
+		if dataArray != nil {
+			for textFile in dataArray! {
+				
+				var filePathRegexString:String? = nil
+				if filePathRegexCheckBox.state == NSOnState {
+					filePathRegexString = filePathRegexTextField.stringValue
+				}
+				
+				var originalHeaderRegexString:String? = nil
+				if originalHeaderRegexCheckBox.state == NSOnState {
+					originalHeaderRegexString = originalHeaderRegexTextField.stringValue
+				}
+				
+				textFile.updateInclusiveness(filePathRegexString: filePathRegexString, originalHeaderRegexString: originalHeaderRegexString)
+			}
+		}
+		
+		fileTableView.reloadData()
+	}
+	
+	func updateTextViews() {
+		
+		// NSTableView's selectedRow property
+		// When multiple rows are selected, this property contains only the index of the last one in the selection.
+		// If no row is selected, the value of this property is -1.
+		updateTextViewsWith(textFileAtRow: fileTableView.selectedRow)
+	}
+	
+	func updateTextViewsWith(textFileAtRow row:Int) {
+		// "row < dataArray?.count" is false if dataArray is nil.
+		if row >= 0 && row < dataArray?.count {
+			let textFile = dataArray![row]
+			
+			if let string = textFile.fileString {
+				let headerChanger = HeaderChanger(string: string, newComment: newHeaderCommentTextView.string!, filename: textFile.filename)
+				
+				originalFileTextView.textStorage?.setAttributedString(headerChanger.originalAttributedString)
+				newFileTextView.textStorage?.setAttributedString(headerChanger.newAttributedString)
+				
+				originalFileTextView.scrollRectToVisible(NSRect(origin: CGPointZero, size: CGSizeZero))
+				newFileTextView.scrollRectToVisible(NSRect(origin: CGPointZero, size: CGSizeZero))
+			}
+		}
+	}
+	
+	// MARK: Update views
+	func updateControlSettings(#enabled:Bool) {
+		newHeaderCommentTextView.userInteractionEnabled = enabled
+		
+		fileTableView.userInteractionEnabled = enabled
+		
+		filePathRegexCheckBox.userInteractionEnabled = enabled
+		filePathRegexTextField.userInteractionEnabled = enabled
+		
+		originalHeaderRegexCheckBox.userInteractionEnabled = enabled
+		originalHeaderRegexTextField.userInteractionEnabled = enabled
+		
+		applyChangesButton.userInteractionEnabled = enabled
+		
+		originalFileTextView.selectable = enabled
+		newFileTextView.selectable = enabled
+	}
+	
+	// MARK: Base View Controller
+	override func loadData() {
 		if let baseURL = NSURL(fileURLWithPath: basePath) {
 			
 			loadingView?.removeFromSuperview()
@@ -64,16 +129,20 @@ class ChangeHeaderViewController : BaseViewController {
 				v.layer = layer
 				v.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
 				
-				changeViewUserInteractionEnabled(false)
+				// Add loading view
 				self.view.addSubview(v, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
 				v.progressIndicator.startAnimation(self)
 				v.setupConstraintsMakingViewAdhereToEdgesOfSuperview()
 				
+				// Set up view
+				updateControlSettings(enabled: false)
+				
+				// Set up variables
 				self.loadingCancelled = false
+				self.dataArray = [PlainTextFile]()
+				self.fileTableView.reloadData()
 				
 				dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_UTILITY.value), 0)) {
-					
-					self.dataArray = [PlainTextFile]()
 					
 					let acceptableSuffixArray = [".h", ".m", ".swift"]
 					let fileManager = NSFileManager()
@@ -112,101 +181,35 @@ class ChangeHeaderViewController : BaseViewController {
 						}
 					}
 					
-					dispatch_async(dispatch_get_main_queue()) {
+					if self.loadingCancelled == false {
 						
-						self.fileTableView.reloadData()
-						
-						self.loadingView?.removeFromSuperview()
-						self.loadingView = nil
-						
-						self.changeViewUserInteractionEnabled(true)
-						
-						self.updateFiles()
-						
+						dispatch_async(dispatch_get_main_queue()) {
+							
+							self.fileTableView.reloadData()
+							
+							self.loadingView?.removeFromSuperview()
+							self.loadingView = nil
+							
+							self.updateControlSettings(enabled: true)
+							
+							self.updateFiles()
+						}
+					} else {
+						dispatch_async(dispatch_get_main_queue()) {
+							
+							self.loadingView?.removeFromSuperview()
+							self.loadingView = nil
+						}
 					}
 				}
 			}
 		}
 	}
 	
-	func updateFiles() {
-		
-		if dataArray != nil {
-			for textFile in dataArray! {
-				
-				var filePathRegexString:String? = nil
-				if filePathRegexCheckBox.state == NSOnState {
-					filePathRegexString = filePathRegexTextField.stringValue
-				}
-				
-				var originalHeaderRegexString:String? = nil
-				if originalHeaderRegexCheckBox.state == NSOnState {
-					originalHeaderRegexString = originalHeaderRegexTextField.stringValue
-				}
-				
-				textFile.updateInclusiveness(filePathRegexString: filePathRegexString, originalHeaderRegexString: originalHeaderRegexString)
-			}
-		}
-		
-		fileTableView.reloadData()
-	}
-	
-	func updateTextViews() {
-		
-		// NSTableView's selectedRow property
-		// When multiple rows are selected, this property contains only the index of the last one in the selection.
-		// If no row is selected, the value of this property is -1.
-		updateTextViewsWith(textFileAtRow: fileTableView.selectedRow)
-	}
-	
-	func updateTextViewsWith(textFileAtRow row:Int) {
-		// "row < dataArray?.count" is false if dataArray is nil.
-		if row >= 0 && row < dataArray?.count {
-			let textFile = dataArray![row]
-			updateTextViewsWith(textFile: textFile)
-		}
-	}
-	
-	func updateTextViewsWith(#textFile:PlainTextFile) {
-		
-		if let string = textFile.fileString {
-			let headerChanger = HeaderChanger(string: string, newComment: newHeaderCommentTextView.string!, filename: textFile.filename)
-			
-			originalFileTextView.textStorage?.setAttributedString(headerChanger.originalAttributedString)
-			newFileTextView.textStorage?.setAttributedString(headerChanger.newAttributedString)
-			
-			originalFileTextView.scrollRectToVisible(NSRect(origin: CGPointZero, size: CGSizeZero))
-			newFileTextView.scrollRectToVisible(NSRect(origin: CGPointZero, size: CGSizeZero))
-		}
-	}
-	
-	// MARK: Update views
-	func changeViewUserInteractionEnabled(value:Bool) {
-		newHeaderCommentTextView.userInteractionEnabled = value
-		
-		fileTableView.userInteractionEnabled = value
-		
-		filePathRegexCheckBox.userInteractionEnabled = value
-		filePathRegexTextField.userInteractionEnabled = value
-		
-		originalHeaderRegexCheckBox.userInteractionEnabled = value
-		originalHeaderRegexTextField.userInteractionEnabled = value
-		
-		applyChangesButton.userInteractionEnabled = value
-		
-		originalFileTextView.selectable = value
-		newFileTextView.selectable = value
-	}
-	
-	// MARK: Base View Controller
-	override func loadData() {
-		reloadFiles()
-	}
-	
 	override func cancelLoading() {
 		loadingCancelled = true
 		
-		self.dataArray = [PlainTextFile]()
+		self.dataArray?.removeAll(keepCapacity: true)
 	}
 	
 	// MARK: View life cycle

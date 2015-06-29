@@ -39,12 +39,7 @@ class BaseViewController: NSViewController {
 		}
 		didSet {
 			if self.viewVisible {
-				
-				if oldBasePath != basePath || self.needsReload == true {
-					self.cancelLoading()
-					self.loadData()
-					oldBasePath = basePath
-				}
+				loadDataIfNecessary()
 			}
 		}
 	}
@@ -59,11 +54,7 @@ class BaseViewController: NSViewController {
 		super.viewDidAppear()
 		viewVisible = true
 		
-		if oldBasePath != basePath || self.needsReload == true {
-			self.cancelLoading()
-			self.loadData()
-			oldBasePath = basePath
-		}
+		loadDataIfNecessary()
 	}
 	
 	override func viewDidDisappear() {
@@ -71,6 +62,16 @@ class BaseViewController: NSViewController {
 		viewVisible = false
 	}
 	// MARK: Load data; cancel loading
+	func loadDataIfNecessary() {
+		if oldBasePath != basePath || self.needsReload == true {
+			self.cancelLoading()
+			self.loadData()
+			
+			oldBasePath = basePath
+			self.needsReload == false
+		}
+	}
+	
 	func loadData() {
 		
 	}
