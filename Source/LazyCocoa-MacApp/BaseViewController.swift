@@ -28,6 +28,10 @@ import Cocoa
 class BaseViewController: NSViewController {
 	
 	var viewVisible = false
+	
+	var loadingCancelled = false
+	var needsReload = false
+	
 	var oldBasePath:String = ""
 	var basePath:String = "" {
 		willSet {
@@ -35,7 +39,8 @@ class BaseViewController: NSViewController {
 		}
 		didSet {
 			if self.viewVisible {
-				if oldBasePath != basePath {
+				
+				if oldBasePath != basePath || self.needsReload == true {
 					self.cancelLoading()
 					self.loadData()
 					oldBasePath = basePath
@@ -50,25 +55,12 @@ class BaseViewController: NSViewController {
     }
 	
 	// MARK: View life cycle
-//	override func viewWillAppear() {
-//		super.viewWillAppear()
-//		viewVisible = true
-//		
-//		if oldBasePath != basePath {
-//			self.loadData()
-//			oldBasePath = basePath
-//		}
-//	}
-//	
-//	override func viewWillDisappear() {
-//		super.viewWillDisappear()
-//		viewVisible = false
-//	}
 	override func viewDidAppear() {
 		super.viewDidAppear()
 		viewVisible = true
 		
-		if oldBasePath != basePath {
+		if oldBasePath != basePath || self.needsReload == true {
+			self.cancelLoading()
 			self.loadData()
 			oldBasePath = basePath
 		}

@@ -28,6 +28,8 @@ import AppKit
 
 class ChangeHeaderViewController : BaseViewController {
 	
+	var dataArray:[PlainTextFile]?
+	
 	var loadingView:LoadingView?
 	
 	@IBOutlet var originalFileTextView: NSTextView!
@@ -35,17 +37,12 @@ class ChangeHeaderViewController : BaseViewController {
 	@IBOutlet var newHeaderCommentTextView: NSTextView!
 	
 	@IBOutlet weak var fileTableView: NSTableView!
-	var dataArray:[PlainTextFile]?
 	
 	@IBOutlet weak var filePathRegexCheckBox: NSButton!
 	@IBOutlet weak var filePathRegexTextField: NSTextField!
-	
 	@IBOutlet weak var originalHeaderRegexCheckBox: NSButton!
 	@IBOutlet weak var originalHeaderRegexTextField: NSTextField!
-	
 	@IBOutlet weak var applyChangesButton: NSButton!
-	
-	var countinueEnumeratingFile:Bool = true
 	
 	// MARK: Load and update data
 	func reloadFiles() {
@@ -53,10 +50,11 @@ class ChangeHeaderViewController : BaseViewController {
 		if let baseURL = NSURL(fileURLWithPath: basePath) {
 			
 			loadingView?.removeFromSuperview()
+			loadingView = nil
+			
 			loadingView = LoadingView.newViewWithNibName("LoadingView")
 			
 			if let v = loadingView {
-				println("LoadingView is not nil")
 				v.delegate = self
 				
 				let layer = CALayer()
@@ -71,9 +69,9 @@ class ChangeHeaderViewController : BaseViewController {
 				v.progressIndicator.startAnimation(self)
 				v.setupConstraintsMakingViewAdhereToEdgesOfSuperview()
 				
-				self.countinueEnumeratingFile = true
+				self.loadingCancelled = false
 				
-				dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+				dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_UTILITY.value), 0)) {
 					
 					self.dataArray = [PlainTextFile]()
 					
@@ -89,7 +87,7 @@ class ChangeHeaderViewController : BaseViewController {
 					})
 					
 					while let element = enumerator?.nextObject() as? NSURL {
-						if self.countinueEnumeratingFile == false {
+						if self.loadingCancelled == true {
 							break
 						}
 						
@@ -103,17 +101,19 @@ class ChangeHeaderViewController : BaseViewController {
 						for suffix in acceptableSuffixArray {
 							if element.absoluteString!.hasSuffix(suffix) {
 								
+								// check the extension
 								dispatch_async(dispatch_get_main_queue()) {
 									self.loadingView?.messageTextField.stringValue = "\(relativePathFrom(fullPath: element.absoluteString!))"
 								}
-								// check the extension
+								
 								self.dataArray?.append(PlainTextFile(fileURL: element))
+								
 							}
 						}
 					}
 					
 					dispatch_async(dispatch_get_main_queue()) {
-						// update some UI
+						
 						self.fileTableView.reloadData()
 						
 						self.loadingView?.removeFromSuperview()
@@ -122,6 +122,7 @@ class ChangeHeaderViewController : BaseViewController {
 						self.changeViewUserInteractionEnabled(true)
 						
 						self.updateFiles()
+						
 					}
 				}
 			}
@@ -203,7 +204,8 @@ class ChangeHeaderViewController : BaseViewController {
 	}
 	
 	override func cancelLoading() {
-		countinueEnumeratingFile = false
+		loadingCancelled = true
+		
 		self.dataArray = [PlainTextFile]()
 	}
 	

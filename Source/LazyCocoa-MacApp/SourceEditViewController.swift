@@ -70,6 +70,7 @@ class SourceEditViewController: BaseViewController {
 		self.updateControlSettings(enabled:false)
 	}
 	
+	// MARK: Load file
 	func openBasePath(basePath:String?) {
 		var error:NSError?
 		var success = false
@@ -85,11 +86,11 @@ class SourceEditViewController: BaseViewController {
 			if error != nil {
 				
 				optionsView?.removeFromSuperview()
+				optionsView = nil
+				
 				optionsView = OptionsView.newViewWithNibName("OptionsView")
 				
 				if let v = optionsView {
-					println("OptionsView is not nil")
-					
 					v.delegate = self
 					
 					let layer = CALayer()
@@ -102,14 +103,13 @@ class SourceEditViewController: BaseViewController {
 					self.view.addSubview(v, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
 					v.setupConstraintsMakingViewAdhereToEdgesOfSuperview()
 					
+					loadingCancelled = false
 					if error!.code == ErrorCode.FileIsDir {
 						v.messageField.stringValue = error!.localizedDescription
 						v.okButton.enabled = false
-						
 					} else if error!.code == ErrorCode.FileNotExist {
 						v.messageField.stringValue = "\(error!.localizedDescription)\nWould you like to create a new \(prog.fileName)?"
 						v.okButton.stringValue = "Create a new \(prog.fileName)"
-						
 					}
 				}
 				
@@ -131,6 +131,7 @@ class SourceEditViewController: BaseViewController {
 		}
 	}
 	
+	// MARK: Update user interface
 	func updateControlSettings(#enabled:Bool) {
 		
 		self.sourceFileTextView.editable = enabled
@@ -139,12 +140,6 @@ class SourceEditViewController: BaseViewController {
 		self.showParseColorButton.enabled = enabled
 		self.updateButton.enabled = enabled
 		self.exportButton.enabled = enabled
-	}
-	
-	override var representedObject: AnyObject? {
-		didSet {
-			// Update the view, if already loaded.
-		}
 	}
 	
 	func updateDocumentsAndUserInterface() {
@@ -198,6 +193,7 @@ class SourceEditViewController: BaseViewController {
 		
 	}
 	
+	//MARK: User interaction - file pop up button
 	@IBAction func filePopUpButtonUpdated(sender: AnyObject) {
 		
 		filePopUpLastSelectedIndex = filePopUpButton.indexOfSelectedItem
@@ -310,7 +306,7 @@ extension SourceEditViewController : OptionsViewDelegate {
 			}
 			break
 		default:
-			
+			loadingCancelled = true
 			break
 		}
 		
