@@ -65,6 +65,7 @@ struct StringConst {
 struct ErrorCode {
 	static let FileNotExist:Int = 801
 	static let FileIsDir:Int = 802
+	static let ExportPathNotSet:Int = 802
 }
 
 enum Platform : Int {

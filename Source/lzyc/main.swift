@@ -70,7 +70,6 @@ if ( Process.arguments.count < 2) {
 	case "update":
 		
 		var analyzer = DocumentAnalyzer()
-		analyzer.platform = Platform.iOS
 
 		error = nil
 		if let sourceString = prog.lazyfileString(basePath: fileManager.currentDirectoryPath, error: &error) {
@@ -79,8 +78,15 @@ if ( Process.arguments.count < 2) {
 			analyzer.process()
 			
 			for d in analyzer.sourceCodeDocuments {
-				let message = d.export(basePath: fileManager.currentDirectoryPath)
+				var error:NSError?
+				let message = d.export(basePath: fileManager.currentDirectoryPath, error: &error)
+				
 				println(message)
+				/*
+				if let error = error {
+					println(error.localizedDescription)
+				}
+				*/
 			}
 		} else {
 			

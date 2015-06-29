@@ -184,23 +184,35 @@ class SourceCodeDocument : Printable {
 		return "\n\(components)"
 	}
 	
-	func export(#basePath:String) -> String {
+	func export(#basePath:String, error errorPointer:NSErrorPointer) -> String {
 		if exportTo.isEmpty == false {
 			
-			var error:NSError?
 			let exportPath = exportTo.stringByTrimmingWhiteSpaceAndNewLineCharacters()
 			
+			let fileManager = NSFileManager.defaultManager()
+			
 			let fullExportPath = basePath.stringByAppendingPathComponent(exportPath)
+			let fullDirectoryPath = fullExportPath.stringByDeletingLastPathComponent
 			
-			documentString.writeToFile(fullExportPath, atomically: true, encoding: NSUTF8StringEncoding, error: &error)
+			var isDir:ObjCBool = false
+			let e = fileManager.fileExistsAtPath(fullDirectoryPath, isDirectory: &isDir)
 			
-			if let error = error {
+			if e == false {
+				// Create directory, if directory does not exist.
+				fileManager.createDirectoryAtPath(fullDirectoryPath, withIntermediateDirectories: true, attributes: nil, error: nil)
+			}
+			
+			errorPointer.memory = nil
+			documentString.writeToFile(fullExportPath, atomically: true, encoding: NSUTF8StringEncoding, error: errorPointer)
+			
+			if let error = errorPointer.memory {
 				return "Failed to export:  \(fullExportPath)"
 			} else {
 				return "Exported successfully:  \(fullExportPath)"
 			}
 		} else {
-			return "Failed to export, export path is not set. Use `!!exportPath` to set it.\nExample:\n\n!!!stringConst\n!!exportTo StringConst.swift\nweb_id; name; email; contact_details; location; position; work_unit"
+			errorPointer.memory = NSError(domain: "File", code: ErrorCode.ExportPathNotSet, userInfo: [NSLocalizedDescriptionKey:"Failed to export, export path is not set."])
+			return "Failed to export, export path is not set."
 		}
 	}
 }

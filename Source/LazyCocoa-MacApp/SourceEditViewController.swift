@@ -215,6 +215,7 @@ class SourceEditViewController: BaseViewController {
 	@IBAction func exportButtonTapped(sender: AnyObject) {
 		
 		var message = ""
+		var showExportPathNotSetMessage = false
 		
 		if analyzer.sourceCodeDocuments.isEmpty {
 			
@@ -229,10 +230,21 @@ class SourceEditViewController: BaseViewController {
 				updateDocumentsAndUserInterface()
 				
 				for d in analyzer.sourceCodeDocuments {
-					message += d.export(basePath: basePath)
+					var error:NSError?
+					message += d.export(basePath: basePath, error: &error)
+					
+					if let error = error {
+						if error.code == ErrorCode.ExportPathNotSet {
+							showExportPathNotSetMessage = true
+						}
+					}
 					message += "\n"
 				}
 			}
+		}
+		
+		if showExportPathNotSetMessage {
+			message += "\nUse `!!exportPath` to set export path.\nExample:\n\n!!!stringConst\n!!exportTo StringConst.swift\nweb_id; name; email; contact_details; location; position; work_unit"
 		}
 		
 		let alert = NSAlert()
