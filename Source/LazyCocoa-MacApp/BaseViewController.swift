@@ -61,6 +61,7 @@ class BaseViewController: NSViewController {
 		super.viewDidDisappear()
 		viewVisible = false
 	}
+	
 	// MARK: Load data; cancel loading
 	func loadDataIfNecessary() {
 		if oldBasePath != basePath || self.needsReload == true {

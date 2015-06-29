@@ -62,8 +62,12 @@ class MainViewController: NSViewController {
 			if let url = openDialog.URLs.first as? NSURL {
 				
 				basePathTextField.stringValue = url.path!
+				
+				// Set the base path and force it to reload
 				sourceEditVC.basePath = url.path!
+				sourceEditVC.needsReload = true
 				changeHeaderVC.basePath = url.path!
+				changeHeaderVC.needsReload = true
 			}
 		}
 	}
