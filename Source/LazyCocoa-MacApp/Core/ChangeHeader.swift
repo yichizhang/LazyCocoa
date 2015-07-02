@@ -171,6 +171,19 @@ class HeaderChanger {
 		preparedNewComment = tempCommentString
 		
 		if originalCommentRange.location != NSNotFound {
+			
+			/* Add an extra new line, in case there is something after the header comment.
+			 * For example:
+			 *                     X  --- Check if this character is a new line character.
+			 *        /* Comment */ #define AAA BBB
+			 *        #define CCC DDD
+			 */
+			if originalString.length > NSMaxRange(originalCommentRange)
+				&&
+				originalString.substringWithRange(NSRange(location: NSMaxRange(originalCommentRange), length: 1)).containsCharactersInSet(NSCharacterSet.newlineCharacterSet()) == false {
+				tempCommentString.appendString("\n")
+			}
+			
 			newFileString = originalString.stringByReplacingCharactersInRange(originalCommentRange, withString: preparedNewComment as String)
 		}
 	}
