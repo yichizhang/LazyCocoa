@@ -294,6 +294,11 @@ class ChangeHeaderViewController : BaseViewController {
 		updateTextViews()
 	}
 	
+	@IBAction func updatePreviewButtonTapped(sender: AnyObject) {
+		
+		updateTextViews()
+	}
+	
 }
 
 extension ChangeHeaderViewController : LoadingViewDelegate {

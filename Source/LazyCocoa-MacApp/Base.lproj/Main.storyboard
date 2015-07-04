@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="7531" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jGA-0Y-lOj">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="jGA-0Y-lOj">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7706"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -609,7 +609,7 @@
                                                 </textFieldCell>
                                             </textField>
                                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G2X-gr-THK">
-                                                <rect key="frame" x="336" y="10" width="586" height="190"/>
+                                                <rect key="frame" x="336" y="10" width="652" height="168"/>
                                                 <clipView key="contentView" id="efa-2W-Rea">
                                                     <rect key="frame" x="1" y="1" width="223" height="133"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -618,11 +618,11 @@
                                                             <rect key="frame" x="0.0" y="0.0" width="240" height="188"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <size key="minSize" width="584" height="188"/>
-                                                            <size key="maxSize" width="603" height="10000000"/>
+                                                            <size key="minSize" width="650" height="166"/>
+                                                            <size key="maxSize" width="650" height="10000000"/>
                                                             <color key="insertionPointColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                            <size key="minSize" width="584" height="188"/>
-                                                            <size key="maxSize" width="603" height="10000000"/>
+                                                            <size key="minSize" width="650" height="166"/>
+                                                            <size key="maxSize" width="650" height="10000000"/>
                                                         </textView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -637,7 +637,7 @@
                                                 </scroller>
                                             </scrollView>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QJl-kO-ITX">
-                                                <rect key="frame" x="334" y="203" width="140" height="17"/>
+                                                <rect key="frame" x="334" y="194" width="140" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="New header comment" id="Kv2-FJ-joK">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -656,14 +656,11 @@
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                            <button translatesAutoresizingMaskIntoConstraints="NO" id="Fyl-Re-PSp">
-                                                <rect key="frame" x="930" y="11" width="48" height="189"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="48" id="5vI-fg-Zem"/>
-                                                </constraints>
-                                                <buttonCell key="cell" type="square" title="Apply" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nuX-DU-tvl">
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Fyl-Re-PSp">
+                                                <rect key="frame" x="887" y="193" width="101" height="19"/>
+                                                <buttonCell key="cell" type="roundRect" title="Apply Changes" bezelStyle="roundedRect" imagePosition="overlaps" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="nuX-DU-tvl">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                    <font key="font" metaFont="system"/>
+                                                    <font key="font" metaFont="cellTitle"/>
                                                 </buttonCell>
                                             </button>
                                             <button translatesAutoresizingMaskIntoConstraints="NO" id="J1W-W0-K1t">
@@ -673,32 +670,42 @@
                                                     <font key="font" metaFont="system"/>
                                                 </buttonCell>
                                             </button>
+                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="J6V-Fa-p1C">
+                                                <rect key="frame" x="774" y="193" width="105" height="19"/>
+                                                <buttonCell key="cell" type="roundRect" title="Update Preview" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Smi-TT-mKm">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                    <font key="font" metaFont="cellTitle"/>
+                                                </buttonCell>
+                                                <connections>
+                                                    <action selector="updatePreviewButtonTapped:" target="bjj-1R-VhV" id="ops-f5-7Qd"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <constraints>
                                             <constraint firstItem="GWZ-fb-VQo" firstAttribute="top" secondItem="ui9-rE-ndq" secondAttribute="bottom" constant="7" id="1iq-cC-aKj"/>
                                             <constraint firstItem="yWz-m9-SsP" firstAttribute="top" secondItem="lKO-37-5Fn" secondAttribute="top" constant="8" id="24r-el-Pco"/>
                                             <constraint firstAttribute="bottom" secondItem="Gf3-I2-Yie" secondAttribute="bottom" constant="12" id="2jJ-rb-C0p"/>
                                             <constraint firstItem="GWZ-fb-VQo" firstAttribute="leading" secondItem="lKO-37-5Fn" secondAttribute="leading" constant="20" id="48V-l9-jam"/>
-                                            <constraint firstItem="QJl-kO-ITX" firstAttribute="top" secondItem="lKO-37-5Fn" secondAttribute="top" constant="7" id="5JW-1I-Y0h"/>
+                                            <constraint firstItem="QJl-kO-ITX" firstAttribute="top" secondItem="lKO-37-5Fn" secondAttribute="top" constant="16" id="5JW-1I-Y0h"/>
+                                            <constraint firstItem="G2X-gr-THK" firstAttribute="trailing" secondItem="Fyl-Re-PSp" secondAttribute="trailing" id="5pu-uO-bdZ"/>
                                             <constraint firstItem="Gf3-I2-Yie" firstAttribute="leading" secondItem="lKO-37-5Fn" secondAttribute="leading" constant="20" id="7gI-gW-CYG"/>
                                             <constraint firstItem="ui9-rE-ndq" firstAttribute="top" secondItem="yWz-m9-SsP" secondAttribute="bottom" constant="8" id="9PF-5S-l9P"/>
-                                            <constraint firstItem="Fyl-Re-PSp" firstAttribute="leading" secondItem="G2X-gr-THK" secondAttribute="trailing" constant="8" id="FTa-LU-KDE"/>
-                                            <constraint firstItem="Fyl-Re-PSp" firstAttribute="top" secondItem="lKO-37-5Fn" secondAttribute="top" constant="27" id="QXG-qJ-8QN"/>
-                                            <constraint firstAttribute="trailing" secondItem="Fyl-Re-PSp" secondAttribute="trailing" constant="20" id="VqL-1M-Fj5"/>
+                                            <constraint firstItem="Fyl-Re-PSp" firstAttribute="centerY" secondItem="QJl-kO-ITX" secondAttribute="centerY" id="B8C-Jh-hlA"/>
+                                            <constraint firstAttribute="trailing" secondItem="G2X-gr-THK" secondAttribute="trailing" constant="10" id="TMz-Ug-2JE"/>
+                                            <constraint firstItem="Fyl-Re-PSp" firstAttribute="leading" secondItem="J6V-Fa-p1C" secondAttribute="trailing" constant="8" id="Ubt-g5-NNY"/>
                                             <constraint firstItem="ui9-rE-ndq" firstAttribute="height" secondItem="Gf3-I2-Yie" secondAttribute="height" id="X8H-5z-bdf"/>
                                             <constraint firstItem="J1W-W0-K1t" firstAttribute="leading" secondItem="GWZ-fb-VQo" secondAttribute="trailing" constant="34" id="aYe-PP-ZwQ"/>
                                             <constraint firstAttribute="bottom" secondItem="G2X-gr-THK" secondAttribute="bottom" constant="10" id="aZ8-Tx-8Hs"/>
                                             <constraint firstItem="ui9-rE-ndq" firstAttribute="leading" secondItem="lKO-37-5Fn" secondAttribute="leading" constant="20" id="bsc-Li-Inf"/>
                                             <constraint firstItem="GWZ-fb-VQo" firstAttribute="centerY" secondItem="J1W-W0-K1t" secondAttribute="centerY" id="dlR-41-pSN"/>
-                                            <constraint firstItem="G2X-gr-THK" firstAttribute="top" secondItem="QJl-kO-ITX" secondAttribute="bottom" constant="3" id="esD-UD-DYZ"/>
+                                            <constraint firstItem="G2X-gr-THK" firstAttribute="top" secondItem="QJl-kO-ITX" secondAttribute="bottom" constant="16" id="esD-UD-DYZ"/>
                                             <constraint firstItem="QJl-kO-ITX" firstAttribute="leading" secondItem="lKO-37-5Fn" secondAttribute="leading" constant="336" id="fa3-0v-0UO"/>
                                             <constraint firstItem="G2X-gr-THK" firstAttribute="leading" secondItem="ui9-rE-ndq" secondAttribute="trailing" constant="16" id="gYf-ma-Y9k"/>
                                             <constraint firstItem="yWz-m9-SsP" firstAttribute="leading" secondItem="lKO-37-5Fn" secondAttribute="leading" constant="20" id="gxu-1c-zFw"/>
                                             <constraint firstItem="3Ao-60-cfQ" firstAttribute="leading" secondItem="yWz-m9-SsP" secondAttribute="trailing" constant="56" id="j0D-PX-53a"/>
                                             <constraint firstItem="3Ao-60-cfQ" firstAttribute="centerY" secondItem="yWz-m9-SsP" secondAttribute="centerY" id="m0j-sZ-tgo"/>
-                                            <constraint firstItem="Fyl-Re-PSp" firstAttribute="leading" secondItem="G2X-gr-THK" secondAttribute="trailing" constant="8" id="mp3-Xu-iwF"/>
                                             <constraint firstItem="Gf3-I2-Yie" firstAttribute="top" secondItem="GWZ-fb-VQo" secondAttribute="bottom" constant="7" id="o5L-Qf-JYQ"/>
-                                            <constraint firstAttribute="bottom" secondItem="Fyl-Re-PSp" secondAttribute="bottom" constant="11" id="reR-VT-UB7"/>
+                                            <constraint firstItem="Fyl-Re-PSp" firstAttribute="centerY" secondItem="J6V-Fa-p1C" secondAttribute="centerY" id="sgD-t1-sz4"/>
                                         </constraints>
                                     </customView>
                                     <splitView fixedFrame="YES" dividerStyle="thin" vertical="YES" id="khU-hJ-JAe">
