@@ -42,7 +42,10 @@ class ChangeHeaderViewController : BaseViewController {
 	@IBOutlet weak var filePathRegexTextField: NSTextField!
 	@IBOutlet weak var originalHeaderRegexCheckBox: NSButton!
 	@IBOutlet weak var originalHeaderRegexTextField: NSTextField!
+	
 	@IBOutlet weak var applyChangesButton: NSButton!
+	@IBOutlet weak var updatePreviewButton: NSButton!
+	@IBOutlet weak var updateFilesButton: NSButton!
 	
 	// MARK: Load and update data
 	func updateFiles() {
@@ -105,6 +108,8 @@ class ChangeHeaderViewController : BaseViewController {
 		originalHeaderRegexTextField.userInteractionEnabled = enabled
 		
 		applyChangesButton.userInteractionEnabled = enabled
+		updatePreviewButton.userInteractionEnabled = enabled
+		updateFilesButton.userInteractionEnabled = enabled
 		
 		originalFileTextView.selectable = enabled
 		newFileTextView.selectable = enabled
@@ -229,21 +234,15 @@ class ChangeHeaderViewController : BaseViewController {
 		fileTableView.setDelegate(self)
 		fileTableView.reloadData()
 		
-		filePathRegexCheckBox.action = "checkBoxStateChanged:"
-		filePathRegexTextField.delegate = self
-		
-		originalHeaderRegexCheckBox.action = "checkBoxStateChanged:"
-		originalHeaderRegexTextField.delegate = self
-		
 		applyChangesButton.action = "applyChangesButtonTapped:"
+		updatePreviewButton.action = "updatePreviewButtonTapped:"
+		updateFilesButton.action = "updateFilesButtonTapped:"
 	}
 	
 	// MARK: UI actions
-	func checkBoxStateChanged(sender: NSButton) {
-		updateFiles()
-	}
-	
 	func applyChangesButtonTapped(sender: NSButton) {
+		
+		updateFiles()
 		
 		if dataArray != nil {
 			var count = 0
@@ -294,9 +293,14 @@ class ChangeHeaderViewController : BaseViewController {
 		updateTextViews()
 	}
 	
-	@IBAction func updatePreviewButtonTapped(sender: AnyObject) {
+	func updatePreviewButtonTapped(sender: AnyObject) {
 		
 		updateTextViews()
+	}
+	
+	func updateFilesButtonTapped(sender: AnyObject) {
+		
+		updateFiles()
 	}
 	
 }
@@ -305,14 +309,6 @@ extension ChangeHeaderViewController : LoadingViewDelegate {
 	
 	func loadingViewCancelButtonTapped(vc: LoadingView) {
 		self.cancelLoading()
-	}
-}
-
-extension ChangeHeaderViewController : NSTextFieldDelegate {
-	
-	override func controlTextDidChange(obj: NSNotification) {
-		
-		updateFiles()
 	}
 }
 

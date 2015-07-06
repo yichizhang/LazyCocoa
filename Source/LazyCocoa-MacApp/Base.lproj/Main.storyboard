@@ -615,7 +615,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="RHC-Uk-edD">
-                                                            <rect key="frame" x="0.0" y="0.0" width="240" height="188"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="240" height="204"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <size key="minSize" width="650" height="204"/>
@@ -676,15 +676,12 @@
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="cellTitle"/>
                                                 </buttonCell>
-                                                <connections>
-                                                    <action selector="updatePreviewButtonTapped:" target="bjj-1R-VhV" id="ops-f5-7Qd"/>
-                                                </connections>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yMs-bB-KYm">
-                                                <rect key="frame" x="90" y="15" width="161" height="19"/>
-                                                <buttonCell key="cell" type="roundRect" title="Update File Inclusiveness" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4EI-83-p44">
+                                                <rect key="frame" x="127" y="15" width="87" height="19"/>
+                                                <buttonCell key="cell" type="roundRect" title="Update Files" bezelStyle="roundedRect" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4EI-83-p44">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                    <font key="font" metaFont="controlContent"/>
+                                                    <font key="font" metaFont="cellTitle"/>
                                                 </buttonCell>
                                             </button>
                                         </subviews>
@@ -929,6 +926,8 @@
                         <outlet property="originalFileTextView" destination="R9k-nU-tbf" id="1SY-nr-mLy"/>
                         <outlet property="originalHeaderRegexCheckBox" destination="J1W-W0-K1t" id="ObV-h2-fGp"/>
                         <outlet property="originalHeaderRegexTextField" destination="Gf3-I2-Yie" id="5Fz-r8-8HB"/>
+                        <outlet property="updateFilesButton" destination="yMs-bB-KYm" id="oP9-8N-bQ6"/>
+                        <outlet property="updatePreviewButton" destination="J6V-Fa-p1C" id="neu-yF-YZn"/>
                     </connections>
                 </viewController>
                 <customObject id="PIu-5i-ETp" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
