@@ -44,11 +44,12 @@ struct UserDefaultsGenerationManager {
 		}
 		return methodName
 	}
-	static func getMethodNameFor(#type: String) -> String {
+	
+	static func getMethodStringFor(#type: String, keyArg:Argument) -> String {
 		var methodName = "objectForKey"
 		switch type {
 		case "Int":
-			methodName = "integerKey"
+			methodName = "integerForKey"
 		case "Double":
 			fallthrough
 		case "Float":
@@ -60,6 +61,44 @@ struct UserDefaultsGenerationManager {
 		default:
 			break
 		}
-		return methodName
+		
+		var formatString = ""
+		var numArgs = 2
+		
+		switch type {
+		case "Int":
+			fallthrough
+		case "Double":
+			fallthrough
+		case "Float":
+			fallthrough
+		case "Bool":
+			formatString =
+			"return NSUserDefaults.standardUserDefaults().%@(%@)"
+			break
+		case "NSURL":
+			formatString =
+			"if let returnValue = NSUserDefaults.standardUserDefaults().%@(%@) {\n" +
+				"\t" + "return returnValue\n" +
+				"}\n" +
+				"return nil"
+			break
+		default:
+			formatString =
+			"if let returnValue = NSUserDefaults.standardUserDefaults().%@(%@) as? %@ {\n" +
+				"\t" + "return returnValue\n" +
+				"}\n" +
+			"return nil"
+			numArgs = 3
+			break
+		}
+		
+		if numArgs == 2 {
+			return
+			NSString(format: formatString, methodName, keyArg.formattedString) as String
+		} else {
+			return
+			NSString(format: formatString, methodName, keyArg.formattedString, type) as String
+		}
 	}
 }

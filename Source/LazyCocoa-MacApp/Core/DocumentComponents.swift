@@ -283,15 +283,23 @@ class UserDefaultsComponent : BasicDocumentComponent {
 			
 			let keyArg = Argument(object: name, formattingStrategy: ArgumentFormattingStrategy.StringLiteral)
 			
-			var setterString = "set { \n" +
-				"NSUserDefaults.standardUserDefaults().\( UserDefaultsGenerationManager.setMethodNameFor(type: returnType) )(newValue, forKey: \(keyArg.formattedString))".stringByIndenting(numberOfTabs: 1) +
-			"\n} "
+			var setterString = NSString(
+				format:
+				"set {\n" +
+					"\t" + "if let newValue = newValue {\n" +
+					"\t" + "\t" + "NSUserDefaults.standardUserDefaults().%@(newValue, forKey: %@)\n" +
+					"\t" + "}\n" +
+				"}",
+				UserDefaultsGenerationManager.setMethodNameFor(type: returnType),
+				keyArg.formattedString
+				) as String
 			
-			var getterString = "get { \n" +
-				"return NSUserDefaults.standardUserDefaults().\( UserDefaultsGenerationManager.getMethodNameFor(type: returnType) )(\(keyArg.formattedString))".stringByIndenting(numberOfTabs: 1) +
-			"\n} "
+			var getterString =
+				"get {\n" +
+					UserDefaultsGenerationManager.getMethodStringFor(type: returnType, keyArg: keyArg).stringByIndenting(numberOfTabs: 1) +
+				"\n}"
 			
-			var funcString = "static var \(name):\(returnType) { \n" +
+			var funcString = "static var \(name):\(returnType)? { \n" +
 				(setterString + "\n" + getterString).stringByIndenting(numberOfTabs: 1) +
 			"\n} "
 			
