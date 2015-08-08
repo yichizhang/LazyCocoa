@@ -26,7 +26,7 @@
 import Foundation
 import Cocoa
 
-protocol OptionsViewDelegate {
+protocol OptionsViewDelegate : class {
 	/**
 	A button is tapped by the user.
 	
@@ -40,7 +40,7 @@ class OptionsView : NSView {
 	@IBOutlet weak var messageField: NSTextField!
 	@IBOutlet weak var okButton: NSButton!
 	@IBOutlet weak var cancelButton: NSButton!
-	var delegate:OptionsViewDelegate?
+	weak var delegate:OptionsViewDelegate?
 	
 	@IBAction func okButtonTapped(sender: AnyObject) {
 		

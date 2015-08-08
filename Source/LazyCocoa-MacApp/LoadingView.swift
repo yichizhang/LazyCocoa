@@ -26,7 +26,7 @@
 import Foundation
 import Cocoa
 
-protocol LoadingViewDelegate {
+protocol LoadingViewDelegate : class {
 	func loadingViewCancelButtonTapped(v:LoadingView)
 }
 
@@ -35,7 +35,7 @@ class LoadingView : NSView {
 	@IBOutlet weak var titleTextField: NSTextField!
 	@IBOutlet weak var messageTextField: NSTextField!
 	@IBOutlet weak var progressIndicator: NSProgressIndicator!
-	var delegate:LoadingViewDelegate?
+	weak var delegate:LoadingViewDelegate?
 	
 	@IBAction func cancelButtonTapped(sender: AnyObject) {
 		delegate?.loadingViewCancelButtonTapped(self)
