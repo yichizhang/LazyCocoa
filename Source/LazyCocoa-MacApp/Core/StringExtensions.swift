@@ -26,13 +26,13 @@
 import Foundation
 
 extension String {
-	func hasMatchesFor(#regexString:String) -> Bool {
+	func hasMatchesFor(regexString regexString:String) -> Bool {
 		var result = false
 		let selfString = self as NSString
 		// TODO: Would NSMakeRange(0, countElements(self)) work?
 		
-		if let regex = NSRegularExpression(pattern: regexString, options: NSRegularExpressionOptions.allZeros, error: nil) {
-			if let firstMatch = regex.firstMatchInString(selfString as String, options: NSMatchingOptions.allZeros, range: NSMakeRange(0, selfString.length)) {
+		if let regex = try? NSRegularExpression(pattern: regexString, options: NSRegularExpressionOptions()) {
+			if let firstMatch = regex.firstMatchInString(selfString as String, options: NSMatchingOptions(), range: NSMakeRange(0, selfString.length)) {
 				result = true
 			}
 		}
@@ -40,7 +40,7 @@ extension String {
 		return result
 	}
 	
-	static func stringInBundle(#name:String, ofType type: String = "txt", encoding: UInt = NSUTF8StringEncoding) -> String? {
+	static func stringInBundle(name name:String, ofType type: String = "txt", encoding: UInt = NSUTF8StringEncoding) -> String? {
 		if let path = NSBundle.mainBundle().pathForResource(name, ofType: type, inDirectory: nil) {
 			if let data = NSData(contentsOfFile: path) {
 				return NSString(data: data, encoding: encoding) as? String

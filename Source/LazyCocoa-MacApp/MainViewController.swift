@@ -59,16 +59,15 @@ class MainViewController: NSViewController {
 		openDialog.allowsMultipleSelection = false
 		
 		if openDialog.runModal() == NSModalResponseOK {
-			if let url = openDialog.URLs.first as? NSURL {
-				
-				basePathTextField.stringValue = url.path!
-				
-				// Set the base path and force it to reload
-				sourceEditVC.basePath = url.path!
-				sourceEditVC.needsReload = true
-				changeHeaderVC.basePath = url.path!
-				changeHeaderVC.needsReload = true
-			}
+            if let url = openDialog.URLs.first {
+                basePathTextField.stringValue = url.path!
+
+                // Set the base path and force it to reload
+                sourceEditVC.basePath = url.path!
+                sourceEditVC.needsReload = true
+                changeHeaderVC.basePath = url.path!
+                changeHeaderVC.needsReload = true
+            }
 		}
 	}
 }

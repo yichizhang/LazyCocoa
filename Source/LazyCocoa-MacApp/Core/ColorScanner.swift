@@ -42,7 +42,7 @@ class ColorScanner: NSObject {
 		var returnString:String = ""
 		
 		// Scan the input string
-		while ( scanner.scanLocation < count(scanner.string) ) {
+		while ( scanner.scanLocation < scanner.string.characters.count ) {
 			
 			// Get the character at the current scan location as a String.
 			let charString = (scanner.string as NSString).substringWithRange(

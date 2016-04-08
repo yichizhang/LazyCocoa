@@ -30,8 +30,8 @@ protocol OptionsViewDelegate : class {
 	/**
 	A button is tapped by the user.
 	
-	:param: vc The view controller.
-	:param: response The response. Is equal to either NSModalResponseOK or NSModalResponseCancel.
+	- parameter vc: The view controller.
+	- parameter response: The response. Is equal to either NSModalResponseOK or NSModalResponseCancel.
 	*/
 	func optionsViewButtonTapped(v:OptionsView, response:Int)
 }

@@ -76,11 +76,14 @@ class SourceEditViewController: BaseViewController {
 		var success = false
 		
 		if let basePath = basePath {
-			if let string = prog.lazyfileString(basePath: basePath, error: &error) {
+			do {
+				let string = try prog.lazyfileString(basePath: basePath)
 				
 				sourceFileTextView.string = string
 				sourceFileTextView.lnv_updateLineNumberView(nil)
 				updateDocumentsAndUserInterface()
+			} catch var error1 as NSError {
+				error = error1
 			}
 			
 			if error != nil {
@@ -132,7 +135,7 @@ class SourceEditViewController: BaseViewController {
 	}
 	
 	// MARK: Update user interface
-	func updateControlSettings(#enabled:Bool) {
+	func updateControlSettings(enabled enabled:Bool) {
 		
 		self.sourceFileTextView.editable = enabled
 		self.mainGeneratedCodeTextView.editable = false

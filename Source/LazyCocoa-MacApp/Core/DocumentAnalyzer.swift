@@ -52,7 +52,7 @@ class ConfigurationsManager {
 
 class NewConfigurationsManager {
 	
-	class Configuration : Printable {
+	class Configuration : CustomStringConvertible {
 		var key : String!
 		var value : String!
 		var startIndex : Int!
@@ -139,7 +139,7 @@ class NewConfigurationsManager {
 	}
 }
 
-class SourceCodeDocument : Printable {
+class SourceCodeDocument : CustomStringConvertible {
 	
 	var exportTo = ""
 	
@@ -153,12 +153,12 @@ class SourceCodeDocument : Printable {
 		dateFormatter.dateFormat = "yyyy"
 		let yearString = dateFormatter.stringFromDate(date)
 		
-		var userName = Global.configurations.valueForKey(ParamKey.UserName) ?? "User"
-		var companyName = Global.configurations.valueForKey(ParamKey.OrganizationName) ?? "The Lazy Cocoa Project"
+		let userName = Global.configurations.valueForKey(ParamKey.UserName) ?? "User"
+		let companyName = Global.configurations.valueForKey(ParamKey.OrganizationName) ?? "The Lazy Cocoa Project"
 		
 		return
 			"//  \n" +
-			"//  \(self.exportTo.lastPathComponent) \n" +
+			"//  \((self.exportTo as NSString).lastPathComponent) \n" +
 			"//  \(Global.messageString) \n" +
 			"// \n//  Created by \(userName) on \(dateString). \n" +
 			"//  Copyright (c) \(yearString) \(companyName). All rights reserved. \n" +
@@ -184,26 +184,33 @@ class SourceCodeDocument : Printable {
 		return "\n\(components)"
 	}
 	
-	func export(#basePath:String, error errorPointer:NSErrorPointer) -> String {
+	func export(basePath basePath:String, error errorPointer:NSErrorPointer) -> String {
 		if exportTo.isEmpty == false {
 			
 			let exportPath = exportTo.stringByTrimmingWhiteSpaceAndNewLineCharacters()
 			
 			let fileManager = NSFileManager.defaultManager()
 			
-			let fullExportPath = basePath.stringByAppendingPathComponent(exportPath)
-			let fullDirectoryPath = fullExportPath.stringByDeletingLastPathComponent
+			let fullExportPath = (basePath as NSString).stringByAppendingPathComponent(exportPath)
+			let fullDirectoryPath = (fullExportPath as NSString).stringByDeletingLastPathComponent
 			
 			var isDir:ObjCBool = false
 			let e = fileManager.fileExistsAtPath(fullDirectoryPath, isDirectory: &isDir)
 			
 			if e == false {
-				// Create directory, if directory does not exist.
-				fileManager.createDirectoryAtPath(fullDirectoryPath, withIntermediateDirectories: true, attributes: nil, error: nil)
+				do {
+					// Create directory, if directory does not exist.
+					try fileManager.createDirectoryAtPath(fullDirectoryPath, withIntermediateDirectories: true, attributes: nil)
+				} catch _ {
+				}
 			}
 			
 			errorPointer.memory = nil
-			documentString.writeToFile(fullExportPath, atomically: true, encoding: NSUTF8StringEncoding, error: errorPointer)
+			do {
+				try documentString.writeToFile(fullExportPath, atomically: true, encoding: NSUTF8StringEncoding)
+			} catch var error as NSError {
+				errorPointer.memory = error
+			}
 			
 			if let error = errorPointer.memory {
 				return "Failed to export:  \(fullExportPath)"

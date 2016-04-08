@@ -63,7 +63,7 @@ class ChangeHeaderViewController : BaseViewController {
 					originalHeaderRegexString = originalHeaderRegexTextField.stringValue
 				}
 				
-				textFile.updateInclusiveness(filePathRegexString: filePathRegexString, originalHeaderRegexString: originalHeaderRegexString)
+				textFile.updateInclusiveness(filePathRegexString, originalHeaderRegexString: originalHeaderRegexString)
 			}
 		}
 		
@@ -96,7 +96,7 @@ class ChangeHeaderViewController : BaseViewController {
 	}
 	
 	// MARK: Update views
-	func updateControlSettings(#enabled:Bool) {
+	func updateControlSettings(enabled enabled:Bool) {
 		newHeaderCommentTextView.userInteractionEnabled = enabled
 		
 		fileTableView.userInteractionEnabled = enabled
@@ -117,98 +117,102 @@ class ChangeHeaderViewController : BaseViewController {
 	
 	// MARK: Base View Controller
 	override func loadData() {
-		if let baseURL = NSURL(fileURLWithPath: basePath) {
+		let baseURL = NSURL(fileURLWithPath: basePath)
 			
-			loadingView?.removeFromSuperview()
-			loadingView = nil
-			
-			loadingView = LoadingView.newViewWithNibName("LoadingView")
-			
-			if let v = loadingView {
-				v.delegate = self
-				
-				let layer = CALayer()
-				layer.backgroundColor = NSColor.windowBackgroundColor().CGColor
-				
-				v.wantsLayer = true
-				v.layer = layer
-				v.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
-				
-				// Add loading view
-				self.view.addSubview(v, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
-				v.progressIndicator.startAnimation(self)
-				v.setupConstraintsMakingViewAdhereToEdgesOfSuperview()
-				
-				// Set up view
-				updateControlSettings(enabled: false)
-				
-				// Set up variables
-				self.loadingCancelled = false
-				self.dataArray = [PlainTextFile]()
-				self.fileTableView.reloadData()
-				
-				dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_UTILITY.value), 0)) {
-					
-					let acceptableSuffixArray = [".h", ".m", ".swift"]
-					let fileManager = NSFileManager()
-					let keys = [NSURLIsDirectoryKey]
-					
-					let enumerator = fileManager.enumeratorAtURL(baseURL, includingPropertiesForKeys: keys, options: NSDirectoryEnumerationOptions.allZeros, errorHandler: { (url:NSURL!, err:NSError!) -> Bool in
-						
-						// Handle the error.
-						// Return true if the enumeration should continue after the error.
-						return true
-					})
-					
-					while let element = enumerator?.nextObject() as? NSURL {
-						if self.loadingCancelled == true {
-							break
-						}
-						
-						var error:NSError?
-						var isDirectory:AnyObject?
-						
-						if !element.getResourceValue(&isDirectory, forKey: NSURLIsDirectoryKey, error: &error) {
-							
-						}
-						
-						for suffix in acceptableSuffixArray {
-							if element.absoluteString!.hasSuffix(suffix) {
-								
-								// check the extension
-								dispatch_async(dispatch_get_main_queue()) {
-									self.loadingView?.messageTextField.stringValue = "\(relativePathFrom(fullPath: element.absoluteString!))"
-								}
-								
-								self.dataArray?.append(PlainTextFile(fileURL: element))
-								
-							}
-						}
-					}
-					
-					if self.loadingCancelled == false {
-						
-						dispatch_async(dispatch_get_main_queue()) {
-							
-							self.fileTableView.reloadData()
-							
-							self.loadingView?.removeFromSuperview()
-							self.loadingView = nil
-							
-							self.updateControlSettings(enabled: true)
-							
-							self.updateFiles()
-						}
-					} else {
-						dispatch_async(dispatch_get_main_queue()) {
-							
-							self.loadingView?.removeFromSuperview()
-							self.loadingView = nil
-						}
-					}
-				}
-			}
-		}
+        loadingView?.removeFromSuperview()
+        loadingView = nil
+        
+        loadingView = LoadingView.newViewWithNibName("LoadingView")
+        
+        if let v = loadingView {
+            v.delegate = self
+            
+            let layer = CALayer()
+            layer.backgroundColor = NSColor.windowBackgroundColor().CGColor
+            
+            v.wantsLayer = true
+            v.layer = layer
+            v.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
+            
+            // Add loading view
+            self.view.addSubview(v, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
+            v.progressIndicator.startAnimation(self)
+            v.setupConstraintsMakingViewAdhereToEdgesOfSuperview()
+            
+            // Set up view
+            updateControlSettings(enabled: false)
+            
+            // Set up variables
+            self.loadingCancelled = false
+            self.dataArray = [PlainTextFile]()
+            self.fileTableView.reloadData()
+            
+            dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_UTILITY.rawValue), 0)) {
+                
+                let acceptableSuffixArray = [".h", ".m", ".swift"]
+                let fileManager = NSFileManager()
+                let keys = [NSURLIsDirectoryKey]
+                
+                let enumerator = fileManager.enumeratorAtURL(baseURL, includingPropertiesForKeys: keys, options: NSDirectoryEnumerationOptions(), errorHandler: { (url:NSURL, err:NSError) -> Bool in
+                    
+                    // Handle the error.
+                    // Return true if the enumeration should continue after the error.
+                    return true
+                })
+                
+                while let element = enumerator?.nextObject() as? NSURL {
+                    if self.loadingCancelled == true {
+                        break
+                    }
+                    
+                    var error:NSError?
+                    var isDirectory:AnyObject?
+                    
+                    do {
+                        try element.getResourceValue(&isDirectory, forKey: NSURLIsDirectoryKey)
+                    } catch var error1 as NSError {
+                        error = error1
+                        
+                    } catch {
+                        fatalError()
+                    }
+                    
+                    for suffix in acceptableSuffixArray {
+                        if element.absoluteString.hasSuffix(suffix) {
+                            
+                            // check the extension
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self.loadingView?.messageTextField.stringValue = "\(self.relativePathFrom(fullPath: element.absoluteString))"
+                            }
+                            
+                            self.dataArray?.append(PlainTextFile(fileURL: element))
+                            
+                        }
+                    }
+                }
+                
+                if self.loadingCancelled == false {
+                    
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        self.fileTableView.reloadData()
+                        
+                        self.loadingView?.removeFromSuperview()
+                        self.loadingView = nil
+                        
+                        self.updateControlSettings(enabled: true)
+                        
+                        self.updateFiles()
+                    }
+                } else {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        
+                        self.loadingView?.removeFromSuperview()
+                        self.loadingView = nil
+                    }
+                }
+            }
+        }
 	}
 	
 	override func cancelLoading() {
@@ -359,13 +363,13 @@ extension ChangeHeaderViewController : NSTableViewDataSource {
 		return nil
 	}
 	
-	func relativePathFrom(#fullPath:String) -> String {
+	func relativePathFrom(fullPath fullPath:String) -> String {
 		
 		if let range = fullPath.rangeOfString(basePath) {
 			var relPath = fullPath.substringFromIndex(range.endIndex)
 			
-			if count(relPath)>0 && relPath.characterAtIndex(0) == Character("/") {
-				relPath = relPath.substringFromIndex( advance(relPath.startIndex, 1) )
+			if relPath.characters.count>0 && relPath.characterAtIndex(0) == Character("/") {
+				relPath = relPath.substringFromIndex( relPath.startIndex.advancedBy(1) )
 			}
 			
 			return relPath

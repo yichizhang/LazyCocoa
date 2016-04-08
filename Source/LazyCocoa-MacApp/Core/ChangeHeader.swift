@@ -29,7 +29,7 @@ import AppKit
 class PlainTextFile {
 	var fileURL:NSURL!
 	var filename:String {
-		return path.lastPathComponent
+		return (path as NSString).lastPathComponent
 	}
 	var path:String {
 		return fileURL.path!
@@ -47,7 +47,7 @@ class PlainTextFile {
 		return nil
 	}
 	
-	func updateFileWith(#newFileString:String) {
+	func updateFileWith(newFileString newFileString:String) {
 		if let data = newFileString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
 			data.writeToURL(fileURL, atomically: true)
 		}
@@ -102,7 +102,7 @@ class HeaderChanger {
 	var preparedNewComment:NSString!
 	
 	var originalAttributedString:NSAttributedString {
-		var attributedString = NSMutableAttributedString(string: originalString as String)
+		let attributedString = NSMutableAttributedString(string: originalString as String)
 		attributedString.addBasicAttributesForHeaderChangerTextView()
 		attributedString.addAttributes([
 			NSBackgroundColorAttributeName: NSColor.redColor(),
@@ -110,7 +110,7 @@ class HeaderChanger {
 		return attributedString
 	}
 	var newAttributedString:NSAttributedString {
-		var attributedString = NSMutableAttributedString(string: newFileString as String)
+		let attributedString = NSMutableAttributedString(string: newFileString as String)
 		attributedString.addBasicAttributesForHeaderChangerTextView()
 		attributedString.addAttributes([
 			NSBackgroundColorAttributeName: NSColor.greenColor(),
@@ -136,13 +136,13 @@ class HeaderChanger {
 		
 		tempCommentString.replaceOccurrencesOfString("___FULLUSERNAME___",
 			withString: NSFullUserName(),
-			options: .allZeros,
+			options: [],
 			range: tempCommentString.fullRange
 		)
 		
 		tempCommentString.replaceOccurrencesOfString("___YEAR___",
 			withString: yearString,
-			options: .allZeros,
+			options: [],
 			range: tempCommentString.fullRange
 		)
 		
@@ -150,7 +150,7 @@ class HeaderChanger {
 			
 			tempCommentString.replaceOccurrencesOfString("___FILENAME___",
 				withString: filename,
-				options: .allZeros,
+				options: [],
 				range: tempCommentString.fullRange
 			)
 		}
@@ -158,13 +158,13 @@ class HeaderChanger {
 		// TODO:
 		tempCommentString.replaceOccurrencesOfString("___PROJECTNAME___",
 			withString: "Project",
-			options: .allZeros, range:
+			options: [], range:
 			tempCommentString.fullRange
 		)
 		
 		tempCommentString.replaceOccurrencesOfString("___DATE___",
 			withString: dateString,
-			options: .allZeros,
+			options: [],
 			range: tempCommentString.fullRange
 		)
 		
@@ -229,7 +229,7 @@ extension NSString {
 				}
 				
 				rangeOfNewLine = fileString.rangeOfCharacterFromSet(NSCharacterSet.newlineCharacterSet(),
-					options: .allZeros,
+					options: [],
 					range: NSMakeRange(
 						NSMaxRange(rangeOfNewLine),
 						fileString.length - NSMaxRange(rangeOfNewLine)

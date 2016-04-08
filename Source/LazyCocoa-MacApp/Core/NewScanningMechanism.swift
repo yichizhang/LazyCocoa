@@ -25,7 +25,7 @@
 
 import Foundation
 
-class ConfigurationModel: Printable {
+class ConfigurationModel: CustomStringConvertible {
 	
 	var key = ""
 	var value = ""
@@ -41,7 +41,7 @@ class ConfigurationModel: Printable {
 	}
 }
 
-class StatementModel: Printable {
+class StatementModel: CustomStringConvertible {
 	
 	var added = false
 	
@@ -77,14 +77,14 @@ class StatementModel: Printable {
 			if array.isEmpty {
 				return "NONE"
 			} else {
-				return "(" + join(", ", array) + ")"
+				return "(" + array.joinWithSeparator(", ") + ")"
 			}
 		}
 		
 		return "\n<Statement #\(index): IDS = \(arrayToString(identifiers)), names = \(arrayToString(names)), colorCodes = \(arrayToString(colorCodes)), numbers = \(arrayToString(numbers))>"
 	}
 
-	func add(#statementItem:String) {
+	func add(statementItem statementItem:String) {
 		
 		if statementItem.isValidNumber {
 			numbers.append(statementItem)
@@ -95,7 +95,7 @@ class StatementModel: Printable {
 		}
 	}
 	
-	func addAsName(#statementItem:String) {
+	func addAsName(statementItem statementItem:String) {
 		names.append(statementItem)
 	}
 }
@@ -124,15 +124,15 @@ class SourceCodeScanner {
 		}
 	}
 
-	private func add(#statementItem:String) {
+	private func add(statementItem statementItem:String) {
 		currentStatementModel.add(statementItem: statementItem)
 	}
 	
-	private func addAsName(#statementItem:String) {
+	private func addAsName(statementItem statementItem:String) {
 		currentStatementModel.addAsName(statementItem: statementItem)
 	}
 	
-	private func addParameter(#parameterKey:String, parameterValue:String) {
+	private func addParameter(parameterKey parameterKey:String, parameterValue:String) {
 		
 		statementArray.append(ConfigurationModel(key: parameterKey, value: parameterValue))
 	}
@@ -158,7 +158,7 @@ class SourceCodeScanner {
 		
 		var resultString:NSString?
 		
-		while scanner.scanLocation < count(scanner.string) {
+		while scanner.scanLocation < scanner.string.characters.count {
 			
 			let currentChar = scanner.string.characterAtIndex(scanner.scanLocation)
 			let twoCharString = scanner.string.safeSubstring(start: scanner.scanLocation, length: 2)
@@ -222,7 +222,7 @@ class SourceCodeScanner {
 				createNewStatementModel()
 			}
 			
-			while scanner.scanLocation < count(scanner.string)
+			while scanner.scanLocation < scanner.string.characters.count
 			&& oneCharString.containsCharactersInSet(whitespaceNewlineAndSemicolon)
 			{
 				scanner.scanLocation++

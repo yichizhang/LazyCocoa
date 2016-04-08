@@ -29,7 +29,7 @@ import Foundation
 class MainProgram {
 	var fileName = "Lazyfile"
 	
-	func fileExistsNotDirectory(filePath path:String, error errorPointer:NSErrorPointer) -> Bool {
+	func fileExistsNotDirectory(filePath path:String) throws {
 		
 		let fileManager = NSFileManager.defaultManager()
 		
@@ -51,41 +51,31 @@ class MainProgram {
 		
 		if errorMessage == nil {
 			
-			return true
+			return
 		} else {
-			errorPointer.memory = NSError(domain: "File", code: code, userInfo: [NSLocalizedDescriptionKey:errorMessage!])
-			return false
+			throw NSError(domain: "File", code: code, userInfo: [NSLocalizedDescriptionKey:errorMessage!])
 		}
 	}
 	
-	func lazyfileString(#basePath:String, error errorPointer:NSErrorPointer) -> String? {
+	func lazyfileString(basePath basePath:String) throws -> String {
+		let path = (basePath as NSString).stringByAppendingPathComponent(fileName)
 		
-		let path = basePath.stringByAppendingPathComponent(fileName)
-		var errorMessage:String?
-		
-		if fileExistsNotDirectory(filePath: path, error: errorPointer) {
-			
-			errorPointer.memory = nil
-			let string = NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: errorPointer) as? String
-			
-			if let error = errorPointer.memory {
-				return nil
-			} else {
-				return string
-			}
-		} else {
-			
-			return nil
-		}
+		try fileExistsNotDirectory(filePath: path)
+
+		return try! NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as! String
 	}
 	
 	func saveLazyfileString(fileString:String, basePath:String, error errorPointer:NSErrorPointer) {
 		
-		let path = basePath.stringByAppendingPathComponent(fileName)
-		fileString.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding, error: errorPointer)
+		let path = (basePath as NSString).stringByAppendingPathComponent(fileName)
+		do {
+			try fileString.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding)
+		} catch let error as NSError {
+			errorPointer.memory = error
+		}
 	}
 	
-	func initLazyfile(#basePath:String, error errorPointer:NSErrorPointer) {
+	func initLazyfile(basePath basePath:String, error errorPointer:NSErrorPointer) {
 		
 		let template = LZYDataManager.lazyFileTemplate()
 		saveLazyfileString(template, basePath: basePath, error: errorPointer)

@@ -40,27 +40,27 @@ class LazyCocoa_MacAppTests: XCTestCase {
     
     func testColorFormatter() {
 		XCTAssertEqual(
-			ColorFormatter.hexStringFrom(componentArray: [0.098, 0.149, 0.176, 1.00]),
+			ColorFormatter.hexStringFrom([0.098, 0.149, 0.176, 1.00]),
 			"#19262DFF"
 		)
 		
 		XCTAssertEqual(
-			ColorFormatter.hexStringFrom(componentArray: [0.098, 0.149, 0.176]),
+			ColorFormatter.hexStringFrom([0.098, 0.149, 0.176]),
 			"#19262D"
 		)
 		
 		XCTAssertEqual(
-			ColorFormatter.hexStringFrom(componentArray: [0.098, 0.149]),
+			ColorFormatter.hexStringFrom([0.098, 0.149]),
 			"#192600"
 		)
 		
 		XCTAssertEqual(
-			ColorFormatter.hexStringFrom(componentArray: [0.098]),
+			ColorFormatter.hexStringFrom([0.098]),
 			"#190000"
 		)
 		
 		XCTAssertEqual(
-			ColorFormatter.hexStringFrom(componentArray: []),
+			ColorFormatter.hexStringFrom([]),
 			"#000000"
 		)
     }

@@ -49,7 +49,7 @@ protocol ConfigurationProtocol : class{
 	func configurationFor(object:AnyObject, key:String, index:Int) -> String
 }
 
-class BasicDocumentComponent : DocumentComponent, Printable {
+class BasicDocumentComponent : DocumentComponent, CustomStringConvertible {
 	
 	var statementArray = [StatementModel]()
 	weak var configurationDelegate:ConfigurationProtocol?

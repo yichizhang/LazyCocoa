@@ -52,7 +52,7 @@ extension NSTextView {
 
 extension String {
 	var isValidNumber:Bool {
-		var setOfNonNumberCharacters = NSCharacterSet.decimalDigitCharacterSet().invertedSet.mutableCopy() as! NSMutableCharacterSet
+		let setOfNonNumberCharacters = NSCharacterSet.decimalDigitCharacterSet().invertedSet.mutableCopy() as! NSMutableCharacterSet
 		setOfNonNumberCharacters.removeCharactersInString(".")
 		
 		if( self.containsCharactersInSet(setOfNonNumberCharacters) ){
@@ -80,7 +80,7 @@ extension String {
 	
 	var length:Int{
 		
-		return count(self)
+		return self.characters.count
 	}
 	
 	func containsCharactersInSet(set:NSCharacterSet) -> Bool {
@@ -92,7 +92,7 @@ extension String {
 		
 	}
 	
-	static func extensionString(#className:String, content:String) -> String {
+	static func extensionString(className className:String, content:String) -> String {
 		return "extension \(className) { \n\n\(content.stringByIndenting(numberOfTabs: 1))\n} \n\n"
 	}
 	
@@ -100,7 +100,7 @@ extension String {
 		return "import \(string)\n"
 	}
 	
-	static func initString(#className:String, initMethodSignature:String, arguments:[AnyObject] ) -> String {
+	static func initString(className className:String, initMethodSignature:String, arguments:[AnyObject] ) -> String {
 		// FIXME: ---
 		var args:[Argument] = Array()
 		
@@ -122,7 +122,7 @@ extension String {
 		
 		let m = initMethodSignature.componentsSeparatedByString(":")
 		
-		for (i, n) in enumerate(m) {
+		for (i, n) in m.enumerate() {
 			if i < args.count {
 				string = string + n + ":" + args[i].formattedString
 			}
@@ -136,17 +136,17 @@ extension String {
 		return string
 	}
 	
-	static func methodString(#methodSignature:String, parameters:[AnyObject], returnType:String, statements:String ) -> String {
-		var string = ""
+	static func methodString(methodSignature methodSignature:String, parameters:[AnyObject], returnType:String, statements:String ) -> String {
+		let string = ""
 		return string
 	}
 	
 	func characterAtIndex(index:Int) -> Character{
 		
-		return Array(self)[index]
+		return Array(self.characters)[index]
 	}
 	
-	func safeSubstring(#start:Int, length len:Int) -> String {
+	func safeSubstring(start start:Int, length len:Int) -> String {
 		//WORKS
 		let nsstring = self as NSString
 		let maxLength = min( len, nsstring.length - start )
@@ -162,7 +162,7 @@ extension String {
 		//		return self.substringWithRange(Range<String.Index>(start: advance(self.startIndex, startIndex), end: advance(self.startIndex, startIndex + min(length, count(self) - startIndex ) ) ) )
 	}
 	
-	func stringByIndenting(#numberOfTabs:Int) -> String {
+	func stringByIndenting(numberOfTabs numberOfTabs:Int) -> String {
 		
 		let array = self.componentsSeparatedByString("\n")
 		let newArray = array.map({ (string) -> String in
@@ -175,7 +175,7 @@ extension String {
 			return newString
 		})
 		
-		return "\n".join(newArray)
+		return newArray.joinWithSeparator("\n")
 	}
 	
 	func stringInSwiftDocumentationStyle() -> String {

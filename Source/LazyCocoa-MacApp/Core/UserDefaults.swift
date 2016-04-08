@@ -26,7 +26,7 @@
 import Foundation
 
 struct UserDefaultsGenerationManager {
-	static func setMethodNameFor(#type: String) -> String {
+	static func setMethodNameFor(type type: String) -> String {
 		var methodName = "setObject"
 		switch type {
 		case "Int":
@@ -44,8 +44,8 @@ struct UserDefaultsGenerationManager {
 		}
 		return methodName
 	}
-	
-	static func getMethodStringFor(#type: String, keyArg:Argument) -> String {
+
+	static func getMethodStringFor(type type: String, keyArg:Argument) -> String {
 		var methodName = "objectForKey"
 		switch type {
 		case "Int":
