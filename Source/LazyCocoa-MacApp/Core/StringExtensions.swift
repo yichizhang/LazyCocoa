@@ -26,13 +26,13 @@
 import Foundation
 
 extension String {
-	func hasMatchesFor(regexString regexString:String) -> Bool {
+	func hasMatchesFor(regexString:String) -> Bool {
 		var result = false
 		let selfString = self as NSString
 		// TODO: Would NSMakeRange(0, countElements(self)) work?
 		
-		if let regex = try? NSRegularExpression(pattern: regexString, options: NSRegularExpressionOptions()) {
-			if let firstMatch = regex.firstMatchInString(selfString as String, options: NSMatchingOptions(), range: NSMakeRange(0, selfString.length)) {
+		if let regex = try? NSRegularExpression(pattern: regexString, options: NSRegularExpression.Options()) {
+			if regex.firstMatch(in: selfString as String, options: NSRegularExpression.MatchingOptions(), range: NSMakeRange(0, selfString.length)) != nil {
 				result = true
 			}
 		}
@@ -40,10 +40,10 @@ extension String {
 		return result
 	}
 	
-	static func stringInBundle(name name:String, ofType type: String = "txt", encoding: UInt = NSUTF8StringEncoding) -> String? {
-		if let path = NSBundle.mainBundle().pathForResource(name, ofType: type, inDirectory: nil) {
-			if let data = NSData(contentsOfFile: path) {
-				return NSString(data: data, encoding: encoding) as? String
+	static func stringInBundle(name:String, ofType type: String = "txt", encoding: String.Encoding = String.Encoding.utf8) -> String? {
+		if let path = Bundle.main.path(forResource: name, ofType: type, inDirectory: nil) {
+      if let string = try? String(contentsOfFile: path, encoding: encoding) {
+        return string
 			}
 		}
 		return nil

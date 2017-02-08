@@ -25,6 +25,19 @@
 
 import Foundation
 import AppKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class ChangeHeaderViewController : BaseViewController {
 	
@@ -84,19 +97,19 @@ class ChangeHeaderViewController : BaseViewController {
 			let textFile = dataArray![row]
 			
 			if let string = textFile.fileString {
-				let headerChanger = HeaderChanger(string: string, newComment: newHeaderCommentTextView.string!, filename: textFile.filename)
+				let headerChanger = HeaderChanger(string: string, newComment: newHeaderCommentTextView.string! as NSString, filename: textFile.filename)
 				
 				originalFileTextView.textStorage?.setAttributedString(headerChanger.originalAttributedString)
 				newFileTextView.textStorage?.setAttributedString(headerChanger.newAttributedString)
 				
-				originalFileTextView.scrollRectToVisible(NSRect(origin: CGPointZero, size: CGSizeZero))
-				newFileTextView.scrollRectToVisible(NSRect(origin: CGPointZero, size: CGSizeZero))
+				originalFileTextView.scrollToVisible(NSRect(origin: CGPoint.zero, size: CGSize.zero))
+				newFileTextView.scrollToVisible(NSRect(origin: CGPoint.zero, size: CGSize.zero))
 			}
 		}
 	}
 	
 	// MARK: Update views
-	func updateControlSettings(enabled enabled:Bool) {
+	func updateControlSettings(enabled:Bool) {
 		newHeaderCommentTextView.userInteractionEnabled = enabled
 		
 		fileTableView.userInteractionEnabled = enabled
@@ -111,31 +124,31 @@ class ChangeHeaderViewController : BaseViewController {
 		updatePreviewButton.userInteractionEnabled = enabled
 		updateFilesButton.userInteractionEnabled = enabled
 		
-		originalFileTextView.selectable = enabled
-		newFileTextView.selectable = enabled
+		originalFileTextView.isSelectable = enabled
+		newFileTextView.isSelectable = enabled
 	}
 	
 	// MARK: Base View Controller
 	override func loadData() {
-		let baseURL = NSURL(fileURLWithPath: basePath)
+		let baseURL = URL(fileURLWithPath: basePath)
 			
         loadingView?.removeFromSuperview()
         loadingView = nil
         
-        loadingView = LoadingView.newViewWithNibName("LoadingView")
+        loadingView = LoadingView.newView(withNibName: "LoadingView")
         
         if let v = loadingView {
             v.delegate = self
             
             let layer = CALayer()
-            layer.backgroundColor = NSColor.windowBackgroundColor().CGColor
+            layer.backgroundColor = NSColor.windowBackgroundColor.cgColor
             
             v.wantsLayer = true
             v.layer = layer
-            v.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
+            v.frame = NSRect(origin: CGPoint.zero, size: self.view.frame.size)
             
             // Add loading view
-            self.view.addSubview(v, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
+            self.view.addSubview(v, positioned: NSWindowOrderingMode.above, relativeTo: nil)
             v.progressIndicator.startAnimation(self)
             v.setupConstraintsMakingViewAdhereToEdgesOfSuperview()
             
@@ -146,21 +159,21 @@ class ChangeHeaderViewController : BaseViewController {
             self.loadingCancelled = false
             self.dataArray = [PlainTextFile]()
             self.fileTableView.reloadData()
+          
+            DispatchQueue.global().async {
             
-            dispatch_async(dispatch_get_global_queue(Int(QOS_CLASS_UTILITY.rawValue), 0)) {
-                
                 let acceptableSuffixArray = [".h", ".m", ".swift"]
-                let fileManager = NSFileManager()
-                let keys = [NSURLIsDirectoryKey]
+                let fileManager = FileManager()
+                let keys = [URLResourceKey.isDirectoryKey]
                 
-                let enumerator = fileManager.enumeratorAtURL(baseURL, includingPropertiesForKeys: keys, options: NSDirectoryEnumerationOptions(), errorHandler: { (url:NSURL, err:NSError) -> Bool in
+                let enumerator = fileManager.enumerator(at: baseURL, includingPropertiesForKeys: keys, options: FileManager.DirectoryEnumerationOptions(), errorHandler: { (url:URL, err:Error) -> Bool in
                     
                     // Handle the error.
                     // Return true if the enumeration should continue after the error.
                     return true
                 })
                 
-                while let element = enumerator?.nextObject() as? NSURL {
+                while let element = enumerator?.nextObject() as? URL {
                     if self.loadingCancelled == true {
                         break
                     }
@@ -169,7 +182,7 @@ class ChangeHeaderViewController : BaseViewController {
                     var isDirectory:AnyObject?
                     
                     do {
-                        try element.getResourceValue(&isDirectory, forKey: NSURLIsDirectoryKey)
+                        try (element as NSURL).getResourceValue(&isDirectory, forKey: URLResourceKey.isDirectoryKey)
                     } catch var error1 as NSError {
                         error = error1
                         
@@ -181,7 +194,7 @@ class ChangeHeaderViewController : BaseViewController {
                         if element.absoluteString.hasSuffix(suffix) {
                             
                             // check the extension
-                            dispatch_async(dispatch_get_main_queue()) {
+                            DispatchQueue.main.async {
                                 self.loadingView?.messageTextField.stringValue = "\(self.relativePathFrom(fullPath: element.absoluteString))"
                             }
                             
@@ -193,7 +206,7 @@ class ChangeHeaderViewController : BaseViewController {
                 
                 if self.loadingCancelled == false {
                     
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         
                         self.fileTableView.reloadData()
                         
@@ -205,7 +218,7 @@ class ChangeHeaderViewController : BaseViewController {
                         self.updateFiles()
                     }
                 } else {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    DispatchQueue.main.async {
                         
                         self.loadingView?.removeFromSuperview()
                         self.loadingView = nil
@@ -218,7 +231,7 @@ class ChangeHeaderViewController : BaseViewController {
 	override func cancelLoading() {
 		loadingCancelled = true
 		
-		self.dataArray?.removeAll(keepCapacity: true)
+		self.dataArray?.removeAll(keepingCapacity: true)
 	}
 	
 	// MARK: View life cycle
@@ -226,25 +239,25 @@ class ChangeHeaderViewController : BaseViewController {
 		super.viewDidLoad()
 		
 		originalFileTextView.setUpTextStyleWith(size: 12)
-		originalFileTextView.editable = false
+		originalFileTextView.isEditable = false
 		
 		newFileTextView.setUpTextStyleWith(size: 12)
-		newFileTextView.editable = false
+		newFileTextView.isEditable = false
 		
 		newHeaderCommentTextView.setUpTextStyleWith(size: 12)
 		newHeaderCommentTextView.string = String.stringInBundle(name:"MIT_template")
 		
-		fileTableView.setDataSource(self)
-		fileTableView.setDelegate(self)
+		fileTableView.dataSource = self
+		fileTableView.delegate = self
 		fileTableView.reloadData()
 		
-		applyChangesButton.action = "applyChangesButtonTapped:"
-		updatePreviewButton.action = "updatePreviewButtonTapped:"
-		updateFilesButton.action = "updateFilesButtonTapped:"
+		applyChangesButton.action = #selector(ChangeHeaderViewController.applyChangesButtonTapped(_:))
+		updatePreviewButton.action = #selector(ChangeHeaderViewController.updatePreviewButtonTapped(_:))
+		updateFilesButton.action = #selector(ChangeHeaderViewController.updateFilesButtonTapped(_:))
 	}
 	
 	// MARK: UI actions
-	func applyChangesButtonTapped(sender: NSButton) {
+	func applyChangesButtonTapped(_ sender: NSButton) {
 		
 		updateFiles()
 		
@@ -264,7 +277,7 @@ class ChangeHeaderViewController : BaseViewController {
 						fileListString = fileListString + "..." + StringConst.NewLine
 					}
 					
-					count++
+					count += 1
 				}
 			}
 			
@@ -272,11 +285,11 @@ class ChangeHeaderViewController : BaseViewController {
 				let alert = NSAlert()
 				let fileString = count>1 ? "files" : "file"
 				
-				alert.alertStyle = NSAlertStyle.InformationalAlertStyle
+				alert.alertStyle = NSAlertStyle.informational
 				alert.messageText = "You are about to change \(count) \(fileString). You might want to back up first to prevent possible data loss. Do you wish to proceed? Files to be changed: "
 				alert.informativeText = fileListString
-				alert.addButtonWithTitle("OK")
-				alert.addButtonWithTitle("Cancel")
+				alert.addButton(withTitle: "OK")
+				alert.addButton(withTitle: "Cancel")
 				if alert.runModal() == NSAlertFirstButtonReturn {
 					let newHeaderComment = newHeaderCommentTextView.string!
 					
@@ -285,7 +298,7 @@ class ChangeHeaderViewController : BaseViewController {
 						if file.included {
 							if let string = file.fileString {
 								
-								let headerChanger = HeaderChanger(string: string, newComment: newHeaderComment, filename: file.filename)
+								let headerChanger = HeaderChanger(string: string, newComment: newHeaderComment as NSString, filename: file.filename)
 								file.updateFileWith(newFileString: headerChanger.newFileString as String)
 							}
 						}
@@ -297,12 +310,12 @@ class ChangeHeaderViewController : BaseViewController {
 		updateTextViews()
 	}
 	
-	func updatePreviewButtonTapped(sender: AnyObject) {
+	func updatePreviewButtonTapped(_ sender: AnyObject) {
 		
 		updateTextViews()
 	}
 	
-	func updateFilesButtonTapped(sender: AnyObject) {
+	func updateFilesButtonTapped(_ sender: AnyObject) {
 		
 		updateFiles()
 	}
@@ -311,14 +324,14 @@ class ChangeHeaderViewController : BaseViewController {
 
 extension ChangeHeaderViewController : LoadingViewDelegate {
 	
-	func loadingViewCancelButtonTapped(vc: LoadingView) {
+	func loadingViewCancelButtonTapped(_ vc: LoadingView) {
 		self.cancelLoading()
 	}
 }
 
 extension ChangeHeaderViewController : NSTableViewDelegate {
 
-	func tableView(tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+	func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
 		
 		if tableView.selectedRow != row {
 			updateTextViewsWith(textFileAtRow: row)
@@ -330,17 +343,17 @@ extension ChangeHeaderViewController : NSTableViewDelegate {
 
 extension ChangeHeaderViewController : NSTableViewDataSource {
 	
-	func numberOfRowsInTableView(tableView: NSTableView) -> Int {
+	func numberOfRows(in tableView: NSTableView) -> Int {
 		if let dataArray = dataArray {
 			return dataArray.count
 		}
 		return 0
 	}
 	
-	func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
+	func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 		
 		if let tableColumn = tableColumn {
-			if let cellView = tableView.makeViewWithIdentifier("Cell", owner: self) as? NSTableCellView {
+			if let cellView = tableView.make(withIdentifier: "Cell", owner: self) as? NSTableCellView {
 				
 				let currentFile = dataArray![row]
 				
@@ -363,13 +376,13 @@ extension ChangeHeaderViewController : NSTableViewDataSource {
 		return nil
 	}
 	
-	func relativePathFrom(fullPath fullPath:String) -> String {
+	func relativePathFrom(fullPath:String) -> String {
 		
-		if let range = fullPath.rangeOfString(basePath) {
-			var relPath = fullPath.substringFromIndex(range.endIndex)
+		if let range = fullPath.range(of: basePath) {
+			var relPath = fullPath.substring(from: range.upperBound)
 			
 			if relPath.characters.count>0 && relPath.characterAtIndex(0) == Character("/") {
-				relPath = relPath.substringFromIndex( relPath.startIndex.advancedBy(1) )
+				relPath = relPath.substring( from: relPath.characters.index(relPath.startIndex, offsetBy: 1) )
 			}
 			
 			return relPath

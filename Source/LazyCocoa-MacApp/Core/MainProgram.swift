@@ -31,14 +31,14 @@ class MainProgram {
 	
 	func fileExistsNotDirectory(filePath path:String) throws {
 		
-		let fileManager = NSFileManager.defaultManager()
+		let fileManager = FileManager.default
 		
 		var isDir:ObjCBool = false
 		var errorMessage:String?
 		var code:Int = 0
 		
-		if fileManager.fileExistsAtPath(path, isDirectory: &isDir) {
-			if isDir {
+		if fileManager.fileExists(atPath: path, isDirectory: &isDir) {
+			if isDir.boolValue {
 				errorMessage = "\(fileName) is a directory, not a file."
 				code = ErrorCode.FileIsDir
 			} else {
@@ -57,27 +57,27 @@ class MainProgram {
 		}
 	}
 	
-	func lazyfileString(basePath basePath:String) throws -> String {
-		let path = (basePath as NSString).stringByAppendingPathComponent(fileName)
+	func lazyfileString(basePath:String) throws -> String {
+		let path = (basePath as NSString).appendingPathComponent(fileName)
 		
 		try fileExistsNotDirectory(filePath: path)
 
-		return try! NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding) as! String
+		return try! NSString(contentsOfFile: path, encoding: String.Encoding.utf8.rawValue) as String
 	}
 	
-	func saveLazyfileString(fileString:String, basePath:String, error errorPointer:NSErrorPointer) {
+	func saveLazyfileString(_ fileString:String, basePath:String, error errorPointer:NSErrorPointer) {
 		
-		let path = (basePath as NSString).stringByAppendingPathComponent(fileName)
+		let path = (basePath as NSString).appendingPathComponent(fileName)
 		do {
-			try fileString.writeToFile(path, atomically: true, encoding: NSUTF8StringEncoding)
+			try fileString.write(toFile: path, atomically: true, encoding: String.Encoding.utf8)
 		} catch let error as NSError {
-			errorPointer.memory = error
+			errorPointer?.pointee = error
 		}
 	}
 	
-	func initLazyfile(basePath basePath:String, error errorPointer:NSErrorPointer) {
+	func initLazyfile(basePath:String, error errorPointer:NSErrorPointer) {
 		
 		let template = LZYDataManager.lazyFileTemplate()
-		saveLazyfileString(template, basePath: basePath, error: errorPointer)
+		saveLazyfileString(template!, basePath: basePath, error: errorPointer)
 	}
 }

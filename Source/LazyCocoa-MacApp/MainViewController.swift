@@ -38,19 +38,19 @@ class MainViewController: NSViewController {
         super.viewDidLoad()
         // Do view setup here.
 		
-		basePathTextField.enabled = false
+		basePathTextField.isEnabled = false
 		basePathTextField.delegate = self
 		
-		sourceEditVC = storyboard?.instantiateControllerWithIdentifier("SourceEditViewController") as? SourceEditViewController
-		changeHeaderVC = storyboard?.instantiateControllerWithIdentifier("ChangeHeaderViewController") as? ChangeHeaderViewController
+		sourceEditVC = storyboard?.instantiateController(withIdentifier: "SourceEditViewController") as? SourceEditViewController
+		changeHeaderVC = storyboard?.instantiateController(withIdentifier: "ChangeHeaderViewController") as? ChangeHeaderViewController
 		
-		for vc in [sourceEditVC, changeHeaderVC] {
-			let item = NSTabViewItem(viewController: vc)
-			tabView.insertTabViewItem(item, atIndex: tabView.numberOfTabViewItems)
+		for vc in [sourceEditVC, changeHeaderVC] as [Any] {
+			let item = NSTabViewItem(viewController: vc as! NSViewController)
+			tabView.insertTabViewItem(item, at: tabView.numberOfTabViewItems)
 		}
     }
 	
-	@IBAction func chooseBasePathButtonTapped(sender: AnyObject) {
+	@IBAction func chooseBasePathButtonTapped(_ sender: AnyObject) {
 		let openDialog = NSOpenPanel()
 		
 		openDialog.canChooseFiles = false
@@ -59,13 +59,13 @@ class MainViewController: NSViewController {
 		openDialog.allowsMultipleSelection = false
 		
 		if openDialog.runModal() == NSModalResponseOK {
-            if let url = openDialog.URLs.first {
-                basePathTextField.stringValue = url.path!
+            if let url = openDialog.urls.first {
+                basePathTextField.stringValue = url.path
 
                 // Set the base path and force it to reload
-                sourceEditVC.basePath = url.path!
+                sourceEditVC.basePath = url.path
                 sourceEditVC.needsReload = true
-                changeHeaderVC.basePath = url.path!
+                changeHeaderVC.basePath = url.path
                 changeHeaderVC.needsReload = true
             }
 		}
@@ -74,7 +74,7 @@ class MainViewController: NSViewController {
 
 extension MainViewController : NSTextFieldDelegate {
 	
-	override func controlTextDidChange(obj: NSNotification) {
+	override func controlTextDidChange(_ obj: Notification) {
 		
 		changeHeaderVC.basePath = basePathTextField.stringValue
 	}

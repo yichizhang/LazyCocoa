@@ -27,8 +27,8 @@ import Foundation
 
 class ColorFormatter {
 	
-	class func hexStringFrom(componentArray componentArray:[CGFloat], useUpperCase:Bool = true) -> String {
-		var hexString = ("#" as NSString).mutableCopy() as! NSMutableString
+	class func hexStringFrom(_ componentArray:[CGFloat], useUpperCase:Bool = true) -> String {
+		let hexString = ("#" as NSString).mutableCopy() as! NSMutableString
 		
 		for i in 0..<4 {
 			// If there are less than 3 members in the component array
@@ -54,13 +54,13 @@ class ColorFormatter {
 		}
 		
 		if useUpperCase {
-			return hexString.uppercaseString
+			return hexString.uppercased
 		} else {
 			return hexString as String
 		}
 	}
 	
-	class func componentArrayFrom(hexString hexString:String) -> [CGFloat] {
+	class func componentArrayFrom(_ hexString:String) -> [CGFloat] {
 		
 		var red:CGFloat = 1.0
 		var green:CGFloat = 1.0
@@ -68,12 +68,12 @@ class ColorFormatter {
 		var alpha:CGFloat = 1.0
 		
 		// Assumes that hexString start with "#"
-		let index   = hexString.startIndex.advancedBy(1)
-		let hex     = hexString.substringFromIndex(index)
-		let scanner = NSScanner(string: hex)
+		let index   = hexString.characters.index(hexString.startIndex, offsetBy: 1)
+		let hex     = hexString.substring(from: index)
+		let scanner = Scanner(string: hex)
 		var hexValue: CUnsignedLongLong = 0
 		
-		if scanner.scanHexLongLong(&hexValue) {
+		if scanner.scanHexInt64(&hexValue) {
 			if hex.characters.count == 3 {
 				red   = CGFloat((hexValue & 0xF00) >> 8)  / 15.0
 				green = CGFloat((hexValue & 0x0F0) >> 4)  / 15.0

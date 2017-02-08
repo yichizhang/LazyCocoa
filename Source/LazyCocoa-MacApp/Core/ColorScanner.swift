@@ -27,14 +27,14 @@ import Foundation
 
 class ColorScanner: NSObject {
 	
-	class func resultStringFrom(text:String) -> String{
+	class func resultStringFrom(_ text:String) -> String{
 		
-		let scanner = NSScanner(string: text)
+		let scanner = Scanner(string: text)
 		var resultString:NSString?
 		var resultFloat:Float = 0.0
 		
-		let decDigitSet = NSCharacterSet.decimalDigitCharacterSet()
-		let set1 = NSCharacterSet(charactersInString: " :*-=()[]{};")
+		let decDigitSet = CharacterSet.decimalDigits
+		let set1 = CharacterSet(charactersIn: " :*-=()[]{};")
 		
 		var currentColorName:String?
 		var currentColorComponents = [CGFloat]()
@@ -45,8 +45,8 @@ class ColorScanner: NSObject {
 		while ( scanner.scanLocation < scanner.string.characters.count ) {
 			
 			// Get the character at the current scan location as a String.
-			let charString = (scanner.string as NSString).substringWithRange(
-				NSMakeRange(scanner.scanLocation, 1)
+			let charString = (scanner.string as NSString).substring(
+				with: NSMakeRange(scanner.scanLocation, 1)
 			)
 			
 			if charString.containsCharactersInSet(decDigitSet) {
@@ -58,7 +58,7 @@ class ColorScanner: NSObject {
 				// Put the color component in the array
 				currentColorComponents.append( CGFloat(resultFloat) )
 				
-			} else if charString.containsCharactersInSet(NSCharacterSet.newlineCharacterSet()) {
+			} else if charString.containsCharactersInSet(CharacterSet.newlines) {
 				// The character is a new line character.
 				
 				if currentColorComponents.count >= 3 {
@@ -66,7 +66,7 @@ class ColorScanner: NSObject {
 					// it looks like we got all the color components for the current color already.
 					// So we out put the current color to `returnString` and delete it from memory
 					// to make room for the next color.
-					let hexString = ColorFormatter.hexStringFrom(componentArray: currentColorComponents)
+					let hexString = ColorFormatter.hexStringFrom(currentColorComponents)
 					if let colorName = currentColorName {
 						// Out put the color
 						returnString = returnString + "\(colorName) \(hexString)\n"
@@ -78,9 +78,9 @@ class ColorScanner: NSObject {
 				}
 				
 				// Increment scan location, because we haven't scanned anything.
-				scanner.scanLocation++
+				scanner.scanLocation += 1
 				
-			} else if scanner.scanUpToCharactersFromSet(set1, intoString: &resultString) {
+			} else if scanner.scanUpToCharacters(from: set1, into: &resultString) {
 				// The character is neither a digit or a new line character.
 				// Scan up to an Objective-C special character (at the moment, `set1`)
 				
@@ -99,7 +99,7 @@ class ColorScanner: NSObject {
 				
 			} else {
 				// Keep scanning
-				scanner.scanLocation++
+				scanner.scanLocation += 1
 			}
 			
 		}

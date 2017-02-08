@@ -46,10 +46,10 @@ class ConversionViewController: NSViewController {
 		sourceTextView.setUpForDisplayingSourceCode()
 		resultTextView.setUpForDisplayingSourceCode()
 		
-		resultTextView.editable = false
+		resultTextView.isEditable = false
 	}
 	
-    @IBAction func convertButtonTapped(sender: AnyObject) {
+    @IBAction func convertButtonTapped(_ sender: AnyObject) {
         
         if let source = sourceTextView.string {
 			
@@ -57,7 +57,7 @@ class ConversionViewController: NSViewController {
         }
     }
 	
-	@IBAction func questionButtonTapped(sender: AnyObject) {
+	@IBAction func questionButtonTapped(_ sender: AnyObject) {
 		
 		let alert = NSAlert()
 		alert.messageText =
@@ -69,7 +69,7 @@ class ConversionViewController: NSViewController {
 		alert.runModal()
 	}
 	
-	@IBAction func closeButtonTapped(sender: AnyObject) {
-		dismissController(nil)
+	@IBAction func closeButtonTapped(_ sender: AnyObject) {
+		dismiss(nil)
 	}
 }

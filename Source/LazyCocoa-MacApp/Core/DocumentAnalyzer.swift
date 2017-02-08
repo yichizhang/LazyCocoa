@@ -27,21 +27,21 @@ import Cocoa
 
 class ConfigurationsManager {
 	
-	private var configurationsDictionary = [String: String]()
+	fileprivate var configurationsDictionary = [String: String]()
 	
 	func removeAll() {
-		configurationsDictionary.removeAll(keepCapacity: true)
+		configurationsDictionary.removeAll(keepingCapacity: true)
 	}
 	
-	func setValue(value:String, forKey key:String) {
+	func setValue(_ value:String, forKey key:String) {
 		configurationsDictionary[key] = value
 	}
 	
-	func valueForKey(key:String) -> String? {
+	func valueForKey(_ key:String) -> String? {
 		return configurationsDictionary[key]
 	}
 	
-	func unwrappedValueForKey(key:String) -> String {
+	func unwrappedValueForKey(_ key:String) -> String {
 		if let val = self.valueForKey(key) {
 			return val
 		} else {
@@ -70,13 +70,13 @@ class NewConfigurationsManager {
 		}
 	}
 	
-	private var values = [Configuration]()
+	fileprivate var values = [Configuration]()
 	
 	func removeAll() {
-		values.removeAll(keepCapacity: true)
+		values.removeAll(keepingCapacity: true)
 	}
 	
-	func setValue(value:String, forKey key:String, startIndex:Int) {
+	func setValue(_ value:String, forKey key:String, startIndex:Int) {
 		var i = values.count - 1
 		
 		if let configuration = valueForKey(key) {
@@ -93,7 +93,7 @@ class NewConfigurationsManager {
 		)
 	}
 	
-	func valueForKey(key:String, forIndex index:Int? = nil) -> Configuration? {
+	func valueForKey(_ key:String, forIndex index:Int? = nil) -> Configuration? {
 		var i = values.count - 1
 		
 		while (i>=0) {
@@ -112,13 +112,13 @@ class NewConfigurationsManager {
 				}
 			}
 			
-			i--
+			i -= 1
 		}
 		
 		return nil
 	}
 	
-	func valueForKey(key:String, startIndex:Int, endIndex:Int) -> Configuration? {
+	func valueForKey(_ key:String, startIndex:Int, endIndex:Int) -> Configuration? {
 		var i = 0
 		
 		while ( i < values.count ) {
@@ -132,7 +132,7 @@ class NewConfigurationsManager {
 				}
 			}
 			
-			i++
+			i += 1
 		}
 		
 		return nil
@@ -146,12 +146,12 @@ class SourceCodeDocument : CustomStringConvertible {
 	var components = [DocumentComponent]()
 	
 	var headerComment:String {
-		let dateFormatter = NSDateFormatter()
-		let date = NSDate()
+		let dateFormatter = DateFormatter()
+		let date = Date()
 		dateFormatter.dateFormat = "yyyy-MM-dd"
-		let dateString = dateFormatter.stringFromDate(date)
+		let dateString = dateFormatter.string(from: date)
 		dateFormatter.dateFormat = "yyyy"
-		let yearString = dateFormatter.stringFromDate(date)
+		let yearString = dateFormatter.string(from: date)
 		
 		let userName = Global.configurations.valueForKey(ParamKey.UserName) ?? "User"
 		let companyName = Global.configurations.valueForKey(ParamKey.OrganizationName) ?? "The Lazy Cocoa Project"
@@ -184,41 +184,41 @@ class SourceCodeDocument : CustomStringConvertible {
 		return "\n\(components)"
 	}
 	
-	func export(basePath basePath:String, error errorPointer:NSErrorPointer) -> String {
+	func export(basePath:String, error errorPointer:NSErrorPointer) -> String {
 		if exportTo.isEmpty == false {
 			
 			let exportPath = exportTo.stringByTrimmingWhiteSpaceAndNewLineCharacters()
 			
-			let fileManager = NSFileManager.defaultManager()
+			let fileManager = FileManager.default
 			
-			let fullExportPath = (basePath as NSString).stringByAppendingPathComponent(exportPath)
-			let fullDirectoryPath = (fullExportPath as NSString).stringByDeletingLastPathComponent
+			let fullExportPath = (basePath as NSString).appendingPathComponent(exportPath)
+			let fullDirectoryPath = (fullExportPath as NSString).deletingLastPathComponent
 			
 			var isDir:ObjCBool = false
-			let e = fileManager.fileExistsAtPath(fullDirectoryPath, isDirectory: &isDir)
+			let e = fileManager.fileExists(atPath: fullDirectoryPath, isDirectory: &isDir)
 			
 			if e == false {
 				do {
 					// Create directory, if directory does not exist.
-					try fileManager.createDirectoryAtPath(fullDirectoryPath, withIntermediateDirectories: true, attributes: nil)
+					try fileManager.createDirectory(atPath: fullDirectoryPath, withIntermediateDirectories: true, attributes: nil)
 				} catch _ {
 				}
 			}
 			
-			errorPointer.memory = nil
+			errorPointer?.pointee = nil
 			do {
-				try documentString.writeToFile(fullExportPath, atomically: true, encoding: NSUTF8StringEncoding)
+				try documentString.write(toFile: fullExportPath, atomically: true, encoding: String.Encoding.utf8)
 			} catch var error as NSError {
-				errorPointer.memory = error
+				errorPointer?.pointee = error
 			}
 			
-			if let error = errorPointer.memory {
+			if let error = errorPointer?.pointee {
 				return "Failed to export:  \(fullExportPath)"
 			} else {
 				return "Exported successfully:  \(fullExportPath)"
 			}
 		} else {
-			errorPointer.memory = NSError(domain: "File", code: ErrorCode.ExportPathNotSet, userInfo: [NSLocalizedDescriptionKey:"Failed to export, export path is not set."])
+			errorPointer?.pointee = NSError(domain: "File", code: ErrorCode.ExportPathNotSet, userInfo: [NSLocalizedDescriptionKey:"Failed to export, export path is not set."])
 			return "Failed to export, export path is not set."
 		}
 	}
@@ -242,7 +242,7 @@ class DocumentAnalyzer : ConfigurationProtocol {
 		Global.configurations.removeAll()
 		newConfigurations.removeAll()
 		
-		sourceCodeDocuments.removeAll(keepCapacity: true)
+		sourceCodeDocuments.removeAll(keepingCapacity: true)
 		
 		for s in sourceScanner.statementArray {
 			
@@ -281,7 +281,7 @@ class DocumentAnalyzer : ConfigurationProtocol {
 		
 		// FIXME
 		sourceScanner.statementArray = sourceScanner.statementArray.filter { (o) -> Bool in
-			return o.isKindOfClass(StatementModel.self)
+			return o.isKind(of: StatementModel.self)
 		}
 		//
 		
@@ -308,7 +308,7 @@ class DocumentAnalyzer : ConfigurationProtocol {
 					component = UserDefaultsComponent(delegate: self)
 					break
 				default:
-					i++
+					i += 1
 					continue
 				}
 				
@@ -320,14 +320,14 @@ class DocumentAnalyzer : ConfigurationProtocol {
 				
 				var endIndex = configuration.endIndex
 				
-				if endIndex > sourceScanner.statementArray.count {
+				if endIndex! > sourceScanner.statementArray.count {
 					endIndex = sourceScanner.statementArray.count
 				}
 				
-				let a = Array(sourceScanner.statementArray[startIndex..<endIndex])
+				let a = Array(sourceScanner.statementArray[startIndex!..<endIndex!])
 				component.addStatements(a)
 				
-				if let c = newConfigurations.valueForKey(ParamKey.ExportTo, startIndex: startIndex, endIndex: endIndex) {
+				if let c = newConfigurations.valueForKey(ParamKey.ExportTo, startIndex: startIndex!, endIndex: endIndex!) {
 					
 					if currentDocument.exportTo == "" {
 						currentDocument.exportTo = c.value
@@ -343,14 +343,14 @@ class DocumentAnalyzer : ConfigurationProtocol {
 				currentDocument.components.append(component)
 			}
 			
-			i++
+			i += 1
 		}
 		
 		// println(newConfigurations.values)
 	}
 	
 	// Configuration Protocol
-	func configurationFor(object: AnyObject, key: String, index: Int) -> String {
+	func configurationFor(_ object: AnyObject, key: String, index: Int) -> String {
 		return newConfigurations.valueForKey(key, forIndex: index)?.value ?? ""
 	}
 }

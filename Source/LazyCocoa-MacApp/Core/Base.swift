@@ -70,7 +70,7 @@ struct ErrorCode {
 
 enum Platform : Int {
 	case iOS = 0
-	case MacOS
+	case macOS
 }
 
 class GlobalClass {

@@ -27,7 +27,7 @@ import Foundation
 import Cocoa
 
 protocol LoadingViewDelegate : class {
-	func loadingViewCancelButtonTapped(v:LoadingView)
+	func loadingViewCancelButtonTapped(_ v:LoadingView)
 }
 
 class LoadingView : NSView {
@@ -37,7 +37,7 @@ class LoadingView : NSView {
 	@IBOutlet weak var progressIndicator: NSProgressIndicator!
 	weak var delegate:LoadingViewDelegate?
 	
-	@IBAction func cancelButtonTapped(sender: AnyObject) {
+	@IBAction func cancelButtonTapped(_ sender: AnyObject) {
 		delegate?.loadingViewCancelButtonTapped(self)
 	}
 }

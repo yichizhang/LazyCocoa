@@ -26,9 +26,9 @@
 import Foundation
 
 enum ArgumentFormattingStrategy : Int {
-	case CGFloatNumber = 0
-	case StringLiteral
-	case Name
+	case cgFloatNumber = 0
+	case stringLiteral
+	case name
 }
 
 class Argument : NSObject {
@@ -43,12 +43,12 @@ class Argument : NSObject {
 	
 	var formattedString:String {
 		switch formattingStrategy.rawValue {
-		case ArgumentFormattingStrategy.CGFloatNumber.rawValue:
+		case ArgumentFormattingStrategy.cgFloatNumber.rawValue:
 			return NSString(format: "%.3f", object.floatValue) as String
-		case ArgumentFormattingStrategy.StringLiteral.rawValue:
+		case ArgumentFormattingStrategy.stringLiteral.rawValue:
 			let str = object as! String
 			return "\"" + str + "\""
-		case ArgumentFormattingStrategy.Name.rawValue:
+		case ArgumentFormattingStrategy.name.rawValue:
 			return "\(object)"
 		default:
 			return "__ERROR__"

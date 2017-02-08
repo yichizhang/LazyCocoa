@@ -27,33 +27,33 @@ import Foundation
 import AppKit
 
 class PlainTextFile {
-	var fileURL:NSURL!
+	var fileURL:URL!
 	var filename:String {
 		return (path as NSString).lastPathComponent
 	}
 	var path:String {
-		return fileURL.path!
+		return fileURL.path
 	}
 	var relativePath:String {
-		return fileURL.relativePath!
+		return fileURL.relativePath
 	}
 	
 	var included = true
 	
 	var fileString:NSString? {
-		if let data = NSData(contentsOfURL: fileURL) {
-			return NSString(data:data, encoding: NSUTF8StringEncoding)
+		if let data = try? Data(contentsOf: fileURL) {
+			return NSString(data:data, encoding: String.Encoding.utf8.rawValue)
 		}
 		return nil
 	}
 	
-	func updateFileWith(newFileString newFileString:String) {
-		if let data = newFileString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true) {
-			data.writeToURL(fileURL, atomically: true)
+	func updateFileWith(newFileString:String) {
+		if let data = newFileString.data(using: String.Encoding.utf8, allowLossyConversion: true) {
+			try? data.write(to: fileURL, options: [.atomic])
 		}
 	}
 	
-	func updateInclusiveness(filePathRegexString:String? = nil, originalHeaderRegexString:String? = nil) {
+	func updateInclusiveness(_ filePathRegexString:String? = nil, originalHeaderRegexString:String? = nil) {
 		
 		var filePathCheckResult = true
 		if let filePathRegexString = filePathRegexString {
@@ -65,7 +65,7 @@ class PlainTextFile {
 		if let originalHeaderRegexString = originalHeaderRegexString {
 			
 			if let fileString = fileString {
-				let originalHeaderComment = fileString.substringWithRange(fileString.rangeOfHeaderComment)
+				let originalHeaderComment = fileString.substring(with: fileString.rangeOfHeaderComment)
 				
 				
 				originalHeaderCheckResult = originalHeaderComment.hasMatchesFor(regexString: originalHeaderRegexString)
@@ -77,7 +77,7 @@ class PlainTextFile {
 		included = filePathCheckResult && originalHeaderCheckResult
 	}
 	
-	init(fileURL:NSURL) {
+	init(fileURL:URL) {
 		
 		self.fileURL = fileURL
 		
@@ -87,7 +87,7 @@ class PlainTextFile {
 extension NSMutableAttributedString {
 
 	func addBasicAttributesForHeaderChangerTextView() {
-		self.addAttributes([NSFontAttributeName: NSFont(name: "Monaco", size: 12)!], range: (self.string as NSString).rangeOfString(self.string))
+		self.addAttributes([NSFontAttributeName: NSFont(name: "Monaco", size: 12)!], range: (self.string as NSString).range(of: self.string))
 	}
 }
 
@@ -105,7 +105,7 @@ class HeaderChanger {
 		let attributedString = NSMutableAttributedString(string: originalString as String)
 		attributedString.addBasicAttributesForHeaderChangerTextView()
 		attributedString.addAttributes([
-			NSBackgroundColorAttributeName: NSColor.redColor(),
+			NSBackgroundColorAttributeName: NSColor.red,
 			], range: originalCommentRange)
 		return attributedString
 	}
@@ -113,7 +113,7 @@ class HeaderChanger {
 		let attributedString = NSMutableAttributedString(string: newFileString as String)
 		attributedString.addBasicAttributesForHeaderChangerTextView()
 		attributedString.addAttributes([
-			NSBackgroundColorAttributeName: NSColor.greenColor(),
+			NSBackgroundColorAttributeName: NSColor.green,
 			
 			], range: newFileString.rangeOfHeaderComment)
 		return attributedString
@@ -125,45 +125,45 @@ class HeaderChanger {
 		
 		let tempCommentString = newComment.mutableCopy() as! NSMutableString
 		
-		let currentDate = NSDate()
-		let dateFormatter = NSDateFormatter()
+		let currentDate = Date()
+		let dateFormatter = DateFormatter()
 		dateFormatter.dateFormat = "yyyy"
-		let yearString = dateFormatter.stringFromDate(currentDate)
+		let yearString = dateFormatter.string(from: currentDate)
 		
-		dateFormatter.dateStyle = .ShortStyle
-		dateFormatter.timeStyle = .NoStyle
-		let dateString = dateFormatter.stringFromDate(currentDate)
+		dateFormatter.dateStyle = .short
+		dateFormatter.timeStyle = .none
+		let dateString = dateFormatter.string(from: currentDate)
 		
-		tempCommentString.replaceOccurrencesOfString("___FULLUSERNAME___",
-			withString: NSFullUserName(),
+		tempCommentString.replaceOccurrences(of: "___FULLUSERNAME___",
+			with: NSFullUserName(),
 			options: [],
 			range: tempCommentString.fullRange
 		)
 		
-		tempCommentString.replaceOccurrencesOfString("___YEAR___",
-			withString: yearString,
+		tempCommentString.replaceOccurrences(of: "___YEAR___",
+			with: yearString,
 			options: [],
 			range: tempCommentString.fullRange
 		)
 		
 		if let filename = filename {
 			
-			tempCommentString.replaceOccurrencesOfString("___FILENAME___",
-				withString: filename,
+			tempCommentString.replaceOccurrences(of: "___FILENAME___",
+				with: filename,
 				options: [],
 				range: tempCommentString.fullRange
 			)
 		}
 		
 		// TODO:
-		tempCommentString.replaceOccurrencesOfString("___PROJECTNAME___",
-			withString: "Project",
+		tempCommentString.replaceOccurrences(of: "___PROJECTNAME___",
+			with: "Project",
 			options: [], range:
 			tempCommentString.fullRange
 		)
 		
-		tempCommentString.replaceOccurrencesOfString("___DATE___",
-			withString: dateString,
+		tempCommentString.replaceOccurrences(of: "___DATE___",
+			with: dateString,
 			options: [],
 			range: tempCommentString.fullRange
 		)
@@ -180,11 +180,11 @@ class HeaderChanger {
 			 */
 			if originalString.length > NSMaxRange(originalCommentRange)
 				&&
-				originalString.substringWithRange(NSRange(location: NSMaxRange(originalCommentRange), length: 1)).containsCharactersInSet(NSCharacterSet.newlineCharacterSet()) == false {
-				tempCommentString.appendString("\n")
+				originalString.substring(with: NSRange(location: NSMaxRange(originalCommentRange), length: 1)).containsCharactersInSet(CharacterSet.newlines) == false {
+				tempCommentString.append("\n")
 			}
 			
-			newFileString = originalString.stringByReplacingCharactersInRange(originalCommentRange, withString: preparedNewComment as String)
+			newFileString = originalString.replacingCharacters(in: originalCommentRange, with: preparedNewComment as String) as NSString!
 		}
 	}
 }
@@ -200,7 +200,7 @@ extension NSString {
 		
 		if fileString.hasPrefix(multilineCommentPrefix) {
 			
-			let commentEndRange = fileString.rangeOfString(multilineCommentSuffix)
+			let commentEndRange = fileString.range(of: multilineCommentSuffix)
 			
 			if commentEndRange.location != NSNotFound {
 				
@@ -209,7 +209,7 @@ extension NSString {
 		} else if fileString.hasPrefix(singleLineCommentPrefix) {
 			
 			var commentLength = 0
-			var rangeOfNewLine:NSRange = fileString.rangeOfCharacterFromSet(NSCharacterSet.newlineCharacterSet())
+			var rangeOfNewLine:NSRange = fileString.rangeOfCharacter(from: CharacterSet.newlines)
 			
 			while rangeOfNewLine.location != NSNotFound {
 				
@@ -217,7 +217,7 @@ extension NSString {
 				
 				if fileString.length >= NSMaxRange(rangeOfCommentPrefix) {
 					
-					if fileString.substringWithRange(rangeOfCommentPrefix) != singleLineCommentPrefix {
+					if fileString.substring(with: rangeOfCommentPrefix) != singleLineCommentPrefix {
 						// The line does not start with single line comment prefix
 						commentLength = rangeOfNewLine.location
 						break
@@ -228,7 +228,7 @@ extension NSString {
 					break
 				}
 				
-				rangeOfNewLine = fileString.rangeOfCharacterFromSet(NSCharacterSet.newlineCharacterSet(),
+				rangeOfNewLine = fileString.rangeOfCharacter(from: CharacterSet.newlines,
 					options: [],
 					range: NSMakeRange(
 						NSMaxRange(rangeOfNewLine),

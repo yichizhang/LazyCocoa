@@ -28,9 +28,9 @@ import Foundation
 protocol DocumentComponent {
 	init(delegate:ConfigurationProtocol)
 	
-	func addStatement(statementModel:StatementModel)
-	func addStatements(statementModelArray:[AnyObject])
-	func configurationForKey(key:String, index:Int) -> String
+	func addStatement(_ statementModel:StatementModel)
+	func addStatements(_ statementModelArray:[AnyObject])
+	func configurationForKey(_ key:String, index:Int) -> String
 	
 	var componentString:String {get}
 	weak var configurationDelegate:ConfigurationProtocol? {get set}
@@ -46,7 +46,7 @@ protocol BaseModelProtocol {
 
 protocol ConfigurationProtocol : class{
 	
-	func configurationFor(object:AnyObject, key:String, index:Int) -> String
+	func configurationFor(_ object:AnyObject, key:String, index:Int) -> String
 }
 
 class BasicDocumentComponent : DocumentComponent, CustomStringConvertible {
@@ -58,20 +58,20 @@ class BasicDocumentComponent : DocumentComponent, CustomStringConvertible {
 		self.configurationDelegate = delegate
 	}
 	
-	func configurationForKey(key:String, index:Int) -> String {
+	func configurationForKey(_ key:String, index:Int) -> String {
 		return configurationDelegate?.configurationFor(self, key: key, index: index) ?? ""
 	}
 	
-	func stringFromStatement(statementModel:StatementModel) -> String {
+	func stringFromStatement(_ statementModel:StatementModel) -> String {
 		// Override this method
 		return ""
 	}
 	
-	func addStatement(statementModel:StatementModel) {
+	func addStatement(_ statementModel:StatementModel) {
 		statementArray.append(statementModel)
 	}
 	
-	func addStatements(statementModelArray:[AnyObject]) {
+	func addStatements(_ statementModelArray:[AnyObject]) {
 		for o in statementModelArray {
 			if let s = o as? StatementModel {
 				addStatement(s)
@@ -125,8 +125,8 @@ class ColorAndFontComponent : BasicDocumentComponent {
 						documentationString += ", font size: \(fontSizeString)"
 					}
 					
-					let firstParameter:Argument = Argument(object: fontName, formattingStrategy: .StringLiteral )
-					var secondParameter:AnyObject = fontSizeString ?? "size"
+					let firstParameter:Argument = Argument(object: fontName as AnyObject, formattingStrategy: .stringLiteral )
+					var secondParameter:AnyObject = fontSizeString as AnyObject? ?? "size" as AnyObject
 					
 					let statementString = String.initString(className:Global.fontClassName, initMethodSignature: Global.fontNameAndSizeInitSignatureString, arguments: [firstParameter, secondParameter])
 					
@@ -159,8 +159,8 @@ class ColorAndFontComponent : BasicDocumentComponent {
 					
 					let documentationString = "Color code: \(colorCodeString)"
 					
-					let colorComponentArray = ColorFormatter.componentArrayFrom(hexString: colorCodeString)
-					let statementString = String.initString(className: Global.colorClassName, initMethodSignature: Global.colorRGBAInitSignatureString, arguments: colorComponentArray)
+					let colorComponentArray = ColorFormatter.componentArrayFrom(colorCodeString)
+					let statementString = String.initString(className: Global.colorClassName, initMethodSignature: Global.colorRGBAInitSignatureString, arguments: colorComponentArray as [AnyObject])
 					
 					let funcString = "class func " + prefix + identifier +
 						(identifier.isMeantToBeColor ? "" : StringConst.ColorSuffix) +
@@ -179,15 +179,15 @@ class ColorAndFontComponent : BasicDocumentComponent {
 		return colorString
 	}
 	
-	func objectForKey(key:String) -> StatementModel? {
+	func objectForKey(_ key:String) -> StatementModel? {
 		
 		return modelDictionary[key]
 	}
 	
 	func removeAllObjects() {
 		
-		statementArray.removeAll(keepCapacity: true)
-		modelDictionary.removeAll(keepCapacity: true)
+		statementArray.removeAll(keepingCapacity: true)
+		modelDictionary.removeAll(keepingCapacity: true)
 	}
 	
 	override func prepareStatements() {
@@ -220,14 +220,14 @@ class ColorAndFontComponent : BasicDocumentComponent {
 						}
 					}
 				}
-				count++
+				count += 1
 			}
 		}
 		
 	}
 	
 	// MARK: DocumentComponent
-	override func addStatement(statementModel:StatementModel) {
+	override func addStatement(_ statementModel:StatementModel) {
 		
 		if let identifier = statementModel.identifiers.first {
 			let s = statementModel.copy()
@@ -255,11 +255,11 @@ class StringConstComponent : BasicDocumentComponent {
 	
 	constantsObjcImplementationString = constantsObjcImplementationString + "NSString *const \( name ) = @\(arg.formattedString);\n"
 	*/
-	override func stringFromStatement(statementModel:StatementModel) -> String {
+	override func stringFromStatement(_ statementModel:StatementModel) -> String {
 		if let identifier = statementModel.identifiers.first {
 			
 			let name = configurationForKey(ParamKey.Prefix, index: statementModel.index) + identifier
-			let arg = Argument(object: identifier, formattingStrategy: ArgumentFormattingStrategy.StringLiteral)
+			let arg = Argument(object: identifier as AnyObject, formattingStrategy: ArgumentFormattingStrategy.stringLiteral)
 			
 			return "let \( name ) = \(arg.formattedString)\n"
 			
@@ -272,7 +272,7 @@ class StringConstComponent : BasicDocumentComponent {
 
 class UserDefaultsComponent : BasicDocumentComponent {
 	
-	override func stringFromStatement(statementModel:StatementModel) -> String {
+	override func stringFromStatement(_ statementModel:StatementModel) -> String {
 		if let identifier = statementModel.identifiers.first {
 			
 			let name = configurationForKey(ParamKey.Prefix, index: statementModel.index) + identifier
@@ -281,15 +281,17 @@ class UserDefaultsComponent : BasicDocumentComponent {
 				returnType = statementModel.identifiers[1]
 			}
 			
-			let keyArg = Argument(object: name, formattingStrategy: ArgumentFormattingStrategy.StringLiteral)
+			let keyArg = Argument(object: name as AnyObject, formattingStrategy: ArgumentFormattingStrategy.stringLiteral)
 			
+      let format =
+        "set {\n" +
+          "\t" + "if let newValue = newValue {\n" +
+          "\t" + "\t" + "NSUserDefaults.standardUserDefaults().%@(newValue, forKey: %@)\n" +
+          "\t" + "}\n" +
+        "}"
+      
 			var setterString = NSString(
-				format:
-				"set {\n" +
-					"\t" + "if let newValue = newValue {\n" +
-					"\t" + "\t" + "NSUserDefaults.standardUserDefaults().%@(newValue, forKey: %@)\n" +
-					"\t" + "}\n" +
-				"}",
+				format: format as NSString,
 				UserDefaultsGenerationManager.setMethodNameFor(type: returnType),
 				keyArg.formattedString
 				) as String

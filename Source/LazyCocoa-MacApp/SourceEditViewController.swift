@@ -32,7 +32,7 @@ class SourceEditViewController: BaseViewController {
 	var optionsView:OptionsView?
 	
 	@IBOutlet var sourceFileTextView: NSTextView!
-	@IBOutlet private var mainGeneratedCodeTextView: NSTextView!
+	@IBOutlet fileprivate var mainGeneratedCodeTextView: NSTextView!
 	
 	@IBOutlet weak var filePopUpButton: NSPopUpButtonCell!
 	var filePopUpLastSelectedIndex = Int(0)
@@ -65,13 +65,13 @@ class SourceEditViewController: BaseViewController {
 		sourceFileTextView.lnv_setUpLineNumberView()
 		sourceFileTextView.delegate = self
 		
-		self.saveButton.enabled = false
-		self.filePopUpButton.enabled = false
+		self.saveButton.isEnabled = false
+		self.filePopUpButton.isEnabled = false
 		self.updateControlSettings(enabled:false)
 	}
 	
 	// MARK: Load file
-	func openBasePath(basePath:String?) {
+	func openBasePath(_ basePath:String?) {
 		var error:NSError?
 		var success = false
 		
@@ -91,25 +91,25 @@ class SourceEditViewController: BaseViewController {
 				optionsView?.removeFromSuperview()
 				optionsView = nil
 				
-				optionsView = OptionsView.newViewWithNibName("OptionsView")
+				optionsView = OptionsView.newView(withNibName: "OptionsView")
 				
 				if let v = optionsView {
 					v.delegate = self
 					
 					let layer = CALayer()
-					layer.backgroundColor = NSColor.windowBackgroundColor().CGColor
+					layer.backgroundColor = NSColor.windowBackgroundColor.cgColor
 					
 					v.wantsLayer = true
 					v.layer = layer
-					v.frame = NSRect(origin: CGPointZero, size: self.view.frame.size)
+					v.frame = NSRect(origin: CGPoint.zero, size: self.view.frame.size)
 					
-					self.view.addSubview(v, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
+					self.view.addSubview(v, positioned: NSWindowOrderingMode.above, relativeTo: nil)
 					v.setupConstraintsMakingViewAdhereToEdgesOfSuperview()
 					
 					loadingCancelled = false
 					if error!.code == ErrorCode.FileIsDir {
 						v.messageField.stringValue = error!.localizedDescription
-						v.okButton.enabled = false
+						v.okButton.isEnabled = false
 					} else if error!.code == ErrorCode.FileNotExist {
 						v.messageField.stringValue = "\(error!.localizedDescription)\nWould you like to create a new \(prog.fileName)?"
 						v.okButton.stringValue = "Create a new \(prog.fileName)"
@@ -121,7 +121,7 @@ class SourceEditViewController: BaseViewController {
 			}
 		}
 		
-		self.saveButton.enabled = false
+		self.saveButton.isEnabled = false
 		if success {
 			self.updateControlSettings(enabled:true)
 		} else {
@@ -135,14 +135,14 @@ class SourceEditViewController: BaseViewController {
 	}
 	
 	// MARK: Update user interface
-	func updateControlSettings(enabled enabled:Bool) {
+	func updateControlSettings(enabled:Bool) {
 		
-		self.sourceFileTextView.editable = enabled
-		self.mainGeneratedCodeTextView.editable = false
-		self.showHelpButton.enabled = enabled
-		self.showParseColorButton.enabled = enabled
-		self.updateButton.enabled = enabled
-		self.exportButton.enabled = enabled
+		self.sourceFileTextView.isEditable = enabled
+		self.mainGeneratedCodeTextView.isEditable = false
+		self.showHelpButton.isEnabled = enabled
+		self.showParseColorButton.isEnabled = enabled
+		self.updateButton.isEnabled = enabled
+		self.exportButton.isEnabled = enabled
 	}
 	
 	func updateDocumentsAndUserInterface() {
@@ -170,8 +170,9 @@ class SourceEditViewController: BaseViewController {
 		
 		var count = Int(0)
 		for sourceCodeDocument in analyzer.sourceCodeDocuments {
-			let title = sourceCodeDocument.exportTo == "" ? "NONAME-\(count++).swift" : sourceCodeDocument.exportTo
-			filePopUpButton.addItemWithTitle(title)
+			let title = sourceCodeDocument.exportTo == "" ? "NONAME-\(count).swift" : sourceCodeDocument.exportTo
+      count += 1
+			filePopUpButton.addItem(withTitle: title)
 		}
 		
 		// If the new file changes and the number of files changes,
@@ -184,7 +185,7 @@ class SourceEditViewController: BaseViewController {
 		// Display last selected file.
 		if filePopUpLastSelectedIndex < analyzer.sourceCodeDocuments.count {
 			// The number of files is not 0.
-			filePopUpButton.selectItemAtIndex(filePopUpLastSelectedIndex)
+			filePopUpButton.selectItem(at: filePopUpLastSelectedIndex)
 			mainGeneratedCodeTextView.string = analyzer.sourceCodeDocuments[filePopUpLastSelectedIndex].documentString
 		} else {
 			// The number of files is 0.
@@ -192,12 +193,12 @@ class SourceEditViewController: BaseViewController {
 			mainGeneratedCodeTextView.string = ""
 		}
 		
-		filePopUpButton.enabled = true
+		filePopUpButton.isEnabled = true
 		
 	}
 	
 	//MARK: User interaction - file pop up button
-	@IBAction func filePopUpButtonUpdated(sender: AnyObject) {
+	@IBAction func filePopUpButtonUpdated(_ sender: AnyObject) {
 		
 		filePopUpLastSelectedIndex = filePopUpButton.indexOfSelectedItem
 		if filePopUpButton.indexOfSelectedItem < analyzer.sourceCodeDocuments.count {
@@ -206,12 +207,12 @@ class SourceEditViewController: BaseViewController {
 	}
 	
 	//MARK: Button Actions
-	@IBAction func updateButtonTapped(sender: AnyObject) {
+	@IBAction func updateButtonTapped(_ sender: AnyObject) {
 		
 		updateDocumentsAndUserInterface()
 	}
 	
-	@IBAction func exportButtonTapped(sender: AnyObject) {
+	@IBAction func exportButtonTapped(_ sender: AnyObject) {
 		
 		var message = ""
 		var showExportPathNotSetMessage = false
@@ -251,7 +252,7 @@ class SourceEditViewController: BaseViewController {
 		alert.runModal()
 	}
 
-	@IBAction func saveButtonTapped(sender: AnyObject) {
+	@IBAction func saveButtonTapped(_ sender: AnyObject) {
 		if basePath != "" {
 			var error:NSError?
 			prog.saveLazyfileString(sourceFileTextView.string!, basePath: basePath, error: &error)
@@ -261,25 +262,25 @@ class SourceEditViewController: BaseViewController {
 				alert.messageText = error.localizedDescription
 				alert.runModal()
 			} else {
-				self.saveButton.enabled = false
+				self.saveButton.isEnabled = false
 			}
 		}
 	}
 	
-	@IBAction func showParseColorButtonTapped(sender: AnyObject) {
+	@IBAction func showParseColorButtonTapped(_ sender: AnyObject) {
 		
-		let vc = storyboard?.instantiateControllerWithIdentifier("ConversionViewController") as? ConversionViewController
+		let vc = storyboard?.instantiateController(withIdentifier: "ConversionViewController") as? ConversionViewController
 		
 		presentViewControllerAsSheet(vc!)
 	}
 	
-	@IBAction func showHelpButtonTapped(sender: AnyObject) {
+	@IBAction func showHelpButtonTapped(_ sender: AnyObject) {
 		let alert = NSAlert()
 		
-		alert.alertStyle = NSAlertStyle.InformationalAlertStyle
+		alert.alertStyle = NSAlertStyle.informational
 		alert.messageText = "Would you like to load sample source code?"
-		alert.addButtonWithTitle("OK")
-		alert.addButtonWithTitle("Cancel")
+		alert.addButton(withTitle: "OK")
+		alert.addButton(withTitle: "Cancel")
 		
 		if alert.runModal() == NSAlertFirstButtonReturn {
 			sourceFileTextView.string = String.stringInBundle(name: "SourceDemo")
@@ -289,7 +290,7 @@ class SourceEditViewController: BaseViewController {
 }
 
 extension SourceEditViewController : OptionsViewDelegate {
-	func optionsViewButtonTapped(vc: OptionsView, response: Int) {
+	func optionsViewButtonTapped(_ vc: OptionsView, response: Int) {
 		switch response {
 		case NSModalResponseOK:
 			if basePath != "" {
@@ -319,7 +320,7 @@ extension SourceEditViewController : OptionsViewDelegate {
 }
 
 extension SourceEditViewController : NSTextViewDelegate {
-	func textDidChange(notification: NSNotification) {
-		self.saveButton.enabled = true
+	func textDidChange(_ notification: Notification) {
+		self.saveButton.isEnabled = true
 	}
 }

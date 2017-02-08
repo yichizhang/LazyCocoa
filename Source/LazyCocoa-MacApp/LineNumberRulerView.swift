@@ -41,7 +41,7 @@ extension NSTextView {
 	
 	func lnv_setUpLineNumberView() {
 		if font == nil {
-			font = NSFont.systemFontOfSize(16)
+			font = NSFont.systemFont(ofSize: 16)
 		}
 		
 		if let scrollView = enclosingScrollView {
@@ -53,13 +53,13 @@ extension NSTextView {
 		}
 		
 		postsFrameChangedNotifications = true
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "lnv_updateLineNumberView:", name: NSViewFrameDidChangeNotification, object: self)
+		NotificationCenter.default.addObserver(self, selector: #selector(NSTextView.lnv_updateLineNumberView(_:)), name: NSNotification.Name.NSViewFrameDidChange, object: self)
 		
-		NSNotificationCenter.defaultCenter().addObserver(self, selector: "lnv_updateLineNumberView:", name: NSTextDidChangeNotification, object: self)
+		NotificationCenter.default.addObserver(self, selector: #selector(NSTextView.lnv_updateLineNumberView(_:)), name: NSNotification.Name.NSTextDidChange, object: self)
 		
 	}
 	
-	func lnv_updateLineNumberView(sender: AnyObject?) {
+	func lnv_updateLineNumberView(_ sender: AnyObject?) {
 		
 		lineNumberView.needsDisplay = true
 	}
@@ -74,36 +74,36 @@ class LineNumberRulerView: NSRulerView {
 	}
 	
 	init(textView: NSTextView) {
-		super.init(scrollView: textView.enclosingScrollView!, orientation: NSRulerOrientation.VerticalRuler)
-		self.font = textView.font ?? NSFont.systemFontOfSize(NSFont.smallSystemFontSize())
+		super.init(scrollView: textView.enclosingScrollView!, orientation: NSRulerOrientation.verticalRuler)
+		self.font = textView.font ?? NSFont.systemFont(ofSize: NSFont.smallSystemFontSize())
 		self.clientView = textView
 		
 		self.ruleThickness = 40
 	}
 	
-	required init?(coder: NSCoder) {
+	required init(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 	
-	override func drawHashMarksAndLabelsInRect(rect: NSRect) {
+	override func drawHashMarksAndLabels(in rect: NSRect) {
 		
 		if let textView = self.clientView as? NSTextView {
 			if let layoutManager = textView.layoutManager {
 				
-				let relativePoint = self.convertPoint(NSZeroPoint, fromView: textView)
-				let lineNumberAttributes = [NSFontAttributeName: textView.font!, NSForegroundColorAttributeName: NSColor.grayColor()]
+				let relativePoint = self.convert(NSZeroPoint, from: textView)
+				let lineNumberAttributes = [NSFontAttributeName: textView.font!, NSForegroundColorAttributeName: NSColor.gray] as [String : Any]
 				let drawLineNumber = { (lineNumberString:String, y:CGFloat) -> Void in
 					let attString = NSAttributedString(string: lineNumberString, attributes: lineNumberAttributes)
 					let x = 35 - attString.size().width
-					attString.drawAtPoint(NSPoint(x: x, y: relativePoint.y + y))
+					attString.draw(at: NSPoint(x: x, y: relativePoint.y + y))
 				}
 				
-				let visibleGlyphRange = layoutManager.glyphRangeForBoundingRect(textView.visibleRect, inTextContainer: textView.textContainer!)
-				let firstVisibleGlyphCharacterIndex = layoutManager.characterIndexForGlyphAtIndex(visibleGlyphRange.location)
+				let visibleGlyphRange = layoutManager.glyphRange(forBoundingRect: textView.visibleRect, in: textView.textContainer!)
+				let firstVisibleGlyphCharacterIndex = layoutManager.characterIndexForGlyph(at: visibleGlyphRange.location)
 				
 				let newLineRegex = try! NSRegularExpression(pattern: "\n", options: [])
 				// The line number for the first visible line
-				var lineNumber = newLineRegex.numberOfMatchesInString(textView.string!, options: [], range: NSMakeRange(0, firstVisibleGlyphCharacterIndex)) + 1
+				var lineNumber = newLineRegex.numberOfMatches(in: textView.string!, options: [], range: NSMakeRange(0, firstVisibleGlyphCharacterIndex)) + 1
 				
 				var glyphIndexForStringLine = visibleGlyphRange.location
 				
@@ -111,10 +111,10 @@ class LineNumberRulerView: NSRulerView {
 				while glyphIndexForStringLine < NSMaxRange(visibleGlyphRange) {
 					
 					// Range of current line in the string.
-					let characterRangeForStringLine = (textView.string! as NSString).lineRangeForRange(
-						NSMakeRange( layoutManager.characterIndexForGlyphAtIndex(glyphIndexForStringLine), 0 )
+					let characterRangeForStringLine = (textView.string! as NSString).lineRange(
+						for: NSMakeRange( layoutManager.characterIndexForGlyph(at: glyphIndexForStringLine), 0 )
 					)
-					let glyphRangeForStringLine = layoutManager.glyphRangeForCharacterRange(characterRangeForStringLine, actualCharacterRange: nil)
+					let glyphRangeForStringLine = layoutManager.glyphRange(forCharacterRange: characterRangeForStringLine, actualCharacterRange: nil)
 					
 					var glyphIndexForGlyphLine = glyphIndexForStringLine
 					var glyphLineCount = 0
@@ -127,7 +127,7 @@ class LineNumberRulerView: NSRulerView {
 						
 						// Range of current "line of glyphs". If a line is wrapped,
 						// then it will have more than one "line of glyphs"
-						let lineRect = layoutManager.lineFragmentRectForGlyphAtIndex(glyphIndexForGlyphLine, effectiveRange: &effectiveRange, withoutAdditionalLayout: true)
+						let lineRect = layoutManager.lineFragmentRect(forGlyphAt: glyphIndexForGlyphLine, effectiveRange: &effectiveRange, withoutAdditionalLayout: true)
 						
 						if glyphLineCount > 0 {
 							drawLineNumber("-", lineRect.minY)
@@ -136,12 +136,12 @@ class LineNumberRulerView: NSRulerView {
 						}
 						
 						// Move to next glyph line
-						glyphLineCount++
+						glyphLineCount += 1
 						glyphIndexForGlyphLine = NSMaxRange(effectiveRange)
 					}
 					
 					glyphIndexForStringLine = NSMaxRange(glyphRangeForStringLine)
-					lineNumber++
+					lineNumber += 1
 				}
 				
 				// Draw line number for the extra line at the end of the text

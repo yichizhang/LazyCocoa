@@ -26,7 +26,7 @@
 import Foundation
 
 struct UserDefaultsGenerationManager {
-	static func setMethodNameFor(type type: String) -> String {
+	static func setMethodNameFor(type: String) -> String {
 		var methodName = "setObject"
 		switch type {
 		case "Int":
@@ -45,7 +45,7 @@ struct UserDefaultsGenerationManager {
 		return methodName
 	}
 
-	static func getMethodStringFor(type type: String, keyArg:Argument) -> String {
+	static func getMethodStringFor(type: String, keyArg:Argument) -> String {
 		var methodName = "objectForKey"
 		switch type {
 		case "Int":
@@ -55,7 +55,7 @@ struct UserDefaultsGenerationManager {
 		case "Float":
 			fallthrough
 		case "Bool":
-			methodName = type.lowercaseString + "ForKey"
+			methodName = type.lowercased() + "ForKey"
 		case "NSURL":
 			methodName = "URLForKey"
 		default:
@@ -95,10 +95,10 @@ struct UserDefaultsGenerationManager {
 		
 		if numArgs == 2 {
 			return
-			NSString(format: formatString, methodName, keyArg.formattedString) as String
+			NSString(format: formatString as NSString, methodName, keyArg.formattedString) as String
 		} else {
 			return
-			NSString(format: formatString, methodName, keyArg.formattedString, type) as String
+			NSString(format: formatString as NSString, methodName, keyArg.formattedString, type) as String
 		}
 	}
 }

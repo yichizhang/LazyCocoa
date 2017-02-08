@@ -33,7 +33,7 @@ protocol OptionsViewDelegate : class {
 	- parameter vc: The view controller.
 	- parameter response: The response. Is equal to either NSModalResponseOK or NSModalResponseCancel.
 	*/
-	func optionsViewButtonTapped(v:OptionsView, response:Int)
+	func optionsViewButtonTapped(_ v:OptionsView, response:Int)
 }
 
 class OptionsView : NSView {
@@ -42,12 +42,12 @@ class OptionsView : NSView {
 	@IBOutlet weak var cancelButton: NSButton!
 	weak var delegate:OptionsViewDelegate?
 	
-	@IBAction func okButtonTapped(sender: AnyObject) {
+	@IBAction func okButtonTapped(_ sender: AnyObject) {
 		
 		delegate?.optionsViewButtonTapped(self, response: NSModalResponseOK)
 	}
 	
-	@IBAction func cancelButtonTapped(sender: AnyObject) {
+	@IBAction func cancelButtonTapped(_ sender: AnyObject) {
 		delegate?.optionsViewButtonTapped(self, response: NSModalResponseCancel)
 	}
 }

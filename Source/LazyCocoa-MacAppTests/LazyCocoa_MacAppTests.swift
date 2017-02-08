@@ -67,8 +67,8 @@ class LazyCocoa_MacAppTests: XCTestCase {
 	
 	func testStringExtensions() {
 		
-		let lowercaseSet = NSCharacterSet.lowercaseLetterCharacterSet();
-		let digitSet = NSCharacterSet.decimalDigitCharacterSet();
+		let lowercaseSet = CharacterSet.lowercaseLetters;
+		let digitSet = CharacterSet.decimalDigits;
 		
 		var testString:String!
 		
@@ -87,7 +87,7 @@ class LazyCocoa_MacAppTests: XCTestCase {
     
     func testPerformanceExample() {
         // This is an example of a performance test case.
-        self.measureBlock() {
+        self.measure() {
             // Put the code you want to measure the time of here.
         }
     }

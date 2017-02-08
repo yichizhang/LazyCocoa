@@ -26,13 +26,13 @@
 import Cocoa
 
 extension NSTextView {
-	func setUpTextStyleWith(fontName:String = "Monaco", size:CGFloat = 12) {
+	func setUpTextStyleWith(_ fontName:String = "Monaco", size:CGFloat = 12) {
 		
 		let myFont:NSFont = NSFont(name: fontName, size: size)!
-		continuousSpellCheckingEnabled = false
-		automaticQuoteSubstitutionEnabled = false
+		isContinuousSpellCheckingEnabled = false
+		isAutomaticQuoteSubstitutionEnabled = false
 		enabledTextCheckingTypes = 0
-		richText = false
+		isRichText = false
 		font = myFont
 		
 		textStorage?.font = myFont
@@ -52,10 +52,10 @@ extension NSTextView {
 
 extension String {
 	var isValidNumber:Bool {
-		let setOfNonNumberCharacters = NSCharacterSet.decimalDigitCharacterSet().invertedSet.mutableCopy() as! NSMutableCharacterSet
-		setOfNonNumberCharacters.removeCharactersInString(".")
+		let setOfNonNumberCharacters = (CharacterSet.decimalDigits.inverted as NSCharacterSet).mutableCopy() as! NSMutableCharacterSet
+		setOfNonNumberCharacters.removeCharacters(in: ".")
 		
-		if( self.containsCharactersInSet(setOfNonNumberCharacters) ){
+		if( self.containsCharactersInSet(setOfNonNumberCharacters as CharacterSet) ){
 			return false
 		}
 		return true
@@ -83,46 +83,46 @@ extension String {
 		return self.characters.count
 	}
 	
-	func containsCharactersInSet(set:NSCharacterSet) -> Bool {
+	func containsCharactersInSet(_ set:CharacterSet) -> Bool {
 		
-		if let range = self.rangeOfCharacterFromSet(set) {
+		if let range = self.rangeOfCharacter(from: set) {
 			return true
 		}
 		return false
 		
 	}
 	
-	static func extensionString(className className:String, content:String) -> String {
+	static func extensionString(className:String, content:String) -> String {
 		return "extension \(className) { \n\n\(content.stringByIndenting(numberOfTabs: 1))\n} \n\n"
 	}
 	
-	static func importStatementString(string:String) -> String {
+	static func importStatementString(_ string:String) -> String {
 		return "import \(string)\n"
 	}
 	
-	static func initString(className className:String, initMethodSignature:String, arguments:[AnyObject] ) -> String {
+	static func initString(className:String, initMethodSignature:String, arguments:[AnyObject] ) -> String {
 		// FIXME: ---
 		var args:[Argument] = Array()
 		
 		for n in arguments {
 			if let float = n as? Float {
-				args.append( Argument(object: CGFloat(float), formattingStrategy: .CGFloatNumber) )
+				args.append( Argument(object: CGFloat(float) as AnyObject, formattingStrategy: .cgFloatNumber) )
 			} else if let float = n as? CGFloat {
-				args.append( Argument(object: CGFloat(float), formattingStrategy: .CGFloatNumber) )
+				args.append( Argument(object: CGFloat(float) as AnyObject, formattingStrategy: .cgFloatNumber) )
 			} else if let str = n as? String {
-				args.append( Argument(object: str, formattingStrategy: .Name) )
+				args.append( Argument(object: str as AnyObject, formattingStrategy: .name) )
 			} else if let a = n as? Argument {
 				args.append( a )
 			} else {
-				args.append( Argument(object: "__ERROR__", formattingStrategy: .Name) )
+				args.append( Argument(object: "__ERROR__" as AnyObject, formattingStrategy: .name) )
 			}
 		}
 		
 		var string = "\(className)("
 		
-		let m = initMethodSignature.componentsSeparatedByString(":")
+		let m = initMethodSignature.components(separatedBy: ":")
 		
-		for (i, n) in m.enumerate() {
+		for (i, n) in m.enumerated() {
 			if i < args.count {
 				string = string + n + ":" + args[i].formattedString
 			}
@@ -136,21 +136,21 @@ extension String {
 		return string
 	}
 	
-	static func methodString(methodSignature methodSignature:String, parameters:[AnyObject], returnType:String, statements:String ) -> String {
+	static func methodString(methodSignature:String, parameters:[AnyObject], returnType:String, statements:String ) -> String {
 		let string = ""
 		return string
 	}
 	
-	func characterAtIndex(index:Int) -> Character{
+	func characterAtIndex(_ index:Int) -> Character{
 		
 		return Array(self.characters)[index]
 	}
 	
-	func safeSubstring(start start:Int, length len:Int) -> String {
+	func safeSubstring(start:Int, length len:Int) -> String {
 		//WORKS
 		let nsstring = self as NSString
 		let maxLength = min( len, nsstring.length - start )
-		return (nsstring.substringWithRange(NSMakeRange(start, maxLength) ) as String)
+		return (nsstring.substring(with: NSMakeRange(start, maxLength) ) as String)
 		
 		//DOES NOT WORK
 		//		let range = Range(start: advance(self.startIndex, start),
@@ -162,9 +162,9 @@ extension String {
 		//		return self.substringWithRange(Range<String.Index>(start: advance(self.startIndex, startIndex), end: advance(self.startIndex, startIndex + min(length, count(self) - startIndex ) ) ) )
 	}
 	
-	func stringByIndenting(numberOfTabs numberOfTabs:Int) -> String {
+	func stringByIndenting(numberOfTabs:Int) -> String {
 		
-		let array = self.componentsSeparatedByString("\n")
+		let array = self.components(separatedBy: "\n")
 		let newArray = array.map({ (string) -> String in
 			var newString = ""
 			for _ in 0..<numberOfTabs {
@@ -175,7 +175,7 @@ extension String {
 			return newString
 		})
 		
-		return newArray.joinWithSeparator("\n")
+		return newArray.joined(separator: "\n")
 	}
 	
 	func stringInSwiftDocumentationStyle() -> String {
@@ -185,17 +185,17 @@ extension String {
 	func stringByRemovingSingleLineComment() -> String {
 		let nsstring = self as NSString
 		
-		let range = nsstring.rangeOfString(StringConst.SigleLineComment)
+		let range = nsstring.range(of: StringConst.SigleLineComment)
 		
 		if range.location == NSNotFound {
 			return self
 		} else {
-			return nsstring.substringToIndex(range.location) as String
+			return nsstring.substring(to: range.location) as String
 		}
 	}
 	
 	func stringByTrimmingWhiteSpaceAndNewLineCharacters() -> String {
-		return self.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+		return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
 	}
 }
 
